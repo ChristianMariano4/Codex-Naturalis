@@ -24,9 +24,6 @@ public class Player {
     public String getUserName() {
         return userName;
     }
-/*    public void setUserName(String userName) {
-        this.userName = userName;
-    }*/
     public boolean getIsTurn() {
         return isTurn;
     }
@@ -42,9 +39,6 @@ public class Player {
     public Marker getMarker() {
         return marker;
     }
-/*    public void setMarker(Marker marker) {
-        this.marker = marker;
-    }*/
     public int getResourceAmount(Resource resource) {
         return this.resourceAmount.get(resource);
     }
@@ -53,14 +47,12 @@ public class Player {
         temp += amount;
         resourceAmount.put(resource, temp);
     }
-
     public int getPoints() {
         return this.points;
     }
     public void addPoints(int points) {
         this.points += points;
     }
-
     private void resourceAmountInitializer(HashMap<Resource, Integer> resourceAmount) {
         for(Resource res: Resource.values()) {
             resourceAmount.put(res, 0);
