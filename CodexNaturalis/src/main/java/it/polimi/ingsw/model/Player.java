@@ -10,7 +10,7 @@ public class Player {
     private boolean isTurn;
     private boolean isFirst;
     private final Marker marker;
-    private HashMap<Resource, Integer>  resourceAmount;
+    private final HashMap<Resource, Integer>  resourceAmount;
     private int points;
 
     public Player(String userName, Marker marker) {
