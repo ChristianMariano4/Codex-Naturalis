@@ -4,5 +4,8 @@ public enum Resource {
     ANIMAL,
     INSECT,
     PLANT,
-    FUNGI
+    FUNGI,
+    QUILL,
+    INKWELL,
+    MANUSCRIPT
 }

@@ -1,11 +1,9 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.enumerations.GameObject;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Resource;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class Player {
     private final String userName;
@@ -13,17 +11,14 @@ public class Player {
     private boolean isFirst;
     private final Marker marker;
     private HashMap<Resource, Integer>  resourceAmount;
-    private HashMap<GameObject, Integer> objectAmount;
     private int points;
 
     public Player(String userName, Marker marker) {
         this.userName = userName;
         this.marker = marker;
         resourceAmount = new HashMap<Resource, Integer>();
-        objectAmount = new HashMap<GameObject, Integer>();
 
         resourceAmountInitializer(resourceAmount);
-        objectAmountInitializer(objectAmount);
     }
 
     public String getUserName() {
@@ -58,14 +53,7 @@ public class Player {
         temp += amount;
         resourceAmount.put(resource, temp);
     }
-    public int getObjectAmount(GameObject gameObject) {
-        return this.objectAmount.get(gameObject);
-    }
-    public void updateObjectAmount(GameObject gameObject, int amount) {
-        int temp = objectAmount.get(gameObject);
-        temp += amount;
-        objectAmount.put(gameObject, temp);
-    }
+
     public int getPoints() {
         return this.points;
     }
@@ -78,11 +66,5 @@ public class Player {
             resourceAmount.put(res, 0);
         }
     }
-    private void objectAmountInitializer(HashMap<GameObject, Integer> objectAmount) {
-        for(GameObject gObj: GameObject.values()) {
-            objectAmount.put(gObj, 0);
-        }
-    }
-
 
 }
