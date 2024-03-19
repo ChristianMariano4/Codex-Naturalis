@@ -1,8 +1,11 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.enumerations.Side;
+
 public abstract class Card {
 
-   //private final int cardId;
+   private int cardId;
+   private Side cardSide;
 
 
 
