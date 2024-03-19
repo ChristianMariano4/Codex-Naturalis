@@ -9,7 +9,7 @@ import java.util.List;
 public class Game {
     private final int gameId;
     private int numberOfPlayers;
-    private List<Player> listOfPlayers;
+    private final List<Player> listOfPlayers;
     private Table table;
 
     public Game(int gameId) {
