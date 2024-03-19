@@ -8,20 +8,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Player {
-    private String userName;
+    private final String userName;
     private boolean isTurn;
     private boolean isFirst;
-    private Marker marker;
+    private final Marker marker;
     private HashMap<Resource, Integer>  resourceAmount;
     private HashMap<GameObject, Integer> objectAmount;
     private int points;
 
+    public Player(String userName, Marker marker) {
+        this.userName = userName;
+        this.marker = marker;
+        resourceAmount = new HashMap<Resource, Integer>();
+        objectAmount = new HashMap<GameObject, Integer>();
+
+        resourceAmountInitializer(resourceAmount);
+        objectAmountInitializer(objectAmount);
+    }
+
     public String getUserName() {
         return userName;
     }
-    public void setUserName(String userName) {
+/*    public void setUserName(String userName) {
         this.userName = userName;
-    }
+    }*/
     public boolean getIsTurn() {
         return isTurn;
     }
@@ -37,9 +47,9 @@ public class Player {
     public Marker getMarker() {
         return marker;
     }
-    public void setMarker(Marker marker) {
+/*    public void setMarker(Marker marker) {
         this.marker = marker;
-    }
+    }*/
     public int getResourceAmount(Resource resource) {
         return this.resourceAmount.get(resource);
     }
@@ -61,6 +71,17 @@ public class Player {
     }
     public void addPoints(int points) {
         this.points += points;
+    }
+
+    private void resourceAmountInitializer(HashMap<Resource, Integer> resourceAmount) {
+        for(Resource res: Resource.values()) {
+            resourceAmount.put(res, 0);
+        }
+    }
+    private void objectAmountInitializer(HashMap<GameObject, Integer> objectAmount) {
+        for(GameObject gObj: GameObject.values()) {
+            objectAmount.put(gObj, 0);
+        }
     }
 
 
