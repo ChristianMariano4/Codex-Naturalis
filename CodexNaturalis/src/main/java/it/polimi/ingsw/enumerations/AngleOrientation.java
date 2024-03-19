@@ -1,6 +1,6 @@
 package it.polimi.ingsw.enumerations;
 
-public enum Orientation {
+public enum AngleOrientation {
     TOPRIGHT,
     TOPLEFT,
     BOTTOMRIGHT,
