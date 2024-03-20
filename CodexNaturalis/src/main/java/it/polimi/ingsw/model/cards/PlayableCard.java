@@ -9,7 +9,14 @@ import java.util.LinkedList;
 
 public class PlayableCard extends CardWithAngles{
 
-    public PlayableCard(int cardId, Side currentSide, LinkedList<Resource> centralResource, HashMap<AngleOrientation, Angle> angles) {
+    private final Resource cardColor;
+
+    public PlayableCard(int cardId, Side currentSide, LinkedList<Resource> centralResource, HashMap<AngleOrientation, Angle> angles, Resource cardColor) {
         super(cardId, currentSide, centralResource, angles);
+        this.cardColor = cardColor;
+    }
+    public Resource getCardColor()
+    {
+        return cardColor;
     }
 }
