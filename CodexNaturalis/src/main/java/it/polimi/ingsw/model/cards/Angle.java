@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.enumerations.AngleStatus;
 import it.polimi.ingsw.enumerations.Resource;
-import it.polimi.ingsw.exceptions.unlinkedCardException;
+import it.polimi.ingsw.exceptions.UnlinkedCardException;
 
 
 public class Angle {
@@ -38,9 +38,9 @@ public class Angle {
     {
         this.linkedAngle = linkedAngle;
     }
-    public Angle getLinkedAngle() throws unlinkedCardException {
+    public Angle getLinkedAngle() throws UnlinkedCardException {
         if(angleStatus == AngleStatus.UNLINKED)
-            throw new unlinkedCardException();
+            throw new UnlinkedCardException();
         return linkedAngle;
     }
     public CardWithAngles getOwnerCard()

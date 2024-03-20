@@ -1,37 +1,48 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.alreadyExistingPlayer;
-import it.polimi.ingsw.exceptions.alreadyFourPlayers;
+import it.polimi.ingsw.exceptions.AlreadyExistingPlayer;
+import it.polimi.ingsw.exceptions.AlreadyFourPlayers;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
 
 public class Game {
     private final int gameId;
     private int numberOfPlayers;
-    private final List<Player> listOfPlayers;
-    private Table table;
+    private final ArrayList<Player> listOfPlayers;
+    private final TableTop tableTop;
 
-    public Game(int gameId) {
+    //controller has to create the drawing field before creating the game to create drawingField
+    public Game(int gameId, DrawingField drawingField) {
         this.gameId = gameId;
-        listOfPlayers = new ArrayList<Player>();
-        numberOfPlayers = 0;
-        table = new Table();
+        this.listOfPlayers = new ArrayList<Player>();
+        this.numberOfPlayers = 0;
+        this.tableTop = new TableTop(drawingField);
     }
 
     public int getGameId() {
         return this.gameId;
     }
-    public void addPlayer(Player player) throws alreadyExistingPlayer, alreadyFourPlayers {
+    public void addPlayer(Player player) throws AlreadyExistingPlayer, AlreadyFourPlayers {
         if(!(listOfPlayers.contains(player))) {
-            if(!(numberOfPlayers >= 4)) {
+            if(!(numberOfPlayers >= MAX_PLAYER_NUMBER)) {
                 this.listOfPlayers.add(player);
                 numberOfPlayers++;
             } else {
-                throw new alreadyFourPlayers();
+                throw new AlreadyFourPlayers();
             }
         } else {
-            throw new alreadyExistingPlayer();
+            throw new AlreadyExistingPlayer();
         }
+    }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
+    public ArrayList<Player> getListOfPlayers()
+    {
+        return new ArrayList<Player>(listOfPlayers);
     }
 }

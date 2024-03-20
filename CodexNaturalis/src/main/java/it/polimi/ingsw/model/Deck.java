@@ -13,7 +13,8 @@ public class Deck {
         deck = new Stack<PlayableCard>();
         deckInitializer(cards);
     }
-    public Card getTopCardFromDeck() {
+
+    public PlayableCard getTopCardFromDeck() {
         return deck.pop();
     }
     private void deckInitializer(List<PlayableCard> cards) {
