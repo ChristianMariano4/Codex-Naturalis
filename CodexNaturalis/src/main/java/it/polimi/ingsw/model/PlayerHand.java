@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.Draw;
+import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHand;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.PlayableCard;
 
@@ -19,11 +20,21 @@ public class PlayerHand {
         } catch (NullPointerException e) { }
     }
 
-    public void chooseCardToDraw(Draw draw, Deck deck) {
-
+    public void chooseGoldCardToDraw(Draw draw) throws AlreadyThreeCardsInHand {
+        PlayableCard chosenCard = drawingField.drawCardFromGoldCardDeck(draw);
+        this.addCardToPlayerHand(chosenCard);
     }
-    public void addCardToPlayerHand(Card card) {
 
+    public void chooseResourceCardToDraw(Draw draw) throws AlreadyThreeCardsInHand {
+        PlayableCard chosenCard = drawingField.drawCardFromResourceCardDeck(draw);
+        this.addCardToPlayerHand(chosenCard);
+    }
+
+    public void addCardToPlayerHand(PlayableCard card) throws AlreadyThreeCardsInHand {
+        if(cardsInHand.size() == 3){
+            throw new AlreadyThreeCardsInHand();
+        }
+        cardsInHand.add(card);
     }
 
 }

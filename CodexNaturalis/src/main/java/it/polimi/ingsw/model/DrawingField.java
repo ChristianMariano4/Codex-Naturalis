@@ -20,8 +20,8 @@ public class DrawingField {
     {
         this.goldCardDeck = goldCardDeck;
         this.resourceCardDeck = resourceCardDeck;
-        discoveredGoldCards = new HashMap<Draw, PlayableCard>();
-        discoveredResourceCards = new HashMap<Draw, PlayableCard>();
+        discoveredGoldCards = new HashMap<>();
+        discoveredResourceCards = new HashMap<>();
 
         for(int i = 0; i<2; i++) {  //checks to make sure card types are correct
             PlayableCard temp;
@@ -54,14 +54,24 @@ public class DrawingField {
     {
         if(draw == Draw.FROMDECK)
             return goldCardDeck.getTopCardFromDeck();
-        return discoveredGoldCards.get(draw);
+        else {
+            PlayableCard chosenCard = discoveredGoldCards.get(draw);
+            //Change discovered gold card chosen by the player
+            discoveredGoldCards.put(draw, goldCardDeck.getTopCardFromDeck());
+            return chosenCard;
+        }
 
     }
     public PlayableCard drawCardFromResourceCardDeck(Draw draw)
     {
         if(draw == Draw.FROMDECK)
             return resourceCardDeck.getTopCardFromDeck();
-        return discoveredResourceCards.get(draw);
+        else {
+            PlayableCard chosenCard = discoveredResourceCards.get(draw);
+            //Change discovered resource card chosen by the player
+            discoveredResourceCards.put(draw, resourceCardDeck.getTopCardFromDeck());
+            return chosenCard;
+        }
 
     }
 }
