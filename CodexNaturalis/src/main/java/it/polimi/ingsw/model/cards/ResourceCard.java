@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class ResourceCard extends PlayableCard{
-    public ResourceCard(int cardId, Side currentSide, LinkedList<Resource> centralResource, HashMap<AngleOrientation, Angle> angles, Resource cardColor) {
-        super(cardId, currentSide, centralResource, angles, cardColor);
+    public ResourceCard(int cardId, Side currentSide, LinkedList<Resource> centralResource, HashMap<AngleOrientation, Angle> angles, Resource cardColor, int points) {
+        super(cardId, currentSide, centralResource, angles, cardColor, points);
     }
 }

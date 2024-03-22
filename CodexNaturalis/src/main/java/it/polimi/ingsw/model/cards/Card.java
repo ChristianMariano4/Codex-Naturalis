@@ -6,7 +6,7 @@ public abstract class Card {
 
    private final int cardId;
    private final Side currentSide;
-   private Card otherSide;
+   private Card otherCardSide;
 
    public Card(int cardId, Side currentSide)
    {
@@ -21,14 +21,12 @@ public abstract class Card {
    {
       return currentSide;
    }
-   public Card getOtherSide() {
-      return otherSide;
+   public Card getOtherCardSide() {
+      return otherCardSide;
    }
-   public void setOtherSide(Card otherSide)
+   public void setOtherCardSide(Card otherCardSide)
    {
-      this.otherSide = otherSide;
+      this.otherCardSide = otherCardSide;
    }
-
-
 
 }

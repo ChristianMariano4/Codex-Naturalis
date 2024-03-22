@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.Draw;
-import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.exceptions.CardTypeMismatch;
 import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
@@ -20,12 +19,12 @@ public class DrawingField {
     {
         this.goldCardDeck = goldCardDeck;
         this.resourceCardDeck = resourceCardDeck;
-        discoveredGoldCards = new HashMap<>();
-        discoveredResourceCards = new HashMap<>();
+        discoveredGoldCards = new HashMap<Draw, PlayableCard>();
+        discoveredResourceCards = new HashMap<Draw, PlayableCard>();
 
         for(int i = 0; i<2; i++) {  //checks to make sure card types are correct
             PlayableCard temp;
-            temp = goldCardDeck.getTopCardFromDeck();
+            temp = goldCardDeck.getTopCard();  //è necessario fare il check?
             if (temp instanceof GoldCard) {
                 if(i == 0)
                     discoveredGoldCards.put(Draw.LEFT, temp);
@@ -38,7 +37,7 @@ public class DrawingField {
         }
         for(int i = 0; i<2; i++) {
             PlayableCard temp;
-            temp = resourceCardDeck.getTopCardFromDeck();
+            temp = resourceCardDeck.getTopCard();
             if (temp instanceof ResourceCard) {
                 if(i == 0)
                     discoveredResourceCards.put(Draw.LEFT, temp);
@@ -53,11 +52,11 @@ public class DrawingField {
     public PlayableCard drawCardFromGoldCardDeck(Draw draw)
     {
         if(draw == Draw.FROMDECK)
-            return goldCardDeck.getTopCardFromDeck();
+            return goldCardDeck.getTopCard();
         else {
             PlayableCard chosenCard = discoveredGoldCards.get(draw);
             //Change discovered gold card chosen by the player
-            discoveredGoldCards.put(draw, goldCardDeck.getTopCardFromDeck());
+            discoveredGoldCards.put(draw, goldCardDeck.getTopCard());
             return chosenCard;
         }
 
@@ -65,11 +64,11 @@ public class DrawingField {
     public PlayableCard drawCardFromResourceCardDeck(Draw draw)
     {
         if(draw == Draw.FROMDECK)
-            return resourceCardDeck.getTopCardFromDeck();
+            return resourceCardDeck.getTopCard();
         else {
             PlayableCard chosenCard = discoveredResourceCards.get(draw);
             //Change discovered resource card chosen by the player
-            discoveredResourceCards.put(draw, resourceCardDeck.getTopCardFromDeck());
+            discoveredResourceCards.put(draw, resourceCardDeck.getTopCard());
             return chosenCard;
         }
 

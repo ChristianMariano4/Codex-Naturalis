@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.Player;
 public class Main {
     public static void main(String[] args)
     {
-        Player test = new Player("G", Marker.RED);
-
+        //Player test = new Player("G", Marker.RED);
     }
 }

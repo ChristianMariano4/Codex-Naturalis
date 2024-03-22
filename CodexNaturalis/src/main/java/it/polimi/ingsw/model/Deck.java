@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.PlayableCard;
 
 import java.util.List;
@@ -14,12 +13,12 @@ public class Deck {
         deckInitializer(cards);
     }
 
-    public PlayableCard getTopCardFromDeck() {
+    public PlayableCard getTopCard() {
         return deck.pop();
     }
     private void deckInitializer(List<PlayableCard> cards) {
-        for(PlayableCard c: cards) {
-            deck.push(c);
+        for(PlayableCard card: cards) {
+            deck.push(card);
         }
     }
 }

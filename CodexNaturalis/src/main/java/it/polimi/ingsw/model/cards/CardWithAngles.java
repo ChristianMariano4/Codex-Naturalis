@@ -6,30 +6,28 @@ import it.polimi.ingsw.enumerations.Side;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
+
 public class CardWithAngles extends Card{
 
-    private final LinkedList<Resource> centralResource;
+    private final LinkedList<Resource> centralResources;
     private final HashMap<AngleOrientation, Angle> angles;
 
     //TODO: add exceptions for empty sets
-    public CardWithAngles(int cardId, Side currentSide,  LinkedList<Resource> centralResource, HashMap<AngleOrientation, Angle> angles) {
-
+    public CardWithAngles(int cardId, Side currentSide, LinkedList<Resource> centralResources, HashMap<AngleOrientation, Angle> angles) {
         super(cardId, currentSide);
-        this.centralResource = new LinkedList<Resource>();
+        this.centralResources = new LinkedList<Resource>();
         this.angles = new HashMap<AngleOrientation, Angle>();
         try {
-            this.centralResource.addAll(centralResource);
+            this.centralResources.addAll(centralResources);
         } catch (NullPointerException e) { }
         try {
             this.angles.putAll(angles);
         } catch (NullPointerException e) { }
-
-
     }
-    public LinkedList<Resource> getCentralResource()
+
+    public LinkedList<Resource> getCentralResources()
     {
-        return new LinkedList<Resource>(this.centralResource);
+        return new LinkedList<Resource>(this.centralResources);
     }
 
 }

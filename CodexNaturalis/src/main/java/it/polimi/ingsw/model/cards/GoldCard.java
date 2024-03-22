@@ -13,12 +13,11 @@ public class GoldCard extends PlayableCard{
 
     private final ArrayList<Resource> requirements;
     private final GoldPointCondition goldPointCondition;
-    private final int points;
+
     public GoldCard(int cardId, Side currentSide, LinkedList<Resource> centralResource, HashMap<AngleOrientation, Angle> angles, Resource cardColor, ArrayList<Resource> requirements, GoldPointCondition goldPointCondition, int points) {
-        super(cardId, currentSide, centralResource, angles, cardColor);
+        super(cardId, currentSide, centralResource, angles, cardColor, points);
         this.requirements = requirements;
         this.goldPointCondition = goldPointCondition;
-        this.points = points;
     }
 
     public ArrayList<Resource> getRequirements()
@@ -29,9 +28,6 @@ public class GoldCard extends PlayableCard{
     {
         return goldPointCondition;
     }
-    public int getPoints()
-    {
-        return points;
-    }
+
 
 }
