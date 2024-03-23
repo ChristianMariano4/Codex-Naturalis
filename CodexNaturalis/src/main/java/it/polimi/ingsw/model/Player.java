@@ -19,6 +19,7 @@ public class Player {
     private final HashMap<Resource, Integer>  resourceAmount;
     private int points;
     private final PlayerHand playerHand;
+    private final PlayerField playerField;
     private final Game game;
 
 
@@ -28,6 +29,8 @@ public class Player {
         this.marker = marker;
         this.game = game;
         this.playerHand  = new PlayerHand();
+        this.playerField = new PlayerField();
+
         resourceAmount = new HashMap<Resource, Integer>();
 
         resourceAmountInitializer(resourceAmount);
@@ -104,6 +107,10 @@ public class Player {
         {
             throw new NoCardAdded();
         }
+    }
+    public PlayerField getPlayerField()
+    {
+        return playerField;
     }
 
 }

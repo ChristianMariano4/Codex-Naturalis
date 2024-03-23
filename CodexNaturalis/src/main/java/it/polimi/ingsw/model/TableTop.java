@@ -33,7 +33,7 @@ public class TableTop {
         {
             throw new AlreadyExistingPlayer();
         }
-        playerFieldHashMap.put(player, new PlayerField());
+        playerFieldHashMap.put(player, player.getPlayerField());
     }
 
 }

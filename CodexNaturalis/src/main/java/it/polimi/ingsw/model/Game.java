@@ -31,6 +31,7 @@ public class Game {
             if(!(numberOfPlayers >= MAX_PLAYER_NUMBER)) {
                 this.listOfPlayers.add(player);
                 numberOfPlayers++;
+                tableTop.addPlayerField(player);
             } else {
                 throw new AlreadyFourPlayers();
             }
