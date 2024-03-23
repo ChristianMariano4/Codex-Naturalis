@@ -14,6 +14,7 @@ public class Game {
     private final ArrayList<Player> listOfPlayers;
     private final TableTop tableTop;
 
+
     //controller has to create the drawing field before creating the game to create drawingField
     public Game(int gameId, DrawingField drawingField) {
         this.gameId = gameId;
@@ -45,5 +46,9 @@ public class Game {
     public ArrayList<Player> getListOfPlayers()
     {
         return new ArrayList<Player>(listOfPlayers);
+    }
+
+    public TableTop getTableTop() {
+        return tableTop;
     }
 }

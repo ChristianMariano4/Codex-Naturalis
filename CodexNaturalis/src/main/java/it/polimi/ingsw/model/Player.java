@@ -4,6 +4,8 @@ import it.polimi.ingsw.enumerations.Draw;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHand;
+import it.polimi.ingsw.exceptions.DeckIsEmpty;
+import it.polimi.ingsw.exceptions.NoCardAdded;
 import it.polimi.ingsw.model.cards.Angle;
 import it.polimi.ingsw.model.cards.PlayableCard;
 
@@ -17,24 +19,19 @@ public class Player {
     private final HashMap<Resource, Integer>  resourceAmount;
     private int points;
     private final PlayerHand playerHand;
+    private final Game game;
 
-    public Player(String username, Marker marker, PlayerHand playerHand) {
+
+    //controller crates player -> player creates empty playerhand -> controller adds cards to playerhand from deck
+    public Player(String username, Marker marker, Game game) {
         this.username = username;
         this.marker = marker;
-        this.playerHand = playerHand;
+        this.game = game;
+        this.playerHand  = new PlayerHand();
         resourceAmount = new HashMap<Resource, Integer>();
 
         resourceAmountInitializer(resourceAmount);
     }
-
-    public void chooseGoldCardToDraw(Draw draw) throws AlreadyThreeCardsInHand {
-        playerHand.chooseGoldCardToDraw(draw);
-    }
-
-    public void chooseResourceCardToDraw(Draw draw) throws AlreadyThreeCardsInHand {
-        playerHand.chooseResourceCardToDraw(draw);
-    }
-
     public void playCard(PlayableCard card, Angle angleToPlay, Angle angleToCover){
         //TODO: implement method
     }
@@ -84,6 +81,28 @@ public class Player {
     private void resourceAmountInitializer(HashMap<Resource, Integer> resourceAmount) {
         for(Resource res: Resource.values()) {
             resourceAmount.put(res, 0);
+        }
+    }
+
+    public void chooseGoldCardToDraw(Draw draw) throws AlreadyThreeCardsInHand, NoCardAdded {
+        try {
+            PlayableCard chosenCard = game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(draw);
+            playerHand.addCardToPlayerHand(chosenCard);
+        }
+        catch (DeckIsEmpty e)
+        {
+            throw new NoCardAdded();
+        }
+
+    }
+    public void chooseResourceCardToDraw(Draw draw) throws AlreadyThreeCardsInHand, NoCardAdded {
+        try {
+            PlayableCard chosenCard = game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(draw);
+            playerHand.addCardToPlayerHand(chosenCard);
+        }
+        catch(DeckIsEmpty e)
+        {
+            throw new NoCardAdded();
         }
     }
 

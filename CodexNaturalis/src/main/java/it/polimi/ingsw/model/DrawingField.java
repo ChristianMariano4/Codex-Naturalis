@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.Draw;
 import it.polimi.ingsw.exceptions.CardTypeMismatch;
+import it.polimi.ingsw.exceptions.DeckIsEmpty;
 import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
@@ -49,26 +50,35 @@ public class DrawingField {
             }
         }
     }
-    public PlayableCard drawCardFromGoldCardDeck(Draw draw)
+    public PlayableCard drawCardFromGoldCardDeck(Draw draw) throws DeckIsEmpty
     {
-        if(draw == Draw.FROMDECK)
+        if(draw == Draw.FROMDECK) {
+            if (goldCardDeck.isEmpty())
+                throw new DeckIsEmpty();
             return goldCardDeck.getTopCard();
+        }
         else {
             PlayableCard chosenCard = discoveredGoldCards.get(draw);
             //Change discovered gold card chosen by the player
-            discoveredGoldCards.put(draw, goldCardDeck.getTopCard());
+            if (!goldCardDeck.isEmpty())
+                discoveredGoldCards.put(draw, goldCardDeck.getTopCard());
+
             return chosenCard;
         }
 
     }
-    public PlayableCard drawCardFromResourceCardDeck(Draw draw)
+    public PlayableCard drawCardFromResourceCardDeck(Draw draw) throws DeckIsEmpty
     {
-        if(draw == Draw.FROMDECK)
+        if(draw == Draw.FROMDECK) {
+            if (resourceCardDeck.isEmpty())
+                throw new DeckIsEmpty();
             return resourceCardDeck.getTopCard();
+        }
         else {
             PlayableCard chosenCard = discoveredResourceCards.get(draw);
             //Change discovered resource card chosen by the player
-            discoveredResourceCards.put(draw, resourceCardDeck.getTopCard());
+            if(!resourceCardDeck.isEmpty())
+                discoveredResourceCards.put(draw, resourceCardDeck.getTopCard());
             return chosenCard;
         }
 

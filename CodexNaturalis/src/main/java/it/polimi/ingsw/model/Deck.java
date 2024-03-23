@@ -21,4 +21,8 @@ public class Deck {
             deck.push(card);
         }
     }
+    public boolean isEmpty()
+    {
+        return deck.isEmpty();
+    }
 }
