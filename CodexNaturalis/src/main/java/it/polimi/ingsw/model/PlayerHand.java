@@ -29,6 +29,6 @@ public class PlayerHand {
     }
     public void removeCardFromHand(PlayableCard playableCard)
     {
-        //TODO: implement method
+        cardsInHand.remove(playableCard);
     }
 }

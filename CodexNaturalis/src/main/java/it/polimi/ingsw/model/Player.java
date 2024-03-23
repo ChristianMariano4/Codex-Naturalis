@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.enumerations.Draw;
-import it.polimi.ingsw.enumerations.Marker;
-import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHand;
 import it.polimi.ingsw.exceptions.DeckIsEmpty;
 import it.polimi.ingsw.exceptions.NoCardAdded;
@@ -35,8 +33,16 @@ public class Player {
 
         resourceAmountInitializer(resourceAmount);
     }
-    public void playCard(PlayableCard card, Angle angleToPlay, Angle angleToCover){
-        //TODO: implement method
+    public void playCard(PlayableCard card, AngleOrientation angleOrientation, PlayableCard cardToPlay) throws InvalidCardPosition {
+        try {
+            playerField.addCardToCell(card, angleOrientation, cardToPlay);
+            playerHand.removeCardFromHand(cardToPlay);
+        }
+        catch(InvalidCardPosition e)
+        {
+            throw e;
+        }
+
     }
 
     public String getUsername() {
