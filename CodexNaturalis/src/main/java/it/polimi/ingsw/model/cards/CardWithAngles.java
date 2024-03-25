@@ -6,6 +6,8 @@ import it.polimi.ingsw.enumerations.Side;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.Objects;
 
 public class CardWithAngles extends Card{
 
@@ -30,6 +32,18 @@ public class CardWithAngles extends Card{
         return new LinkedList<Resource>(this.centralResources);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CardWithAngles that = (CardWithAngles) o;
+        return this.getCardId() == that.getCardId() && this.getCurrentSide() == that.getCurrentSide();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(centralResources, angles);
+    }
 }
 
 
