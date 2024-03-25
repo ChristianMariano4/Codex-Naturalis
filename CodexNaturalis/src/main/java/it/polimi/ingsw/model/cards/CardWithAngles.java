@@ -3,6 +3,8 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.enumerations.AngleOrientation;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.exceptions.AlreadyFourAngles;
+import it.polimi.ingsw.exceptions.AlreadyPresentAngle;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,6 +32,12 @@ public class CardWithAngles extends Card{
     public LinkedList<Resource> getCentralResources()
     {
         return new LinkedList<Resource>(this.centralResources);
+    }
+
+    public void addAngle(AngleOrientation angleOrientation, Angle angle) throws AlreadyFourAngles, AlreadyPresentAngle {
+        if(angles.size() >= 4) throw new AlreadyFourAngles();
+        if(angles.get(angleOrientation) != null) throw new AlreadyPresentAngle();
+        angles.put(angleOrientation, angle);
     }
 
     @Override
