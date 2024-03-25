@@ -3,8 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHand;
 import it.polimi.ingsw.exceptions.DeckIsEmpty;
+import it.polimi.ingsw.exceptions.InvalidCardPosition;
 import it.polimi.ingsw.exceptions.NoCardAdded;
-import it.polimi.ingsw.model.cards.Angle;
 import it.polimi.ingsw.model.cards.PlayableCard;
 
 import java.util.HashMap;

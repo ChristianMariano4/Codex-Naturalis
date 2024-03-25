@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.AngleOrientation;
-import it.polimi.ingsw.enumerations.InvalidCardPosition;
+import it.polimi.ingsw.exceptions.InvalidCardPosition;
 import it.polimi.ingsw.model.cards.CardWithAngles;
 
 import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
