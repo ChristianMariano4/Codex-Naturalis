@@ -1,13 +1,14 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.AngleOrientation;
-import it.polimi.ingsw.exceptions.InvalidCardPosition;
+import it.polimi.ingsw.exceptions.InvalidCardPositionException;
 import it.polimi.ingsw.model.cards.StarterCard;
 
 import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 
 public class PlayerField {
     private final StarterCard[][] matrixField;
+
     public PlayerField()
     {
         this.matrixField = new StarterCard[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
@@ -23,7 +24,7 @@ public class PlayerField {
     }
 
     //TODO: dynamic resizing
-    public void addCardToCell(StarterCard card, AngleOrientation angleOrientation, StarterCard cardToAdd) throws InvalidCardPosition
+    public void addCardToCell(StarterCard card, AngleOrientation angleOrientation, StarterCard cardToAdd) throws InvalidCardPositionException
     {
         try{
             for(int i = 0; i<DEFAULT_MATRIX_SIZE; i++)
@@ -35,16 +36,19 @@ public class PlayerField {
                         int cardToAddX = i + angleOrientation.mapEnumToX();
                         int cardToAddY = j + angleOrientation.mapEnumToY();
                         if(matrixField[cardToAddX][cardToAddY] != null)
-                            throw new InvalidCardPosition();
+                            throw new InvalidCardPositionException();
                         matrixField[cardToAddX][cardToAddY] = cardToAdd;
+                        i = DEFAULT_MATRIX_SIZE;
                         break;
+
                     }
                 }
             }
+            throw new InvalidCardPositionException();
         }
         catch(IndexOutOfBoundsException e)
         {
-            throw new InvalidCardPosition();
+            throw new InvalidCardPositionException();
         }
     }
 

@@ -1,10 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.*;
-import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHand;
-import it.polimi.ingsw.exceptions.DeckIsEmpty;
-import it.polimi.ingsw.exceptions.InvalidCardPosition;
-import it.polimi.ingsw.exceptions.NoCardAdded;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.util.HashMap;
@@ -22,27 +19,22 @@ public class Player {
 
 
     //controller crates player -> player creates empty playerhand -> controller adds cards to playerhand from deck
-    public Player(String username, Marker marker, Game game) {
-        this.username = username;
-        this.marker = marker;
-        this.game = game;
+    public Player(String username, Marker marker, Game game) throws InvalidConstructorDataException {
+        try {
+            this.username = username;
+            this.marker = marker;
+            this.game = game;
+        }
+        catch(Exception e)
+        {
+            throw new InvalidConstructorDataException();
+        }
         this.playerHand  = new PlayerHand();
         this.playerField = new PlayerField();
 
         resourceAmount = new HashMap<Resource, Integer>();
 
         resourceAmountInitializer(resourceAmount);
-    }
-    public void playCard(ResourceCard cardOnField, AngleOrientation angleOrientation, ResourceCard cardToPlay) throws InvalidCardPosition {
-        try {
-            playerField.addCardToCell(cardOnField, angleOrientation, cardToPlay);
-            playerHand.removeCardFromHand(cardToPlay);
-        }
-        catch(InvalidCardPosition e)
-        {
-            throw e;
-        }
-
     }
 
     public String getUsername() {
@@ -73,7 +65,9 @@ public class Player {
         return this.resourceAmount.get(resource);
     }
 
-    public void updateResourceAmount(Resource resource, int amount) {
+    public void updateResourceAmount(Resource resource, int amount) throws NoneResourceException {
+        if(resource.equals(Resource.NONE))
+            throw new NoneResourceException();
         int temp = resourceAmount.get(resource);
         temp += amount;
         resourceAmount.put(resource, temp);
@@ -89,29 +83,30 @@ public class Player {
 
     private void resourceAmountInitializer(HashMap<Resource, Integer> resourceAmount) {
         for(Resource res: Resource.values()) {
-            resourceAmount.put(res, 0);
+            if(res != Resource.NONE)
+                resourceAmount.put(res, 0);
         }
     }
 
-    public void chooseGoldCardToDraw(DrawPosition draw) throws AlreadyThreeCardsInHand, NoCardAdded {
+    public void chooseGoldCardToDraw(DrawPosition drawPosition) throws AlreadyThreeCardsInHandException, NoCardAddedException {
         try {
-            ResourceCard chosenCard = game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(draw);
+            ResourceCard chosenCard = game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(drawPosition);
             playerHand.addCardToPlayerHand(chosenCard);
         }
-        catch (DeckIsEmpty e)
+        catch (DeckIsEmptyException e)
         {
-            throw new NoCardAdded();
+            throw new NoCardAddedException();
         }
 
     }
-    public void chooseResourceCardToDraw(DrawPosition draw) throws AlreadyThreeCardsInHand, NoCardAdded {
+    public void chooseResourceCardToDraw(DrawPosition draw) throws AlreadyThreeCardsInHandException, NoCardAddedException {
         try {
             ResourceCard chosenCard = game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(draw);
             playerHand.addCardToPlayerHand(chosenCard);
         }
-        catch(DeckIsEmpty e)
+        catch(DeckIsEmptyException e)
         {
-            throw new NoCardAdded();
+            throw new NoCardAddedException();
         }
     }
     public PlayerField getPlayerField()

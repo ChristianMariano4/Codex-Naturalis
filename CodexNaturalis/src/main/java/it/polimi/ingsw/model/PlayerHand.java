@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHand;
+import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHandException;
+import it.polimi.ingsw.exceptions.InvalidCardPositionException;
 import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.util.ArrayList;
@@ -13,17 +14,19 @@ public class PlayerHand {
     public PlayerHand() {
         this.cardsInHand = new ArrayList<ResourceCard>();
     }
-    public void addCardToPlayerHand(ResourceCard card) throws AlreadyThreeCardsInHand {
-        if(cardsInHand.size() == MAX_CARD_IN_HAND){
-            throw new AlreadyThreeCardsInHand();
+    public void addCardToPlayerHand(ResourceCard card) throws AlreadyThreeCardsInHandException {
+        if(cardsInHand.size() >= MAX_CARD_IN_HAND){
+            throw new AlreadyThreeCardsInHandException();
         }
         cardsInHand.add(card);
     }
     public List<ResourceCard> getCardsInHand() {
         return new ArrayList<ResourceCard>(cardsInHand);
     }
-    public void removeCardFromHand(ResourceCard playableCard)
-    {
-        cardsInHand.remove(playableCard);
+    public void removeCardFromHand(ResourceCard resourceCard) throws InvalidCardPositionException {
+        if(!cardsInHand.remove(resourceCard))
+        {
+            throw new InvalidCardPositionException();
+        }
     }
 }

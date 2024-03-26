@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.AlreadyExistingPlayer;
-import it.polimi.ingsw.exceptions.AlreadyFourPlayers;
+import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
+import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
+import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 
 import java.util.HashMap;
 
@@ -10,10 +11,15 @@ import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
 public class TableTop {
     private final DrawingField drawingField;
     private final HashMap<Player, PlayerField> playerFieldHashMap;
-    public TableTop(DrawingField drawingField)
-    {
-        this.drawingField = drawingField;
-        playerFieldHashMap = new HashMap<Player, PlayerField>();
+    public TableTop(DrawingField drawingField) throws InvalidConstructorDataException {
+        try {
+            this.drawingField = drawingField;
+            playerFieldHashMap = new HashMap<Player, PlayerField>();
+        }
+        catch(Exception e)
+        {
+            throw new InvalidConstructorDataException();
+        }
     }
     public DrawingField getDrawingField()
     {
@@ -21,17 +27,17 @@ public class TableTop {
     }
     public HashMap<Player, PlayerField> getPlayerFieldHashMap()
     {
-        return playerFieldHashMap;
+        return new HashMap<>(playerFieldHashMap);
     }
-    public void addPlayerField(Player player) throws AlreadyExistingPlayer, AlreadyFourPlayers
+    public void addPlayerField(Player player) throws AlreadyExistingPlayerException, AlreadyFourPlayersException
     {
         if(playerFieldHashMap.entrySet().size() >= MAX_PLAYER_NUMBER)
         {
-            throw new AlreadyFourPlayers();
+            throw new AlreadyFourPlayersException();
         }
         if(playerFieldHashMap.containsKey(player))
         {
-            throw new AlreadyExistingPlayer();
+            throw new AlreadyExistingPlayerException();
         }
         playerFieldHashMap.put(player, player.getPlayerField());
     }

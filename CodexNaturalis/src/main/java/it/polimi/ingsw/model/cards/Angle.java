@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.enumerations.AngleStatus;
 import it.polimi.ingsw.enumerations.Resource;
-import it.polimi.ingsw.exceptions.AngleAlreadyLinked;
+import it.polimi.ingsw.exceptions.AngleAlreadyLinkedException;
 import it.polimi.ingsw.exceptions.UnlinkedCardException;
 
 
@@ -28,9 +28,9 @@ public class Angle {
     private void setAngleStatus(AngleStatus angleStatus) {
         this.angleStatus = angleStatus;
     }
-    public void setLinkedAngle(Angle linkedAngle, AngleStatus angleStatus) throws AngleAlreadyLinked
+    public void setLinkedAngle(Angle linkedAngle, AngleStatus angleStatus) throws AngleAlreadyLinkedException
     {
-        if(angleStatus != AngleStatus.UNLINKED) throw new AngleAlreadyLinked();
+        if(angleStatus != AngleStatus.UNLINKED) throw new AngleAlreadyLinkedException();
         this.linkedAngle = linkedAngle;
         setAngleStatus(angleStatus);
     }

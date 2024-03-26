@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.DrawPosition;
-import it.polimi.ingsw.exceptions.CardTypeMismatch;
-import it.polimi.ingsw.exceptions.DeckIsEmpty;
+import it.polimi.ingsw.exceptions.CardTypeMismatchException;
+import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 
@@ -15,7 +15,7 @@ public class DrawingField {
     private final HashMap<DrawPosition, ResourceCard> discoveredResourceCards;
 
     //@requires controller has to create the decks with correct types
-    public DrawingField(Deck goldCardDeck, Deck resourceCardDeck) throws CardTypeMismatch, DeckIsEmpty {
+    public DrawingField(Deck goldCardDeck, Deck resourceCardDeck) throws CardTypeMismatchException, DeckIsEmptyException {
         this.goldCardDeck = goldCardDeck;
         this.resourceCardDeck = resourceCardDeck;
         discoveredGoldCards = new HashMap<DrawPosition, ResourceCard>();
@@ -31,7 +31,7 @@ public class DrawingField {
                     discoveredGoldCards.put(DrawPosition.RIGHT, temp);
             }
             else {
-                throw new CardTypeMismatch();
+                throw new CardTypeMismatchException();
             }
         }
         for(int i = 0; i<2; i++) {
@@ -44,11 +44,11 @@ public class DrawingField {
                     discoveredResourceCards.put(DrawPosition.RIGHT, temp);
             }
             else {
-                throw new CardTypeMismatch();
+                throw new CardTypeMismatchException();
             }
         }
     }
-    public ResourceCard drawCardFromGoldCardDeck(DrawPosition drawPosition) throws DeckIsEmpty
+    public ResourceCard drawCardFromGoldCardDeck(DrawPosition drawPosition) throws DeckIsEmptyException
     {
         if(drawPosition == DrawPosition.FROMDECK) {
             return goldCardDeck.getTopCard();
@@ -56,7 +56,7 @@ public class DrawingField {
         else {
             ResourceCard chosenCard = discoveredGoldCards.get(drawPosition);
             if(chosenCard == null)
-                throw new DeckIsEmpty();
+                throw new DeckIsEmptyException();
             //Change discovered gold card chosen by the player
             if (!goldCardDeck.isEmpty())
                 discoveredGoldCards.put(drawPosition, goldCardDeck.getTopCard());
@@ -68,7 +68,7 @@ public class DrawingField {
         }
 
     }
-    public ResourceCard drawCardFromResourceCardDeck(DrawPosition drawPosition) throws DeckIsEmpty
+    public ResourceCard drawCardFromResourceCardDeck(DrawPosition drawPosition) throws DeckIsEmptyException
     {
         if(drawPosition == DrawPosition.FROMDECK) {
             return resourceCardDeck.getTopCard();
@@ -76,7 +76,7 @@ public class DrawingField {
         else {
             ResourceCard chosenCard = discoveredResourceCards.get(drawPosition);
             if(chosenCard == null)
-                throw new DeckIsEmpty();
+                throw new DeckIsEmptyException();
             //Change discovered resource card chosen by the player
             if(!resourceCardDeck.isEmpty())
                 discoveredResourceCards.put(drawPosition, resourceCardDeck.getTopCard());

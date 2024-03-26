@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.AlreadyExistingPlayer;
-import it.polimi.ingsw.exceptions.AlreadyFourPlayers;
-import it.polimi.ingsw.exceptions.InvalidConstructorData;
+import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
+import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
+import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class Game {
 
 
     //controller has to create the drawing field before creating the game to create drawingField
-    public Game(int gameId, DrawingField drawingField) throws InvalidConstructorData {
+    public Game(int gameId, DrawingField drawingField) throws InvalidConstructorDataException {
         this.gameId = gameId;
         this.listOfPlayers = new ArrayList<Player>();
         this.numberOfPlayers = 0;
@@ -26,24 +26,24 @@ public class Game {
         }
         catch(Exception e)
         {
-            throw new InvalidConstructorData();
+            throw new InvalidConstructorDataException();
         }
     }
 
     public int getGameId() {
         return this.gameId;
     }
-    public void addPlayer(Player player) throws AlreadyExistingPlayer, AlreadyFourPlayers {
+    public void addPlayer(Player player) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
         if(!(listOfPlayers.contains(player))) {
-            if(!(numberOfPlayers >= MAX_PLAYER_NUMBER)) {
+            if(numberOfPlayers < MAX_PLAYER_NUMBER) {
                 this.listOfPlayers.add(player);
                 numberOfPlayers++;
                 tableTop.addPlayerField(player);
             } else {
-                throw new AlreadyFourPlayers();
+                throw new AlreadyFourPlayersException();
             }
         } else {
-            throw new AlreadyExistingPlayer();
+            throw new AlreadyExistingPlayerException();
         }
     }
 
