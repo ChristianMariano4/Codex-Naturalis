@@ -5,27 +5,29 @@ import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.AlreadyFourAngles;
 import it.polimi.ingsw.exceptions.AlreadyPresentAngle;
+import it.polimi.ingsw.exceptions.InvalidCardConstructorData;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
 
 public class StarterCard extends Card{
 
-    private final LinkedList<Resource> centralResources;
+    private final ArrayList<Resource> centralResources;
     private final HashMap<AngleOrientation, Angle> angles;
 
-    //TODO: add exceptions for empty sets
-    public StarterCard(int cardId, Side currentSide, LinkedList<Resource> centralResources, HashMap<AngleOrientation, Angle> angles) {
+    public StarterCard(int cardId, Side currentSide, LinkedList<Resource> centralResources, HashMap<AngleOrientation, Angle> angles) throws InvalidCardConstructorData {
         super(cardId, currentSide);
-        this.centralResources = new LinkedList<Resource>();
-        this.angles = new HashMap<AngleOrientation, Angle>();
         try {
-            this.centralResources.addAll(centralResources);
-        } catch (NullPointerException e) { }
-        try {
-            this.angles.putAll(angles);
-        } catch (NullPointerException e) { }
+            this.centralResources = new ArrayList<>(centralResources); //controller can pass empty list
+            this.angles = new HashMap<>(angles);
+        }
+        catch(Exception e)
+        {
+            throw new InvalidCardConstructorData();
+        }
+
     }
 
     public LinkedList<Resource> getCentralResources()
