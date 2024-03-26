@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.cards.StarterCard;
 import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 
 public class PlayerField {
-    private StarterCard[][] matrixField;
+    private final StarterCard[][] matrixField;
     public PlayerField()
     {
         this.matrixField = new StarterCard[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
