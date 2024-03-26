@@ -44,25 +44,6 @@ public class Player {
 
     /**
      *
-     * @param cardOnField The reference to the card on the field
-     * @param angleOrientation The corner position of the card on the field
-     * @param cardToPlay The reference of the card to put on the field
-     * @throws InvalidCardPosition Exception thrown if the corner selected is notPlayable or is not empty
-     */
-    public void playCard(ResourceCard cardOnField, AngleOrientation angleOrientation, ResourceCard cardToPlay) throws InvalidCardPosition {
-        try {
-            playerField.addCardToCell(cardOnField, angleOrientation, cardToPlay);
-            playerHand.removeCardFromHand(cardToPlay);
-        }
-        catch(InvalidCardPosition e)
-        {
-            throw e;
-        }
-
-    }
-
-    /**
-     *
      * @return the username of the player
      */
     public String getUsername() {
@@ -160,9 +141,9 @@ public class Player {
 
     /**
      *
-     * @param draw Indicate the position from which to draw a card
-     * @throws AlreadyThreeCardsInHand Exception thrown when the player have already tre cards in its hand
-     * @throws NoCardAdded Exception thrown when no card is added to the player hand
+     * @param drawPosition Indicate the position from which to draw a card
+     * @throws AlreadyThreeCardsInHandException Exception thrown when the player have already tre cards in its hand
+     * @throws NoCardAddedException Exception thrown when no card is added to the player hand
      */
     public void chooseGoldCardToDraw(DrawPosition drawPosition) throws AlreadyThreeCardsInHandException, NoCardAddedException {
         try {
@@ -178,13 +159,13 @@ public class Player {
 
     /**
      *
-     * @param draw Indicate the position from which to draw a card
-     * @throws AlreadyThreeCardsInHand Exception thrown when the player have already tre cards in its hand
-     * @throws NoCardAdded Exception thrown when no card is added to the player hand
+     * @param drawPosition Indicate the position from which to draw a card
+     * @throws AlreadyThreeCardsInHandException Exception thrown when the player have already tre cards in its hand
+     * @throws NoCardAddedException Exception thrown when no card is added to the player hand
      */
-    public void chooseResourceCardToDraw(DrawPosition draw) throws AlreadyThreeCardsInHandException, NoCardAddedException {
+    public void chooseResourceCardToDraw(DrawPosition drawPosition) throws AlreadyThreeCardsInHandException, NoCardAddedException {
         try {
-            ResourceCard chosenCard = game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(draw);
+            ResourceCard chosenCard = game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(drawPosition);
             playerHand.addCardToPlayerHand(chosenCard);
         }
         catch(DeckIsEmptyException e)
