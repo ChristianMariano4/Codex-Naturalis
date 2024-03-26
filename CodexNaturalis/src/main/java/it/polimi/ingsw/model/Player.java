@@ -33,9 +33,9 @@ public class Player {
 
         resourceAmountInitializer(resourceAmount);
     }
-    public void playCard(PlayableCard card, AngleOrientation angleOrientation, PlayableCard cardToPlay) throws InvalidCardPosition {
+    public void playCard(PlayableCard cardOnField, AngleOrientation angleOrientation, PlayableCard cardToPlay) throws InvalidCardPosition {
         try {
-            playerField.addCardToCell(card, angleOrientation, cardToPlay);
+            playerField.addCardToCell(cardOnField, angleOrientation, cardToPlay);
             playerHand.removeCardFromHand(cardToPlay);
         }
         catch(InvalidCardPosition e)
