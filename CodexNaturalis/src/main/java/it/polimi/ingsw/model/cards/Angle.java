@@ -11,9 +11,9 @@ public class Angle {
     private AngleStatus angleStatus;
     private final Resource resource;
     private Angle linkedAngle;
-    private final CardWithAngles ownerCard;
+    private final StarterCard ownerCard;
 
-    public Angle(boolean playable, Resource resource, CardWithAngles ownerCard)
+    public Angle(boolean playable, Resource resource, StarterCard ownerCard)
     {
         this.playable = playable;
         this.resource = resource;
@@ -39,7 +39,7 @@ public class Angle {
             throw new UnlinkedCardException();
         return linkedAngle;
     }
-    public CardWithAngles getOwnerCard()
+    public StarterCard getOwnerCard()
     {
         return ownerCard;
     }

@@ -1,23 +1,23 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.util.List;
 import java.util.Stack;
 
 public class Deck {
-    private Stack<PlayableCard> deck;
+    private Stack<ResourceCard> deck;
 
-    public Deck(List<PlayableCard> cards) {
-        deck = new Stack<PlayableCard>();
+    public Deck(List<ResourceCard> cards) {
+        deck = new Stack<ResourceCard>();
         deckInitializer(cards);
     }
 
-    public PlayableCard getTopCard() {
+    public ResourceCard getTopCard() {
         return deck.pop();
     }
-    private void deckInitializer(List<PlayableCard> cards) {
-        for(PlayableCard card: cards) {
+    private void deckInitializer(List<ResourceCard> cards) {
+        for(ResourceCard card: cards) {
             deck.push(card);
         }
     }

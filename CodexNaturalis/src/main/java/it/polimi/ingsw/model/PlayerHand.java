@@ -1,33 +1,28 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.enumerations.ChooseDrawPosition;
 import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHand;
-import it.polimi.ingsw.exceptions.DeckIsEmpty;
-import it.polimi.ingsw.exceptions.NoCardAdded;
-import it.polimi.ingsw.model.cards.Card;
-import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static it.polimi.ingsw.model.GameValues.MAX_CARD_IN_HAND;
 
 public class PlayerHand {
-    private final List<PlayableCard> cardsInHand;
+    private final List<ResourceCard> cardsInHand;
     public PlayerHand() {
-        this.cardsInHand = new ArrayList<PlayableCard>();
+        this.cardsInHand = new ArrayList<ResourceCard>();
     }
-    public void addCardToPlayerHand(PlayableCard card) throws AlreadyThreeCardsInHand {
+    public void addCardToPlayerHand(ResourceCard card) throws AlreadyThreeCardsInHand {
         if(cardsInHand.size() == MAX_CARD_IN_HAND){
             throw new AlreadyThreeCardsInHand();
         }
         cardsInHand.add(card);
     }
-    public List<PlayableCard> getCardsInHand() {
-        return new ArrayList<PlayableCard>(cardsInHand);
+    public List<ResourceCard> getCardsInHand() {
+        return new ArrayList<ResourceCard>(cardsInHand);
     }
-    public void removeCardFromHand(PlayableCard playableCard)
+    public void removeCardFromHand(ResourceCard playableCard)
     {
         cardsInHand.remove(playableCard);
     }

@@ -5,7 +5,7 @@ import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHand;
 import it.polimi.ingsw.exceptions.DeckIsEmpty;
 import it.polimi.ingsw.exceptions.InvalidCardPosition;
 import it.polimi.ingsw.exceptions.NoCardAdded;
-import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.util.HashMap;
 
@@ -33,7 +33,7 @@ public class Player {
 
         resourceAmountInitializer(resourceAmount);
     }
-    public void playCard(PlayableCard cardOnField, AngleOrientation angleOrientation, PlayableCard cardToPlay) throws InvalidCardPosition {
+    public void playCard(ResourceCard cardOnField, AngleOrientation angleOrientation, ResourceCard cardToPlay) throws InvalidCardPosition {
         try {
             playerField.addCardToCell(cardOnField, angleOrientation, cardToPlay);
             playerHand.removeCardFromHand(cardToPlay);
@@ -95,7 +95,7 @@ public class Player {
 
     public void chooseGoldCardToDraw(ChooseDrawPosition draw) throws AlreadyThreeCardsInHand, NoCardAdded {
         try {
-            PlayableCard chosenCard = game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(draw);
+            ResourceCard chosenCard = game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(draw);
             playerHand.addCardToPlayerHand(chosenCard);
         }
         catch (DeckIsEmpty e)
@@ -106,7 +106,7 @@ public class Player {
     }
     public void chooseResourceCardToDraw(ChooseDrawPosition draw) throws AlreadyThreeCardsInHand, NoCardAdded {
         try {
-            PlayableCard chosenCard = game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(draw);
+            ResourceCard chosenCard = game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(draw);
             playerHand.addCardToPlayerHand(chosenCard);
         }
         catch(DeckIsEmpty e)
