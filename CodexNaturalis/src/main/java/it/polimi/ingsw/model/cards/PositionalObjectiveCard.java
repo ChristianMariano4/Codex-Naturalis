@@ -5,7 +5,7 @@ import it.polimi.ingsw.enumerations.PositionalType;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.enumerations.Side;
 
-public class PositionalObjectiveCard extends ObjectiveCard{
+public class PositionalObjectiveCard extends TripleObjectiveCard {
 
     private final Resource cardColor;
     private final AngleOrientation orientation;
