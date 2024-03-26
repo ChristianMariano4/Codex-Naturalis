@@ -7,7 +7,11 @@ import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.util.HashMap;
-
+/**
+ * This class represents the drawing field in the game. It contains two types of decks: gold card deck and resource card deck.
+ * It also maintains the discovered gold cards and discovered resource cards.
+ * The drawing field is responsible for drawing cards from the decks and managing the discovered cards.
+ */
 public class DrawingField {
     private final Deck goldCardDeck;
     private final Deck resourceCardDeck;
@@ -15,6 +19,15 @@ public class DrawingField {
     private final HashMap<DrawPosition, ResourceCard> discoveredResourceCards;
 
     //@requires controller has to create the decks with correct types
+    /**
+     * Constructs a new DrawingField with the given gold card deck and resource card deck.
+     * It also initializes the discovered cards.
+     *
+     * @param goldCardDeck the deck of gold cards
+     * @param resourceCardDeck the deck of resource cards
+     * @throws CardTypeMismatchException if the type of card does not match the expected type
+     * @throws DeckIsEmptyException if the deck is empty
+     */
     public DrawingField(Deck goldCardDeck, Deck resourceCardDeck) throws CardTypeMismatchException, DeckIsEmptyException {
         this.goldCardDeck = goldCardDeck;
         this.resourceCardDeck = resourceCardDeck;
@@ -48,6 +61,13 @@ public class DrawingField {
             }
         }
     }
+    /**
+     * Draws a card from the gold card deck.
+     *
+     * @param drawPosition the position from which to draw the card
+     * @return the drawn card
+     * @throws DeckIsEmptyException if the deck is empty
+     */
     public ResourceCard drawCardFromGoldCardDeck(DrawPosition drawPosition) throws DeckIsEmptyException
     {
         if(drawPosition == DrawPosition.FROMDECK) {
@@ -68,6 +88,13 @@ public class DrawingField {
         }
 
     }
+    /**
+     * Draws a card from the resource card deck.
+     *
+     * @param drawPosition the position from which to draw the card
+     * @return the drawn card
+     * @throws DeckIsEmptyException if the deck is empty
+     */
     public ResourceCard drawCardFromResourceCardDeck(DrawPosition drawPosition) throws DeckIsEmptyException
     {
         if(drawPosition == DrawPosition.FROMDECK) {
