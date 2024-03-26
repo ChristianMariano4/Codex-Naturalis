@@ -7,5 +7,6 @@ public enum Resource {
     FUNGI,
     QUILL,
     INKWELL,
-    MANUSCRIPT
+    MANUSCRIPT,
+    NONE
 }
