@@ -3,6 +3,9 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.UnlinkedCardException;
 
+/**
+ * Class that represents a generic card
+ */
 public abstract class Card {
 
    private final int cardId;
