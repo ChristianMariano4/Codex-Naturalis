@@ -22,6 +22,7 @@ public class Player {
      * @param username The ID of the player
      * @param marker The unique marker of the player
      * @param game The reference of the current game
+     * @throws InvalidConstructorDataException Exception thrown if the constructor data are invalid
      */
     //controller crates player -> player creates empty playerhand -> controller adds cards to playerhand from deck
     public Player(String username, Marker marker, Game game) throws InvalidConstructorDataException {
@@ -103,6 +104,7 @@ public class Player {
      *
      * @param resource Resource of witch we want to update the value
      * @param amount The value to add to the existing value of a resource
+     * @throws NoneResourceException Exception thrown if resource in NONE
      */
     public void updateResourceAmount(Resource resource, int amount) throws NoneResourceException {
         if(resource.equals(Resource.NONE))
