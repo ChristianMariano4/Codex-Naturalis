@@ -35,12 +35,6 @@ public class StarterCard extends Card{
         return new LinkedList<Resource>(this.centralResources);
     }
 
-    public void addAngle(AngleOrientation angleOrientation, Angle angle) throws AlreadyFourAngles, AlreadyPresentAngle {
-        if(angles.size() >= 4) throw new AlreadyFourAngles();
-        if(angles.get(angleOrientation) != null) throw new AlreadyPresentAngle();
-        angles.put(angleOrientation, angle);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
