@@ -93,7 +93,13 @@ public class Player {
         }
     }
 
-    public void chooseGoldCardToDraw(DrawPosition draw) throws AlreadyThreeCardsInHand, NoCardAdded {
+    /**
+     *
+     * @param draw Indicate the position from which to draw a card
+     * @throws AlreadyThreeCardsInHand Exception thrown when the player have already tre cards in its hand
+     * @throws NoCardAdded Exception thrown when no card is added to the player hand
+     */
+    public void chooseGoldCardToDraw(ChooseDrawPosition draw) throws AlreadyThreeCardsInHand, NoCardAdded {
         try {
             ResourceCard chosenCard = game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(draw);
             playerHand.addCardToPlayerHand(chosenCard);
@@ -104,7 +110,14 @@ public class Player {
         }
 
     }
-    public void chooseResourceCardToDraw(DrawPosition draw) throws AlreadyThreeCardsInHand, NoCardAdded {
+
+    /**
+     *
+     * @param draw Indicate the position from which to draw a card
+     * @throws AlreadyThreeCardsInHand Exception thrown when the player have already tre cards in its hand
+     * @throws NoCardAdded Exception thrown when no card is added to the player hand
+     */
+    public void chooseResourceCardToDraw(ChooseDrawPosition draw) throws AlreadyThreeCardsInHand, NoCardAdded {
         try {
             ResourceCard chosenCard = game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(draw);
             playerHand.addCardToPlayerHand(chosenCard);
