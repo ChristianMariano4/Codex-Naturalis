@@ -43,6 +43,12 @@ public class Deck {
         }
         return deck.pop();
     }
+
+    /**
+     *
+     * @param cards List of cards
+     * @throws InvalidConstructorDataException if the data provided to the constructor is invalid
+     */
     private void deckInitializer(List<ResourceCard> cards) throws InvalidConstructorDataException {
         try {
             for (ResourceCard card : cards) {
