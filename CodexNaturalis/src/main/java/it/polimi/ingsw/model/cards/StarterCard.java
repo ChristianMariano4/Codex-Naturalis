@@ -9,7 +9,7 @@ import it.polimi.ingsw.exceptions.InvalidCardConstructorData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class StarterCard extends Card{
@@ -17,10 +17,10 @@ public class StarterCard extends Card{
     private final ArrayList<Resource> centralResources;
     private final HashMap<AngleOrientation, Angle> angles;
 
-    public StarterCard(int cardId, Side currentSide, LinkedList<Resource> centralResources, HashMap<AngleOrientation, Angle> angles) throws InvalidCardConstructorData {
+    public StarterCard(int cardId, Side currentSide, ArrayList<Resource> centralResources, HashMap<AngleOrientation, Angle> angles) throws InvalidCardConstructorData {
         super(cardId, currentSide);
         try {
-            this.centralResources = new ArrayList<>(centralResources); //controller can pass empty list
+            this.centralResources = new ArrayList<>(centralResources); //controller can pass list with NONE value
             this.angles = new HashMap<>(angles);
         }
         catch(Exception e)
@@ -29,24 +29,11 @@ public class StarterCard extends Card{
         }
 
     }
-
-    public LinkedList<Resource> getCentralResources()
+    public ArrayList<Resource> getCentralResources()
     {
-        return new LinkedList<Resource>(this.centralResources);
+        return new ArrayList<Resource>(this.centralResources);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        StarterCard that = (StarterCard) o;
-        return this.getCardId() == that.getCardId() && this.getCurrentSide() == that.getCurrentSide();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(centralResources, angles);
-    }
 }
 
 

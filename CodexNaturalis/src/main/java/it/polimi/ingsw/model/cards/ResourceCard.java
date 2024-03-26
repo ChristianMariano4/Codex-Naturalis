@@ -6,14 +6,14 @@ import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.InvalidCardConstructorData;
 
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class ResourceCard extends StarterCard {
 
     private final Resource cardColor;
     private final int points;
 
-    public ResourceCard(int cardId, Side currentSide, LinkedList<Resource> centralResource, HashMap<AngleOrientation, Angle> angles, Resource cardColor, int points) throws InvalidCardConstructorData {
+    public ResourceCard(int cardId, Side currentSide, ArrayList<Resource> centralResource, HashMap<AngleOrientation, Angle> angles, Resource cardColor, int points) throws InvalidCardConstructorData {
         super(cardId, currentSide, centralResource, angles);
         this.cardColor = cardColor;
         this.points = points;

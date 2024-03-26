@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.exceptions.UnlinkedCardException;
 
 public abstract class Card {
 
@@ -21,7 +22,9 @@ public abstract class Card {
    {
       return currentSide;
    }
-   public Card getOtherSideCard() {
+   public Card getOtherSideCard() throws UnlinkedCardException {
+      if(otherSideCard == null)
+         throw new UnlinkedCardException();
       return otherSideCard;
    }
    public void setOtherSideCard(Card otherSideCard)

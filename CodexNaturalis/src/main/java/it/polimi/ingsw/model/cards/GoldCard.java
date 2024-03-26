@@ -8,17 +8,24 @@ import it.polimi.ingsw.exceptions.InvalidCardConstructorData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class GoldCard extends ResourceCard {
 
     private final ArrayList<Resource> requirements;
     private final GoldPointCondition goldPointCondition;
 
-    public GoldCard(int cardId, Side currentSide, LinkedList<Resource> centralResource, HashMap<AngleOrientation, Angle> angles, Resource cardColor, ArrayList<Resource> requirements, GoldPointCondition goldPointCondition, int points) throws InvalidCardConstructorData {
+    //if the card has no requirements, controller has to pass requirements with NONE value
+    public GoldCard(int cardId, Side currentSide, ArrayList<Resource> centralResource, HashMap<AngleOrientation, Angle> angles, Resource cardColor, ArrayList<Resource> requirements, GoldPointCondition goldPointCondition, int points) throws InvalidCardConstructorData {
         super(cardId, currentSide, centralResource, angles, cardColor, points);
-        this.requirements = requirements;
-        this.goldPointCondition = goldPointCondition;
+        try {
+            this.requirements = new ArrayList<>(requirements);
+            this.goldPointCondition = goldPointCondition;
+        }
+        catch(Exception e)
+        {
+            throw new InvalidCardConstructorData();
+        }
     }
 
     public ArrayList<Resource> getRequirements()
