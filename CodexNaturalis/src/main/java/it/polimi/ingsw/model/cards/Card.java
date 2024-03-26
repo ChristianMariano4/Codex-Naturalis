@@ -15,7 +15,7 @@ public abstract class Card {
    /**
     *
     * @param cardId id associated to the card
-    * @param currentSide Indicates one of the two side of the card (front or back)
+    * @param currentSide indicates one of the two side of the card (front or back)
     */
    public Card(int cardId, Side currentSide)
    {
