@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.AlreadyExistingPlayer;
 import it.polimi.ingsw.exceptions.AlreadyFourPlayers;
+import it.polimi.ingsw.exceptions.InvalidConstructorData;
 
 
 import java.util.ArrayList;
@@ -16,11 +17,17 @@ public class Game {
 
 
     //controller has to create the drawing field before creating the game to create drawingField
-    public Game(int gameId, DrawingField drawingField) {
+    public Game(int gameId, DrawingField drawingField) throws InvalidConstructorData {
         this.gameId = gameId;
         this.listOfPlayers = new ArrayList<Player>();
         this.numberOfPlayers = 0;
-        this.tableTop = new TableTop(drawingField);
+        try {
+            this.tableTop = new TableTop(drawingField);
+        }
+        catch(Exception e)
+        {
+            throw new InvalidConstructorData();
+        }
     }
 
     public int getGameId() {

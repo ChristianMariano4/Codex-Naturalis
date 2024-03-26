@@ -93,7 +93,7 @@ public class Player {
         }
     }
 
-    public void chooseGoldCardToDraw(ChooseDrawPosition draw) throws AlreadyThreeCardsInHand, NoCardAdded {
+    public void chooseGoldCardToDraw(DrawPosition draw) throws AlreadyThreeCardsInHand, NoCardAdded {
         try {
             ResourceCard chosenCard = game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(draw);
             playerHand.addCardToPlayerHand(chosenCard);
@@ -104,7 +104,7 @@ public class Player {
         }
 
     }
-    public void chooseResourceCardToDraw(ChooseDrawPosition draw) throws AlreadyThreeCardsInHand, NoCardAdded {
+    public void chooseResourceCardToDraw(DrawPosition draw) throws AlreadyThreeCardsInHand, NoCardAdded {
         try {
             ResourceCard chosenCard = game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(draw);
             playerHand.addCardToPlayerHand(chosenCard);
