@@ -13,6 +13,12 @@ public class Angle {
     private Angle linkedAngle;
     private final StarterCard ownerCard;
 
+    /**
+     *
+     * @param playable True if the angle is playable, false otherwise
+     * @param resource Resource on the angle
+     * @param ownerCard Reference to the card that have this angle
+     */
     public Angle(boolean playable, Resource resource, StarterCard ownerCard)
     {
         this.playable = playable;
@@ -20,6 +26,11 @@ public class Angle {
         this.angleStatus = AngleStatus.UNLINKED;
         this.ownerCard = ownerCard;
     }
+
+    /**
+     *
+     * @return
+     */
     public boolean isPlayable() { return playable; }
     public AngleStatus getAngleStatus() { return angleStatus; }
     public Resource getResource() {
