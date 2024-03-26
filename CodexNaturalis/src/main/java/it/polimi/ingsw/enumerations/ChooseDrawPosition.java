@@ -1,6 +1,6 @@
 package it.polimi.ingsw.enumerations;
 
-public enum Draw {
+public enum ChooseDrawPosition {
     LEFT,
     RIGHT,
     FROMDECK

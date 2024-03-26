@@ -20,14 +20,8 @@ public class Angle {
         this.angleStatus = AngleStatus.UNLINKED;
         this.ownerCard = ownerCard;
     }
-    public boolean isPlayable()
-    {
-        return playable;
-    }
-    public AngleStatus getAngleStatus()
-    {
-        return angleStatus;
-    }
+    public boolean isPlayable() { return playable; }
+    public AngleStatus getAngleStatus() { return angleStatus; }
     public Resource getResource() {
         return resource;
     }

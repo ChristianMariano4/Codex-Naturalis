@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.enumerations.Draw;
+import it.polimi.ingsw.enumerations.ChooseDrawPosition;
 import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHand;
 import it.polimi.ingsw.exceptions.DeckIsEmpty;
 import it.polimi.ingsw.exceptions.NoCardAdded;
