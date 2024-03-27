@@ -9,10 +9,18 @@ import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 public class PlayerField {
     private final StarterCard[][] matrixField;
 
+    /**
+     * Constructor
+     */
     public PlayerField()
     {
         this.matrixField = new StarterCard[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
     }
+
+    /**
+     *
+     * @return the MatrixFiled of the player
+     */
     public StarterCard[][] getMatrixField()
     {
         StarterCard[][] returnedMatrixField = new StarterCard[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
@@ -24,6 +32,14 @@ public class PlayerField {
     }
 
     //TODO: dynamic resizing
+
+    /**
+     *
+     * @param card is the reference to the starter card
+     * @param angleOrientation indicate the selected angle
+     * @param cardToAdd is the reference to the card to add to the playerField
+     * @throws InvalidCardPositionException when the player try to add a card in an invalid position
+     */
     public void addCardToCell(StarterCard card, AngleOrientation angleOrientation, StarterCard cardToAdd) throws InvalidCardPositionException
     {
         try{

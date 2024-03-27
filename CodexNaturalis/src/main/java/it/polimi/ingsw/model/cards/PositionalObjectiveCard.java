@@ -10,6 +10,16 @@ public class PositionalObjectiveCard extends TripleObjectiveCard {
     private final Resource cardColor;
     private final AngleOrientation orientation;
     private final PositionalType positionalType;
+
+    /**
+     *
+     * @param cardId unique card ID
+     * @param currentSide indicates one of the two side of the card (front or back)
+     * @param points number of the points given by the card
+     * @param cardColor color type of the card
+     * @param orientation ??
+     * @param positionalType type of win condition required by the card
+     */
     public PositionalObjectiveCard(int cardId, Side currentSide, int points, Resource cardColor, AngleOrientation orientation, PositionalType positionalType) {
         super(cardId, currentSide, points);
         this.cardColor = cardColor;
@@ -17,14 +27,28 @@ public class PositionalObjectiveCard extends TripleObjectiveCard {
         this.positionalType = positionalType;
     }
 
+    /**
+     *
+     * @return the color of the card
+     */
     public Resource getCardColor()
     {
         return cardColor;
     }
+
+    /**
+     *
+     * @return the angle orientation of the card
+     */
     public AngleOrientation getOrientation()
     {
         return orientation;
     }
+
+    /**
+     *
+     * @return the positionalType of the card
+     */
     public PositionalType getPositionalType() {
         return positionalType;
     }

@@ -11,6 +11,12 @@ import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
 public class TableTop {
     private final DrawingField drawingField;
     private final HashMap<Player, PlayerField> playerFieldHashMap;
+
+    /**
+     * Constructor
+     * @param drawingField is the reference to the drawingField
+     * @throws InvalidConstructorDataException when controller didn't properly create TableTop
+     */
     public TableTop(DrawingField drawingField) throws InvalidConstructorDataException {
         try {
             this.drawingField = drawingField;
@@ -21,14 +27,31 @@ public class TableTop {
             throw new InvalidConstructorDataException();
         }
     }
+
+    /**
+     *
+     * @return the reference to the drawingField
+     */
     public DrawingField getDrawingField()
     {
         return drawingField;
     }
+
+    /**
+     *
+     * @return all the players and their playerFiled
+     */
     public HashMap<Player, PlayerField> getPlayerFieldHashMap()
     {
         return new HashMap<>(playerFieldHashMap);
     }
+
+    /**
+     *
+     * @param player is the reference to the player
+     * @throws AlreadyExistingPlayerException when the player is already in the HashMap
+     * @throws AlreadyFourPlayersException when the number of players is already four
+     */
     public void addPlayerField(Player player) throws AlreadyExistingPlayerException, AlreadyFourPlayersException
     {
         if(playerFieldHashMap.entrySet().size() >= MAX_PLAYER_NUMBER)

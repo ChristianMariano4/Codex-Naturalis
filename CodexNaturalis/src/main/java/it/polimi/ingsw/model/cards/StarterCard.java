@@ -13,6 +13,14 @@ public class StarterCard extends Card{
     private final ArrayList<Resource> centralResources;
     private final HashMap<AngleOrientation, Angle> angles;
 
+    /**
+     * Constructor
+     * @param cardId id associated to the card
+     * @param currentSide indicates one of the two side of the card (front or back)
+     * @param centralResources array of resources present in the center of the card
+     * @param angles hashMap of angle linked with their position
+     * @throws InvalidConstructorDataException if an invalid parameter is given
+     */
     public StarterCard(int cardId, Side currentSide, ArrayList<Resource> centralResources, HashMap<AngleOrientation, Angle> angles) throws InvalidConstructorDataException {
         super(cardId, currentSide);
         try {
@@ -25,6 +33,11 @@ public class StarterCard extends Card{
         }
 
     }
+
+    /**
+     *
+     * @return the array of resources present in the center of the card
+     */
     public ArrayList<Resource> getCentralResources()
     {
         return new ArrayList<Resource>(this.centralResources);

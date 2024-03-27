@@ -22,7 +22,7 @@ public class Game {
      *
      * @param gameId the unique ID of the game
      * @param drawingField reference to the drawing field of the game
-     * @throws InvalidConstructorDataException when controller didn't properly create drawingField
+     * @throws InvalidConstructorDataException when controller didn't properly create Game
      */
     public Game(int gameId, DrawingField drawingField) throws InvalidConstructorDataException {
         this.gameId = gameId;
