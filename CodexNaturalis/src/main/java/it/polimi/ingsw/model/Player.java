@@ -104,7 +104,7 @@ public class Player {
     }
 
     /**
-     * Updates the amount of a specific resource
+     * Update the amount of a specific resource
      * @param resource Resource of witch we want to update the value
      * @param amount The value to add to the existing value of a resource
      * @throws NoneResourceException Exception thrown if resource in NONE
@@ -126,7 +126,7 @@ public class Player {
     }
 
     /**
-     * Adds points to the player
+     * Add points to the player
      * @param points The value to add to the points of the player
      */
     public void addPoints(int points) {
@@ -134,7 +134,7 @@ public class Player {
     }
 
     /**
-     * Initializes all the resources of the player to 0
+     * Initialize all the resources of the player to 0
      * @param resourceAmount HashMap used to map a resource into the amount owned by the player
      */
     private void resourceAmountInitializer(HashMap<Resource, Integer> resourceAmount) {
