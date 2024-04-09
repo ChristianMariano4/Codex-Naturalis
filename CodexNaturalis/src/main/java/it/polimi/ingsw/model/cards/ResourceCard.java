@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 /**
- * Class that represents a started card
+ * This class represents a resource card, which is identified by a resource.
  */
 public class ResourceCard extends StarterCard {
 
@@ -33,7 +33,7 @@ public class ResourceCard extends StarterCard {
     }
 
     /**
-     *
+     * Getter
      * @return the color of the card, associated with a resource
      */
     public Resource getCardColor()
@@ -42,7 +42,7 @@ public class ResourceCard extends StarterCard {
     }
 
     /**
-     *
+     * Getter
      * @return points given by a card by positioning it
      */
     public int getPoints()

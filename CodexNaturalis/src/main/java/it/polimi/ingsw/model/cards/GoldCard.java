@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class represents a gold card, which is an extension of the ResourceCard class.
+ * This class represents a gold card, which is a special type of card that requires a specific set of resources to be played.
  */
 public class GoldCard extends ResourceCard {
 

@@ -8,6 +8,9 @@ import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * This class represents a started card, which is given to the player at the beginning of the game.
+ */
 public class StarterCard extends Card{
 
     private final ArrayList<Resource> centralResources;
@@ -35,7 +38,7 @@ public class StarterCard extends Card{
     }
 
     /**
-     *
+     * Getter
      * @return the array of resources present in the center of the card
      */
     public ArrayList<Resource> getCentralResources()

@@ -5,6 +5,9 @@ import it.polimi.ingsw.enumerations.PositionalType;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.enumerations.Side;
 
+/**
+ * This class represents a positional objective card, which can be diagonal or L-shaped.
+ */
 public class PositionalObjectiveCard extends TripleObjectiveCard {
 
     private final Resource cardColor;
@@ -12,7 +15,7 @@ public class PositionalObjectiveCard extends TripleObjectiveCard {
     private final PositionalType positionalType;
 
     /**
-     *
+     * Constructor
      * @param cardId unique card ID
      * @param currentSide indicates one of the two side of the card (front or back)
      * @param points number of the points given by the card
@@ -28,7 +31,7 @@ public class PositionalObjectiveCard extends TripleObjectiveCard {
     }
 
     /**
-     *
+     * Getter
      * @return the color of the card
      */
     public Resource getCardColor()
@@ -37,7 +40,7 @@ public class PositionalObjectiveCard extends TripleObjectiveCard {
     }
 
     /**
-     *
+     * Getter
      * @return the angle orientation of the card
      */
     public AngleOrientation getOrientation()
@@ -46,7 +49,7 @@ public class PositionalObjectiveCard extends TripleObjectiveCard {
     }
 
     /**
-     *
+     * Getter
      * @return the positionalType of the card
      */
     public PositionalType getPositionalType() {
