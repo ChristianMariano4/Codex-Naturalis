@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Class that represents a gold card
+ * This class represents a gold card, which is an extension of the ResourceCard class.
  */
 public class GoldCard extends ResourceCard {
 
@@ -44,7 +44,7 @@ public class GoldCard extends ResourceCard {
     }
 
     /**
-     *
+     * Getter
      * @return the list of the resources needed to play a card
      */
     public ArrayList<Resource> getRequirements()
@@ -53,7 +53,7 @@ public class GoldCard extends ResourceCard {
     }
 
     /**
-     *
+     * Getter
      * @return the condition to satisfied to obtain the points given by the card
      */
     public GoldPointCondition getGoldPointCondition()
