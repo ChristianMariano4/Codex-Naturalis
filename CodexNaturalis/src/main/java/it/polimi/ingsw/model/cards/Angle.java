@@ -5,7 +5,10 @@ import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.exceptions.AngleAlreadyLinkedException;
 import it.polimi.ingsw.exceptions.UnlinkedCardException;
 
-
+/**
+ * This class represents an angle of a card.
+ * It contains the resource on the angle, the status of the angle and the reference to the linked angle.
+ */
 public class Angle {
     private final boolean playable;
     private AngleStatus angleStatus;
@@ -14,7 +17,7 @@ public class Angle {
     private final StarterCard ownerCard;
 
     /**
-     *
+     * Constructor
      * @param playable True if the angle is playable, false otherwise
      * @param resource Resource on the angle
      * @param ownerCard Reference to the card that have this angle
@@ -28,19 +31,19 @@ public class Angle {
     }
 
     /**
-     *
+     * Getter
      * @return true if the angle is playable, false otherwise
      */
     public boolean isPlayable() { return playable; }
 
     /**
-     *
+     * Getter
      * @return the status of the angle
      */
     public AngleStatus getAngleStatus() { return angleStatus; }
 
     /**
-     *
+     * Getter
      * @return the resource on the angle
      */
     public Resource getResource() {
@@ -48,7 +51,7 @@ public class Angle {
     }
 
     /**
-     *
+     * Setter
      * @param angleStatus Represent the status of the angle
      */
     private void setAngleStatus(AngleStatus angleStatus) {
@@ -56,7 +59,7 @@ public class Angle {
     }
 
     /**
-     *
+     * Set the linked angle
      * @param linkedAngle The reference to the angle linked with this angle
      * @param angleStatus Represent the status of the angle
      * @throws AngleAlreadyLinkedException Exception thrown when the angle is already occupied
@@ -69,7 +72,7 @@ public class Angle {
     }
 
     /**
-     *
+     * Getter
      * @return the angle linked with this angle
      * @throws UnlinkedCardException Exception thrown if the angle is unlinked
      */
@@ -80,7 +83,7 @@ public class Angle {
     }
 
     /**
-     *
+     * Getter
      * @return the reference to the owner card of this angle
      */
     public StarterCard getOwnerCard()
