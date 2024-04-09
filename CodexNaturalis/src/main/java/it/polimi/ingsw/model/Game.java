@@ -11,6 +11,10 @@ import java.util.List;
 
 import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
 
+/**
+ * This class represents the game in the game. It contains the list of players and the table.
+ * The game is responsible for adding players to the game and managing the table.
+ */
 public class Game {
     private final int gameId;
     private int numberOfPlayers;
@@ -21,7 +25,7 @@ public class Game {
     //controller has to create the drawing field before creating the game to create drawingField
 
     /**
-     *
+     * Constructor
      * @param gameId the unique ID of the game
      * @param drawingField reference to the drawing field of the game
      * @throws InvalidConstructorDataException when controller didn't properly create Game
@@ -40,7 +44,7 @@ public class Game {
     }
 
     /**
-     *
+     * Getter
      * @return unique ID of the game
      */
     public int getGameId() {
@@ -48,7 +52,7 @@ public class Game {
     }
 
     /**
-     *
+     *  Adds a player to the game
      * @param player the player you want to add
      * @throws AlreadyExistingPlayerException when the player we want to add already exists in the game
      * @throws AlreadyFourPlayersException when the game already contains the maximum amount of players
@@ -68,7 +72,7 @@ public class Game {
     }
 
     /**
-     *
+     * Getter
      * @return the number of players currently present in the game
      */
     public int getNumberOfPlayers() {
@@ -76,7 +80,7 @@ public class Game {
     }
 
     /**
-     *
+     * Getter
      * @return a copy of the list of player in the game
      */
     public ArrayList<Player> getListOfPlayers()
@@ -85,7 +89,7 @@ public class Game {
     }
 
     /**
-     *
+     *  Getter
      * @return the tabletop associated with the game
      */
     public TableTop getTableTop() {

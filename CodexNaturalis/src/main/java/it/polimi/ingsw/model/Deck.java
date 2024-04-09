@@ -45,7 +45,7 @@ public class Deck {
     }
 
     /**
-     *Initializes the deck with the given list of resource cards.
+     * Initializes the deck with the given list of resource cards.
      *
      * @param cards List of cards
      * @throws InvalidConstructorDataException if the data provided to the constructor is invalid
