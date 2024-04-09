@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class DrawingField {
     private final Deck goldCardDeck;
     private final Deck resourceCardDeck;
-    private final HashMap<DrawPosition, ResourceCard> discoveredGoldCards;
+    private final HashMap<DrawPosition, GoldCard> discoveredGoldCards;
     private final HashMap<DrawPosition, ResourceCard> discoveredResourceCards;
 
     //@requires controller has to create the decks with correct types
@@ -31,34 +31,25 @@ public class DrawingField {
     public DrawingField(Deck goldCardDeck, Deck resourceCardDeck) throws CardTypeMismatchException, DeckIsEmptyException {
         this.goldCardDeck = goldCardDeck;
         this.resourceCardDeck = resourceCardDeck;
-        discoveredGoldCards = new HashMap<DrawPosition, ResourceCard>();
+        discoveredGoldCards = new HashMap<DrawPosition, GoldCard>();
         discoveredResourceCards = new HashMap<DrawPosition, ResourceCard>();
 
-        for(int i = 0; i<2; i++) {  //checks to make sure card types are correct
-            ResourceCard temp;
-            temp = goldCardDeck.getTopCard();  //è necessario fare il check?
-            if (temp instanceof GoldCard) {
-                if(i == 0)
-                    discoveredGoldCards.put(DrawPosition.LEFT, temp);
-                else
-                    discoveredGoldCards.put(DrawPosition.RIGHT, temp);
-            }
-            else {
-                throw new CardTypeMismatchException();
-            }
+        for(int i = 0; i<2; i++) {
+            GoldCard temp;
+            temp = (GoldCard) goldCardDeck.getTopCard(); // temporary casting
+            //TODO: fix cast
+            if(i == 0)
+                discoveredGoldCards.put(DrawPosition.LEFT, temp);
+            else
+                discoveredGoldCards.put(DrawPosition.RIGHT, temp);
         }
         for(int i = 0; i<2; i++) {
             ResourceCard temp;
-            temp = resourceCardDeck.getTopCard();
-            if (temp instanceof ResourceCard) {
-                if(i == 0)
-                    discoveredResourceCards.put(DrawPosition.LEFT, temp);
-                else
-                    discoveredResourceCards.put(DrawPosition.RIGHT, temp);
-            }
-            else {
-                throw new CardTypeMismatchException();
-            }
+            temp = (ResourceCard) resourceCardDeck.getTopCard();
+            if(i == 0)
+                discoveredResourceCards.put(DrawPosition.LEFT, temp);
+            else
+                discoveredResourceCards.put(DrawPosition.RIGHT, temp);
         }
     }
     /**
@@ -68,18 +59,18 @@ public class DrawingField {
      * @return the drawn card
      * @throws DeckIsEmptyException if the deck is empty
      */
-    public ResourceCard drawCardFromGoldCardDeck(DrawPosition drawPosition) throws DeckIsEmptyException
+    public GoldCard drawCardFromGoldCardDeck(DrawPosition drawPosition) throws DeckIsEmptyException
     {
         if(drawPosition == DrawPosition.FROMDECK) {
-            return goldCardDeck.getTopCard();
+            return (GoldCard) goldCardDeck.getTopCard();
         }
         else {
-            ResourceCard chosenCard = discoveredGoldCards.get(drawPosition);
+            GoldCard chosenCard = discoveredGoldCards.get(drawPosition);
             if(chosenCard == null)
                 throw new DeckIsEmptyException();
             //Change discovered gold card chosen by the player
             if (!goldCardDeck.isEmpty())
-                discoveredGoldCards.put(drawPosition, goldCardDeck.getTopCard());
+                discoveredGoldCards.put(drawPosition, (GoldCard) goldCardDeck.getTopCard());
             else {
                 discoveredGoldCards.put(drawPosition, null);
             }
@@ -98,7 +89,7 @@ public class DrawingField {
     public ResourceCard drawCardFromResourceCardDeck(DrawPosition drawPosition) throws DeckIsEmptyException
     {
         if(drawPosition == DrawPosition.FROMDECK) {
-            return resourceCardDeck.getTopCard();
+            return (ResourceCard) resourceCardDeck.getTopCard();
         }
         else {
             ResourceCard chosenCard = discoveredResourceCards.get(drawPosition);
@@ -106,7 +97,7 @@ public class DrawingField {
                 throw new DeckIsEmptyException();
             //Change discovered resource card chosen by the player
             if(!resourceCardDeck.isEmpty())
-                discoveredResourceCards.put(drawPosition, resourceCardDeck.getTopCard());
+                discoveredResourceCards.put(drawPosition, (ResourceCard) resourceCardDeck.getTopCard());
             else {
                 discoveredResourceCards.put(drawPosition, null);
             }

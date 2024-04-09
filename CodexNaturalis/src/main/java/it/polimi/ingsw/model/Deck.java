@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
+import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.util.List;
@@ -13,16 +14,16 @@ import java.util.Stack;
  * The deck is responsible for providing the top card and checking if the deck is empty.
  */
 public class Deck {
-    private final Stack<ResourceCard> deck;
+    private final Stack<PlayableCard> deck;
     /**
      * Constructs a new Deck with the given list of resource cards.
      *
      * @param cards the list of resource cards
      * @throws InvalidConstructorDataException if the data provided to the constructor is invalid
      */
-    public Deck(List<ResourceCard> cards) throws InvalidConstructorDataException {
+    public Deck(List<PlayableCard> cards) throws InvalidConstructorDataException {
         try {
-            deck = new Stack<ResourceCard>();
+            deck = new Stack<PlayableCard>();
         }
         catch(Exception e)
         {
@@ -36,7 +37,7 @@ public class Deck {
      * @return the top card
      * @throws DeckIsEmptyException if the deck is empty
      */
-    public ResourceCard getTopCard() throws DeckIsEmptyException {
+    public PlayableCard getTopCard() throws DeckIsEmptyException {
         if(deck.isEmpty())
         {
             throw new DeckIsEmptyException();
@@ -50,9 +51,9 @@ public class Deck {
      * @param cards List of cards
      * @throws InvalidConstructorDataException if the data provided to the constructor is invalid
      */
-    private void deckInitializer(List<ResourceCard> cards) throws InvalidConstructorDataException {
+    private void deckInitializer(List<PlayableCard> cards) throws InvalidConstructorDataException {
         try {
-            for (ResourceCard card : cards) {
+            for (PlayableCard card : cards) {
                 deck.push(card);
             }
         }

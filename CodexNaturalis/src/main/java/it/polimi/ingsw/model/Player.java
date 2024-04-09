@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.util.HashMap;
@@ -152,7 +153,7 @@ public class Player {
      */
     public void chooseGoldCardToDraw(DrawPosition drawPosition) throws AlreadyThreeCardsInHandException, NoCardAddedException {
         try {
-            ResourceCard chosenCard = game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(drawPosition);
+            GoldCard chosenCard = game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(drawPosition);
             playerHand.addCardToPlayerHand(chosenCard);
         }
         catch (DeckIsEmptyException e)
