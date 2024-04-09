@@ -3,9 +3,11 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
 import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
+import it.polimi.ingsw.model.cards.TripleObjectiveCard;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
 
@@ -24,12 +26,12 @@ public class Game {
      * @param drawingField reference to the drawing field of the game
      * @throws InvalidConstructorDataException when controller didn't properly create Game
      */
-    public Game(int gameId, DrawingField drawingField) throws InvalidConstructorDataException {
+    public Game(int gameId, DrawingField drawingField, List<TripleObjectiveCard> sharedObjectiveCards) throws InvalidConstructorDataException {
         this.gameId = gameId;
         this.listOfPlayers = new ArrayList<Player>();
         this.numberOfPlayers = 0;
         try {
-            this.tableTop = new TableTop(drawingField);
+            this.tableTop = new TableTop(drawingField, sharedObjectiveCards);
         }
         catch(Exception e)
         {

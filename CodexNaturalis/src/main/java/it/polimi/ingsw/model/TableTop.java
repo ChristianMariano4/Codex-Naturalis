@@ -3,24 +3,33 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
 import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
+import it.polimi.ingsw.model.cards.TripleObjectiveCard;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
 
+/**
+ * TableTop class is the class that contains the drawing field and all the players' fields.
+ * It is responsible for adding players to the game and managing the drawing field.
+ */
 public class TableTop {
     private final DrawingField drawingField;
     private final HashMap<Player, PlayerField> playerFieldHashMap;
+    private final List<TripleObjectiveCard> sharedObjectiveCards;
 
     /**
      * Constructor
      * @param drawingField is the reference to the drawingField
      * @throws InvalidConstructorDataException when controller didn't properly create TableTop
      */
-    public TableTop(DrawingField drawingField) throws InvalidConstructorDataException {
+    public TableTop(DrawingField drawingField, List<TripleObjectiveCard> sharedObjectiveCards) throws InvalidConstructorDataException {
         try {
             this.drawingField = drawingField;
             playerFieldHashMap = new HashMap<Player, PlayerField>();
+            this.sharedObjectiveCards = new ArrayList<>(sharedObjectiveCards);
         }
         catch(Exception e)
         {
@@ -29,7 +38,7 @@ public class TableTop {
     }
 
     /**
-     *
+     * Getter
      * @return the reference to the drawingField
      */
     public DrawingField getDrawingField()
@@ -38,7 +47,7 @@ public class TableTop {
     }
 
     /**
-     *
+     * Getter
      * @return all the players and their playerFiled
      */
     public HashMap<Player, PlayerField> getPlayerFieldHashMap()
@@ -47,7 +56,7 @@ public class TableTop {
     }
 
     /**
-     *
+     * Adds a player to the game
      * @param player is the reference to the player
      * @throws AlreadyExistingPlayerException when the player is already in the HashMap
      * @throws AlreadyFourPlayersException when the number of players is already four
@@ -64,5 +73,15 @@ public class TableTop {
         }
         playerFieldHashMap.put(player, player.getPlayerField());
     }
+
+    /**
+     * Getter
+     * @return the shared objective cards
+     */
+    public List<TripleObjectiveCard> getSharedObjectiveCards(){
+        return sharedObjectiveCards;
+    }
+
+
 
 }
