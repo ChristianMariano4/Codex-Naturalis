@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.util.HashMap;
 
+/**
+ * This class represents the player
+ */
 public class Player {
     private final String username;
     private boolean isTurn;
@@ -18,7 +21,7 @@ public class Player {
     private final Game game;
 
     /**
-     * Controller
+     * Constructor
      * @param username The ID of the player
      * @param marker The unique marker of the player
      * @param game The reference of the current game
@@ -44,7 +47,7 @@ public class Player {
     }
 
     /**
-     *
+     * Getter
      * @return the username of the player
      */
     public String getUsername() {
@@ -52,7 +55,7 @@ public class Player {
     }
 
     /**
-     *
+     * Getter
      * @return a boolean that indicate if is the turn of the player
      */
     public boolean getIsTurn() {
@@ -60,7 +63,7 @@ public class Player {
     }
 
     /**
-     *
+     * Setter
      * @param isTurn True if is the turn of the player, false otherwise
      */
     public void setIsTurn(boolean isTurn) {
@@ -68,7 +71,7 @@ public class Player {
     }
 
     /**
-     *
+     * Getter
      * @return true if the player is the first of the game
      */
     public boolean getIsFirst() {
@@ -76,7 +79,7 @@ public class Player {
     }
 
     /**
-     *
+     * Setter
      * @param isFirst Is true if the player is the first of the game, false otherwise
      */
     public void setIsFirst(boolean isFirst) {
@@ -84,7 +87,7 @@ public class Player {
     }
 
     /**
-     *
+     * Getter
      * @return the Marker of the player
      */
     public Marker getMarker() {
@@ -92,7 +95,7 @@ public class Player {
     }
 
     /**
-     *
+     * Getter
      * @param resource Resource of which we want to know the quantity possessed by the player
      * @return the amount of the specified resource of the player
      */
@@ -101,7 +104,7 @@ public class Player {
     }
 
     /**
-     *
+     * Updates the amount of a specific resource
      * @param resource Resource of witch we want to update the value
      * @param amount The value to add to the existing value of a resource
      * @throws NoneResourceException Exception thrown if resource in NONE
@@ -115,7 +118,7 @@ public class Player {
     }
 
     /**
-     *
+     * Getter
      * @return the points of the player
      */
     public int getPoints() {
@@ -123,7 +126,7 @@ public class Player {
     }
 
     /**
-     *
+     * Adds points to the player
      * @param points The value to add to the points of the player
      */
     public void addPoints(int points) {
@@ -131,8 +134,8 @@ public class Player {
     }
 
     /**
-     *
-     * @param resourceAmount HashMap used to link a resource to the corresponding amount
+     * Initializes all the resources of the player to 0
+     * @param resourceAmount HashMap used to map a resource into the amount owned by the player
      */
     private void resourceAmountInitializer(HashMap<Resource, Integer> resourceAmount) {
         for(Resource res: Resource.values()) {
@@ -142,7 +145,7 @@ public class Player {
     }
 
     /**
-     *
+     * Method used to choose a gold card to draw
      * @param drawPosition Indicate the position from which to draw a card
      * @throws AlreadyThreeCardsInHandException Exception thrown when the player have already tre cards in its hand
      * @throws NoCardAddedException Exception thrown when no card is added to the player hand
@@ -160,7 +163,7 @@ public class Player {
     }
 
     /**
-     *
+     * Method used to choose a resource card to draw
      * @param drawPosition Indicate the position from which to draw a card
      * @throws AlreadyThreeCardsInHandException Exception thrown when the player have already tre cards in its hand
      * @throws NoCardAddedException Exception thrown when no card is added to the player hand
@@ -177,7 +180,7 @@ public class Player {
     }
 
     /**
-     *
+     * Getter
      * @return the reference of the playerFiled linked to the player
      */
     public PlayerField getPlayerField()
