@@ -4,7 +4,8 @@ import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.UnlinkedCardException;
 
 /**
- * Class that represents a generic card
+ * This class represents a generic card, uniquely identified by an id and a side.
+ * It contains the reference to the card that represents the other side of the current card.
  */
 public abstract class Card {
 
@@ -13,7 +14,7 @@ public abstract class Card {
    private Card otherSideCard;
 
    /**
-    *
+    * Constructor
     * @param cardId id associated to the card
     * @param currentSide indicates one of the two side of the card (front or back)
     */
@@ -24,7 +25,7 @@ public abstract class Card {
    }
 
    /**
-    *
+    * Getter
     * @return the id of the card
     */
    public int getCardId()
@@ -33,7 +34,7 @@ public abstract class Card {
    }
 
    /**
-    *
+    * Getter
     * @return the side (front or back) of the card
     */
    public Side getCurrentSide()
@@ -42,7 +43,7 @@ public abstract class Card {
    }
 
    /**
-    *
+    * Getter
     * @return the card that represents the other side of the current card
     * @throws UnlinkedCardException if the card that represents the other side is not set
     */
@@ -53,7 +54,7 @@ public abstract class Card {
    }
 
    /**
-    *
+    * Setter
     * @param otherSideCard the card that represents the other side of the current card
     */
    public void setOtherSideCard(Card otherSideCard)
