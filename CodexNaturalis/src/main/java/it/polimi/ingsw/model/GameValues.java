@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+/**
+ * This class contains the values of the game that are used in multiple classes.
+ */
 public class GameValues {
 
     public static int MAX_PLAYER_NUMBER = 4;

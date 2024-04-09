@@ -12,7 +12,7 @@ import java.util.List;
 import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
 
 /**
- * This class represents the game in the game. It contains the list of players and the table.
+ * This class represents the game. It contains the list of players and the table.
  * The game is responsible for adding players to the game and managing the table.
  */
 public class Game {
