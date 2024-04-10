@@ -7,6 +7,8 @@ import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class StarterCard extends PlayableCard {
     /**
@@ -20,7 +22,7 @@ public class StarterCard extends PlayableCard {
      * @param points
      * @throws InvalidConstructorDataException if an invalid parameter is given
      */
-    public StarterCard(int cardId, Side currentSide, ArrayList<Resource> centralResources, HashMap<AngleOrientation, Angle> angles, Resource cardColor, int points) throws InvalidConstructorDataException {
+    public StarterCard(int cardId, Side currentSide, List<Resource> centralResources, Map<AngleOrientation, Angle> angles, Resource cardColor, int points) throws InvalidConstructorDataException {
         super(cardId, currentSide, centralResources, angles, cardColor, points);
     }
 

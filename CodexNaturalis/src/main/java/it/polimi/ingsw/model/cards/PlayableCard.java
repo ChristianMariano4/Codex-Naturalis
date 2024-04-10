@@ -9,6 +9,8 @@ import it.polimi.ingsw.model.CardVisitor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents a started card, which is given to the player at the beginning of the game.
@@ -27,7 +29,7 @@ public class PlayableCard extends Card{
      * @param angles hashMap of angle linked with their position
      * @throws InvalidConstructorDataException if an invalid parameter is given
      */
-    public PlayableCard(int cardId, Side currentSide, ArrayList<Resource> centralResources, HashMap<AngleOrientation, Angle> angles, Resource cardColor, int points) throws InvalidConstructorDataException {
+    public PlayableCard(int cardId, Side currentSide, List<Resource> centralResources, Map<AngleOrientation, Angle> angles, Resource cardColor, int points) throws InvalidConstructorDataException {
         super(cardId, currentSide);
         try {
             this.centralResources = new ArrayList<>(centralResources); //controller can pass list with NONE value
@@ -68,6 +70,11 @@ public class PlayableCard extends Card{
     public int getPoints()
     {
         return points;
+    }
+
+    public Angle getAngle(AngleOrientation angleOrientation)
+    {
+        return angles.get(angleOrientation);
     }
 
 }
