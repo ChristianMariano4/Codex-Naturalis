@@ -10,6 +10,13 @@
 # Ignore game assets
 assets/*
 
+# Ignore all .class files
+*.class
+
+# Ignore all files in the target directory (common for Maven projects)
+/target/
+
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
