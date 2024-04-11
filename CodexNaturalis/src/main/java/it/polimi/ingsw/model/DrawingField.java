@@ -34,22 +34,36 @@ public class DrawingField {
         discoveredGoldCards = new HashMap<DrawPosition, GoldCard>();
         discoveredResourceCards = new HashMap<DrawPosition, ResourceCard>();
 
+            for (int i = 0; i < 2; i++) {
+                try {
+                    GoldCard temp;
+                    temp = (GoldCard) goldCardDeck.getTopCard(); // temporary casting
+                    //TODO: fix cast
+                    if (i == 0)
+                        discoveredGoldCards.put(DrawPosition.LEFT, temp);
+                    else
+                        discoveredGoldCards.put(DrawPosition.RIGHT, temp);
+                }
+                catch(Exception e)
+                {
+                    System.err.println("Deck is Empty, cards not added to table");
+                }
+            }
+
+
         for(int i = 0; i<2; i++) {
-            GoldCard temp;
-            temp = (GoldCard) goldCardDeck.getTopCard(); // temporary casting
-            //TODO: fix cast
-            if(i == 0)
-                discoveredGoldCards.put(DrawPosition.LEFT, temp);
-            else
-                discoveredGoldCards.put(DrawPosition.RIGHT, temp);
-        }
-        for(int i = 0; i<2; i++) {
+            try {
             ResourceCard temp;
             temp = (ResourceCard) resourceCardDeck.getTopCard();
             if(i == 0)
                 discoveredResourceCards.put(DrawPosition.LEFT, temp);
             else
                 discoveredResourceCards.put(DrawPosition.RIGHT, temp);
+            }
+            catch(Exception e)
+            {
+                System.err.println("Deck is Empty, cards not added to table");
+            }
         }
     }
     /**
