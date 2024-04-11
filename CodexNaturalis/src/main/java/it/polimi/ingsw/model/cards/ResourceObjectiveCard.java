@@ -6,7 +6,7 @@ import it.polimi.ingsw.enumerations.Side;
 /**
  * This class represents a resource objective card, which requires the player to have a certain amount of a specific resource.
  */
-public class ResourceObjectiveCard extends TripleObjectiveCard {
+public class ResourceObjectiveCard extends ObjectiveCard {
 
     private final Resource cardResource;
 

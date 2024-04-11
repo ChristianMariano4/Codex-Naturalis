@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
 import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
-import it.polimi.ingsw.model.cards.TripleObjectiveCard;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,14 +18,14 @@ import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
 public class TableTop {
     private final DrawingField drawingField;
     private final HashMap<Player, PlayerField> playerFieldHashMap;
-    private final List<TripleObjectiveCard> sharedObjectiveCards;
+    private final List<ObjectiveCard> sharedObjectiveCards;
 
     /**
      * Constructor
      * @param drawingField is the reference to the drawingField
      * @throws InvalidConstructorDataException when controller didn't properly create TableTop
      */
-    public TableTop(DrawingField drawingField, List<TripleObjectiveCard> sharedObjectiveCards) throws InvalidConstructorDataException {
+    public TableTop(DrawingField drawingField, List<ObjectiveCard> sharedObjectiveCards) throws InvalidConstructorDataException {
         try {
             this.drawingField = drawingField;
             playerFieldHashMap = new HashMap<Player, PlayerField>();
@@ -78,7 +78,7 @@ public class TableTop {
      * Getter
      * @return the shared objective cards
      */
-    public List<TripleObjectiveCard> getSharedObjectiveCards(){
+    public List<ObjectiveCard> getSharedObjectiveCards(){
         return sharedObjectiveCards;
     }
 

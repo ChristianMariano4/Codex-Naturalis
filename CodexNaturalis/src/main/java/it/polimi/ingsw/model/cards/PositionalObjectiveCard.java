@@ -8,7 +8,7 @@ import it.polimi.ingsw.enumerations.Side;
 /**
  * This class represents a positional objective card, which can be diagonal or L-shaped.
  */
-public class PositionalObjectiveCard extends TripleObjectiveCard {
+public class PositionalObjectiveCard extends ObjectiveCard {
 
     private final Resource cardColor;
     private final AngleOrientation orientation;

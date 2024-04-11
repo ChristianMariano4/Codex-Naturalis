@@ -1,0 +1,66 @@
+[
+  {
+    "cardId": 87,
+    "currentSide": "FRONT",
+    "points": 2,
+    "cardColor": "FUNGI",
+    "orientation": "TOPRIGHT",
+    "positionalType": "DIAGONAL"
+  },
+  {
+    "cardId": 88,
+    "currentSide": "FRONT",
+    "points": 2,
+    "cardColor": "INSECT",
+    "orientation": "TOPLEFT",
+    "positionalType": "DIAGONAL"
+  },
+  {
+    "cardId": 89,
+    "currentSide": "FRONT",
+    "points": 2,
+    "cardColor": "ANIMAL",
+    "orientation": "TOPRIGHT",
+    "positionalType": "DIAGONAL"
+  },
+  {
+    "cardId": 90,
+    "currentSide": "FRONT",
+    "points": 2,
+    "cardColor": "INSECT",
+    "orientation": "TOPLEFT",
+    "positionalType": "DIAGONAL"
+  },
+  {
+    "cardId": 91,
+    "currentSide": "FRONT",
+    "points": 3,
+    "cardColor": "FUNGI",
+    "orientation": "BOTTOMRIGHT",
+    "positionalType": "LSHAPED"
+  },
+  {
+    "cardId": 92,
+    "currentSide": "FRONT",
+    "points": 3,
+    "cardColor": "PLANT",
+    "orientation": "BOTTOMLEFT",
+    "positionalType": "LSHAPED"
+  },
+  {
+    "cardId": 93,
+    "currentSide": "FRONT",
+    "points": 3,
+    "cardColor": "ANIMAL",
+    "orientation": "TOPRIGHT",
+    "positionalType": "LSHAPED"
+  },
+  {
+    "cardId": 94,
+    "currentSide": "FRONT",
+    "points": 3,
+    "cardColor": "INSECT",
+    "orientation": "TOPLEFT",
+    "positionalType": "LSHAPED"
+  }
+]
