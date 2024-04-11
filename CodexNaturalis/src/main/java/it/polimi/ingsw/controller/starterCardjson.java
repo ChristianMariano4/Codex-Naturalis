@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class startedCardjson {
+public class starterCardjson {
     public static void main(String[] args) throws InvalidConstructorDataException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
