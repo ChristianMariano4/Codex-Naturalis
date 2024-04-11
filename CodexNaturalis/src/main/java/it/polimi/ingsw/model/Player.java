@@ -41,6 +41,7 @@ public class Player {
         }
         this.playerHand  = new PlayerHand();
         this.playerField = new PlayerField();
+        this.points = 0;
 
         resourceAmount = new HashMap<Resource, Integer>();
 
@@ -136,12 +137,15 @@ public class Player {
 
     /**
      * Initialize all the resources of the player to 0
-     * @param resourceAmount HashMap used to map a resource into the amount owned by the player
+     * @param resourceAmount HashMap used to map a resource into the amount owned by the player, if NONE is set to -1 a not valid value
      */
     private void resourceAmountInitializer(HashMap<Resource, Integer> resourceAmount) {
         for(Resource res: Resource.values()) {
-            if(res != Resource.NONE)
+            if(res != Resource.NONE) {
                 resourceAmount.put(res, 0);
+            } else {
+                resourceAmount.put(res, -1);
+            }
         }
     }
 
@@ -184,8 +188,7 @@ public class Player {
      * Getter
      * @return the reference of the playerFiled linked to the player
      */
-    public PlayerField getPlayerField()
-    {
+    public PlayerField getPlayerField() {
         return playerField;
     }
 
