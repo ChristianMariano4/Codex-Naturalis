@@ -39,7 +39,7 @@ public class PlayerField {
 
     /**
      * Add a card to the player field
-     * @param card is the reference to the starter card
+     * @param card is the reference to the selected card
      * @param angleOrientation indicate the selected angle
      * @param cardToAdd is the reference to the card to add to the playerField
      * @throws InvalidCardPositionException when the player try to add a card in an invalid position

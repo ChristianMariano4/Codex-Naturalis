@@ -62,12 +62,12 @@ class PlayerHandTest {
    @Test
    void shouldNotRemoveCardFromHandEmptyHand() {
       ResourceCard cardToRemove = new ResourceCard(); //Constructor
-      Assertions.assertThrows(NoCardAddedException.class, () -> {p.removeCardFromHand(cardToRemove);});
+      Assertions.assertThrows(InvalidCardPositionException.class, () -> {p.removeCardFromHand(cardToRemove);});
    }
    @Test
    void shouldNotRemoveCardFromHandCardNotPresent() {
       addCardsToPlayerHand(MAX_CARD_IN_HAND);
       ResourceCard cardToRemove = new ResourceCard();
-      Assertions.assertThrows(NoCardAddedException.class, () -> {p.removeCardFromHand(cardToRemove);});
+      Assertions.assertThrows(InvalidCardPositionException.class, () -> {p.removeCardFromHand(cardToRemove);});
    }
 }
