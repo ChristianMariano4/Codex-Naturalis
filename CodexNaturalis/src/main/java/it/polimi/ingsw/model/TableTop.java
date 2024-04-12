@@ -41,8 +41,7 @@ public class TableTop {
      * Getter
      * @return the reference to the drawingField
      */
-    public DrawingField getDrawingField()
-    {
+    public DrawingField getDrawingField() {
         return drawingField;
     }
 
@@ -50,8 +49,7 @@ public class TableTop {
      * Getter
      * @return all the players and their playerFiled
      */
-    public HashMap<Player, PlayerField> getPlayerFieldHashMap()
-    {
+    public HashMap<Player, PlayerField> getPlayerFieldHashMap() {
         return new HashMap<>(playerFieldHashMap);
     }
 

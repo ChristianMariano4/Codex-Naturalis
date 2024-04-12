@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.DrawPosition;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.TripleObjectiveCard;
 import org.junit.jupiter.api.Assertions;
@@ -28,7 +29,7 @@ class PlayerTest {
         Deck d1 = new Deck(li);
         Deck d2 = new Deck(li);
         d = new DrawingField(d1, d2);
-        List<TripleObjectiveCard> l = new ArrayList<>();
+        List<ObjectiveCard> l = new ArrayList<>();
         Game test = new Game(123, d, l);
         p1 = new Player("test", Marker.BLACK, test);
     }
