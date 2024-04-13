@@ -19,7 +19,7 @@ class PlayerFieldTest {
     PlayerField p;
 
     @BeforeEach
-    public void PlayerFieldInit() {
+    void PlayerFieldInit() {
         p = new PlayerField();
     }
     @Test

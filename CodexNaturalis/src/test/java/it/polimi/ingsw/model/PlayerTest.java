@@ -23,7 +23,7 @@ class PlayerTest {
     Player p1;
     DrawingField d;
     @BeforeEach
-    public void playerInit() throws InvalidConstructorDataException, CardTypeMismatchException, DeckIsEmptyException {
+    void playerInit() throws InvalidConstructorDataException, CardTypeMismatchException, DeckIsEmptyException {
         // TODO: the player must be created by the controller
         List<PlayableCard> li = new ArrayList<>();
         Deck d1 = new Deck(li);

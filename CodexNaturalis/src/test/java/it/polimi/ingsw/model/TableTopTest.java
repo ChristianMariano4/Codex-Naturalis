@@ -24,8 +24,8 @@ class TableTopTest {
     List<PlayableCard> cards;
 
     @BeforeEach
-    public void TableTobInit() throws InvalidConstructorDataException, CardTypeMismatchException, DeckIsEmptyException {
-        //Constructor for the Tabletop
+    void TableTobInit() throws InvalidConstructorDataException, CardTypeMismatchException, DeckIsEmptyException {
+        //Controller method for the Tabletop
         d1 = new Deck(cards);
         d2 = new Deck(cards);
         d = new DrawingField(d1, d2);
@@ -40,7 +40,7 @@ class TableTopTest {
 
     @Test
     void shouldGetPlayerFieldHashMap() {
-        //4 constructor for the players
+        //Controller method for 4 players
         for(int i = 0; i < 4; i++) {
             //Add the players to the playerfield
             t.addPlayerField(/*Player*/);

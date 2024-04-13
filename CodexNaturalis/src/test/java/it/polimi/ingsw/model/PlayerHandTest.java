@@ -22,13 +22,13 @@ class PlayerHandTest {
 
    private void addCardsToPlayerHand(int num) {
       for(int i = 0; i < num+1; i++) {
-         //Card constructor
+         //Card Controller method
          p.addCardToPlayerHand(cards);
       }
    }
    @BeforeEach
-   public void playerHandTestInit() {
-       //PlayerHand constructor
+   void playerHandTestInit() {
+       //PlayerHand Controller method
       for(int i = 0; i < MAX_CARD_IN_HAND; i++) {
          //Add cards to the list
       }
@@ -36,7 +36,7 @@ class PlayerHandTest {
    @Test
    void shouldAddCardToPlayerHand() {
       for(int i = 0; i < 3; i++) {
-         PlayableCard c; //Card constructor
+         PlayableCard c; //Card Controller method
          p.addCardToPlayerHand(c);
       }
    }
@@ -61,7 +61,7 @@ class PlayerHandTest {
    }
    @Test
    void shouldNotRemoveCardFromHandEmptyHand() {
-      ResourceCard cardToRemove = new ResourceCard(); //Constructor
+      ResourceCard cardToRemove = new ResourceCard(); //Controller method
       Assertions.assertThrows(InvalidCardPositionException.class, () -> {p.removeCardFromHand(cardToRemove);});
    }
    @Test
