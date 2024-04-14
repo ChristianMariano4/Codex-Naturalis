@@ -1,3 +1,7 @@
-it\polimi\ingsw\model\cards\ObjectiveCard.class
-it\polimi\ingsw\enumerations\CardNotImportedException.class
-it\polimi\ingsw\controller\starterCardjson.class
+it/polimi/ingsw/controller/ResourceCardFactory.class
+it/polimi/ingsw/controller/CardImporter.class
+it/polimi/ingsw/controller/TripleObjectiveCardFactory.class
+it/polimi/ingsw/enumerations/CardNotImportedException.class
+it/polimi/ingsw/controller/ResourceObjectiveCardFactory.class
+it/polimi/ingsw/controller/GoldCardFactory.class
+it/polimi/ingsw/controller/PositionalObjectiveCardFactory.class
