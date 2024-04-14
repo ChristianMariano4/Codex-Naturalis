@@ -2,15 +2,18 @@ package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.enumerations.CardNotImportedException;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PositionalObjectiveCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PositionalObjectiveCardFactory {
-    public PositionalObjectiveCard[] positionalObjectiveCardArray() throws CardNotImportedException {
+    public ArrayList<ObjectiveCard> createPositionalObjectiveCardList() throws CardNotImportedException {
         PositionalObjectiveCard[] positionalObjectiveCardArray;
         Gson gson = new Gson();
         try(Reader reader = new FileReader("CodexNaturalis/resources/positionalObjectiveCards.json")) {
@@ -18,6 +21,6 @@ public class PositionalObjectiveCardFactory {
         } catch (IOException e) {
             throw new CardNotImportedException();
         }
-        return positionalObjectiveCardArray;
+        return new ArrayList<>(Arrays.asList(positionalObjectiveCardArray));
     }
 }

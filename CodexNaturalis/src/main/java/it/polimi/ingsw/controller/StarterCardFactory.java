@@ -7,9 +7,12 @@ import it.polimi.ingsw.model.cards.StarterCard;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class StarterCardFactory {
-    public StarterCard[] createStarterCardArray() throws CardNotImportedException {
+    public ArrayList<StarterCard> createStarterCardList() throws CardNotImportedException {
         StarterCard[] starterCardArray;
         Gson gson = new Gson();
         try(Reader reader = new FileReader("CodexNaturalis/resources/starterCards.json")) {
@@ -17,7 +20,7 @@ public class StarterCardFactory {
         } catch (IOException e) {
             throw new CardNotImportedException();
         }
-       return starterCardArray;
+        return new ArrayList<>(Arrays.asList(starterCardArray));
 
     }
 }

@@ -2,14 +2,18 @@ package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.enumerations.CardNotImportedException;
+import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ResourceCardFactory {
-    public ResourceCard[] createResourceCardArray() throws CardNotImportedException {
+    public ArrayList<Card> createResourceCardList() throws CardNotImportedException {
         ResourceCard[] resourceCardArray;
         Gson gson = new Gson();
         try(Reader reader = new FileReader("CodexNaturalis/resources/resourceCards.json")) {
@@ -17,6 +21,6 @@ public class ResourceCardFactory {
         } catch (IOException e) {
             throw new CardNotImportedException();
         }
-        return resourceCardArray;
+        return new ArrayList<>(Arrays.asList(resourceCardArray));
     }
 }
