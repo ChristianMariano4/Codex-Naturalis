@@ -14,7 +14,7 @@ public class Angle {
     private AngleStatus angleStatus;
     private final Resource resource;
     private Angle linkedAngle;
-    private final StarterCard ownerCard;
+    private final PlayableCard ownerCard;
 
     /**
      * Constructor
@@ -22,7 +22,7 @@ public class Angle {
      * @param resource Resource on the angle
      * @param ownerCard Reference to the card that have this angle
      */
-    public Angle(boolean playable, Resource resource, StarterCard ownerCard)
+    public Angle(boolean playable, Resource resource, PlayableCard ownerCard)
     {
         this.playable = playable;
         this.resource = resource;
@@ -54,9 +54,6 @@ public class Angle {
      * Setter
      * @param angleStatus Represent the status of the angle
      */
-    private void setAngleStatus(AngleStatus angleStatus) {
-        this.angleStatus = angleStatus;
-    }
 
     /**
      * Set the linked angle
@@ -68,7 +65,7 @@ public class Angle {
     {
         if(angleStatus != AngleStatus.UNLINKED) throw new AngleAlreadyLinkedException();
         this.linkedAngle = linkedAngle;
-        setAngleStatus(angleStatus);
+        this.angleStatus = angleStatus;
     }
 
     /**

@@ -43,6 +43,7 @@ public class PlayableCard extends Card{
         }
 
     }
+
     /**
      * Getter
      * @return the array of resources present in the center of the card
