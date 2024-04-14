@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
 import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
+import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class TableTop {
      * @param drawingField is the reference to the drawingField
      * @throws InvalidConstructorDataException when controller didn't properly create TableTop
      */
-    public TableTop(DrawingField drawingField, List<ObjectiveCard> sharedObjectiveCards) throws InvalidConstructorDataException {
+    public TableTop(DrawingField drawingField, ArrayList<Card> sharedObjectiveCards) throws InvalidConstructorDataException {
         try {
             this.drawingField = drawingField;
             playerFieldHashMap = new HashMap<Player, PlayerField>();
