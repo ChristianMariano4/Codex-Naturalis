@@ -5,16 +5,5 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StarterCardTest {
-
-    @Test
-    void getCentralResources() {
-    }
-
-    @Test
-    void testEquals() {
-    }
-
-    @Test
-    void testHashCode() {
-    }
+    //StarterCard extends PlayableCard and doesn't add any method
 }
