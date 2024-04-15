@@ -19,7 +19,7 @@ import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
 public class TableTop {
     private final DrawingField drawingField;
     private final HashMap<Player, PlayerField> playerFieldHashMap;
-    private final List<ObjectiveCard> sharedObjectiveCards;
+    private final List<Card> sharedObjectiveCards;
 
     /**
      * Constructor
@@ -77,7 +77,7 @@ public class TableTop {
      * Getter
      * @return the shared objective cards
      */
-    public List<ObjectiveCard> getSharedObjectiveCards(){
+    public List<Card> getSharedObjectiveCards(){
         return sharedObjectiveCards;
     }
 

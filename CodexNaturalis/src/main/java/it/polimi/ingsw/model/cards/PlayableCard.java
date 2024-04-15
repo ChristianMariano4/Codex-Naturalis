@@ -75,6 +75,7 @@ public class PlayableCard extends Card{
         return angles.get(angleOrientation);
     }
 
+
 }
 
 

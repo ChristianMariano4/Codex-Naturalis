@@ -8,5 +8,6 @@ public class CardVisitorImpl implements CardVisitor {
     public void visitGoldCard(GoldCard card) {
         //controller methods to check if goldCard requirements are satisfied
         //TODO: add controller methods
+        System.out.println(card.getRequirements());
     }
 }
