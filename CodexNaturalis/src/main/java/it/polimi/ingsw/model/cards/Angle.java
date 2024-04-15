@@ -83,7 +83,7 @@ public class Angle {
      * Getter
      * @return the reference to the owner card of this angle
      */
-    public StarterCard getOwnerCard()
+    public PlayableCard getOwnerCard()
     {
         return ownerCard;
     }
