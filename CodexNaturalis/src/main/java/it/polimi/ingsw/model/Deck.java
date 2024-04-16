@@ -3,9 +3,11 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,23 +18,25 @@ import java.util.Stack;
  * Resource cards can be implemented as both resource and gold cards.
  * The deck is responsible for providing the top card and checking if the deck is empty.
  */
-public class Deck {
-    private final Stack<Card> deck;
+public abstract class Deck<T extends Card> {
     /**
      * Constructs a new Deck with the given list of resource cards.
      *
      * @param cards the list of resource cards
      * @throws InvalidConstructorDataException if the data provided to the constructor is invalid
      */
-    public Deck(ArrayList<Card> cards) throws InvalidConstructorDataException {
+    protected final Stack<T> deck;
+
+    public Deck(ArrayList<T> cards) throws InvalidConstructorDataException {
         try {
-            deck = new Stack<Card>();
+            deck = new Stack<>();
         }
         catch(Exception e)
         {
             throw new InvalidConstructorDataException();
         }
         deckInitializer(cards);
+
     }
     /**
      * Gets the top card from the deck.
@@ -40,13 +44,7 @@ public class Deck {
      * @return the top card
      * @throws DeckIsEmptyException if the deck is empty
      */
-    public Card getTopCard() throws DeckIsEmptyException {
-        if(deck.isEmpty())
-        {
-            throw new DeckIsEmptyException();
-        }
-        return deck.pop();
-    }
+
 
     /**
      * Initializes the deck with the given list of resource cards.
@@ -54,9 +52,9 @@ public class Deck {
      * @param cards List of cards
      * @throws InvalidConstructorDataException if the data provided to the constructor is invalid
      */
-    private void deckInitializer(List<Card> cards) throws InvalidConstructorDataException {
+    private void deckInitializer(ArrayList<T> cards) throws InvalidConstructorDataException {
         try {
-            for (Card card : cards) {
+            for (T card : cards) {
                 deck.push(card);
             }
         }
@@ -76,5 +74,12 @@ public class Deck {
     }
     public void shuffleDeck() throws UnsupportedOperationException {
         Collections.shuffle(this.deck);
+    }
+    public T getTopCard() throws DeckIsEmptyException {
+        if(deck.isEmpty())
+        {
+            throw new DeckIsEmptyException();
+        }
+        return deck.pop();
     }
 }

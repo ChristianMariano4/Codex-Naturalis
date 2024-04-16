@@ -15,7 +15,7 @@ import static it.polimi.ingsw.model.GameValues.MAX_CARD_IN_HAND;
  * It contains the list of cards in the player's hand.
  */
 public class PlayerHand {
-    private final List<PlayableCard> cardsInHand;
+    private final ArrayList<PlayableCard> cardsInHand;
 
     /**
      * Constructor
@@ -40,7 +40,7 @@ public class PlayerHand {
      *  Getter
      * @return the list of cards in the playerHand
      */
-    public List<PlayableCard> getCardsInHand() {
+    public ArrayList<PlayableCard> getCardsInHand() {
         return new ArrayList<PlayableCard>(cardsInHand);
     }
 

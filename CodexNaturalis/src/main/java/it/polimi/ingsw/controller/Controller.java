@@ -4,11 +4,10 @@ import it.polimi.ingsw.enumerations.CardNotImportedException;
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
-import it.polimi.ingsw.model.Deck;
-import it.polimi.ingsw.model.DrawingField;
-import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.model.cards.PlayableCard;
 
 import java.util.ArrayList;
 
@@ -23,7 +22,7 @@ public class Controller {
     {
         cardHandler = new CardHandler();
     }
-    public Game createGame() throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
+   public Game createGame() throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
         //starts new thread in server and then returns new game
         //TODO: start thread
         //TODO: fix deck inheritance
@@ -31,8 +30,8 @@ public class Controller {
         int id = this.numberOfGames;
         this.numberOfGames += 1;
         //new Decks
-        Deck goldCardDeck = new Deck(cardHandler.importGoldCards());
-        Deck resourceCardDeck = new Deck(cardHandler.importResourceCards());
+        PlayableCardDeck goldCardDeck = new PlayableCardDeck(cardHandler.importGoldCards());
+        PlayableCardDeck resourceCardDeck = new PlayableCardDeck(cardHandler.importResourceCards());
         //shuffles deck
         goldCardDeck.shuffleDeck();
         resourceCardDeck.shuffleDeck();
@@ -43,16 +42,16 @@ public class Controller {
         ArrayList<ObjectiveCard> resourceObjectiveCards = cardHandler.importResourceObjectiveCards();
         ObjectiveCard tripleObjectiveCard = cardHandler.importTripleObjectiveCard();
         //join all objective cards lists
-        ArrayList<Card> objectiveCards = new ArrayList<>();
+        ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
         objectiveCards.addAll(positionalObjectiveCards);
         objectiveCards.addAll(resourceObjectiveCards);
         objectiveCards.add(tripleObjectiveCard);
         //create objectiveCardDeck
-        Deck objectiveCardDeck = new Deck(objectiveCards);
+        ObjectiveCardDeck objectiveCardDeck = new ObjectiveCardDeck(objectiveCards);
         //shuffle deck
         objectiveCardDeck.shuffleDeck();
         //get first 2 objective cards
-        ArrayList<Card> sharedObjectiveCards = new ArrayList<>();
+        ArrayList<ObjectiveCard> sharedObjectiveCards = new ArrayList<>();
         sharedObjectiveCards.add(objectiveCardDeck.getTopCard());
         sharedObjectiveCards.add(objectiveCardDeck.getTopCard());
         return new Game(id, drawingField, sharedObjectiveCards);

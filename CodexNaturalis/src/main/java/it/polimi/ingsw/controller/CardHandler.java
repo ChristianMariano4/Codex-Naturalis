@@ -1,14 +1,15 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.enumerations.CardNotImportedException;
+import it.polimi.ingsw.model.PlayableCardDeck;
 import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
 
 public class CardHandler {
-    public ArrayList<Card> importGoldCards() throws CardNotImportedException {
+    public ArrayList<PlayableCard> importGoldCards() throws CardNotImportedException {
         GoldCardFactory factory = new GoldCardFactory();
-        ArrayList<Card> lits = factory.createGoldCardList();
+        /*ArrayList<Card> lits = factory.createGoldCardList();
         for(int i = 0; i< lits.size(); i++)
         {
             if(i%2 == 0) {
@@ -17,10 +18,10 @@ public class CardHandler {
             else{
                 lits.get(i).setOtherSideCard(lits.get(i - 1));
             }
-        }
-        return lits;
+        }*/
+        return factory.createGoldCardList();
     }
-    public ArrayList<Card> importResourceCards() throws CardNotImportedException {
+    public ArrayList<PlayableCard> importResourceCards() throws CardNotImportedException {
         ResourceCardFactory factory = new ResourceCardFactory();
         return factory.createResourceCardList();
     }

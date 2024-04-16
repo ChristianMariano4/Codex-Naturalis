@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GoldCardFactory {
-    public ArrayList<Card> createGoldCardList() throws CardNotImportedException {
+    public ArrayList<PlayableCard> createGoldCardList() throws CardNotImportedException {
         GoldCard[] goldCardArray;
         Gson gson = new Gson();
         try(Reader reader = new FileReader("CodexNaturalis/resources/goldCards.json")) {

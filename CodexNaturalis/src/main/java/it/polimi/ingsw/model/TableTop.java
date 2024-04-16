@@ -19,14 +19,14 @@ import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
 public class TableTop {
     private final DrawingField drawingField;
     private final HashMap<Player, PlayerField> playerFieldHashMap;
-    private final List<Card> sharedObjectiveCards;
+    private final ArrayList<ObjectiveCard> sharedObjectiveCards;
 
     /**
      * Constructor
      * @param drawingField is the reference to the drawingField
      * @throws InvalidConstructorDataException when controller didn't properly create TableTop
      */
-    public TableTop(DrawingField drawingField, ArrayList<Card> sharedObjectiveCards) throws InvalidConstructorDataException {
+    public TableTop(DrawingField drawingField, ArrayList<ObjectiveCard> sharedObjectiveCards) throws InvalidConstructorDataException {
         try {
             this.drawingField = drawingField;
             playerFieldHashMap = new HashMap<Player, PlayerField>();
@@ -77,7 +77,7 @@ public class TableTop {
      * Getter
      * @return the shared objective cards
      */
-    public List<Card> getSharedObjectiveCards(){
+    public ArrayList<ObjectiveCard> getSharedObjectiveCards(){
         return sharedObjectiveCards;
     }
 

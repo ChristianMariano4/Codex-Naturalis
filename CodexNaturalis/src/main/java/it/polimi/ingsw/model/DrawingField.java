@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.DrawPosition;
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.model.cards.GoldCard;
+import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.util.HashMap;
@@ -13,8 +14,8 @@ import java.util.HashMap;
  * The drawing field is responsible for drawing cards from the decks and managing the discovered cards.
  */
 public class DrawingField {
-    private final Deck goldCardDeck;
-    private final Deck resourceCardDeck;
+    private final PlayableCardDeck goldCardDeck;
+    private final PlayableCardDeck resourceCardDeck;
     private final HashMap<DrawPosition, GoldCard> discoveredGoldCards;
     private final HashMap<DrawPosition, ResourceCard> discoveredResourceCards;
 
@@ -28,7 +29,7 @@ public class DrawingField {
      * @throws CardTypeMismatchException if the type of card does not match the expected type
      * @throws DeckIsEmptyException if the deck is empty
      */
-    public DrawingField(Deck goldCardDeck, Deck resourceCardDeck) throws CardTypeMismatchException, DeckIsEmptyException {
+    public DrawingField(PlayableCardDeck goldCardDeck, PlayableCardDeck resourceCardDeck) throws CardTypeMismatchException, DeckIsEmptyException {
         this.goldCardDeck = goldCardDeck;
         this.resourceCardDeck = resourceCardDeck;
         discoveredGoldCards = new HashMap<DrawPosition, GoldCard>();
