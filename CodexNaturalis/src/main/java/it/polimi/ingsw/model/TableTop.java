@@ -29,7 +29,7 @@ public class TableTop {
     public TableTop(DrawingField drawingField, ArrayList<ObjectiveCard> sharedObjectiveCards) throws InvalidConstructorDataException {
         try {
             this.drawingField = drawingField;
-            playerFieldHashMap = new HashMap<Player, PlayerField>();
+            this.playerFieldHashMap = new HashMap<Player, PlayerField>();
             this.sharedObjectiveCards = new ArrayList<>(sharedObjectiveCards);
         }
         catch(Exception e)
