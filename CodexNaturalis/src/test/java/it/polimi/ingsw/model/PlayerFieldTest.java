@@ -15,7 +15,7 @@ import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerFieldTest {
-
+/*
     PlayerField p;
 
     @BeforeEach
@@ -34,7 +34,7 @@ class PlayerFieldTest {
     }
 
     @Test
-    void shouldNotaddCardToCell() {
+    void shouldNotAddCardToCell() {
         Assertions.assertThrows(InvalidCardPositionException.class, () -> {p.addCardToCell();});
-    }
+    }*/
 }

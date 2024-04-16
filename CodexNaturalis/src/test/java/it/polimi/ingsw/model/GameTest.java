@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.enumerations.CardNotImportedException;
 import it.polimi.ingsw.enumerations.DrawPosition;
+import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.exceptions.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,9 +17,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 
     Game g;
-    ArrayList<Player> listOfPlayers = new ArrayList<>(4);
+    ArrayList<Player> listOfPlayers = new ArrayList<>();
     static int gameID = 123;
     static int numOfPlayers = 0;
+
+    private void playersCreation() throws InvalidConstructorDataException {
+        for(int i = 0; i < 4; i++) {
+            Player p = new Player("test", Marker.RED ,g);
+            listOfPlayers.add(p);
+        }
+    }
 
     private void add4Players() throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
         //p1 Controller method
@@ -31,23 +39,26 @@ class GameTest {
         g.addPlayer(listOfPlayers.get(3));
     }
     @BeforeEach
-    void gameTestInit() throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException {
-
+    void gameTestInit() throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException {
+        Controller controller = new Controller();
+        g = controller.createGame();
+        playersCreation();
+        add4Players();
     }
     @Test
     void shouldReturnGameId() {
         Assertions.assertEquals(gameID, g.getGameId());
     }
     @Test
-    void shouldNotAddPlayerAlreadyExistingPlayerException() {
-        Player p; //Player Controller method
+    void shouldNotAddPlayerAlreadyExistingPlayerException() throws InvalidConstructorDataException, AlreadyExistingPlayerException, AlreadyFourPlayersException {
+        Player p = new Player("test", Marker.RED ,g);
         g.addPlayer(p);
         Assertions.assertThrows(AlreadyExistingPlayerException.class, () -> {g.addPlayer(p);});
     }
     @Test
-    void shouldNotAddPlayerAlreadyFourPlayersException() throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+    void shouldNotAddPlayerAlreadyFourPlayersException() throws AlreadyExistingPlayerException, AlreadyFourPlayersException, InvalidConstructorDataException {
         add4Players();
-        Player p5; //Player Controller method
+        Player p5 = new Player("test", Marker.RED ,g);
         Assertions.assertThrows(AlreadyExistingPlayerException.class, () -> {g.addPlayer(p5);;});
     }
     @Test
@@ -58,8 +69,8 @@ class GameTest {
         }
     }
     @Test
-    void shouldReturnNumberOfPlayers() throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
-        Player p; //Player Controller method
+    void shouldReturnNumberOfPlayers() throws AlreadyExistingPlayerException, AlreadyFourPlayersException, InvalidConstructorDataException {
+        Player p = new Player("test", Marker.RED ,g);
         g.addPlayer(p);
         Assertions.assertEquals(numOfPlayers, g.getNumberOfPlayers());
     }

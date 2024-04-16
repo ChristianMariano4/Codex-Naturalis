@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
+import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import org.junit.jupiter.api.Assertions;
@@ -16,18 +17,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TableTopTest {
 
-    Deck d1;
-    Deck d2;
+    PlayableCardDeck d1;
+    PlayableCardDeck d2;
     TableTop t;
     DrawingField d;
-    List<ObjectiveCard> obc;
-    List<PlayableCard> cards;
-
+    ArrayList<ObjectiveCard> obc;
+    ArrayList<PlayableCard> cards;
+/*
     @BeforeEach
     void TableTobInit() throws InvalidConstructorDataException, CardTypeMismatchException, DeckIsEmptyException {
         //Controller method for the Tabletop
-        d1 = new Deck(cards);
-        d2 = new Deck(cards);
+        d1 = new PlayableCardDeck(cards);
+        d2 = new PlayableCardDeck(cards);
         d = new DrawingField(d1, d2);
         obc = new ArrayList<>();
         t = new TableTop(d, obc);
@@ -43,10 +44,10 @@ class TableTopTest {
         //Controller method for 4 players
         for(int i = 0; i < 4; i++) {
             //Add the players to the playerfield
-            t.addPlayerField(/*Player*/);
+            t.addPlayerField();
         }
         for(int i = 0; i < 4; i++) {
-            Assertions.assertEquals(/*Player*/, t.getPlayerFieldHashMap().keySet().stream().equals(/*Player*/));
+            Assertions.assertEquals(, t.getPlayerFieldHashMap().keySet().stream().equals());
         }
     }
 
@@ -55,5 +56,5 @@ class TableTopTest {
         for(ObjectiveCard o: obc) {
             Assertions.assertEquals(obc, t.getSharedObjectiveCards());
         }
-    }
+    }*/
 }
