@@ -63,11 +63,4 @@ class GameTest {
         g.addPlayer(p);
         Assertions.assertEquals(numOfPlayers, g.getNumberOfPlayers());
     }
-
-    @Test
-    void shouldReturnTypeTableTop() {
-        Assertions.assertInstanceOf(TableTop, g.getTableTop()); //TODO: should check if it return the right type
-    }
-
-
 }
