@@ -5,10 +5,20 @@ import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
 
-public class CardImporter {
+public class CardHandler {
     public ArrayList<Card> importGoldCards() throws CardNotImportedException {
         GoldCardFactory factory = new GoldCardFactory();
-        return factory.createGoldCardList();
+        ArrayList<Card> lits = factory.createGoldCardList();
+        for(int i = 0; i< lits.size(); i++)
+        {
+            if(i%2 == 0) {
+                lits.get(i).setOtherSideCard(lits.get(i + 1));
+            }
+            else{
+                lits.get(i).setOtherSideCard(lits.get(i - 1));
+            }
+        }
+        return lits;
     }
     public ArrayList<Card> importResourceCards() throws CardNotImportedException {
         ResourceCardFactory factory = new ResourceCardFactory();

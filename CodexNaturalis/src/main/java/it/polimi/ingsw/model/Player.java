@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.cards.GoldCard;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.util.HashMap;
@@ -20,6 +21,7 @@ public class Player {
     private final PlayerHand playerHand;
     private final PlayerField playerField;
     private final Game game;
+    private ObjectiveCard secretObjective;
 
     /**
      * Constructor
@@ -190,6 +192,14 @@ public class Player {
      */
     public PlayerField getPlayerField() {
         return playerField;
+    }
+    public void setSecretObjective(ObjectiveCard secretObjective)
+    {
+        this.secretObjective = secretObjective;
+    }
+    public ObjectiveCard getSecretObjective()
+    {
+        return this.secretObjective;
     }
 
 }

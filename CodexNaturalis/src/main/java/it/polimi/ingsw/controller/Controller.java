@@ -9,14 +9,8 @@ import it.polimi.ingsw.model.DrawingField;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.TripleObjectiveCard;
 
-import java.io.ObjectStreamException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * Main controller class
@@ -24,10 +18,10 @@ import java.util.stream.Stream;
 public class Controller {
 
     private int numberOfGames = 0;
-    CardImporter cardImporter;
+    CardHandler cardHandler;
     public Controller()
     {
-        cardImporter = new CardImporter();
+        cardHandler = new CardHandler();
     }
     public Game createGame() throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
         //starts new thread in server and then returns new game
@@ -37,17 +31,17 @@ public class Controller {
         int id = this.numberOfGames;
         this.numberOfGames += 1;
         //new Decks
-        Deck goldCardDeck = new Deck(cardImporter.importGoldCards());
-        Deck resourceCardDeck = new Deck(cardImporter.importResourceCards());
+        Deck goldCardDeck = new Deck(cardHandler.importGoldCards());
+        Deck resourceCardDeck = new Deck(cardHandler.importResourceCards());
         //shuffles deck
         goldCardDeck.shuffleDeck();
         resourceCardDeck.shuffleDeck();
         //new DrawingField
         DrawingField drawingField = new DrawingField(goldCardDeck, resourceCardDeck);
         //import objective cards
-        ArrayList<ObjectiveCard> positionalObjectiveCards = cardImporter.importPositionalObjectiveCards();
-        ArrayList<ObjectiveCard> resourceObjectiveCards = cardImporter.importResourceObjectiveCards();
-        ObjectiveCard tripleObjectiveCard = cardImporter.importTripleObjectiveCard();
+        ArrayList<ObjectiveCard> positionalObjectiveCards = cardHandler.importPositionalObjectiveCards();
+        ArrayList<ObjectiveCard> resourceObjectiveCards = cardHandler.importResourceObjectiveCards();
+        ObjectiveCard tripleObjectiveCard = cardHandler.importTripleObjectiveCard();
         //join all objective cards lists
         ArrayList<Card> objectiveCards = new ArrayList<>();
         objectiveCards.addAll(positionalObjectiveCards);
