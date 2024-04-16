@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.DrawPosition;
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
+import it.polimi.ingsw.exceptions.NoCardAddedException;
 import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
@@ -32,40 +33,9 @@ public class DrawingField {
     public DrawingField(PlayableCardDeck goldCardDeck, PlayableCardDeck resourceCardDeck) throws CardTypeMismatchException, DeckIsEmptyException {
         this.goldCardDeck = goldCardDeck;
         this.resourceCardDeck = resourceCardDeck;
-        discoveredGoldCards = new HashMap<DrawPosition, GoldCard>();
-        discoveredResourceCards = new HashMap<DrawPosition, ResourceCard>();
+        discoveredGoldCards = new HashMap<>();
+        discoveredResourceCards = new HashMap<>();
 
-            for (int i = 0; i < 2; i++) {
-                try {
-                    GoldCard temp;
-                    temp = (GoldCard) goldCardDeck.getTopCard(); // temporary casting
-                    //TODO: fix cast
-                    if (i == 0)
-                        discoveredGoldCards.put(DrawPosition.LEFT, temp);
-                    else
-                        discoveredGoldCards.put(DrawPosition.RIGHT, temp);
-                }
-                catch(Exception e)
-                {
-                    System.err.println("Deck is Empty, cards not added to table");
-                }
-            }
-
-
-        for(int i = 0; i<2; i++) {
-            try {
-            ResourceCard temp;
-            temp = (ResourceCard) resourceCardDeck.getTopCard();
-            if(i == 0)
-                discoveredResourceCards.put(DrawPosition.LEFT, temp);
-            else
-                discoveredResourceCards.put(DrawPosition.RIGHT, temp);
-            }
-            catch(Exception e)
-            {
-                System.err.println("Deck is Empty, cards not added to table");
-            }
-        }
     }
     /**
      * Draws a card from the gold card deck.
@@ -119,5 +89,12 @@ public class DrawingField {
             return chosenCard;
         }
 
+    }
+    public void drawDiscoveredCards() throws DeckIsEmptyException {
+        discoveredGoldCards.put(DrawPosition.LEFT, drawCardFromGoldCardDeck(DrawPosition.FROMDECK));
+        discoveredGoldCards.put(DrawPosition.RIGHT, drawCardFromGoldCardDeck(DrawPosition.FROMDECK));
+
+        discoveredResourceCards.put(DrawPosition.LEFT, drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
+        discoveredResourceCards.put(DrawPosition.RIGHT, drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
     }
 }
