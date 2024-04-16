@@ -22,7 +22,7 @@ public class Controller {
     {
         cardHandler = new CardHandler();
     }
-   public Game createGame() throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
+    public Game createGame() throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
         //starts new thread in server and then returns new game
         //TODO: start thread
         //TODO: fix deck inheritance
@@ -30,22 +30,22 @@ public class Controller {
         int id = this.numberOfGames;
         this.numberOfGames += 1;
         //new Decks
-        PlayableCardDeck goldCardDeck = new PlayableCardDeck(cardHandler.importGoldCards());
-        PlayableCardDeck resourceCardDeck = new PlayableCardDeck(cardHandler.importResourceCards());
+        PlayableCardDeck goldCardDeck = new PlayableCardDeck(cardHandler.filterPlayableCards(cardHandler.importGoldCards()));
+        PlayableCardDeck resourceCardDeck = new PlayableCardDeck(cardHandler.filterPlayableCards(cardHandler.importResourceCards()));
         //shuffles deck
         goldCardDeck.shuffleDeck();
         resourceCardDeck.shuffleDeck();
         //new DrawingField
         DrawingField drawingField = new DrawingField(goldCardDeck, resourceCardDeck);
         //import objective cards
-        ArrayList<ObjectiveCard> positionalObjectiveCards = cardHandler.importPositionalObjectiveCards();
-        ArrayList<ObjectiveCard> resourceObjectiveCards = cardHandler.importResourceObjectiveCards();
-        ObjectiveCard tripleObjectiveCard = cardHandler.importTripleObjectiveCard();
+        ArrayList<ObjectiveCard> positionalObjectiveCards = cardHandler.filterObjectiveCards(cardHandler.importPositionalObjectiveCards());
+        ArrayList<ObjectiveCard> resourceObjectiveCards = cardHandler.filterObjectiveCards(cardHandler.importResourceObjectiveCards());
+        ArrayList<ObjectiveCard> tripleObjectiveCard = cardHandler.filterObjectiveCards(cardHandler.importTripleObjectiveCard());
         //join all objective cards lists
         ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
         objectiveCards.addAll(positionalObjectiveCards);
         objectiveCards.addAll(resourceObjectiveCards);
-        objectiveCards.add(tripleObjectiveCard);
+        objectiveCards.addAll(tripleObjectiveCard);
         //create objectiveCardDeck
         ObjectiveCardDeck objectiveCardDeck = new ObjectiveCardDeck(objectiveCards);
         //shuffle deck

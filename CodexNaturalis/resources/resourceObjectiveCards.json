@@ -6,10 +6,22 @@
     "cardResource": "FUNGI"
   },
   {
+    "cardId": 95,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardResource": "NONE"
+  },
+  {
     "cardId": 96,
     "currentSide": "FRONT",
     "points": 2,
     "cardResource": "PLANT"
+  },
+  {
+    "cardId": 96,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardResource": "NONE"
   },
   {
     "cardId": 97,
@@ -18,10 +30,22 @@
     "cardResource": "ANIMAL"
   },
   {
+    "cardId": 97,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardResource": "NONE"
+  },
+  {
     "cardId": 98,
     "currentSide": "FRONT",
     "points": 2,
     "cardResource": "INSECT"
+  },
+  {
+    "cardId": 98,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardResource": "NONE"
   },
   {
     "cardId": 100,
@@ -30,15 +54,33 @@
     "cardResource": "MANUSCRIPT"
   },
   {
+    "cardId": 100,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardResource": "NONE"
+  },
+  {
     "cardId": 101,
     "currentSide": "FRONT",
     "points": 2,
     "cardResource": "INKWELL"
   },
   {
+    "cardId": 101,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardResource": "NONE"
+  },
+  {
     "cardId": 102,
     "currentSide": "FRONT",
     "points": 2,
     "cardResource": "QUILL"
+  },
+  {
+    "cardId": 102,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardResource": "NONE"
   }
 ]

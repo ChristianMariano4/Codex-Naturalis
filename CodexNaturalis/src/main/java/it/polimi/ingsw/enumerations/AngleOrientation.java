@@ -4,13 +4,15 @@ public enum AngleOrientation {
     TOPRIGHT,
     TOPLEFT,
     BOTTOMRIGHT,
-    BOTTOMLEFT;
+    BOTTOMLEFT,
+    NONE;
 
     public int mapEnumToX()
     {
         return switch (this) {
             case TOPRIGHT, BOTTOMRIGHT -> 1;
             case TOPLEFT, BOTTOMLEFT -> -1;
+            case NONE -> 0;
         };
 
     }
@@ -19,6 +21,7 @@ public enum AngleOrientation {
         return switch (this) {
             case BOTTOMLEFT, BOTTOMRIGHT -> 1;
             case TOPLEFT, TOPRIGHT -> -1;
+            case NONE -> 0;
         };
     }
 

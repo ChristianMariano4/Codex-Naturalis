@@ -8,12 +8,28 @@
     "positionalType": "DIAGONAL"
   },
   {
+    "cardId": 87,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardColor": "NONE",
+    "orientation": "NONE",
+    "positionalType": "NONE"
+  },
+  {
     "cardId": 88,
     "currentSide": "FRONT",
     "points": 2,
     "cardColor": "INSECT",
     "orientation": "TOPLEFT",
     "positionalType": "DIAGONAL"
+  },
+  {
+    "cardId": 88,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardColor": "NONE",
+    "orientation": "NONE",
+    "positionalType": "NONE"
   },
   {
     "cardId": 89,
@@ -24,12 +40,28 @@
     "positionalType": "DIAGONAL"
   },
   {
+    "cardId": 89,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardColor": "NONE",
+    "orientation": "NONE",
+    "positionalType": "NONE"
+  },
+  {
     "cardId": 90,
     "currentSide": "FRONT",
     "points": 2,
     "cardColor": "INSECT",
     "orientation": "TOPLEFT",
     "positionalType": "DIAGONAL"
+  },
+  {
+    "cardId": 90,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardColor": "NONE",
+    "orientation": "NONE",
+    "positionalType": "NONE"
   },
   {
     "cardId": 91,
@@ -40,12 +72,28 @@
     "positionalType": "LSHAPED"
   },
   {
+    "cardId": 91,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardColor": "NONE",
+    "orientation": "NONE",
+    "positionalType": "NONE"
+  },
+  {
     "cardId": 92,
     "currentSide": "FRONT",
     "points": 3,
     "cardColor": "PLANT",
     "orientation": "BOTTOMLEFT",
     "positionalType": "LSHAPED"
+  },
+  {
+    "cardId": 92,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardColor": "NONE",
+    "orientation": "NONE",
+    "positionalType": "NONE"
   },
   {
     "cardId": 93,
@@ -56,11 +104,27 @@
     "positionalType": "LSHAPED"
   },
   {
+    "cardId": 93,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardColor": "NONE",
+    "orientation": "NONE",
+    "positionalType": "NONE"
+  },
+  {
     "cardId": 94,
     "currentSide": "FRONT",
     "points": 3,
     "cardColor": "INSECT",
     "orientation": "TOPLEFT",
     "positionalType": "LSHAPED"
+  },
+  {
+    "cardId": 94,
+    "currentSide": "BACK",
+    "points": 0,
+    "cardColor": "NONE",
+    "orientation": "NONE",
+    "positionalType": "NONE"
   }
 ]

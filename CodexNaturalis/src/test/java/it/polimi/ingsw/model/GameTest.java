@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.enumerations.CardNotImportedException;
 import it.polimi.ingsw.enumerations.DrawPosition;
-import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
-import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
-import it.polimi.ingsw.exceptions.NoCardAddedException;
+import it.polimi.ingsw.exceptions.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,8 +31,8 @@ class GameTest {
         g.addPlayer(listOfPlayers.get(3));
     }
     @BeforeEach
-    void gameTestInit() {
-        //Game Controller method
+    void gameTestInit() throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException {
+
     }
     @Test
     void shouldReturnGameId() {

@@ -1,25 +1,32 @@
 package it.polimi.ingsw.main;
 
 import it.polimi.ingsw.controller.CardHandler;
-import it.polimi.ingsw.controller.StarterCardFactory;
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.enumerations.*;
-import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHandException;
-import it.polimi.ingsw.exceptions.CardTypeMismatchException;
-import it.polimi.ingsw.exceptions.DeckIsEmptyException;
-import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.GoldCard;
-import it.polimi.ingsw.model.cards.StarterCard;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.model.cards.PlayableCard;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main {
-    public static void main(String[] args) throws AlreadyThreeCardsInHandException, InvalidConstructorDataException, CardTypeMismatchException, CardNotImportedException, DeckIsEmptyException {
+    public static void main(String[] args) throws AlreadyThreeCardsInHandException, InvalidConstructorDataException, CardTypeMismatchException, CardNotImportedException, DeckIsEmptyException, UnlinkedCardException {
 
-        PlayerHand playerHand = new PlayerHand();
+       /* CardHandler h = new CardHandler();
+        ArrayList<ObjectiveCard> c = h.filterObjectiveCards(h.importResourceObjectiveCards());
+        c.forEach(x-> {
+            try {
+                System.out.println(x.getCardId() +"->" + x.getCurrentSide() + "/" + x.getOtherSideCard().getCardId() + "->" + x.getOtherSideCard().getCurrentSide());
+            } catch (UnlinkedCardException e) {
+                throw new RuntimeException(e);
+            }
+        });*/
+
+       /* PlayerHand playerHand = new PlayerHand();
         ArrayList centralResources = new ArrayList();
         centralResources.add(Resource.INSECT);
         HashMap angles = new HashMap();
@@ -33,6 +40,8 @@ public class Main {
         CardVisitorImpl cardVisitor = new CardVisitorImpl();
         playerHand.getCardsInHand().get(0).accept(cardVisitor);
 
+
+        */
 
     }
 }
