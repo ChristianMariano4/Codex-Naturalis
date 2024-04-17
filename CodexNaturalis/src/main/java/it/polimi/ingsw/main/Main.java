@@ -16,16 +16,12 @@ import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) throws AlreadyThreeCardsInHandException, InvalidConstructorDataException, CardTypeMismatchException, CardNotImportedException, DeckIsEmptyException, UnlinkedCardException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException {
-
-       /* CardHandler h = new CardHandler();
-        ArrayList<ObjectiveCard> c = h.filterObjectiveCards(h.importResourceObjectiveCards());
-        c.forEach(x-> {
-            try {
-                System.out.println(x.getCardId() +"->" + x.getCurrentSide() + "/" + x.getOtherSideCard().getCardId() + "->" + x.getOtherSideCard().getCurrentSide());
-            } catch (UnlinkedCardException e) {
-                throw new RuntimeException(e);
-            }
-        });*/
+/*
+        CardHandler h = new CardHandler();
+        ArrayList<GoldCard> gold= h.importGoldCards();
+        gold.forEach(x -> System.out.println(x.getCardId()));
+        h.goldCards.forEach(x -> System.out.println(x.getOtherSideCard(Side.FRONT).getCardId() + " ->" + x.getOtherSideCard(Side.BACK).getCardId()));
+*/
 
        /* PlayerHand playerHand = new PlayerHand();
         ArrayList centralResources = new ArrayList();
@@ -45,11 +41,14 @@ public class Main {
         */
 
 
-        //Controller test
+        /*Controller test
 
         Controller controller = new Controller();
         Game game = controller.createGame();
         controller.startGame(game);
+
+
+         */
 
     }
 }

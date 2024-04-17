@@ -106,7 +106,7 @@ public class Controller {
                         player.getPlayerField().addCardToCell(starterCard);
                     } else {
                         //temporary casting
-                        player.getPlayerField().addCardToCell((StarterCard)starterCard.getOtherSideCard());
+                        //player.getPlayerField().addCardToCell((StarterCard)starterCard.getOtherSideCard());
                     }
                     break;
                 } catch (IllegalArgumentException e) {

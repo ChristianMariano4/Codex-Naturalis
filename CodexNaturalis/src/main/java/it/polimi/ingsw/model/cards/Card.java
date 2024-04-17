@@ -13,7 +13,6 @@ public abstract class Card {
 
    private final int cardId;
    private final Side currentSide;
-   private Card otherSideCard;
 
    /**
     * Constructor
@@ -48,23 +47,7 @@ public abstract class Card {
       return currentSide;
    }
 
-   /**
-    * Getter
-    * @return the card that represents the other side of the current card
-    * @throws UnlinkedCardException if the card that represents the other side is not set
-    */
-   public Card getOtherSideCard() throws UnlinkedCardException {
-      if(otherSideCard == null)
-         throw new UnlinkedCardException();
-      return otherSideCard;
-   }
 
-   /**
-    * Setter
-    * @param otherSideCard the card that represents the other side of the current card
-    */
-   public void setOtherSideCard(Card otherSideCard)
-   {
-      this.otherSideCard = otherSideCard;
-   }
+
+
 }
