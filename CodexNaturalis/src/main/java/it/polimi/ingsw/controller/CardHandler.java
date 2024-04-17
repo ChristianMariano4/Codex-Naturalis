@@ -133,5 +133,21 @@ public class CardHandler {
         return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.FRONT)).toList());
     }
 
+    public GoldCard getOthersideCard(GoldCard card)
+    {
+        return goldCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
+    }
+    public ResourceCard getOthersideCard(ResourceCard card)
+    {
+        return resourceCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
+    }
+    public StarterCard getOthersideCard(StarterCard card)
+    {
+        return starterCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
+    }
+    public ObjectiveCard getOthersideCard(ObjectiveCard card)
+    {
+        return objectiveCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
+    }
 
 }

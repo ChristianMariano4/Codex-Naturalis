@@ -19,4 +19,8 @@ public class CardPair<T extends Card> {
         else
             return null;
     }
+    public int getCardsId()
+    {
+        return cardFront.getCardId();
+    }
 }

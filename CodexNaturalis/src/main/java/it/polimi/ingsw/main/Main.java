@@ -5,10 +5,7 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.cards.Card;
-import it.polimi.ingsw.model.cards.GoldCard;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.cards.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,9 +15,13 @@ public class Main {
     public static void main(String[] args) throws AlreadyThreeCardsInHandException, InvalidConstructorDataException, CardTypeMismatchException, CardNotImportedException, DeckIsEmptyException, UnlinkedCardException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException {
 /*
         CardHandler h = new CardHandler();
-        ArrayList<GoldCard> gold= h.importGoldCards();
-        gold.forEach(x -> System.out.println(x.getCardId()));
-        h.goldCards.forEach(x -> System.out.println(x.getOtherSideCard(Side.FRONT).getCardId() + " ->" + x.getOtherSideCard(Side.BACK).getCardId()));
+        ArrayList<ResourceCard> gold= h.importResourceCards();
+        gold = h.filterResourceCards(gold);
+        ResourceCard c = gold.get(4);
+        System.out.println(c.getCardId() + " - " + c.getCurrentSide());
+        ResourceCard c2 = h.getOthersideCard(c);
+        System.out.println(c2.getCardId() + " - " + c2.getCurrentSide());
+
 */
 
        /* PlayerHand playerHand = new PlayerHand();
