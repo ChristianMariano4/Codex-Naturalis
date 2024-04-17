@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TableTopTest {
 
-    PlayableCardDeck d1;
-    PlayableCardDeck d2;
+    Deck<PlayableCard> d1;
+    Deck<PlayableCard> d2;
     TableTop t;
     DrawingField d;
     ArrayList<ObjectiveCard> obc;
@@ -27,8 +27,8 @@ class TableTopTest {
     @BeforeEach
     void TableTobInit() throws InvalidConstructorDataException, CardTypeMismatchException, DeckIsEmptyException {
         //Controller method for the Tabletop
-        d1 = new PlayableCardDeck(cards);
-        d2 = new PlayableCardDeck(cards);
+        d1 = new Deck<PlayableCard>(cards);
+        d2 = new Deck<PlayableCard>(cards);
         d = new DrawingField(d1, d2);
         obc = new ArrayList<>();
         t = new TableTop(d, obc);

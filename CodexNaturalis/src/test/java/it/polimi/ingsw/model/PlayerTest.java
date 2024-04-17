@@ -26,8 +26,8 @@ class PlayerTest {
     void playerInit() throws InvalidConstructorDataException, CardTypeMismatchException, DeckIsEmptyException {
         // TODO: the player must be created by the controller
         ArrayList<PlayableCard> li = new ArrayList<>();
-        PlayableCardDeck d1 = new PlayableCardDeck(li);
-        PlayableCardDeck d2 = new PlayableCardDeck(li);
+        Deck<PlayableCard> d1 = new Deck<PlayableCard>(li);
+        Deck<PlayableCard> d2 = new Deck<PlayableCard>(li);
         d = new DrawingField(d1, d2);
         ArrayList<ObjectiveCard> l = new ArrayList<>();
         Game test = new Game(123, d, l);

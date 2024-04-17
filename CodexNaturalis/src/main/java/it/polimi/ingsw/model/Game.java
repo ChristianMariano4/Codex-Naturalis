@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
 import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
-import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 
 
@@ -21,7 +20,7 @@ public class Game {
     private int numberOfPlayers;
     private final ArrayList<Player> listOfPlayers;
     private final TableTop tableTop;
-    private final ObjectiveCardDeck objectiveCardDeck;
+    private final Deck<ObjectiveCard> objectiveCardDeck;
 
 
     //controller has to create the drawing field before creating the game to create drawingField
@@ -32,7 +31,7 @@ public class Game {
      * @param drawingField reference to the drawing field of the game
      * @throws InvalidConstructorDataException when controller didn't properly create Game
      */
-    public Game(int gameId, DrawingField drawingField, ArrayList<ObjectiveCard> sharedObjectiveCards, ObjectiveCardDeck objectiveCardDeck) throws InvalidConstructorDataException {
+    public Game(int gameId, DrawingField drawingField, ArrayList<ObjectiveCard> sharedObjectiveCards, Deck<ObjectiveCard> objectiveCardDeck) throws InvalidConstructorDataException {
         this.gameId = gameId;
         this.listOfPlayers = new ArrayList<Player>();
         this.numberOfPlayers = 0;
@@ -102,7 +101,7 @@ public class Game {
         Collections.shuffle(listOfPlayers);
     }
 
-    public ObjectiveCardDeck getObjectiveCardDeck() {
+    public Deck<ObjectiveCard> getObjectiveCardDeck() {
         return objectiveCardDeck;
     }
 }

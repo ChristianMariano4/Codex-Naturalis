@@ -4,9 +4,9 @@ import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.cards.ResourceCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 
 import java.io.IOException;
@@ -34,8 +34,8 @@ public class Controller {
         int id = this.numberOfGames;
         this.numberOfGames += 1;
         //new Decks
-        PlayableCardDeck goldCardDeck = new PlayableCardDeck(cardHandler.filterPlayableCards(cardHandler.importGoldCards()));
-        PlayableCardDeck resourceCardDeck = new PlayableCardDeck(cardHandler.filterPlayableCards(cardHandler.importResourceCards()));
+        Deck<GoldCard> goldCardDeck = new Deck<GoldCard>(cardHandler.filterGoldCards(cardHandler.importGoldCards()));
+        Deck<ResourceCard> resourceCardDeck = new Deck<ResourceCard>(cardHandler.filterResourceCards(cardHandler.importResourceCards()));
         //shuffles deck
         goldCardDeck.shuffleDeck();
         resourceCardDeck.shuffleDeck();
@@ -51,7 +51,7 @@ public class Controller {
         objectiveCards.addAll(resourceObjectiveCards);
         objectiveCards.addAll(tripleObjectiveCard);
         //create objectiveCardDeck
-        ObjectiveCardDeck objectiveCardDeck = new ObjectiveCardDeck(objectiveCards);
+        Deck<ObjectiveCard> objectiveCardDeck = new Deck<ObjectiveCard>(objectiveCards);
         //shuffle deck
         objectiveCardDeck.shuffleDeck();
         //get first 2 objective cards
@@ -87,7 +87,7 @@ public class Controller {
             }
 
             player.setSecretObjective(game.getObjectiveCardDeck().getRandomCard());
-            PlayableCardDeck starterCardDeck = new PlayableCardDeck(cardHandler.filterPlayableCards(cardHandler.importStarterCards()));
+            Deck<StarterCard> starterCardDeck = new Deck<StarterCard>(cardHandler.filterStarterCards(cardHandler.importStarterCards()));
             starterCardDeck.shuffleDeck();
 
             //play the starter card

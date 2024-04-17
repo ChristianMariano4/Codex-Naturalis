@@ -12,8 +12,8 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StarterCardFactory extends CardFactory<PlayableCard> {
-    public ArrayList<PlayableCard> createCardList() throws CardNotImportedException {
+public class StarterCardFactory extends CardFactory<StarterCard> {
+    public ArrayList<StarterCard> createCardList() throws CardNotImportedException {
         StarterCard[] starterCardArray;
         Gson gson = new Gson();
         try(Reader reader = new FileReader("CodexNaturalis/resources/starterCards.json")) {

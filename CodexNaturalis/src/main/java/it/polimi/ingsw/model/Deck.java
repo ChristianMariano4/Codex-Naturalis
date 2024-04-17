@@ -19,7 +19,7 @@ import java.util.Random;
  * Resource cards can be implemented as both resource and gold cards.
  * The deck is responsible for providing the top card and checking if the deck is empty.
  */
-public abstract class Deck<T extends Card> {
+public class Deck<T extends Card> {
     /**
      * Constructs a new Deck with the given list of resource cards.
      *

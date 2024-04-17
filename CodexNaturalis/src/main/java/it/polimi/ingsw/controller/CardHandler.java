@@ -8,17 +8,17 @@ import it.polimi.ingsw.model.cards.*;
 import java.util.ArrayList;
 
 public class CardHandler {
-    public ArrayList<PlayableCard> importGoldCards() throws CardNotImportedException {
+    public ArrayList<GoldCard> importGoldCards() throws CardNotImportedException {
         GoldCardFactory factory = new GoldCardFactory();
-        return linkPlayableCards(factory.createCardList());
+        return linkGoldCards(factory.createCardList());
     }
-    public ArrayList<PlayableCard> importResourceCards() throws CardNotImportedException {
+    public ArrayList<ResourceCard> importResourceCards() throws CardNotImportedException {
         ResourceCardFactory factory = new ResourceCardFactory();
-        return linkPlayableCards(factory.createCardList());
+        return linkResourceCards(factory.createCardList());
     }
-    public ArrayList<PlayableCard> importStarterCards() throws CardNotImportedException {
+    public ArrayList<StarterCard> importStarterCards() throws CardNotImportedException {
         StarterCardFactory factory = new StarterCardFactory();
-        return linkPlayableCards(factory.createCardList());
+        return linkStarterCards(factory.createCardList());
     }
     public ArrayList<ObjectiveCard> importPositionalObjectiveCards() throws CardNotImportedException {
         PositionalObjectiveCardFactory factory = new PositionalObjectiveCardFactory();
@@ -32,7 +32,7 @@ public class CardHandler {
         TripleObjectiveCardFactory factory = new TripleObjectiveCardFactory();
         return linkObjectiveCards(factory.createCardList());
     }
-    public ArrayList<PlayableCard> linkPlayableCards(ArrayList<PlayableCard> cardList)
+    public ArrayList<GoldCard> linkGoldCards(ArrayList<GoldCard> cardList)
     {
 
         cardList.forEach(c1 ->
@@ -43,7 +43,37 @@ public class CardHandler {
         return cardList;
 
     }
-    public ArrayList<PlayableCard> filterPlayableCards(ArrayList<PlayableCard> cardList) {
+    public ArrayList<ResourceCard> linkResourceCards(ArrayList<ResourceCard> cardList)
+    {
+
+        cardList.forEach(c1 ->
+                c1.setOtherSideCard(cardList.stream()
+                        .filter(c2 ->c1.getCardId() == c2.getCardId() && c1.getCurrentSide() != c2.getCurrentSide())
+                        .findFirst()
+                        .orElse(null)));
+        return cardList;
+
+    }
+    public ArrayList<StarterCard> linkStarterCards(ArrayList<StarterCard> cardList)
+    {
+
+        cardList.forEach(c1 ->
+                c1.setOtherSideCard(cardList.stream()
+                        .filter(c2 ->c1.getCardId() == c2.getCardId() && c1.getCurrentSide() != c2.getCurrentSide())
+                        .findFirst()
+                        .orElse(null)));
+        return cardList;
+
+    }
+    public ArrayList<ResourceCard> filterResourceCards(ArrayList<ResourceCard> cardList) {
+        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.FRONT)).toList());
+
+    }
+    public ArrayList<GoldCard> filterGoldCards(ArrayList<GoldCard> cardList) {
+        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.FRONT)).toList());
+
+    }
+    public ArrayList<StarterCard> filterStarterCards(ArrayList<StarterCard> cardList) {
         return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.FRONT)).toList());
 
     }
