@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.enumerations.CardNotImportedException;
+import it.polimi.ingsw.exceptions.CardNotImportedException;
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;

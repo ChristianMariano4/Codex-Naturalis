@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller.cardFactory;
 
-import it.polimi.ingsw.enumerations.CardNotImportedException;
-import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.exceptions.CardNotImportedException;
 
 import java.util.ArrayList;
 

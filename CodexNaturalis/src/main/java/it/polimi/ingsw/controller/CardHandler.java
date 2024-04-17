@@ -1,12 +1,11 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.cardFactory.*;
-import it.polimi.ingsw.enumerations.CardNotImportedException;
+import it.polimi.ingsw.exceptions.CardNotImportedException;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class CardHandler {
     public ArrayList<PlayableCard> importGoldCards() throws CardNotImportedException {

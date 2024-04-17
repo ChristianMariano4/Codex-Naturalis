@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.cardFactory;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.cardFactory.CardFactory;
-import it.polimi.ingsw.enumerations.CardNotImportedException;
+import it.polimi.ingsw.exceptions.CardNotImportedException;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 
