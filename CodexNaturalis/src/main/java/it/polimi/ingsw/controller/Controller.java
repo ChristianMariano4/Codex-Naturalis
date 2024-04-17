@@ -68,8 +68,6 @@ public class Controller {
         game.shufflePlayers();
         game.getListOfPlayers().getFirst().setIsFirst(true);
 
-
-
         for(Player player : game.getListOfPlayers())
         {
             List<Marker> availableMarkers= new ArrayList<>();
@@ -115,8 +113,6 @@ public class Controller {
                     System.out.println("Invalid value for the side inserted");
                 }
             }
-            player.getPlayerField().addCardToCell(starterCardDeck.getRandomCard());
-
 
         }
 
