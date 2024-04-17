@@ -10,11 +10,12 @@ import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main {
-    public static void main(String[] args) throws AlreadyThreeCardsInHandException, InvalidConstructorDataException, CardTypeMismatchException, CardNotImportedException, DeckIsEmptyException, UnlinkedCardException {
+    public static void main(String[] args) throws AlreadyThreeCardsInHandException, InvalidConstructorDataException, CardTypeMismatchException, CardNotImportedException, DeckIsEmptyException, UnlinkedCardException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException {
 
        /* CardHandler h = new CardHandler();
         ArrayList<ObjectiveCard> c = h.filterObjectiveCards(h.importResourceObjectiveCards());
@@ -42,6 +43,13 @@ public class Main {
 
 
         */
+
+
+        //Controller test
+
+        Controller controller = new Controller();
+        Game game = controller.createGame();
+        controller.startGame(game);
 
     }
 }

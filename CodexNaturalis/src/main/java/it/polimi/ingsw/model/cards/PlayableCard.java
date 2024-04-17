@@ -5,6 +5,7 @@ import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
+import it.polimi.ingsw.exceptions.UnlinkedCardException;
 import it.polimi.ingsw.model.CardVisitor;
 
 import java.util.ArrayList;

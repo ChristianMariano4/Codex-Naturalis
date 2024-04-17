@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
+import java.util.Random;
 
 /**
  * This class represents a deck of resource cards in the game. It contains a stack of resource cards.
@@ -81,5 +82,11 @@ public abstract class Deck<T extends Card> {
             throw new DeckIsEmptyException();
         }
         return deck.pop();
+    }
+
+    public T getRandomCard() {
+        Random randomGenerator = new Random();
+        int index = randomGenerator.nextInt(deck.size());
+        return deck.remove(index);
     }
 }

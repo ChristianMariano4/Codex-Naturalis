@@ -15,7 +15,7 @@ public class Player {
     private final String username;
     private boolean isTurn;
     private boolean isFirst;
-    private final Marker marker;
+    private Marker marker;
     private final HashMap<Resource, Integer>  resourceAmount;
     private int points;
     private final PlayerHand playerHand;
@@ -26,15 +26,13 @@ public class Player {
     /**
      * Constructor
      * @param username The ID of the player
-     * @param marker The unique marker of the player
      * @param game The reference of the current game
      * @throws InvalidConstructorDataException Exception thrown if the constructor data are invalid
      */
     //controller crates player -> player creates empty playerhand -> controller adds cards to playerhand from deck
-    public Player(String username, Marker marker, Game game) throws InvalidConstructorDataException {
+    public Player(String username, Game game) throws InvalidConstructorDataException {
         try {
             this.username = username;
-            this.marker = marker;
             this.game = game;
         }
         catch(Exception e)
@@ -96,6 +94,9 @@ public class Player {
      */
     public Marker getMarker() {
         return marker;
+    }
+    public void setMarker(Marker marker) {
+        this.marker = marker;
     }
 
     /**

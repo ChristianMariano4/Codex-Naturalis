@@ -1,15 +1,19 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.exceptions.CardNotImportedException;
-import it.polimi.ingsw.exceptions.CardTypeMismatchException;
-import it.polimi.ingsw.exceptions.DeckIsEmptyException;
-import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
+import it.polimi.ingsw.enumerations.Marker;
+import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.cards.StarterCard;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * Main controller class
@@ -54,6 +58,67 @@ public class Controller {
         ArrayList<ObjectiveCard> sharedObjectiveCards = new ArrayList<>();
         sharedObjectiveCards.add(objectiveCardDeck.getTopCard());
         sharedObjectiveCards.add(objectiveCardDeck.getTopCard());
-        return new Game(id, drawingField, sharedObjectiveCards);
+        return new Game(id, drawingField, sharedObjectiveCards, objectiveCardDeck);
+    }
+
+    public void addPlayerToGame(Game game, Player player) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+        game.addPlayer(player);
+    }
+    public void startGame(Game game) throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException, UnlinkedCardException {
+        game.shufflePlayers();
+        game.getListOfPlayers().getFirst().setIsFirst(true);
+
+
+
+        for(Player player : game.getListOfPlayers())
+        {
+            List<Marker> availableMarkers= new ArrayList<>();
+            Collections.addAll(availableMarkers, Marker.values());
+
+            // send request to the Player to choose his Marker
+            while(true){
+                try {
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.println("Choose one the follow marker: " + availableMarkers);
+                    Marker marker = Marker.valueOf(scanner.nextLine());
+                    player.setMarker(marker);
+                    break;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid marker inserted");
+                }
+            }
+
+            player.setSecretObjective(game.getObjectiveCardDeck().getRandomCard());
+            PlayableCardDeck starterCardDeck = new PlayableCardDeck(cardHandler.filterPlayableCards(cardHandler.importStarterCards()));
+            starterCardDeck.shuffleDeck();
+
+            //play the starter card
+            //temporary casting
+            StarterCard starterCard = (StarterCard) starterCardDeck.getRandomCard();
+
+            while(true){
+                try {
+                    Scanner scanner = new Scanner(System.in);
+                    //TODO: print front and back of the starter card
+                    //starteCard.printFront();
+                    //starteCard.printBack();
+                    System.out.println("Choose the side on which you want to play your starter card: \n0->Front\n1->Back"+ availableMarkers);
+                    Side side = Side.valueOf(scanner.nextLine());
+                    if(side == Side.FRONT){
+                        player.getPlayerField().addCardToCell(starterCard);
+                    } else {
+                        //temporary casting
+                        player.getPlayerField().addCardToCell((StarterCard)starterCard.getOtherSideCard());
+                    }
+                    break;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid value for the side inserted");
+                }
+            }
+            player.getPlayerField().addCardToCell(starterCardDeck.getRandomCard());
+
+
+        }
+
     }
 }

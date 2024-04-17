@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.cards.ObjectiveCard;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
 
@@ -20,6 +21,7 @@ public class Game {
     private int numberOfPlayers;
     private final ArrayList<Player> listOfPlayers;
     private final TableTop tableTop;
+    private final ObjectiveCardDeck objectiveCardDeck;
 
 
     //controller has to create the drawing field before creating the game to create drawingField
@@ -30,12 +32,13 @@ public class Game {
      * @param drawingField reference to the drawing field of the game
      * @throws InvalidConstructorDataException when controller didn't properly create Game
      */
-    public Game(int gameId, DrawingField drawingField, ArrayList<ObjectiveCard> sharedObjectiveCards) throws InvalidConstructorDataException {
+    public Game(int gameId, DrawingField drawingField, ArrayList<ObjectiveCard> sharedObjectiveCards, ObjectiveCardDeck objectiveCardDeck) throws InvalidConstructorDataException {
         this.gameId = gameId;
         this.listOfPlayers = new ArrayList<Player>();
         this.numberOfPlayers = 0;
         try {
             this.tableTop = new TableTop(drawingField, sharedObjectiveCards);
+            this.objectiveCardDeck = objectiveCardDeck;
         }
         catch(Exception e)
         {
@@ -94,5 +97,12 @@ public class Game {
      */
     public TableTop getTableTop() {
         return tableTop;
+    }
+    public void shufflePlayers() {
+        Collections.shuffle(listOfPlayers);
+    }
+
+    public ObjectiveCardDeck getObjectiveCardDeck() {
+        return objectiveCardDeck;
     }
 }
