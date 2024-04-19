@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class Server {
 
-    private Map<Integer, Game> games;
+    private final Map<Integer, Game> games;
 
     public Server()
     {
@@ -45,13 +45,8 @@ public class Server {
         try {
             Game game = controller.createGame();
             server.addGame(game);
-        } catch (InvalidConstructorDataException e) {
-            throw new RuntimeException(e);
-        } catch (CardTypeMismatchException e) {
-            throw new RuntimeException(e);
-        } catch (CardNotImportedException e) {
-            throw new RuntimeException(e);
-        } catch (DeckIsEmptyException e) {
+        } catch (InvalidConstructorDataException | CardTypeMismatchException | CardNotImportedException |
+                 DeckIsEmptyException e) {
             throw new RuntimeException(e);
         }
     }
