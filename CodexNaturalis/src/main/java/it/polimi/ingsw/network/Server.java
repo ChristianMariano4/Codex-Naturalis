@@ -1,5 +1,10 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.exceptions.CardNotImportedException;
+import it.polimi.ingsw.exceptions.CardTypeMismatchException;
+import it.polimi.ingsw.exceptions.DeckIsEmptyException;
+import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.Game;
 
 import java.util.HashMap;
@@ -29,9 +34,26 @@ public class Server {
      * Adds a game to the server
      * @param game the game to be added
      */
-    public void addGame(Game game)
+    private void addGame(Game game)
     {
         games.put(game.getGameId(), game);
+    }
+
+    public static void main(String[] args) {
+        Server server = new Server();
+        Controller controller = new Controller(server);
+        try {
+            Game game = controller.createGame();
+            server.addGame(game);
+        } catch (InvalidConstructorDataException e) {
+            throw new RuntimeException(e);
+        } catch (CardTypeMismatchException e) {
+            throw new RuntimeException(e);
+        } catch (CardNotImportedException e) {
+            throw new RuntimeException(e);
+        } catch (DeckIsEmptyException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

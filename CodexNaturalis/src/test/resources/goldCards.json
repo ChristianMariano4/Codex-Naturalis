@@ -1,0 +1,2482 @@
+[
+  {
+    "cardId": 41,
+    "currentSide": "FRONT",
+    "cardColor": "FUNGI",
+    "points": 1,
+    "centralResources": [],
+    "requirements": ["FUNGI","FUNGI","ANIMAL"],
+    "goldPointCondition": "QUILL",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "QUILL"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 41,
+    "currentSide": "BACK",
+    "cardColor": "FUNGI",
+    "points": 0,
+    "centralResources": ["FUNGI"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 42,
+    "currentSide": "FRONT",
+    "cardColor": "FUNGI",
+    "points": 1,
+    "centralResources": [],
+    "requirements": ["FUNGI","FUNGI","PLANT"],
+    "goldPointCondition": "INKWELL",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "INKWELL"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 42,
+    "currentSide": "BACK",
+    "cardColor": "FUNGI",
+    "points": 0,
+    "centralResources": ["FUNGI"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 43,
+    "currentSide": "FRONT",
+    "cardColor": "FUNGI",
+    "points": 1,
+    "centralResources": [],
+    "requirements": ["FUNGI","FUNGI","INSECT"],
+    "goldPointCondition": "MANUSCRIPT",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "MANUSCRIPT"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 43,
+    "currentSide": "BACK",
+    "cardColor": "FUNGI",
+    "points": 0,
+    "centralResources": ["FUNGI"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 44,
+    "currentSide": "FRONT",
+    "cardColor": "FUNGI",
+    "points": 2,
+    "centralResources": [],
+    "requirements": ["FUNGI","FUNGI","FUNGI","ANIMAL"],
+    "goldPointCondition": "ANGLE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 44,
+    "currentSide": "BACK",
+    "cardColor": "FUNGI",
+    "points": 0,
+    "centralResources": ["FUNGI"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 45,
+    "currentSide": "FRONT",
+    "cardColor": "FUNGI",
+    "points": 2,
+    "centralResources": [],
+    "requirements": ["FUNGI","FUNGI","FUNGI","PLANT"],
+    "goldPointCondition": "ANGLE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 45,
+    "currentSide": "BACK",
+    "cardColor": "FUNGI",
+    "points": 0,
+    "centralResources": ["FUNGI"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 46,
+    "currentSide": "FRONT",
+    "cardColor": "FUNGI",
+    "points": 2,
+    "centralResources": [],
+    "requirements": ["FUNGI","FUNGI","FUNGI","INSECT"],
+    "goldPointCondition": "ANGLE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 46,
+    "currentSide": "BACK",
+    "cardColor": "FUNGI",
+    "points": 0,
+    "centralResources": ["FUNGI"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 47,
+    "currentSide": "FRONT",
+    "cardColor": "FUNGI",
+    "points": 3,
+    "centralResources": [],
+    "requirements": ["FUNGI","FUNGI","FUNGI"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "INKWELL"
+      }
+    }
+  },
+  {
+    "cardId": 47,
+    "currentSide": "BACK",
+    "cardColor": "FUNGI",
+    "points": 0,
+    "centralResources": ["FUNGI"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 48,
+    "currentSide": "FRONT",
+    "cardColor": "FUNGI",
+    "points": 3,
+    "centralResources": [],
+    "requirements": ["FUNGI","FUNGI","FUNGI"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "QUILL"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 48,
+    "currentSide": "BACK",
+    "cardColor": "FUNGI",
+    "points": 0,
+    "centralResources": ["FUNGI"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 49,
+    "currentSide": "FRONT",
+    "cardColor": "FUNGI",
+    "points": 3,
+    "centralResources": [],
+    "requirements": ["FUNGI","FUNGI","FUNGI"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "MANUSCRIPT"
+      },
+      "TOPLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 49,
+    "currentSide": "BACK",
+    "cardColor": "FUNGI",
+    "points": 0,
+    "centralResources": ["FUNGI"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 50,
+    "currentSide": "FRONT",
+    "cardColor": "FUNGI",
+    "points": 5,
+    "centralResources": [],
+    "requirements": ["FUNGI","FUNGI","FUNGI","FUNGI","FUNGI"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 50,
+    "currentSide": "BACK",
+    "cardColor": "FUNGI",
+    "points": 0,
+    "centralResources": ["FUNGI"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 51,
+    "currentSide": "FRONT",
+    "cardColor": "PLANT",
+    "points": 1,
+    "centralResources": [],
+    "requirements": ["PLANT","PLANT","INSECT"],
+    "goldPointCondition": "QUILL",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "QUILL"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 51,
+    "currentSide": "BACK",
+    "cardColor": "PLANT",
+    "points": 0,
+    "centralResources": ["PLANT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 52,
+    "currentSide": "FRONT",
+    "cardColor": "PLANT",
+    "points": 1,
+    "centralResources": [],
+    "requirements": ["PLANT","PLANT","FUNGI"],
+    "goldPointCondition": "MANUSCRIPT",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "MANUSCRIPT"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 52,
+    "currentSide": "BACK",
+    "cardColor": "PLANT",
+    "points": 0,
+    "centralResources": ["PLANT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 53,
+    "currentSide": "FRONT",
+    "cardColor": "PLANT",
+    "points": 1,
+    "centralResources": [],
+    "requirements": ["PLANT","PLANT","ANIMAL"],
+    "goldPointCondition": "INKWELL",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "INKWELL"
+      }
+    }
+  },
+  {
+    "cardId": 53,
+    "currentSide": "BACK",
+    "cardColor": "PLANT",
+    "points": 0,
+    "centralResources": ["PLANT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 54,
+    "currentSide": "FRONT",
+    "cardColor": "PLANT",
+    "points": 2,
+    "centralResources": [],
+    "requirements": ["PLANT","PLANT","PLANT","INSECT"],
+    "goldPointCondition": "ANGLE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 54,
+    "currentSide": "BACK",
+    "cardColor": "PLANT",
+    "points": 0,
+    "centralResources": ["PLANT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 55,
+    "currentSide": "FRONT",
+    "cardColor": "PLANT",
+    "points": 2,
+    "centralResources": [],
+    "requirements": ["PLANT","PLANT","PLANT","ANIMAL"],
+    "goldPointCondition": "ANGLE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 55,
+    "currentSide": "BACK",
+    "cardColor": "PLANT",
+    "points": 0,
+    "centralResources": ["PLANT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 56,
+    "currentSide": "FRONT",
+    "cardColor": "PLANT",
+    "points": 2,
+    "centralResources": [],
+    "requirements": ["PLANT","PLANT","PLANT","FUNGI"],
+    "goldPointCondition": "ANGLE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 56,
+    "currentSide": "BACK",
+    "cardColor": "PLANT",
+    "points": 0,
+    "centralResources": ["PLANT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 57,
+    "currentSide": "FRONT",
+    "cardColor": "PLANT",
+    "points": 3,
+    "centralResources": [],
+    "requirements": ["PLANT","PLANT","PLANT"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "QUILL"
+      }
+    }
+  },
+  {
+    "cardId": 57,
+    "currentSide": "BACK",
+    "cardColor": "PLANT",
+    "points": 0,
+    "centralResources": ["PLANT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 58,
+    "currentSide": "FRONT",
+    "cardColor": "PLANT",
+    "points": 3,
+    "centralResources": [],
+    "requirements": ["PLANT","PLANT","PLANT"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "MANUSCRIPT"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 58,
+    "currentSide": "BACK",
+    "cardColor": "PLANT",
+    "points": 0,
+    "centralResources": ["PLANT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 59,
+    "currentSide": "FRONT",
+    "cardColor": "PLANT",
+    "points": 3,
+    "centralResources": [],
+    "requirements": ["PLANT","PLANT","PLANT"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "INKWELL"
+      },
+      "TOPLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 59,
+    "currentSide": "BACK",
+    "cardColor": "PLANT",
+    "points": 0,
+    "centralResources": ["PLANT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 60,
+    "currentSide": "FRONT",
+    "cardColor": "PLANT",
+    "points": 5,
+    "centralResources": [],
+    "requirements": ["PLANT","PLANT","PLANT","PLANT","PLANT"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 60,
+    "currentSide": "BACK",
+    "cardColor": "PLANT",
+    "points": 0,
+    "centralResources": ["PLANT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 61,
+    "currentSide": "FRONT",
+    "cardColor": "ANIMAL",
+    "points": 1,
+    "centralResources": [],
+    "requirements": ["ANIMAL","ANIMAL","INSECT"],
+    "goldPointCondition": "INKWELL",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "INKWELL"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 61,
+    "currentSide": "BACK",
+    "cardColor": "ANIMAL",
+    "points": 0,
+    "centralResources": ["ANIMAL"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 62,
+    "currentSide": "FRONT",
+    "cardColor": "ANIMAL",
+    "points": 1,
+    "centralResources": [],
+    "requirements": ["ANIMAL","ANIMAL","PLANT"],
+    "goldPointCondition": "MANUSCRIPT",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "MANUSCRIPT"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 62,
+    "currentSide": "BACK",
+    "cardColor": "ANIMAL",
+    "points": 0,
+    "centralResources": ["ANIMAL"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 63,
+    "currentSide": "FRONT",
+    "cardColor": "ANIMAL",
+    "points": 1,
+    "centralResources": [],
+    "requirements": ["ANIMAL","ANIMAL","FUNGI"],
+    "goldPointCondition": "QUILL",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "QUILL"
+      }
+    }
+  },
+  {
+    "cardId": 63,
+    "currentSide": "BACK",
+    "cardColor": "ANIMAL",
+    "points": 0,
+    "centralResources": ["ANIMAL"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 64,
+    "currentSide": "FRONT",
+    "cardColor": "ANIMAL",
+    "points": 2,
+    "centralResources": [],
+    "requirements": ["ANIMAL","ANIMAL","ANIMAL","INSECT"],
+    "goldPointCondition": "ANGLE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 64,
+    "currentSide": "BACK",
+    "cardColor": "ANIMAL",
+    "points": 0,
+    "centralResources": ["ANIMAL"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 65,
+    "currentSide": "FRONT",
+    "cardColor": "ANIMAL",
+    "points": 2,
+    "centralResources": [],
+    "requirements": ["ANIMAL","ANIMAL","ANIMAL","FUNGI"],
+    "goldPointCondition": "ANGLE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 65,
+    "currentSide": "BACK",
+    "cardColor": "ANIMAL",
+    "points": 0,
+    "centralResources": ["ANIMAL"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 66,
+    "currentSide": "FRONT",
+    "cardColor": "ANIMAL",
+    "points": 2,
+    "centralResources": [],
+    "requirements": ["ANIMAL","ANIMAL","ANIMAL","PLANT"],
+    "goldPointCondition": "ANGLE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 66,
+    "currentSide": "BACK",
+    "cardColor": "ANIMAL",
+    "points": 0,
+    "centralResources": ["ANIMAL"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 67,
+    "currentSide": "FRONT",
+    "cardColor": "ANIMAL",
+    "points": 3,
+    "centralResources": [],
+    "requirements": ["ANIMAL","ANIMAL","ANIMAL"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "MANUSCRIPT"
+      }
+    }
+  },
+  {
+    "cardId": 67,
+    "currentSide": "BACK",
+    "cardColor": "ANIMAL",
+    "points": 0,
+    "centralResources": ["ANIMAL"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 68,
+    "currentSide": "FRONT",
+    "cardColor": "ANIMAL",
+    "points": 3,
+    "centralResources": [],
+    "requirements": ["ANIMAL","ANIMAL","ANIMAL"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "INKWELL"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 68,
+    "currentSide": "BACK",
+    "cardColor": "ANIMAL",
+    "points": 0,
+    "centralResources": ["ANIMAL"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 69,
+    "currentSide": "FRONT",
+    "cardColor": "ANIMAL",
+    "points": 3,
+    "centralResources": [],
+    "requirements": ["ANIMAL","ANIMAL","ANIMAL"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "QUILL"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 69,
+    "currentSide": "BACK",
+    "cardColor": "ANIMAL",
+    "points": 0,
+    "centralResources": ["ANIMAL"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 70,
+    "currentSide": "FRONT",
+    "cardColor": "ANIMAL",
+    "points": 5,
+    "centralResources": [],
+    "requirements": ["ANIMAL","ANIMAL","ANIMAL","ANIMAL","ANIMAL"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 70,
+    "currentSide": "BACK",
+    "cardColor": "ANIMAL",
+    "points": 0,
+    "centralResources": ["ANIMAL"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 71,
+    "currentSide": "FRONT",
+    "cardColor": "INSECT",
+    "points": 1,
+    "centralResources": [],
+    "requirements": ["INSECT","INSECT","PLANT"],
+    "goldPointCondition": "QUILL",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "QUILL"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 71,
+    "currentSide": "BACK",
+    "cardColor": "INSECT",
+    "points": 0,
+    "centralResources": ["INSECT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 72,
+    "currentSide": "FRONT",
+    "cardColor": "INSECT",
+    "points": 1,
+    "centralResources": [],
+    "requirements": ["INSECT","INSECT","ANIMAL"],
+    "goldPointCondition": "MANUSCRIPT",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "MANUSCRIPT"
+      }
+    }
+  },
+  {
+    "cardId": 72,
+    "currentSide": "BACK",
+    "cardColor": "INSECT",
+    "points": 0,
+    "centralResources": ["INSECT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 73,
+    "currentSide": "FRONT",
+    "cardColor": "INSECT",
+    "points": 1,
+    "centralResources": [],
+    "requirements": ["INSECT","INSECT","FUNGI"],
+    "goldPointCondition": "INKWELL",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "INKWELL"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 73,
+    "currentSide": "BACK",
+    "cardColor": "INSECT",
+    "points": 0,
+    "centralResources": ["INSECT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 74,
+    "currentSide": "FRONT",
+    "cardColor": "INSECT",
+    "points": 2,
+    "centralResources": [],
+    "requirements": ["INSECT","INSECT","INSECT","ANIMAL"],
+    "goldPointCondition": "ANGLE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 74,
+    "currentSide": "BACK",
+    "cardColor": "INSECT",
+    "points": 0,
+    "centralResources": ["INSECT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 75,
+    "currentSide": "FRONT",
+    "cardColor": "INSECT",
+    "points": 2,
+    "centralResources": [],
+    "requirements": ["INSECT","INSECT","INSECT","PLANT"],
+    "goldPointCondition": "ANGLE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 75,
+    "currentSide": "BACK",
+    "cardColor": "INSECT",
+    "points": 0,
+    "centralResources": ["INSECT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 76,
+    "currentSide": "FRONT",
+    "cardColor": "INSECT",
+    "points": 2,
+    "centralResources": [],
+    "requirements": ["INSECT","INSECT","INSECT","FUNGI"],
+    "goldPointCondition": "ANGLE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 76,
+    "currentSide": "BACK",
+    "cardColor": "INSECT",
+    "points": 0,
+    "centralResources": ["INSECT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 77,
+    "currentSide": "FRONT",
+    "cardColor": "INSECT",
+    "points": 3,
+    "centralResources": [],
+    "requirements": ["INSECT","INSECT","INSECT"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "INKWELL"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 77,
+    "currentSide": "BACK",
+    "cardColor": "INSECT",
+    "points": 0,
+    "centralResources": ["INSECT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 78,
+    "currentSide": "FRONT",
+    "cardColor": "INSECT",
+    "points": 3,
+    "centralResources": [],
+    "requirements": ["INSECT","INSECT","INSECT"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "MANUSCRIPTs"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 78,
+    "currentSide": "BACK",
+    "cardColor": "INSECT",
+    "points": 0,
+    "centralResources": ["INSECT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 79,
+    "currentSide": "FRONT",
+    "cardColor": "INSECT",
+    "points": 3,
+    "centralResources": [],
+    "requirements": ["INSECT","INSECT","INSECT"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "QUILL"
+      }
+    }
+  },
+  {
+    "cardId": 79,
+    "currentSide": "BACK",
+    "cardColor": "INSECT",
+    "points": 0,
+    "centralResources": ["INSECT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 80,
+    "currentSide": "FRONT",
+    "cardColor": "INSECT",
+    "points": 5,
+    "centralResources": [],
+    "requirements": ["INSECT","INSECT","INSECT","INSECT","INSECT"],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": false,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  },
+  {
+    "cardId": 80,
+    "currentSide": "BACK",
+    "cardColor": "INSECT",
+    "points": 0,
+    "centralResources": ["INSECT"],
+    "requirements": [],
+    "goldPointCondition": "NONE",
+    "angles": {
+      "TOPRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "TOPLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMRIGHT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      },
+      "BOTTOMLEFT": {
+        "playable": true,
+        "angleStatus": "UNLINKED",
+        "resource": "NONE"
+      }
+    }
+  }
+]

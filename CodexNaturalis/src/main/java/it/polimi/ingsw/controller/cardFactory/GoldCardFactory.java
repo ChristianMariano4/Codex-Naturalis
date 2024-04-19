@@ -16,7 +16,7 @@ public class GoldCardFactory extends CardFactory<GoldCard> {
     public ArrayList<GoldCard> createCardList() throws CardNotImportedException {
         GoldCard[] goldCardArray;
         Gson gson = new Gson();
-        try(Reader reader = new FileReader("CodexNaturalis/resources/goldCards.json")) {
+        try(Reader reader = new FileReader("CodexNaturalis/src/main/resources/goldCards.json")) {
             goldCardArray = gson.fromJson(reader, GoldCard[].class);
         } catch (IOException e) {
             throw new CardNotImportedException();

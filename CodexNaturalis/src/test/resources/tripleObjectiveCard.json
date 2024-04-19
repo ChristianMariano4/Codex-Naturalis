@@ -1,0 +1,12 @@
+[
+  {
+    "cardId": 99,
+    "currentSide": "FRONT",
+    "points": 3
+  },
+  {
+    "cardId": 99,
+    "currentSide": "BACK",
+    "points": 0
+  }
+]

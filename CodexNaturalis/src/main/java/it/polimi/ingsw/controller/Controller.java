@@ -22,12 +22,12 @@ public class Controller {
     private final CardHandler cardHandler;
     private final Server server;
 
-    public Controller()
+    public Controller(Server server)
     {
         cardHandler = new CardHandler();
-        server = new Server();
+        this.server = server;
     }
-    public void createGame() throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
+    public Game createGame() throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
         //starts new thread in server and then returns new game
         //TODO: start thread in server
         //TODO: fix deck inheritance
@@ -60,8 +60,7 @@ public class Controller {
         sharedObjectiveCards.add(cardHandler.getOtherSideCard(objectiveCardDeck.getTopCard()));
         sharedObjectiveCards.add(cardHandler.getOtherSideCard(objectiveCardDeck.getTopCard()));
         //create the new game
-        Game game = new Game(id, drawingField, sharedObjectiveCards, objectiveCardDeck);
-        server.addGame(game);
+        return new Game(id, drawingField, sharedObjectiveCards, objectiveCardDeck);
     }
 
     /**
