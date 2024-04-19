@@ -84,9 +84,4 @@ public class Deck<T extends Card> {
         return deck.pop();
     }
 
-    public T getRandomCard() {
-        Random randomGenerator = new Random();
-        int index = randomGenerator.nextInt(deck.size());
-        return deck.remove(index);
-    }
 }

@@ -8,12 +8,10 @@ import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 import it.polimi.ingsw.model.cards.StarterCard;
+import it.polimi.ingsw.network.Server;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Main controller class
@@ -21,27 +19,30 @@ import java.util.Scanner;
 public class Controller {
 
     private int numberOfGames = 0;
-    CardHandler cardHandler;
+    private final CardHandler cardHandler;
+    private final Server server;
+
     public Controller()
     {
         cardHandler = new CardHandler();
+        server = new Server();
     }
-    public Game createGame() throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
+    public void createGame() throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
         //starts new thread in server and then returns new game
-        //TODO: start thread
+        //TODO: start thread in server
         //TODO: fix deck inheritance
         //sequential game id starting from 0
         int id = this.numberOfGames;
         this.numberOfGames += 1;
-        //new Decks
+        //create new Decks
         Deck<GoldCard> goldCardDeck = new Deck<GoldCard>(cardHandler.filterGoldCards(cardHandler.importGoldCards()));
         Deck<ResourceCard> resourceCardDeck = new Deck<ResourceCard>(cardHandler.filterResourceCards(cardHandler.importResourceCards()));
-        //shuffles deck
+        //shuffle decks
         goldCardDeck.shuffleDeck();
         resourceCardDeck.shuffleDeck();
         //new DrawingField
         DrawingField drawingField = new DrawingField(goldCardDeck, resourceCardDeck);
-        //import objective cards
+        //import objective cards and filter them by front side
         ArrayList<ObjectiveCard> positionalObjectiveCards = cardHandler.filterObjectiveCards(cardHandler.importPositionalObjectiveCards());
         ArrayList<ObjectiveCard> resourceObjectiveCards = cardHandler.filterObjectiveCards(cardHandler.importResourceObjectiveCards());
         ArrayList<ObjectiveCard> tripleObjectiveCard = cardHandler.filterObjectiveCards(cardHandler.importTripleObjectiveCard());
@@ -50,71 +51,95 @@ public class Controller {
         objectiveCards.addAll(positionalObjectiveCards);
         objectiveCards.addAll(resourceObjectiveCards);
         objectiveCards.addAll(tripleObjectiveCard);
-        //create objectiveCardDeck
+        //create objectiveCardDeck from the list of objective cards
         Deck<ObjectiveCard> objectiveCardDeck = new Deck<ObjectiveCard>(objectiveCards);
         //shuffle deck
         objectiveCardDeck.shuffleDeck();
-        //get first 2 objective cards
+        //add first two front side objective cards to the shared objective cards
         ArrayList<ObjectiveCard> sharedObjectiveCards = new ArrayList<>();
-        sharedObjectiveCards.add(objectiveCardDeck.getTopCard());
-        sharedObjectiveCards.add(objectiveCardDeck.getTopCard());
-        return new Game(id, drawingField, sharedObjectiveCards, objectiveCardDeck);
+        sharedObjectiveCards.add(cardHandler.getOtherSideCard(objectiveCardDeck.getTopCard()));
+        sharedObjectiveCards.add(cardHandler.getOtherSideCard(objectiveCardDeck.getTopCard()));
+        //create the new game
+        Game game = new Game(id, drawingField, sharedObjectiveCards, objectiveCardDeck);
+        server.addGame(game);
     }
 
-    public void addPlayerToGame(Game game, Player player) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
-        game.addPlayer(player);
+    /**
+     * Adds a player to the game specified by gameId
+     * @param gameId id of the game to which the player will be added
+     * @param player player to add
+     * @throws AlreadyExistingPlayerException when the player we want to add already exists in the game
+     * @throws AlreadyFourPlayersException when the game already contains the maximum amount of players
+     */
+    public void addPlayerToGame(int gameId, Player player) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+        server.getGameById(gameId).addPlayer(player);
     }
+
+    /**
+     * Starts the game when all players are ready
+     * @param game game to start
+     * @throws CardTypeMismatchException
+     * @throws InvalidConstructorDataException
+     * @throws CardNotImportedException
+     * @throws DeckIsEmptyException
+     * @throws AlreadyExistingPlayerException
+     * @throws AlreadyFourPlayersException
+     * @throws IOException
+     * @throws UnlinkedCardException
+     */
     public void startGame(Game game) throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException, UnlinkedCardException {
+        //shuffle the list of player to determine the order of play
         game.shufflePlayers();
+        //set the first player
         game.getListOfPlayers().getFirst().setIsFirst(true);
-
+        //set the markers and the secret objectives
         for(Player player : game.getListOfPlayers())
         {
             List<Marker> availableMarkers= new ArrayList<>();
             Collections.addAll(availableMarkers, Marker.values());
 
-            // send request to the Player to choose his Marker
+            //ask the user to choose a marker
+            System.out.println(player.getUsername() + " choose one the follow marker: " + availableMarkers);
             while(true){
                 try {
                     Scanner scanner = new Scanner(System.in);
-                    System.out.println("Choose one the follow marker: " + availableMarkers);
+                    //valueOf throws IllegalArgumentException if the marker is not valid
                     Marker marker = Marker.valueOf(scanner.nextLine());
                     player.setMarker(marker);
+                    availableMarkers.remove(marker);
                     break;
                 } catch (IllegalArgumentException e) {
-                    System.out.println("Invalid marker inserted");
+                    System.out.println("Invalid marker inserted. Please insert a valid marker.");
                 }
             }
 
-            player.setSecretObjective(game.getObjectiveCardDeck().getRandomCard());
+            player.setSecretObjective(game.getObjectiveCardDeck().getTopCard());
             Deck<StarterCard> starterCardDeck = new Deck<StarterCard>(cardHandler.filterStarterCards(cardHandler.importStarterCards()));
             starterCardDeck.shuffleDeck();
 
-            //play the starter card
-            //temporary casting
-            StarterCard starterCard = (StarterCard) starterCardDeck.getRandomCard();
-
+            //ask the user to choose the side of the starter card and add it to the player field
+            StarterCard starterCard = starterCardDeck.getTopCard();
+            System.out.println(player.getUsername() + " choose the side on which you want to play your starter card: \n0->Front\n1->Back");
             while(true){
                 try {
                     Scanner scanner = new Scanner(System.in);
                     //TODO: print front and back of the starter card
-                    //starteCard.printFront();
-                    //starteCard.printBack();
-                    System.out.println("Choose the side on which you want to play your starter card: \n0->Front\n1->Back"+ availableMarkers);
+                    //starterCard.printFront();
+                    //starterCard.printBack();
                     Side side = Side.valueOf(scanner.nextLine());
                     if(side == Side.FRONT){
                         player.getPlayerField().addCardToCell(starterCard);
                     } else {
-                        //temporary casting
-                        //player.getPlayerField().addCardToCell((StarterCard)starterCard.getOtherSideCard());
+                        player.getPlayerField().addCardToCell(cardHandler.getOtherSideCard(starterCard));
                     }
                     break;
                 } catch (IllegalArgumentException e) {
-                    System.out.println("Invalid value for the side inserted");
+                    System.out.println("Invalid value for the side inserted. Please insert 0 or 1");
                 }
             }
-
         }
 
     }
+
+
 }

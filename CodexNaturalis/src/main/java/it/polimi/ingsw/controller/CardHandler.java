@@ -1,14 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.cardFactory.*;
-import it.polimi.ingsw.enumerations.CardType;
 import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.CardNotImportedException;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class CardHandler {
 
@@ -137,39 +135,39 @@ public class CardHandler {
         );
     }
     public ArrayList<ResourceCard> filterResourceCards(ArrayList<ResourceCard> cardList) {
-        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.FRONT)).toList());
+        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.BACK)).toList());
 
     }
     public ArrayList<GoldCard> filterGoldCards(ArrayList<GoldCard> cardList) {
-        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.FRONT)).toList());
+        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.BACK)).toList());
 
     }
     public ArrayList<StarterCard> filterStarterCards(ArrayList<StarterCard> cardList) {
-        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.FRONT)).toList());
+        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.BACK)).toList());
 
     }
 
     public ArrayList<ObjectiveCard> filterObjectiveCards(ArrayList<ObjectiveCard> cardList) {
-        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.FRONT)).toList());
+        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.BACK)).toList());
     }
-    public PlayableCard getOthersideCard(PlayableCard card) throws CardNotFoundException {
+    public PlayableCard getOtherSideCard(PlayableCard card) throws CardNotFoundException {
 
         return playableCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
     }
 
-    public GoldCard getOthersideCard(GoldCard card)
+    public GoldCard getOtherSideCard(GoldCard card)
     {
         return goldCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
     }
-    public ResourceCard getOthersideCard(ResourceCard card)
+    public ResourceCard getOtherSideCard(ResourceCard card)
     {
         return resourceCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
     }
-    public StarterCard getOthersideCard(StarterCard card)
+    public StarterCard getOtherSideCard(StarterCard card)
     {
         return starterCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
     }
-    public ObjectiveCard getOthersideCard(ObjectiveCard card)
+    public ObjectiveCard getOtherSideCard(ObjectiveCard card)
     {
         return objectiveCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
     }
