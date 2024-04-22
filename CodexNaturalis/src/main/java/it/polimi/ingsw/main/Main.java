@@ -6,6 +6,7 @@ import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.network.Server;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,15 +42,13 @@ public class Main {
 
         */
 
-
-        /*Controller test
-
-        Controller controller = new Controller();
-        Game game = controller.createGame();
-        controller.startGame(game);
+//        Server server = new Server();
+//        Controller controller = new Controller(server);
+//        Game game = controller.createGame();
+//        controller.startGame(game);
 
 
-         */
+
 
     }
 }

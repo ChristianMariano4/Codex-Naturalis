@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.enumerations.DrawPosition;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
@@ -86,7 +87,7 @@ public class Controller {
      * @throws IOException
      * @throws UnlinkedCardException
      */
-    public void startGame(Game game) throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException, UnlinkedCardException {
+    public void startGame(Game game) throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException, UnlinkedCardException, AlreadyThreeCardsInHandException {
         //shuffle the list of player to determine the order of play
         game.shufflePlayers();
         //set the first player
@@ -98,7 +99,7 @@ public class Controller {
             Collections.addAll(availableMarkers, Marker.values());
 
             //ask the user to choose a marker
-            System.out.println(player.getUsername() + " choose one the follow marker: " + availableMarkers);
+            System.out.println(player.getUsername() + " choose one the following markers: " + availableMarkers);
             while(true){
                 try {
                     Scanner scanner = new Scanner(System.in);
@@ -136,8 +137,11 @@ public class Controller {
                     System.out.println("Invalid value for the side inserted. Please insert 0 or 1");
                 }
             }
+            player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(DrawPosition.FROMDECK));
+            player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
+            player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
         }
-
+        game.getTableTop().getDrawingField().drawDiscoveredCards();
     }
 
 

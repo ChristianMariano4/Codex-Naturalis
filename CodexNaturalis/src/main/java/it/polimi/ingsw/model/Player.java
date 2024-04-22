@@ -194,6 +194,7 @@ public class Player {
     public PlayerField getPlayerField() {
         return playerField;
     }
+    public PlayerHand getPlayerHand() { return playerHand; }
     public void setSecretObjective(ObjectiveCard secretObjective)
     {
         this.secretObjective = secretObjective;
