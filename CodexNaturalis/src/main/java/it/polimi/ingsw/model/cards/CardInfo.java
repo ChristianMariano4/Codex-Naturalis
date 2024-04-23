@@ -7,13 +7,13 @@ import java.util.ArrayList;
 public class CardInfo {
     private final CardType cardType;
     //PlayableCard attributes
-    private ArrayList<Resource> requirements;
-    private GoldPointCondition goldPointCondition;
+    private final ArrayList<Resource> requirements;
+    private final GoldPointCondition goldPointCondition;
     //ObjectiveCard attributes
-    private Resource cardColor;
-    private AngleOrientation orientation;
-    private PositionalType positionalType;
-    private Resource cardResource;
+    private final Resource cardColor;
+    private final AngleOrientation orientation;
+    private final PositionalType positionalType;
+    private final Resource cardResource;
 
     /**
      * GoldCard CardInfo constructor
@@ -67,6 +67,14 @@ public class CardInfo {
         this.positionalType = PositionalType.NONE;
 
     }
+
+    /**
+     * PositionalObjectiveCard CardInfo constructor
+     * @param cardType
+     * @param cardColor
+     * @param orientation
+     * @param positionalType
+     */
     public CardInfo(CardType cardType, Resource cardColor, AngleOrientation orientation, PositionalType positionalType)
     {
         this.cardType = cardType;
@@ -78,6 +86,63 @@ public class CardInfo {
         this.goldPointCondition = GoldPointCondition.NONE;
         this.cardResource = Resource.NONE;
     }
+
+    /**
+     *
+     * @return the cardType
+     */
+    CardType getCardType() {
+        return this.cardType;
+    }
+
+    /**
+     *
+     * @return the requirements
+     */
+    ArrayList<Resource> getRequirements() {
+        return this.requirements;
+    }
+
+    /**
+     *
+     * @return the goldPointCondition
+     */
+    GoldPointCondition getGoldPointCondition() {
+        return this.goldPointCondition;
+    }
+
+    /**
+     *
+     * @return the cardColor
+     */
+    Resource getCardColor() {
+        return  this.cardColor;
+    }
+
+    /**
+     *
+     * @return the Orientation
+     */
+    AngleOrientation getOrientation() {
+        return this.orientation;
+    }
+
+    /**
+     *
+     * @return the positionalType
+     */
+    PositionalType getPositionalType() {
+        return this.positionalType;
+    }
+
+    /**
+     *
+     * @return the cardResource
+     */
+    Resource getCardResource() {
+        return this.cardResource;
+    }
+
 
 
 }
