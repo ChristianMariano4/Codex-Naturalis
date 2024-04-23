@@ -22,6 +22,9 @@ public class Controller {
     private int numberOfGames = 0;
     private final CardHandler cardHandler;
     private final Server server;
+    private Game game;
+    private final Object markerLock = new Object();
+    private final Object PlayerLock = new Object();
 
     public Controller(Server server)
     {
@@ -60,8 +63,10 @@ public class Controller {
         ArrayList<ObjectiveCard> sharedObjectiveCards = new ArrayList<>();
         sharedObjectiveCards.add(cardHandler.getOtherSideCard(objectiveCardDeck.getTopCard()));
         sharedObjectiveCards.add(cardHandler.getOtherSideCard(objectiveCardDeck.getTopCard()));
-        //create the new game
-        return new Game(id, drawingField, sharedObjectiveCards, objectiveCardDeck);
+        Deck<StarterCard> starterCardDeck = new Deck<StarterCard>(cardHandler.filterStarterCards(cardHandler.importStarterCards()));
+        starterCardDeck.shuffleDeck();
+        this.game = new Game(id, drawingField, sharedObjectiveCards, objectiveCardDeck, starterCardDeck);
+        return this.game;
     }
 
     /**
@@ -87,62 +92,38 @@ public class Controller {
      * @throws IOException
      * @throws UnlinkedCardException
      */
-    public void startGame(Game game) throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException, UnlinkedCardException, AlreadyThreeCardsInHandException {
+    public void inzializeGame(Game game) throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException, UnlinkedCardException, AlreadyThreeCardsInHandException {
         //shuffle the list of player to determine the order of play
         game.shufflePlayers();
         //set the first player
         game.getListOfPlayers().getFirst().setIsFirst(true);
-        //set the markers and the secret objectives
-        for(Player player : game.getListOfPlayers())
-        {
-            List<Marker> availableMarkers= new ArrayList<>();
-            Collections.addAll(availableMarkers, Marker.values());
-
-            //ask the user to choose a marker
-            System.out.println(player.getUsername() + " choose one the following markers: " + availableMarkers);
-            while(true){
-                try {
-                    Scanner scanner = new Scanner(System.in);
-                    //valueOf throws IllegalArgumentException if the marker is not valid
-                    Marker marker = Marker.valueOf(scanner.nextLine());
-                    player.setMarker(marker);
-                    availableMarkers.remove(marker);
-                    break;
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Invalid marker inserted. Please insert a valid marker.");
-                }
-            }
-
-            player.setSecretObjective(game.getObjectiveCardDeck().getTopCard());
-            Deck<StarterCard> starterCardDeck = new Deck<StarterCard>(cardHandler.filterStarterCards(cardHandler.importStarterCards()));
-            starterCardDeck.shuffleDeck();
-
-            //ask the user to choose the side of the starter card and add it to the player field
-            StarterCard starterCard = starterCardDeck.getTopCard();
-            System.out.println(player.getUsername() + " choose the side on which you want to play your starter card: \n0->Front\n1->Back");
-            while(true){
-                try {
-                    Scanner scanner = new Scanner(System.in);
-                    //TODO: print front and back of the starter card
-                    //starterCard.printFront();
-                    //starterCard.printBack();
-                    Side side = Side.valueOf(scanner.nextLine());
-                    if(side == Side.FRONT){
-                        player.getPlayerField().addCardToCell(starterCard);
-                    } else {
-                        player.getPlayerField().addCardToCell(cardHandler.getOtherSideCard(starterCard));
-                    }
-                    break;
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Invalid value for the side inserted. Please insert 0 or 1");
-                }
-            }
-            player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(DrawPosition.FROMDECK));
-            player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
-            player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
-        }
-        game.getTableTop().getDrawingField().setDiscoveredCards();
+        //setting discovered cards
+        this.game.getTableTop().getDrawingField().setDiscoveredCards();
     }
 
+//for each player in the game, initialize the marker, the cards, the matrix and the hand
+    public void inizializeMarker(Player player, Marker marker) {
+        player.setMarker(marker);
+        this.game.removeMarker(marker);
+    }
+
+    public void inizializePlayerCards(Player player) throws DeckIsEmptyException {
+        player.setSecretObjective(this.game.getObjectiveCardDeck().getTopCard());
+        player.setStarterCard(this.game.getAvailableStarterCards().getTopCard());
+    }
+
+    public void inizializePlayerMatrix(Player player, Side side) {
+        if(side == Side.FRONT){
+            player.getPlayerField().addCardToCell(player.getStarterCard());
+        } else {
+            player.getPlayerField().addCardToCell(cardHandler.getOtherSideCard(player.getStarterCard()));
+        }
+    }
+
+    public void inizializePlayerHand(Player player) throws DeckIsEmptyException, AlreadyThreeCardsInHandException {
+        player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(DrawPosition.FROMDECK));
+        player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
+        player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
+    }
 
 }

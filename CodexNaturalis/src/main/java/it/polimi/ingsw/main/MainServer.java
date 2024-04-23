@@ -17,7 +17,7 @@ public class MainServer {
 
 */
 
-       /* PlayerHand playerHand = new PlayerHand();
+        PlayerHand playerHand = new PlayerHand();
         ArrayList centralResources = new ArrayList();
         centralResources.add(Resource.INSECT);
         HashMap angles = new HashMap();
@@ -32,14 +32,17 @@ public class MainServer {
         playerHand.getCardsInHand().get(0).accept(cardVisitor);
 
 
-        */
+
 
 //        Server server = new Server();
 //        Controller controller = new Controller(server);
 //        Game game = controller.createGame();
+//        Player p1 = new Player("p1", game);
+//        Player p2 = new Player("p2", game);
+//        game.addPlayer(p1);
+//        game.addPlayer(p2);
 //        controller.startGame(game);
-
-
+//        System.out.println(game.getListOfPlayers().getFirst().getPlayerHand().getCardsInHand().getFirst());
 
 
     }

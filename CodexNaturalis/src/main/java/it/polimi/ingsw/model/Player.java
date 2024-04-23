@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
+import it.polimi.ingsw.model.cards.StarterCard;
 
 import java.util.HashMap;
 
@@ -22,6 +23,7 @@ public class Player {
     private final PlayerField playerField;
     private final Game game;
     private ObjectiveCard secretObjective;
+    private StarterCard starterCard;
 
     /**
      * Constructor
@@ -203,5 +205,14 @@ public class Player {
     {
         return this.secretObjective;
     }
+
+    public StarterCard getStarterCard() {
+        return starterCard;
+    }
+
+    public void setStarterCard(StarterCard starterCard) {
+        this.starterCard = starterCard;
+    }
+
 
 }

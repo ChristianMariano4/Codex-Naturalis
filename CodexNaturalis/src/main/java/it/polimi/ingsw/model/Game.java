@@ -1,12 +1,15 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
 import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.model.cards.StarterCard;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
@@ -21,6 +24,8 @@ public class Game {
     private final ArrayList<Player> listOfPlayers;
     private final TableTop tableTop;
     private final Deck<ObjectiveCard> objectiveCardDeck;
+    private final Deck<StarterCard> availableStarterCards;
+    private final ArrayList<Marker> availableMarkers;
 
 
     //controller has to create the drawing field before creating the game to create drawingField
@@ -31,13 +36,15 @@ public class Game {
      * @param drawingField reference to the drawing field of the game
      * @throws InvalidConstructorDataException when controller didn't properly create Game
      */
-    public Game(int gameId, DrawingField drawingField, ArrayList<ObjectiveCard> sharedObjectiveCards, Deck<ObjectiveCard> objectiveCardDeck) throws InvalidConstructorDataException {
+    public Game(int gameId, DrawingField drawingField, ArrayList<ObjectiveCard> sharedObjectiveCards, Deck<ObjectiveCard> objectiveCardDeck, Deck<StarterCard> starterCardDeck) throws InvalidConstructorDataException {
         this.gameId = gameId;
         this.listOfPlayers = new ArrayList<Player>();
         this.numberOfPlayers = 0;
+        this.availableMarkers = new ArrayList<Marker>(Arrays.asList(Marker.values()));
         try {
             this.tableTop = new TableTop(drawingField, sharedObjectiveCards);
             this.objectiveCardDeck = objectiveCardDeck;
+            this.availableStarterCards = starterCardDeck;
         }
         catch(Exception e)
         {
@@ -103,5 +110,17 @@ public class Game {
 
     public Deck<ObjectiveCard> getObjectiveCardDeck() {
         return objectiveCardDeck;
+    }
+
+    public Deck<StarterCard> getAvailableStarterCards() {
+        return availableStarterCards;
+    }
+
+    public ArrayList<Marker> getAvailableMarkers() {
+        return availableMarkers;
+    }
+
+    public void removeMarker(Marker marker) {
+        this.availableMarkers.remove(marker);
     }
 }
