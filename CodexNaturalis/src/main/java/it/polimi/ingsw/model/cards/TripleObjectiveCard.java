@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.model.CardVisitor;
 
 public class TripleObjectiveCard extends ObjectiveCard{
     /**
@@ -12,5 +13,10 @@ public class TripleObjectiveCard extends ObjectiveCard{
      */
     public TripleObjectiveCard(int cardId, Side currentSide, int points) {
         super(cardId, currentSide, points);
+    }
+
+    @Override
+    public CardInfo accept(CardVisitor visitor) {
+        return null;
     }
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.AngleOrientation;
 import it.polimi.ingsw.enumerations.PositionalType;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.model.CardVisitor;
 
 /**
  * This class represents a positional objective card, which can be diagonal or L-shaped.
@@ -54,5 +55,10 @@ public class PositionalObjectiveCard extends ObjectiveCard {
      */
     public PositionalType getPositionalType() {
         return positionalType;
+    }
+
+    @Override
+    public CardInfo accept(CardVisitor visitor) {
+        return null;
     }
 }

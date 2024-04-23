@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Main controller class
+ * MainServer controller class
  */
 public class Controller {
 

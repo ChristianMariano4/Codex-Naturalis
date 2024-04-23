@@ -45,8 +45,8 @@ public class GoldCard extends PlayableCard implements Visitable{
         }
     }
     @Override
-    public void accept(CardVisitor visitor)  {
-        visitor.visitGoldCard(this);
+    public CardInfo accept(CardVisitor visitor)  {
+        return visitor.visitGoldCard(this);
     }
 
     /**

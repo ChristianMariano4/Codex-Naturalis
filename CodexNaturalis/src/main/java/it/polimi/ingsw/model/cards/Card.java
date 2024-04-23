@@ -25,9 +25,7 @@ public abstract class Card {
       this.currentSide = currentSide;
    }
 
-   public void accept(CardVisitor visitor) throws CardTypeMismatchException {
-      throw new CardTypeMismatchException();
-   }
+   public abstract CardInfo accept(CardVisitor visitor);
 
    /**
     * Getter

@@ -4,6 +4,8 @@ public enum CardType {
     RESOURCE,
     GOLD,
     STARTER,
-    OBJECTIVE
+    TRIPLEOBJECTIVE,
+    RESOURCEOBJECTIVE,
+    POSITIONALOBJECTIVE
 
 }

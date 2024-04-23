@@ -1,18 +1,10 @@
 package it.polimi.ingsw.main;
 
-import it.polimi.ingsw.controller.CardHandler;
-import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.cards.*;
-import it.polimi.ingsw.network.Server;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
-public class Main {
+public class MainServer {
     public static void main(String[] args) throws AlreadyThreeCardsInHandException, InvalidConstructorDataException, CardTypeMismatchException, CardNotImportedException, DeckIsEmptyException, UnlinkedCardException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException {
 /*
         CardHandler h = new CardHandler();

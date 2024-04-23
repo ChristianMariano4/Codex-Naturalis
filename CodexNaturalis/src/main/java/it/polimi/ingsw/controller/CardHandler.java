@@ -4,6 +4,9 @@ import it.polimi.ingsw.controller.cardFactory.*;
 import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.CardNotImportedException;
 import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.exceptions.CardTypeMismatchException;
+import it.polimi.ingsw.model.CardVisitor;
+import it.polimi.ingsw.model.CardVisitorImpl;
 import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
@@ -171,5 +174,8 @@ public class CardHandler {
     {
         return objectiveCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
     }
-
+    public boolean checkRequirements(PlayableCard card) throws CardTypeMismatchException {
+        CardVisitor visitor = new CardVisitorImpl();
+        card.accept(visitor);
+    }
 }

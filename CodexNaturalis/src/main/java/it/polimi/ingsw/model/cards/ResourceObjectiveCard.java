@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.model.CardVisitor;
 
 /**
  * This class represents a resource objective card, which requires the player to have a certain amount of a specific resource.
@@ -29,5 +30,10 @@ public class ResourceObjectiveCard extends ObjectiveCard {
     public Resource getCardResource()
     {
         return cardResource;
+    }
+
+    @Override
+    public CardInfo accept(CardVisitor visitor) {
+        return null;
     }
 }
