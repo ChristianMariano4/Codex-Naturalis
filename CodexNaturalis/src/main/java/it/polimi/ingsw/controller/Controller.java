@@ -101,17 +101,32 @@ public class Controller {
         this.game.getTableTop().getDrawingField().setDiscoveredCards();
     }
 
+    /**
+     * Assign the chosen marker to the player and remove it from the available ones
+     * @param player
+     * @param marker
+     */
 //for each player in the game, initialize the marker, the cards, the matrix and the hand
     public void inizializeMarker(Player player, Marker marker) {
         player.setMarker(marker);
         this.game.removeMarker(marker);
     }
 
+    /**
+     * Give to the player the initial 3 cards in his hand
+     * @param player
+     * @throws DeckIsEmptyException if the deck is empty
+     */
     public void inizializePlayerCards(Player player) throws DeckIsEmptyException {
         player.setSecretObjective(this.game.getObjectiveCardDeck().getTopCard());
         player.setStarterCard(this.game.getAvailableStarterCards().getTopCard());
     }
 
+    /**
+     * Add to the playerField the starterCard of the player
+     * @param player the selected player
+     * @param side the side of the starterCard chosen by the player
+     */
     public void inizializePlayerMatrix(Player player, Side side) {
         if(side == Side.FRONT){
             player.getPlayerField().addCardToCell(player.getStarterCard());
@@ -120,6 +135,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Inizialize the playerHand of the player
+     * @param player
+     * @throws DeckIsEmptyException if the deck is empty
+     * @throws AlreadyThreeCardsInHandException if there are already three cards in the player hand
+     */
     public void inizializePlayerHand(Player player) throws DeckIsEmptyException, AlreadyThreeCardsInHandException {
         player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(DrawPosition.FROMDECK));
         player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));

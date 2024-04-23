@@ -24,6 +24,9 @@ public class CardHandler {
     private final ArrayList<CardPair<ObjectiveCard>> objectiveCards;
     private final ArrayList<CardPair<PlayableCard>> playableCards;
 
+    /**
+     * Constructor
+     */
     public CardHandler()
     {
         this.resourceCards = new ArrayList<>();
@@ -33,42 +36,82 @@ public class CardHandler {
         this.playableCards = new ArrayList<>();
     }
 
+    /**
+     * Create a list of GoldCards
+     * @return the list of gold cards
+     * @throws CardNotImportedException if a card is not imported correctly
+     */
     public ArrayList<GoldCard> importGoldCards() throws CardNotImportedException {
         GoldCardFactory factory = new GoldCardFactory();
         ArrayList<GoldCard> cardList = factory.createCardList();
         linkGoldCards(cardList);
         return cardList;
     }
+
+    /**
+     * Create a list of ResourceCards
+     * @return the list of resource cards
+     * @throws CardNotImportedException if a card is not imported correctly
+     */
     public ArrayList<ResourceCard> importResourceCards() throws CardNotImportedException {
         ResourceCardFactory factory = new ResourceCardFactory();
         ArrayList<ResourceCard> cardList = factory.createCardList();
         linkResourceCards(cardList);
         return cardList;
     }
+
+    /**
+     * Create a list of StarterCards
+     * @return the list of starter cards
+     * @throws CardNotImportedException if a card is not imported correctly
+     */
     public ArrayList<StarterCard> importStarterCards() throws CardNotImportedException {
         StarterCardFactory factory = new StarterCardFactory();
         ArrayList<StarterCard> cardList = factory.createCardList();
         linkStarterCards(cardList);
         return cardList;
     }
+
+    /**
+     * Create a list of PositionalObjectiveCards
+     * @return the list of PositionalObjectiveCards
+     * @throws CardNotImportedException if a card is not imported correctly
+     */
     public ArrayList<ObjectiveCard> importPositionalObjectiveCards() throws CardNotImportedException {
         PositionalObjectiveCardFactory factory = new PositionalObjectiveCardFactory();
         ArrayList<ObjectiveCard> cardList = factory.createCardList();
         linkObjectiveCards(cardList);
         return cardList;
     }
+
+    /**
+     * Create a list of ResourceObjectiveCards
+     * @return the list of ResourceObjectiveCards
+     * @throws CardNotImportedException if a card is not imported correctly
+     */
     public ArrayList<ObjectiveCard> importResourceObjectiveCards() throws CardNotImportedException {
         ResourceObjectiveCardFactory factory = new ResourceObjectiveCardFactory();
         ArrayList<ObjectiveCard> cardList = factory.createCardList();
         linkObjectiveCards(cardList);
         return cardList;
     }
+
+    /**
+     * Create a list of TripleObjectiveCards
+     * @return the list of TripleObjectiveCards
+     * @throws CardNotImportedException if a card is not imported correctly
+     */
     public ArrayList<ObjectiveCard> importTripleObjectiveCard() throws CardNotImportedException {
         TripleObjectiveCardFactory factory = new TripleObjectiveCardFactory();
         ArrayList<ObjectiveCard> cardList = factory.createCardList();
         linkObjectiveCards(cardList);
         return cardList;
     }
+
+    /**
+     * Link all GoldCards with their other side
+     * @param cardList is the list of GoldCards
+     */
     private void linkGoldCards(ArrayList<GoldCard> cardList)
     {
         cardList.forEach(c1 ->
@@ -83,6 +126,11 @@ public class CardHandler {
              );
         linkPlayableCards(new ArrayList<>(cardList));
     }
+
+    /**
+     * Link all ResourceCards with their other side
+     * @param cardList is the list of ResourceCards
+     */
     private void linkResourceCards(ArrayList<ResourceCard> cardList)
     {
         cardList.forEach(c1 ->
@@ -98,6 +146,11 @@ public class CardHandler {
         linkPlayableCards(new ArrayList<>(cardList));
 
     }
+
+    /**
+     * Link all StarterCards with their other side
+     * @param cardList is the list of StarterCards
+     */
     private void linkStarterCards(ArrayList<StarterCard> cardList)
     {
         cardList.forEach(c1 ->
@@ -113,6 +166,11 @@ public class CardHandler {
         linkPlayableCards(new ArrayList<>(cardList));
 
     }
+
+    /**
+     * Link all ObjectiveCards with their other side
+     * @param cardList is the list of ObjectiveCards
+     */
     private void linkObjectiveCards(ArrayList<ObjectiveCard> cardList)
     {
         cardList.forEach(c1 ->
@@ -128,6 +186,10 @@ public class CardHandler {
 
     }
 
+    /**
+     * Link all PlayableCards with their other side
+     * @param cardList is the list of PlayableCards
+     */
     public void linkPlayableCards(ArrayList<PlayableCard> cardList)
     {
         cardList.forEach(c1 ->
@@ -141,43 +203,102 @@ public class CardHandler {
                 }
         );
     }
+
+    /**
+     * Remove from the Resource cardList all the Side.BACK cards
+     * @param cardList is the list of ResourceCards
+     * @return the list without all the Side.BACK cards
+     */
     public ArrayList<ResourceCard> filterResourceCards(ArrayList<ResourceCard> cardList) {
         return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.BACK)).toList());
 
     }
+
+    /**
+     * Remove from the Gold cardList all the Side.BACK cards
+     * @param cardList is the list of GoldCards
+     * @return the list without all the Side.BACK cards
+     */
     public ArrayList<GoldCard> filterGoldCards(ArrayList<GoldCard> cardList) {
         return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.BACK)).toList());
 
     }
+    /**
+     * Remove from the Starter cardList all the Side.BACK cards
+     * @param cardList is the list of StarterCards
+     * @return the list without all the Side.BACK cards
+     */
     public ArrayList<StarterCard> filterStarterCards(ArrayList<StarterCard> cardList) {
         return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.BACK)).toList());
 
     }
-
+    /**
+     * Remove from the Objective cardList all the Side.BACK cards
+     * @param cardList is the list of ObjectiveCards
+     * @return the list without all the Side.BACK cards
+     */
     public ArrayList<ObjectiveCard> filterObjectiveCards(ArrayList<ObjectiveCard> cardList) {
         return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.BACK)).toList());
     }
+
+    /**
+     * Get the other side of the selected PlayableCard
+     * @param card is the selected PlayableCard
+     * @return the other side of the selected PlayableCard
+     * @throws CardNotFoundException if the card selected doesn't exist
+     */
     public PlayableCard getOtherSideCard(PlayableCard card) throws CardNotFoundException {
 
         return playableCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
     }
 
+    /**
+     * Get the other side of the selected GoldCard
+     * @param card is the selected GoldCard
+     * @return the other side of the selected GoldCard
+     */
     public GoldCard getOtherSideCard(GoldCard card)
     {
         return goldCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
     }
+
+    /**
+     * Get the other side of the selected ResourceCard
+     * @param card is the selected ResourceCard
+     * @return the other side of the selected ResourceCard
+     */
     public ResourceCard getOtherSideCard(ResourceCard card)
     {
         return resourceCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
     }
+
+    /**
+     * Get the other side of the selected StarterCard
+     * @param card is the selected StarterCard
+     * @return the other side of the selected StarterCard
+     */
     public StarterCard getOtherSideCard(StarterCard card)
     {
         return starterCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
     }
+
+    /**
+     * Get the other side of the selected ObjectiveCard
+     * @param card is the selected ObjectiveCard
+     * @return the other side of the selected ObjectiveCard
+     */
     public ObjectiveCard getOtherSideCard(ObjectiveCard card)
     {
         return objectiveCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
     }
+
+    /**
+     * Check if the selected card Requirements are satisfied by the player
+     * @param card is the selected card
+     * @param player is the player how want to play the card
+     * @return true if the player can use the card, false otherwise
+     * @throws CardTypeMismatchException if the cardType is not a RESOURCE or GOLD card
+     */
     public boolean checkRequirements(PlayableCard card, Player player) throws CardTypeMismatchException {
         CardVisitor visitor = new CardVisitorImpl();
         CardInfo cardInfo = card.accept(visitor);
