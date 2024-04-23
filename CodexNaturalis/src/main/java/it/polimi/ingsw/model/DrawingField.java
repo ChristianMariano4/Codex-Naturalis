@@ -45,7 +45,7 @@ public class DrawingField {
     public GoldCard drawCardFromGoldCardDeck(DrawPosition drawPosition) throws DeckIsEmptyException
     {
         if(drawPosition == DrawPosition.FROMDECK) {
-            return (GoldCard) goldCardDeck.getTopCard();
+            return goldCardDeck.getTopCard();
         }
         else {
             GoldCard chosenCard = discoveredGoldCards.get(drawPosition);
@@ -53,7 +53,7 @@ public class DrawingField {
                 throw new DeckIsEmptyException();
             //Change discovered gold card chosen by the player
             if (!goldCardDeck.isEmpty())
-                discoveredGoldCards.put(drawPosition, (GoldCard) goldCardDeck.getTopCard());
+                discoveredGoldCards.put(drawPosition, goldCardDeck.getTopCard());
             else {
                 discoveredGoldCards.put(drawPosition, null);
             }
@@ -72,7 +72,7 @@ public class DrawingField {
     public ResourceCard drawCardFromResourceCardDeck(DrawPosition drawPosition) throws DeckIsEmptyException
     {
         if(drawPosition == DrawPosition.FROMDECK) {
-            return (ResourceCard) resourceCardDeck.getTopCard();
+            return resourceCardDeck.getTopCard();
         }
         else {
             ResourceCard chosenCard = discoveredResourceCards.get(drawPosition);
@@ -80,7 +80,7 @@ public class DrawingField {
                 throw new DeckIsEmptyException();
             //Change discovered resource card chosen by the player
             if(!resourceCardDeck.isEmpty())
-                discoveredResourceCards.put(drawPosition, (ResourceCard) resourceCardDeck.getTopCard());
+                discoveredResourceCards.put(drawPosition, resourceCardDeck.getTopCard());
             else {
                 discoveredResourceCards.put(drawPosition, null);
             }
@@ -88,7 +88,7 @@ public class DrawingField {
         }
 
     }
-    public void drawDiscoveredCards() throws DeckIsEmptyException {
+    public void setDiscoveredCards() throws DeckIsEmptyException {
         discoveredGoldCards.put(DrawPosition.LEFT, drawCardFromGoldCardDeck(DrawPosition.FROMDECK));
         discoveredGoldCards.put(DrawPosition.RIGHT, drawCardFromGoldCardDeck(DrawPosition.FROMDECK));
 

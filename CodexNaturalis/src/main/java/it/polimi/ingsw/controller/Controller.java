@@ -141,7 +141,7 @@ public class Controller {
             player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
             player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
         }
-        game.getTableTop().getDrawingField().drawDiscoveredCards();
+        game.getTableTop().getDrawingField().setDiscoveredCards();
     }
 
 
