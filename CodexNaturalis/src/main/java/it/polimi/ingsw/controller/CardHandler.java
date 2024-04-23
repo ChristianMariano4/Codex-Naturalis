@@ -1,15 +1,19 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.cardFactory.*;
+import it.polimi.ingsw.enumerations.CardType;
+import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.CardNotImportedException;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.model.CardVisitor;
 import it.polimi.ingsw.model.CardVisitorImpl;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CardHandler {
 
@@ -174,8 +178,29 @@ public class CardHandler {
     {
         return objectiveCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
     }
-    public boolean checkRequirements(PlayableCard card) throws CardTypeMismatchException {
+    public boolean checkRequirements(PlayableCard card, Player player) throws CardTypeMismatchException {
         CardVisitor visitor = new CardVisitorImpl();
-        card.accept(visitor);
+        CardInfo cardInfo = card.accept(visitor);
+        if(cardInfo.getCardType().equals(CardType.RESOURCE))
+        {
+            return true;
+        }
+        if(cardInfo.getCardType().equals(CardType.GOLD))
+        {
+            HashMap<Resource, Integer> requirementsResourceAmount = new HashMap<>();
+            for(Resource resource : cardInfo.getRequirements())
+            {
+                //merge adds 1 if key exists otherwise sets value to 1
+                //TODO: check correct
+                requirementsResourceAmount.merge(resource, 1, Integer::sum);
+            }
+            for(Resource resource : requirementsResourceAmount.keySet())
+            {
+               if(player.getResourceAmount(resource) < requirementsResourceAmount.get(resource))
+                   return false;
+            }
+            return true;
+        }
+        throw new CardTypeMismatchException();
     }
 }

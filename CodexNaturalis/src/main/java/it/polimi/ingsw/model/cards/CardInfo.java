@@ -91,7 +91,7 @@ public class CardInfo {
      *
      * @return the cardType
      */
-    CardType getCardType() {
+    public CardType getCardType() {
         return this.cardType;
     }
 
@@ -99,7 +99,7 @@ public class CardInfo {
      *
      * @return the requirements
      */
-    ArrayList<Resource> getRequirements() {
+    public ArrayList<Resource> getRequirements() {
         return this.requirements;
     }
 
@@ -107,7 +107,7 @@ public class CardInfo {
      *
      * @return the goldPointCondition
      */
-    GoldPointCondition getGoldPointCondition() {
+    public GoldPointCondition getGoldPointCondition() {
         return this.goldPointCondition;
     }
 
@@ -115,7 +115,7 @@ public class CardInfo {
      *
      * @return the cardColor
      */
-    Resource getCardColor() {
+    public Resource getCardColor() {
         return  this.cardColor;
     }
 
@@ -123,7 +123,7 @@ public class CardInfo {
      *
      * @return the Orientation
      */
-    AngleOrientation getOrientation() {
+    public AngleOrientation getOrientation() {
         return this.orientation;
     }
 
@@ -131,7 +131,7 @@ public class CardInfo {
      *
      * @return the positionalType
      */
-    PositionalType getPositionalType() {
+    public PositionalType getPositionalType() {
         return this.positionalType;
     }
 
@@ -139,7 +139,7 @@ public class CardInfo {
      *
      * @return the cardResource
      */
-    Resource getCardResource() {
+    public Resource getCardResource() {
         return this.cardResource;
     }
 

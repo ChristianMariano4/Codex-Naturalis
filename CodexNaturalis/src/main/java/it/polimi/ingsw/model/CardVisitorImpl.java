@@ -1,13 +1,13 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.enumerations.CardType;
+import it.polimi.ingsw.model.cards.CardInfo;
 import it.polimi.ingsw.model.cards.GoldCard;
 
 public class CardVisitorImpl implements CardVisitor {
 
     @Override
-    public void visitGoldCard(GoldCard card) {
-        //controller methods to check if goldCard requirements are satisfied
-        //TODO: add controller methods
-        System.out.println(card.getRequirements());
+    public CardInfo visitGoldCard(GoldCard card) {
+        return new CardInfo(CardType.GOLD, card.getRequirements(), card.getGoldPointCondition());
     }
 }
