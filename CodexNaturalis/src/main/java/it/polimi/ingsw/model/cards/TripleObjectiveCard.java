@@ -17,6 +17,6 @@ public class TripleObjectiveCard extends ObjectiveCard{
 
     @Override
     public CardInfo accept(CardVisitor visitor) {
-        return null;
+        return visitor.visitTripleObjectiveCard(this);
     }
 }

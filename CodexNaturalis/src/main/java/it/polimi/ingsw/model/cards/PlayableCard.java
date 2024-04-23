@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * This class represents a started card, which is given to the player at the beginning of the game.
  */
-public class PlayableCard extends Card{
+public abstract class PlayableCard extends Card{
 
     private final ArrayList<Resource> centralResources;
     private final HashMap<AngleOrientation, Angle> angles;

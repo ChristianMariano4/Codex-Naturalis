@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.AngleOrientation;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
+import it.polimi.ingsw.model.CardVisitor;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -28,4 +29,8 @@ public class ResourceCard extends PlayableCard {
         super(cardId, currentSide, centralResource, angles, cardColor, points);
     }
 
+    @Override
+    public CardInfo accept(CardVisitor visitor) {
+        return visitor.visitResourceCard(this);
+    }
 }

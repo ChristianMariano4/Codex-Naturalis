@@ -34,6 +34,6 @@ public class ResourceObjectiveCard extends ObjectiveCard {
 
     @Override
     public CardInfo accept(CardVisitor visitor) {
-        return null;
+        return visitor.visitResourceObjectiveCard(this);
     }
 }

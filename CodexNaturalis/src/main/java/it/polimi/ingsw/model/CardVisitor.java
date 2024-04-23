@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.CardType;
-import it.polimi.ingsw.model.cards.CardInfo;
-import it.polimi.ingsw.model.cards.GoldCard;
+import it.polimi.ingsw.model.cards.*;
 
 public interface CardVisitor {
+    CardInfo visitResourceCard(ResourceCard card);
     CardInfo visitGoldCard(GoldCard card);
+    CardInfo visitTripleObjectiveCard(TripleObjectiveCard card);
+    CardInfo visitPositionalObjectiveCard(PositionalObjectiveCard card);
+    CardInfo visitResourceObjectiveCard(ResourceObjectiveCard card);
 }
