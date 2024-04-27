@@ -22,6 +22,7 @@ public class Game {
     private final int gameId;
     private int numberOfPlayers;
     private final ArrayList<Player> listOfPlayers;
+    private Player currentPlayer;
     private final TableTop tableTop;
     private final Deck<ObjectiveCard> objectiveCardDeck;
     private final Deck<StarterCard> availableStarterCards;
@@ -122,5 +123,12 @@ public class Game {
 
     public void removeMarker(Marker marker) {
         this.availableMarkers.remove(marker);
+    }
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }
