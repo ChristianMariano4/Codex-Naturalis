@@ -25,6 +25,6 @@ public class ViewCLI {
 
     public static void main(String[] args) {
         String serverAddress = args[1];
-        ViewCLI view = new ViewCLI();
+       // ViewCLI view = new ViewCLI();
     }
 }

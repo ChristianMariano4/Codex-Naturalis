@@ -1,12 +1,55 @@
 package it.polimi.ingsw.main;
 
+import it.polimi.ingsw.enumerations.GoldPointCondition;
+import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.CardVisitorImpl;
+import it.polimi.ingsw.model.GameValues;
+import it.polimi.ingsw.model.PlayerHand;
+import it.polimi.ingsw.model.cards.GoldCard;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
 
 public class MainServer {
     public static void main(String[] args) throws AlreadyThreeCardsInHandException, InvalidConstructorDataException, CardTypeMismatchException, CardNotImportedException, DeckIsEmptyException, UnlinkedCardException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException {
-/*
+
+
+        try {
+            ServerSocket serverSocket = new ServerSocket(GameValues.SERVER_PORT);
+            Socket clientSocket = serverSocket.accept();
+            PrintWriter outC =
+                    new PrintWriter(clientSocket.getOutputStream(), true);
+            BufferedReader inC = new BufferedReader(
+                    new InputStreamReader(clientSocket.getInputStream()));
+            outC.println("Test");
+            }
+            catch(Exception e)
+            {
+                System.err.println("Socket error");
+                return;
+            }
+
+
+
+
+
+
+        /*
+
+
+
+
+
+
         CardHandler h = new CardHandler();
         ArrayList<ResourceCard> gold= h.importResourceCards();
         gold = h.filterResourceCards(gold);
@@ -15,7 +58,7 @@ public class MainServer {
         ResourceCard c2 = h.getOthersideCard(c);
         System.out.println(c2.getCardId() + " - " + c2.getCurrentSide());
 
-*/
+
 
         PlayerHand playerHand = new PlayerHand();
         ArrayList centralResources = new ArrayList();
@@ -44,6 +87,6 @@ public class MainServer {
 //        controller.startGame(game);
 //        System.out.println(game.getListOfPlayers().getFirst().getPlayerHand().getCardsInHand().getFirst());
 
-
+    */
     }
 }
