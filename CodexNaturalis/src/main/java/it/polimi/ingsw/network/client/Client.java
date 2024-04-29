@@ -17,13 +17,13 @@ import java.net.Socket;
 public class Client {
 
     private String username;
-    protected static String SERVER_ADDRESS = GameValues.SERVER_ADDRESS;
-    protected static int SERVER_PORT = GameValues.SERVER_PORT;
+    private static String SERVER_ADDRESS = GameValues.SERVER_ADDRESS;
+    private static int SERVER_PORT = GameValues.SERVER_PORT;
     private Socket serverSocket;
     private ObjectOutputStream output;
     private ObjectInputStream input;
-    public Thread serverListener;
-    protected Socket clientSocket;
+    //private Thread serverListener;
+    private Socket clientSocket;
     private EventManager eventManager;
     private View view;
 
@@ -33,23 +33,49 @@ public class Client {
         eventManager.subscribe(UserInputEvent.class, new UserInputListener(this));
     }
 
+    public Client(){
+
+    }
+
     public void connect() {
         try {
             this.serverSocket = new Socket(SERVER_ADDRESS, SERVER_PORT);
             output = new ObjectOutputStream(serverSocket.getOutputStream());
-
-            serverListener = new SocketServerListener(serverSocket);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void startServerListener(){
-        serverListener.start();
+    public void startListening() {
+        try {
+            while(true) {
+                try {
+                    input = new ObjectInputStream(serverSocket.getInputStream());
+                    EventWrapper ew = (EventWrapper) input.readObject();
+                    if(ew == null) {
+                        break;
+                    }
+
+                    this.update(ew.getMessage(), ew.getType());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            serverSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setView(View view) {
         this.view = view;
+    }
+
+    public View getView() {
+        return this.view;
     }
 
     public EventManager getEventManager() {
@@ -60,38 +86,8 @@ public class Client {
         this.username = username;
     }
 
-    class SocketServerListener extends Thread {
-        private final Socket serverSocket;
-
-        public SocketServerListener(Socket socket) {
-            this.serverSocket = socket;
-        }
-
-        public void run() {
-            try {
-                while (true) {
-                    input = new ObjectInputStream(serverSocket.getInputStream());
-                    EventWrapper ew = (EventWrapper) input.readObject();
-                    if (ew == null) {
-                        break;
-                    }
-
-                    Client.this.update(ew.getMessage(), ew.getType());
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
     public void update(Game argument, GameEvent event){
         view.update(argument, event);
-    }
-
-    public void run() {
-        view.run();
     }
 
     public void updateServer(UserMessageWrapper message) {
@@ -102,24 +98,20 @@ public class Client {
         }
     }
 
-    public Object updateServerPreGame(UserMessageWrapper message) {
-        try {
-            output.writeObject(message);
-            input = new ObjectInputStream(serverSocket.getInputStream());
-            return input.readObject();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public String getUsername() {
         return username;
     }
 
+    public void setUsername() {
+        this.username = username;
+    }
+
     public Socket getServerSocket() {
         return serverSocket;
+    }
+
+    public Socket getClientSocket() {
+        return clientSocket;
     }
 
     public void setClientSocket(Socket clientSocket) {

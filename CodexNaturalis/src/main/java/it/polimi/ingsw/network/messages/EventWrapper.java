@@ -2,11 +2,13 @@ package it.polimi.ingsw.network.messages;
 
 import it.polimi.ingsw.model.Game;
 
-public class EventWrapper {
+import java.io.Serializable;
+
+public class EventWrapper implements Serializable {
     private final GameEvent type;
     private final Game message;
 
-    public EventWrapper(GameEvent type, Game message) {
+    public EventWrapper(Game message, GameEvent type) {
         this.type = type;
         this.message = message;
     }

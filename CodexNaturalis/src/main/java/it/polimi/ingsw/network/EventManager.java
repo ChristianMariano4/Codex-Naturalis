@@ -1,12 +1,15 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
+import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class EventManager {
-    protected Map<Class<? extends Enum<?>>, List<Listener<? extends Enum<?>>>> listeners = new HashMap<>();
+    public Map<Class<?>, List<Listener<? extends Enum<?>>>> listeners = new HashMap<>();
 
     public <E extends Enum<E>> void subscribe(Class<E> eventType, Listener<E> listener) {
         if (!listeners.containsKey(eventType)) {
@@ -23,12 +26,13 @@ public class EventManager {
         }
     }
 
-    public <E extends Enum<E>> void notify(E event, Object... args) {
-        List<Listener<?>> eventListeners = listeners.get(event.getClass());
+    public <E extends Enum<E>> void notify(UserMessageWrapper message) {
+        List<Listener<?>> eventListeners = listeners.get(message.getType().getClass());
         if (eventListeners != null) {
+            System.out.println("event Listeners not null");
             for (Listener<?> listener : eventListeners) {
                 Listener<E> typedListener = (Listener<E>) listener;
-                typedListener.update(event, args);
+                typedListener.update(message);
             }
         }
     }

@@ -9,7 +9,12 @@ import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 import it.polimi.ingsw.model.cards.StarterCard;
-import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.EventManager;
+import it.polimi.ingsw.network.messages.userMessages.UserMessage;
+import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
+import it.polimi.ingsw.network.server.Server;
+import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
+import it.polimi.ingsw.network.server.ServerEventManager;
 
 import java.io.IOException;
 import java.util.*;
@@ -18,19 +23,34 @@ import java.util.*;
  * MainServer controller class
  */
 public class Controller {
-
+    public String testUsername;
     private int numberOfGames = 0;
-    private final CardHandler cardHandler;
-    private final Server server;
+    private CardHandler cardHandler;
+    private Server server;
     private Game game;
     private final Object markerLock = new Object();
     private final Object PlayerLock = new Object();
+    private EventManager eventManager;
+    private ServerEventManager serverEventManager;
 
-    public Controller(Server server)
+    public Controller(){
+
+    }
+    public Controller(Server server, EventManager eventManager)
     {
         cardHandler = new CardHandler();
         this.server = server;
+        this.eventManager = eventManager;
     }
+
+    public Controller(Server server, ServerEventManager serverEventManager)
+    {
+        cardHandler = new CardHandler();
+        this.server = server;
+        this.serverEventManager = serverEventManager;
+    }
+
+
     public Game createGame() throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
         //starts new thread in server and then returns new game
         //TODO: start thread in server
@@ -147,4 +167,11 @@ public class Controller {
         player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
     }
 
+    public void update(UserMessageWrapper message) {
+        switch(message.getType()) {
+            case USERNAME_INSERTED -> {
+                testUsername = message.getMessage().getUsername();
+            }
+        }
+    }
 }

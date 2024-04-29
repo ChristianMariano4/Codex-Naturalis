@@ -4,7 +4,7 @@ public class UserMessageWrapper {
     private final UserInputEvent type;
     private final UserMessage message;
 
-    public UserMessageWrapper(UserInputEvent type, UserMessage message) {
+    public UserMessageWrapper(UserInputEvent type, UsernameMessage message) {
         this.type = type;
         this.message = message;
     }
