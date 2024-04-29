@@ -19,9 +19,10 @@ public class MainClient {
         }
         try{
             Socket socket = new Socket(serverIp, GameValues.SERVER_PORT);
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream()));
-            System.out.println(in.readLine());
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            while(true) {
+                System.out.println(in.readLine());
+            }
 
         }
         catch (Exception e)
