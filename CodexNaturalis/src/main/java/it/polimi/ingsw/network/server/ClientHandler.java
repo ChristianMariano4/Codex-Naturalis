@@ -1,9 +1,13 @@
 package it.polimi.ingsw.network.server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.exceptions.CardNotImportedException;
+import it.polimi.ingsw.exceptions.CardTypeMismatchException;
+import it.polimi.ingsw.exceptions.DeckIsEmptyException;
+import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
+import it.polimi.ingsw.model.Game;
+
+import java.io.*;
 import java.net.Socket;
 import java.time.Clock;
 import java.util.Date;
@@ -23,19 +27,31 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
         try {
-        PrintWriter outC = new PrintWriter(socket.getOutputStream(), true);
+            System.out.println("game1");
 
-            BufferedReader inC = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream()));
-            outC.println("Test");
-            while(true)
-            {
-                outC.println("name: " + Thread.currentThread().getName() + " " + new Date() + " -> " + socket.toString());
-                sleep(5000);
-            }
+            ObjectOutputStream outC = new ObjectOutputStream(socket.getOutputStream());
+            System.out.println("game2");
+
+            Controller c = new Controller();
+            System.out.println("game3");
+
+            Game game = c.createGame();
+            System.out.println("game4");
+
+            System.out.println(game);
+            System.out.println("game5");
+
+            outC.writeObject(game.getObjectiveCardDeck().getTopCard());
+
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (CardTypeMismatchException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidConstructorDataException e) {
+            throw new RuntimeException(e);
+        } catch (CardNotImportedException e) {
+            throw new RuntimeException(e);
+        } catch (DeckIsEmptyException e) {
             throw new RuntimeException(e);
         }
 

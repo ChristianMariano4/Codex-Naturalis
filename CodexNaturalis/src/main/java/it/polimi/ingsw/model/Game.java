@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,7 +19,7 @@ import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
  * This class represents the game. It contains the list of players and the table.
  * The game is responsible for adding players to the game and managing the table.
  */
-public class Game {
+public class Game implements Serializable {
     private final int gameId;
     private int numberOfPlayers;
     private final ArrayList<Player> listOfPlayers;

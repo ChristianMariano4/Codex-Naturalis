@@ -5,11 +5,13 @@ import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.UnlinkedCardException;
 import it.polimi.ingsw.model.CardVisitor;
 
+import java.io.Serializable;
+
 /**
  * This class represents a generic card, uniquely identified by an id and a side.
  * It contains the reference to the card that represents the other side of the current card.
  */
-public abstract class Card {
+public abstract class Card implements Serializable {
 
    private final int cardId;
    private final Side currentSide;

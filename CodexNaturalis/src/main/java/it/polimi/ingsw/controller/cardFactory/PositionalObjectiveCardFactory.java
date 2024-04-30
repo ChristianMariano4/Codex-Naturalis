@@ -16,7 +16,7 @@ public class PositionalObjectiveCardFactory extends CardFactory<ObjectiveCard> {
     public ArrayList<ObjectiveCard> createCardList() throws CardNotImportedException {
         PositionalObjectiveCard[] positionalObjectiveCardArray;
         Gson gson = new Gson();
-        try(Reader reader = new FileReader("CodexNaturalis/resources/positionalObjectiveCards.json")) {
+        try(Reader reader = new FileReader("CodexNaturalis/src/main/resources/positionalObjectiveCards.json")) {
             positionalObjectiveCardArray = gson.fromJson(reader, PositionalObjectiveCard[].class);
         } catch (IOException e) {
             throw new CardNotImportedException();

@@ -23,7 +23,7 @@ import java.util.*;
 public class Server {
 
 
-    private final Map<Integer, Game> games;
+    private final Map<Integer, GameHandler> games;
     private List<Client> clients;
     private Controller controller;
     public static ServerEventManager serverEventManager = new ServerEventManager();
@@ -34,7 +34,7 @@ public class Server {
     public Server()
     {
         this.clients = new ArrayList<>();
-        this.controller = new Controller(this, serverEventManager);
+        this.controller = new Controller();
         this.games = new HashMap<>();
     }
 
@@ -43,18 +43,18 @@ public class Server {
      * @param gameId the id of the game
      * @return the game with the specified gameId
      */
-    public Game getGameById(int gameId)
+    public GameHandler getGameById(int gameId)
     {
-        return games.get(gameId);
+       return games.get(gameId);
     }
 
     /**
      * Adds a game to the server
      * @param game the game to be added
      */
-    private void addGame(Game game)
+    private void addGame(GameHandler game)
     {
-        games.put(game.getGameId(), game);
+        games.put(game.game.getGameId(), game);
     }
     public Client getClient(String username){
         return clients.stream().filter(c -> c.getUsername().equals(username)).findFirst().orElse(null);

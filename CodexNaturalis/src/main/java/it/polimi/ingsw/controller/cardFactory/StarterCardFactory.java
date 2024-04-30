@@ -16,7 +16,7 @@ public class StarterCardFactory extends CardFactory<StarterCard> {
     public ArrayList<StarterCard> createCardList() throws CardNotImportedException {
         StarterCard[] starterCardArray;
         Gson gson = new Gson();
-        try(Reader reader = new FileReader("CodexNaturalis/resources/starterCards.json")) {
+        try(Reader reader = new FileReader("CodexNaturalis/src/main/resources/starterCards.json")) {
             starterCardArray = gson.fromJson(reader, StarterCard[].class);
         } catch (IOException e) {
             throw new CardNotImportedException();

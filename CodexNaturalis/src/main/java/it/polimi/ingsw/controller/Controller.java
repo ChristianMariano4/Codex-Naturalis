@@ -32,11 +32,11 @@ public class Controller {
     private ServerEventManager serverEventManager;
 
     public Controller(){
-
+        this.cardHandler = new CardHandler();
     }
-    public Controller(Server server, EventManager eventManager)
+  /* public Controller(Server server, EventManager eventManager)
     {
-        cardHandler = new CardHandler();
+        this.cardHandler = new CardHandler();
         this.server = server;
         this.eventManager = eventManager;
     }
@@ -47,7 +47,7 @@ public class Controller {
         this.server = server;
         this.serverEventManager = serverEventManager;
     }
-
+*/
     /**
      *
      * @return the Game the method create
@@ -100,7 +100,7 @@ public class Controller {
      * @throws AlreadyFourPlayersException when the game already contains the maximum amount of players
      */
     public void addPlayerToGame(int gameId, Player player) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
-        server.getGameById(gameId).addPlayer(player);
+        server.getGameById(gameId).game.addPlayer(player);
     }
 
     /**
