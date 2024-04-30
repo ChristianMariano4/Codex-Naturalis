@@ -39,23 +39,21 @@ public enum AngleOrientation {
             case NONE -> 0;
         };
     }
-    public int[] mapEnumToYLShaped()
+    public int mapEnumToYLShaped()
     {
-        int[] yValues = new int[2];
+        int yValue;
         return switch(this)
         {
             case TOPRIGHT, TOPLEFT-> {
-                yValues[0] = 1;
-                yValues[1] = 2;
-                yield yValues;
+                yValue = 1;
+                yield yValue;
             }
             case BOTTOMRIGHT, BOTTOMLEFT-> {
-                yValues[0] = -1;
-                yValues[1] = -2;
-                yield yValues;
+                yValue= -1;
+                yield yValue;
             }
             case NONE-> {
-                yield yValues;
+                yield 0;
             }
         };
     }
