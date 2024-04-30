@@ -61,7 +61,6 @@ public class MainServer {
 
 
 
-
         CardHandler h = new CardHandler();
         ArrayList<ResourceCard> gold= h.importResourceCards();
         gold = h.filterResourceCards(gold);

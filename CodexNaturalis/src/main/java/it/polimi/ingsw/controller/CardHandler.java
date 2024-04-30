@@ -324,4 +324,10 @@ public class CardHandler {
         }
         throw new CardTypeMismatchException();
     }
+    public CardInfo getCardInfo(Card card)
+    {
+        CardVisitor visitor = new CardVisitorImpl();
+        return card.accept(visitor);
+    }
+
 }

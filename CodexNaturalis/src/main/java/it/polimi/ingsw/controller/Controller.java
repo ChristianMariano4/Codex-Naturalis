@@ -1,14 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.enumerations.CardType;
 import it.polimi.ingsw.enumerations.DrawPosition;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.cards.GoldCard;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.ResourceCard;
-import it.polimi.ingsw.model.cards.StarterCard;
+import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.EventManager;
 import it.polimi.ingsw.network.messages.userMessages.UserMessage;
 import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
@@ -53,8 +51,6 @@ public class Controller {
 
     public Game createGame() throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
         //starts new thread in server and then returns new game
-        //TODO: start thread in server
-        //TODO: fix deck inheritance
         //sequential game id starting from 0
         int id = this.numberOfGames;
         this.numberOfGames += 1;
@@ -172,6 +168,33 @@ public class Controller {
             case USERNAME_INSERTED -> {
                 testUsername = message.getMessage().getUsername();
             }
+        }
+    }
+    public void calculateAndUpdateFinalPoints(Game game) throws CardTypeMismatchException {
+        ArrayList<ObjectiveCard> objectiveCards = game.getTableTop().getSharedObjectiveCards();
+
+        for(Player player : game.getListOfPlayers())
+        {
+            objectiveCards.add(player.getSecretObjective());
+            for(ObjectiveCard objectiveCard : objectiveCards) {
+                CardInfo objectiveCardInfo = cardHandler.getCardInfo(objectiveCard);
+                switch(objectiveCardInfo.getCardType())
+                {
+                    case CardType.TRIPLEOBJECTIVE:
+                        player.addPoints(PointCalculator.calculateTripleObjective(objectiveCardInfo, player.getPlayerField()));
+                        break;
+                    case CardType.RESOURCEOBJECTIVE:
+                        player.addPoints(PointCalculator.calculateResourceObjective(objectiveCardInfo, player.getPlayerField()));
+                        break;
+                    case CardType.POSITIONALOBJECTIVE:
+                        player.addPoints(PointCalculator.calculatePositionalObjective(objectiveCardInfo, player.getPlayerField()));
+                        break;
+                    default:
+                        throw new CardTypeMismatchException();
+                }
+            }
+
+            objectiveCards.remove(2); // removes secret player objective
         }
     }
 }

@@ -22,6 +22,7 @@ import java.util.*;
 
 public class Server {
 
+
     private final Map<Integer, Game> games;
     private List<Client> clients;
     private Controller controller;
