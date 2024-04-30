@@ -188,13 +188,13 @@ public class Controller {
                 switch(objectiveCardInfo.getCardType())
                 {
                     case CardType.TRIPLEOBJECTIVE:
-                        player.addPoints(PointCalculator.calculateTripleObjective(objectiveCardInfo, player.getPlayerField()));
+                        player.addPoints(PointCalculator.calculateTripleObjective(player.getPlayerField(), objectiveCard));
                         break;
                     case CardType.RESOURCEOBJECTIVE:
-                        player.addPoints(PointCalculator.calculateResourceObjective(objectiveCardInfo, player.getPlayerField()));
+                        player.addPoints(PointCalculator.calculateResourceObjective(objectiveCardInfo, player.getPlayerField(),objectiveCard));
                         break;
                     case CardType.POSITIONALOBJECTIVE:
-                        player.addPoints(PointCalculator.calculatePositionalObjective(objectiveCardInfo, player.getPlayerField()));
+                        player.addPoints(PointCalculator.calculatePositionalObjective(objectiveCardInfo, player.getPlayerField(),objectiveCard));
                         break;
                     default:
                         throw new CardTypeMismatchException();

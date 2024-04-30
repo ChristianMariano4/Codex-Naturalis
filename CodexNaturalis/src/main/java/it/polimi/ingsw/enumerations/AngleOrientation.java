@@ -52,9 +52,7 @@ public enum AngleOrientation {
                 yValue= -1;
                 yield yValue;
             }
-            case NONE-> {
-                yield 0;
-            }
+            case NONE-> 0;
         };
     }
 

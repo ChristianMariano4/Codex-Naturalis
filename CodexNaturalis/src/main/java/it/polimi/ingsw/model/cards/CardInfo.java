@@ -15,6 +15,7 @@ public class CardInfo {
     private final PositionalType positionalType;
     private final Resource cardResource;
 
+
     /**
      * GoldCard CardInfo constructor
      * @param cardType

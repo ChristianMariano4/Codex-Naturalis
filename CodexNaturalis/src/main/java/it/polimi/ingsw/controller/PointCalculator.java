@@ -17,7 +17,7 @@ import it.polimi.ingsw.model.cards.PlayableCard;
 import javax.management.StandardEmitterMBean;
 
 public class PointCalculator {
-    public static int calculateTripleObjective(CardInfo cardInfo, PlayerField playerField)
+    public static int calculateTripleObjective(PlayerField playerField, ObjectiveCard objectiveCard)
     {
         PlayableCard[][] matrixField = playerField.getMatrixField();
         HashMap<Resource, Integer> resources = new HashMap<>();
@@ -38,9 +38,9 @@ public class PointCalculator {
                 }
             }
         }
-        return Collections.min(resources.values());
+        return Collections.min(resources.values())*objectiveCard.getPoints();
     }
-    public static int calculateResourceObjective(CardInfo cardInfo, PlayerField playerField)
+    public static int calculateResourceObjective(CardInfo cardInfo, PlayerField playerField, ObjectiveCard objectiveCard)
     {
         int points = 0;
         int temp = 0;
@@ -52,7 +52,7 @@ public class PointCalculator {
                     for (AngleOrientation angleorientation : AngleOrientation.values()) {
                         if (playableCards[j].getAngle(angleorientation).getResource() == cardInfo.getCardResource() && (playableCards[j].getAngle(angleorientation).getAngleStatus() == AngleStatus.OVER || playableCards[j].getAngle(angleorientation).getAngleStatus() == AngleStatus.UNLINKED)) {
                             if (temp == 1) {
-                                points++;
+                                points += objectiveCard.getPoints();
                                 temp = 0;
                             } else {
                                 temp++;
@@ -64,17 +64,52 @@ public class PointCalculator {
         }
         return points;
     }
-    public static int calculatePositionalObjective(CardInfo cardInfo, PlayerField playerField) throws CardTypeMismatchException {
-        PlayableCard[][] matrixFiled = playerField.getMatrixField();
+    public static int calculatePositionalObjective(CardInfo cardInfo, PlayerField playerField, ObjectiveCard objectiveCard) throws CardTypeMismatchException {
+        PlayableCard[][] matrixField = playerField.getMatrixField();
         return switch (cardInfo.getPositionalType()) {
-            case PositionalType.DIAGONAL -> calculateDiagonalObjective(cardInfo, matrixFiled);
-            case PositionalType.LSHAPED -> calculateLShapedObjective(cardInfo, matrixFiled);
+            case PositionalType.DIAGONAL -> calculateDiagonalObjective(cardInfo, matrixField, objectiveCard);
+            case PositionalType.LSHAPED -> calculateLShapedObjective(cardInfo, matrixField, objectiveCard);
             default -> throw new CardTypeMismatchException();
         };
     }
-    private static int calculateDiagonalObjective(CardInfo cardInfo,  PlayableCard[][] matrixFiled)
+    private static int calculateDiagonalObjective(CardInfo cardInfo,  PlayableCard[][] matrixField, ObjectiveCard objectiveCard)
     {
+        int xValue = cardInfo.getOrientation().mapEnumToX();
+        int yValue = cardInfo.getOrientation().mapEnumToY();
+        int points = 0;
+        Resource objectiveCardColor = cardInfo.getCardColor();
+        boolean[][] isVisited = new boolean[matrixField.length][matrixField[0].length]; //should be false by default, check if correct
+        for (int i = 0; i < matrixField.length; i++) {
+            for (int j = 0; j < matrixField[0].length; j++) {
+                if (matrixField[i][j] != null && matrixField[i][j].getCardColor().equals(objectiveCardColor)) {
+                    try {
+                        int firstNextX = i + xValue;
+                        int firstNextY = j + yValue;
+                        PlayableCard firstNext = matrixField[firstNextX][firstNextY];
+                        int secondNextX = firstNextX + xValue;
+                        int secondNextY = firstNextY + yValue;
+                        PlayableCard secondNext = matrixField[secondNextX][secondNextY];
+                        if(firstNext != null && secondNext != null && !isVisited[i][j] && !isVisited[firstNextX][firstNextY] && !isVisited[secondNextX][secondNextY])
+                        {
 
+                            if(firstNext.getCardColor().equals(objectiveCardColor) && secondNext.getCardColor().equals(objectiveCardColor))
+                            {
+                                points += objectiveCard.getPoints();
+                                isVisited[i][j] = true;
+                                isVisited[firstNextX][firstNextY] = true;
+                                isVisited[secondNextX][secondNextY] = true;
+                            }
+                        }
+
+                    }
+                    catch(IndexOutOfBoundsException e)
+                    {
+                        continue;
+                    }
+                }
+            }
+        }
+        return points;
     }
     private static int calculateLShapedObjective(CardInfo cardInfo, PlayableCard[][] matrixFieled, ObjectiveCard objectiveCard)
     {
@@ -110,4 +145,5 @@ public class PointCalculator {
         }
         return points;
     }
+
 }
