@@ -1,10 +1,9 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.enumerations.AngleOrientation;
 import it.polimi.ingsw.enumerations.AngleStatus;
-import it.polimi.ingsw.enumerations.Resource;
-import it.polimi.ingsw.enumerations.AngleOrientation;
-import it.polimi.ingsw.enumerations.AngleStatus;
+import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.PlayerField;
 import it.polimi.ingsw.model.cards.CardInfo;
@@ -64,7 +63,19 @@ public class PointCalculator {
         }
         return points;
     }
-    public static int calculatePositionalObjective(CardInfo cardInfo, PlayerField playerField)
+    public static int calculatePositionalObjective(CardInfo cardInfo, PlayerField playerField) throws CardTypeMismatchException {
+        PlayableCard[][] matrixFiled = playerField.getMatrixField();
+        return switch (cardInfo.getPositionalType()) {
+            case PositionalType.DIAGONAL -> calculateDiagonalObjective(cardInfo, matrixFiled);
+            case PositionalType.LSHAPED -> calculateLShapedObjective(cardInfo, matrixFiled);
+            default -> throw new CardTypeMismatchException();
+        };
+    }
+    private static int calculateDiagonalObjective(CardInfo cardInfo,  PlayableCard[][] matrixFiled)
+    {
+
+    }
+    private static int calculateLShapedObjective(CardInfo cardInfo,  PlayableCard[][] matrixFiled)
     {
 
     }
