@@ -48,7 +48,14 @@ public class Controller {
         this.serverEventManager = serverEventManager;
     }
 
-
+    /**
+     *
+     * @return the Game the method create
+     * @throws InvalidConstructorDataException if the ConstructorData are invalid
+     * @throws CardNotImportedException if a card is not imported correctly
+     * @throws CardTypeMismatchException if the cardType doesn't match
+     * @throws DeckIsEmptyException if a deck is empty
+     */
     public Game createGame() throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
         //starts new thread in server and then returns new game
         //sequential game id starting from 0
