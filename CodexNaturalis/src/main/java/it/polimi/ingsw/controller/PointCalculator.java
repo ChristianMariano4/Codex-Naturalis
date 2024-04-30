@@ -17,6 +17,12 @@ import it.polimi.ingsw.model.cards.PlayableCard;
 import javax.management.StandardEmitterMBean;
 
 public class PointCalculator {
+    /**
+     * Calculate all points given by the tripleObjective card
+     * @param playerField of the player for the map
+     * @param objectiveCard the objectiveCard used to calculate the points
+     * @return the total amount of points
+     */
     public static int calculateTripleObjective(PlayerField playerField, ObjectiveCard objectiveCard)
     {
         PlayableCard[][] matrixField = playerField.getMatrixField();
@@ -40,6 +46,14 @@ public class PointCalculator {
         }
         return Collections.min(resources.values())*objectiveCard.getPoints();
     }
+
+    /**
+     * Calculate all points given by the objectiveCard
+     * @param cardInfo the information of the objectiveCard
+     * @param playerField of the player for the map
+     * @param objectiveCard the objectiveCard used to calculate the points
+     * @return the total amount of points
+     */
     public static int calculateResourceObjective(CardInfo cardInfo, PlayerField playerField, ObjectiveCard objectiveCard)
     {
         int points = 0;
@@ -64,6 +78,15 @@ public class PointCalculator {
         }
         return points;
     }
+
+    /**
+     * Calculate all points given by the positionalObjectiveCard
+     * @param cardInfo the information of the objectiveCard
+     * @param playerField of the player for the map
+     * @param objectiveCard the objectiveCard used to calculate the points
+     * @return the total amount of points
+     * @throws CardTypeMismatchException if the cardInfo positionalType doesn't match the DIAGONAL or LSHAPED type
+     */
     public static int calculatePositionalObjective(CardInfo cardInfo, PlayerField playerField, ObjectiveCard objectiveCard) throws CardTypeMismatchException {
         PlayableCard[][] matrixField = playerField.getMatrixField();
         return switch (cardInfo.getPositionalType()) {
@@ -72,6 +95,14 @@ public class PointCalculator {
             default -> throw new CardTypeMismatchException();
         };
     }
+
+    /**
+     * Calculate all points given by the diagonalObjectiveCard
+     * @param cardInfo the information of the objectiveCard
+     * @param matrixField is the matrix of the field
+     * @param objectiveCard the objectiveCard used to calculate the points
+     * @return the total amount of points
+     */
     private static int calculateDiagonalObjective(CardInfo cardInfo,  PlayableCard[][] matrixField, ObjectiveCard objectiveCard)
     {
         int xValue = cardInfo.getOrientation().mapEnumToX();
@@ -111,6 +142,14 @@ public class PointCalculator {
         }
         return points;
     }
+
+    /**
+     * Calculate all points given by the lShapedObjectiveCard
+     * @param cardInfo the information of the objectiveCard
+     * @param matrixFieled is the matrix of the field
+     * @param objectiveCard the objectiveCard used to calculate the points
+     * @return he total amount of points
+     */
     private static int calculateLShapedObjective(CardInfo cardInfo, PlayableCard[][] matrixFieled, ObjectiveCard objectiveCard)
     {
         int points = 0;
