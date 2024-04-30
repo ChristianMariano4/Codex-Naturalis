@@ -7,6 +7,7 @@ import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.PlayerField;
 import it.polimi.ingsw.model.cards.CardInfo;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 
 import java.util.Collections;
@@ -75,9 +76,38 @@ public class PointCalculator {
     {
 
     }
-    private static int calculateLShapedObjective(CardInfo cardInfo,  PlayableCard[][] matrixFiled)
+    private static int calculateLShapedObjective(CardInfo cardInfo, PlayableCard[][] matrixFieled, ObjectiveCard objectiveCard)
     {
+        int points = 0;
+        int xValue = cardInfo.getOrientation().mapEnumToXLShaped();
+        int yValue = cardInfo.getOrientation().mapEnumToYLShaped();
+        boolean[][] isVisited = new boolean[matrixFieled.length][matrixFieled[0].length];
 
+        for(int i = 0; i < matrixFieled.length; i++) {
+            for(int j = 0; j < matrixFieled[0].length; j++) {
+                if(matrixFieled[i][j] != null) {
+                    if(matrixFieled[i][j].getCardColor() == cardInfo.getCardColor()) {
+                        try {
+                            int firstAndSecondNextX = i + xValue;
+                            int firstNextY = j + yValue;
+                            int secondNextY = firstNextY + yValue;
+                            PlayableCard firstNext = matrixFieled[firstAndSecondNextX][firstNextY];
+                            PlayableCard secondNext = matrixFieled[firstAndSecondNextX][secondNextY];
+                            if(firstNext != null && secondNext != null && !isVisited[firstAndSecondNextX][firstNextY] && !isVisited[firstAndSecondNextX][secondNextY]) {
+                                if(firstNext.getCardColor() == cardInfo.getCardColor() && secondNext.getCardColor() == cardInfo.getCardColor()) {
+                                    points += objectiveCard.getPoints();
+                                    isVisited[firstAndSecondNextX][firstNextY] = true;
+                                    isVisited[firstAndSecondNextX][secondNextY] = true;
+                                    isVisited[i][j] = true;
+                                }
+                            }
+                        } catch (IndexOutOfBoundsException e) {
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+        return points;
     }
-
 }
