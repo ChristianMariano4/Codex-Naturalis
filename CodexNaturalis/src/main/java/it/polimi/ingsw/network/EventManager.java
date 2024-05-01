@@ -27,6 +27,7 @@ public class EventManager {
     }
 
     public <E extends Enum<E>> void notify(UserMessageWrapper message) {
+        System.out.println("here: " + listeners.size());
         List<Listener<?>> eventListeners = listeners.get(message.getType().getClass());
         if (eventListeners != null) {
             System.out.println("event Listeners not null");

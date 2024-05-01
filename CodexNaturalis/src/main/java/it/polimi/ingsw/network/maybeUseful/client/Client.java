@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.client;
+package it.polimi.ingsw.network.maybeUseful.client;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.messages.EventWrapper;
 import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
 import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
-import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.network.View;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -34,7 +34,7 @@ public class Client {
     }
 
     public Client(){
-
+        this.eventManager = new EventManager();
     }
 
     public void connect() {
@@ -87,7 +87,7 @@ public class Client {
     }
 
     public void update(Game argument, GameEvent event){
-        view.update(argument, event);
+        view.update(event, argument);
     }
 
     public void updateServer(UserMessageWrapper message) {

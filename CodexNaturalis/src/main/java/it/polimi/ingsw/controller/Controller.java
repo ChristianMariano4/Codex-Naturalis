@@ -8,11 +8,8 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.EventManager;
-import it.polimi.ingsw.network.messages.userMessages.UserMessage;
 import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
-import it.polimi.ingsw.network.server.Server;
-import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
-import it.polimi.ingsw.network.server.ServerEventManager;
+import it.polimi.ingsw.network.rmi.RMIServer;
 
 import java.io.IOException;
 import java.util.*;
@@ -22,14 +19,12 @@ import java.util.*;
  */
 public class Controller {
     public String testUsername;
-    private int numberOfGames = 0;
     private CardHandler cardHandler;
-    private Server server;
+    private RMIServer server;
     private Game game;
     private final Object markerLock = new Object();
     private final Object PlayerLock = new Object();
     private EventManager eventManager;
-    private ServerEventManager serverEventManager;
 
     public Controller(){
         this.cardHandler = new CardHandler();
@@ -56,11 +51,8 @@ public class Controller {
      * @throws CardTypeMismatchException if the cardType doesn't match
      * @throws DeckIsEmptyException if a deck is empty
      */
-    public Game createGame() throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
+    public Game createGame(int gameId) throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
         //starts new thread in server and then returns new game
-        //sequential game id starting from 0
-        int id = this.numberOfGames;
-        this.numberOfGames += 1;
         //create new Decks
         Deck<GoldCard> goldCardDeck = new Deck<GoldCard>(cardHandler.filterGoldCards(cardHandler.importGoldCards()));
         Deck<ResourceCard> resourceCardDeck = new Deck<ResourceCard>(cardHandler.filterResourceCards(cardHandler.importResourceCards()));
@@ -88,20 +80,21 @@ public class Controller {
         sharedObjectiveCards.add(cardHandler.getOtherSideCard(objectiveCardDeck.getTopCard()));
         Deck<StarterCard> starterCardDeck = new Deck<StarterCard>(cardHandler.filterStarterCards(cardHandler.importStarterCards()));
         starterCardDeck.shuffleDeck();
-        this.game = new Game(id, drawingField, sharedObjectiveCards, objectiveCardDeck, starterCardDeck);
+        this.game = new Game(gameId, drawingField, sharedObjectiveCards, objectiveCardDeck, starterCardDeck);
         return this.game;
     }
 
-    /**
-     * Adds a player to the game specified by gameId
-     * @param gameId id of the game to which the player will be added
-     * @param player player to add
-     * @throws AlreadyExistingPlayerException when the player we want to add already exists in the game
-     * @throws AlreadyFourPlayersException when the game already contains the maximum amount of players
-     */
-    public void addPlayerToGame(int gameId, Player player) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
-        server.getGameById(gameId).game.addPlayer(player);
-    }
+//    /** MAYBE NOT USEFUL, because the Player is already associated with a game when created
+//     * Adds a player to the game specified by gameId
+//     * @param gameId id of the game to which the player will be added
+//     * @param player player to add
+//     * @throws AlreadyExistingPlayerException when the player we want to add already exists in the game
+//     * @throws AlreadyFourPlayersException when the game already contains the maximum amount of players
+//     */
+//    public void addPlayerToGame(int gameId, Player player) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+//        player.
+//               // getGameById(gameId).game.addPlayer(player);
+//    }
 
     /**
      * Starts the game when all players are ready

@@ -10,4 +10,5 @@ public class GameValues {
     public static int DEFAULT_MATRIX_SIZE = 75;
     public static String SERVER_ADDRESS = "127.0.0.1";
     public static int SERVER_PORT = 1234;
+    public static int numberOfGames = 0;
 }

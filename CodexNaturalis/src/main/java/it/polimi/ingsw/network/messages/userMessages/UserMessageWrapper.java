@@ -1,10 +1,12 @@
 package it.polimi.ingsw.network.messages.userMessages;
 
-public class UserMessageWrapper {
+import java.io.Serializable;
+
+public class UserMessageWrapper implements Serializable {
     private final UserInputEvent type;
     private final UserMessage message;
 
-    public UserMessageWrapper(UserInputEvent type, UsernameMessage message) {
+    public UserMessageWrapper(UserInputEvent type, UserMessage message) {
         this.type = type;
         this.message = message;
     }

@@ -8,7 +8,7 @@ public class EventWrapper implements Serializable {
     private final GameEvent type;
     private final Game message;
 
-    public EventWrapper(Game message, GameEvent type) {
+    public EventWrapper(GameEvent type, Game message) {
         this.type = type;
         this.message = message;
     }

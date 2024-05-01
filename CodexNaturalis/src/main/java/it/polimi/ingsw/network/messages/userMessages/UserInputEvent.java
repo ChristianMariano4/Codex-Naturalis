@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.messages.userMessages;
 
-public enum UserInputEvent {
+import java.io.Serializable;
+
+public enum UserInputEvent implements Serializable {
     USERNAME_INSERTED,
     CREATE_GAME,
     JOIN_GAME,

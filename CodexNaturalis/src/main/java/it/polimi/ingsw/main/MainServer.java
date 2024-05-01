@@ -1,56 +1,39 @@
 package it.polimi.ingsw.main;
 
-import it.polimi.ingsw.enumerations.GoldPointCondition;
-import it.polimi.ingsw.enumerations.Resource;
-import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.CardVisitorImpl;
 import it.polimi.ingsw.model.GameValues;
-import it.polimi.ingsw.model.PlayerHand;
-import it.polimi.ingsw.model.cards.GoldCard;
-import it.polimi.ingsw.network.server.ClientHandler;
+import it.polimi.ingsw.network.socket.SocketClientHandler;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MainServer {
     public static void main(String[] args) throws AlreadyThreeCardsInHandException, InvalidConstructorDataException, CardTypeMismatchException, CardNotImportedException, DeckIsEmptyException, UnlinkedCardException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException {
 
-
+/*
         try {
             ExecutorService executor = Executors.newCachedThreadPool();
             ServerSocket serverSocket = new ServerSocket(GameValues.SERVER_PORT);
-            while(true)
-            {
-                try{
+            while (true) {
+                try {
                     int threadNo = 0;
                     Socket clientSocket = serverSocket.accept();
                     threadNo += 1;
                     String name = "Thread" + threadNo;
-                    executor.submit(new ClientHandler(clientSocket, name));
-                }
-                catch(Exception e)
-                {
+                    executor.submit(new SocketClientHandler(clientSocket, name));
+                } catch (Exception e) {
                     break;
                 }
             }
-            }
-            catch(Exception e)
-            {
-                System.err.println("Socket error");
-                return;
-            }
-
-
+        } catch (Exception e) {
+            System.err.println("Socket error");
+            return;
+        }
+    }
+*/
 
 
 
@@ -99,5 +82,6 @@ public class MainServer {
 //        System.out.println(game.getListOfPlayers().getFirst().getPlayerHand().getCardsInHand().getFirst());
 
     */
+
     }
 }
