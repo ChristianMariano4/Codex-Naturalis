@@ -5,11 +5,13 @@ import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.exceptions.AngleAlreadyLinkedException;
 import it.polimi.ingsw.exceptions.UnlinkedCardException;
 
+import java.io.Serializable;
+
 /**
  * This class represents an angle of a card.
  * It contains the resource on the angle, the status of the angle and the reference to the linked angle.
  */
-public class Angle {
+public class Angle implements Serializable {
     private final boolean playable;
     private AngleStatus angleStatus;
     private final Resource resource;

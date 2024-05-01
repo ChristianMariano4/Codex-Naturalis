@@ -2,9 +2,10 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.enumerations.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CardInfo {
+public class CardInfo implements Serializable {
     private final CardType cardType;
     //PlayableCard attributes
     private final ArrayList<Resource> requirements;

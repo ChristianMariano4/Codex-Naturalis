@@ -4,10 +4,12 @@ import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.model.CardVisitor;
 
+import java.io.Serializable;
+
 /**
  * This class represents a resource objective card, which requires the player to have a certain amount of a specific resource.
  */
-public class ResourceObjectiveCard extends ObjectiveCard {
+public class ResourceObjectiveCard extends ObjectiveCard implements Serializable {
 
     private final Resource cardResource;
 

@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.InvalidCardPositionException;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import static it.polimi.ingsw.model.GameValues.MAX_CARD_IN_HAND;
  * This class represents the hand of the player.
  * It contains the list of cards in the player's hand.
  */
-public class PlayerHand {
+public class PlayerHand implements Serializable {
     private final ArrayList<PlayableCard> cardsInHand;
 
     /**

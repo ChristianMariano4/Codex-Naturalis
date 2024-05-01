@@ -6,12 +6,13 @@ import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.CardVisitor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StarterCard extends PlayableCard {
+public class StarterCard extends PlayableCard implements Serializable {
     /**
      * Constructor
      *

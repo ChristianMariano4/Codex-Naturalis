@@ -7,12 +7,13 @@ import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * This class represents the player
  */
-public class Player {
+public class Player implements Serializable {
     private final String username;
     private boolean isTurn;
     private boolean isFirst;

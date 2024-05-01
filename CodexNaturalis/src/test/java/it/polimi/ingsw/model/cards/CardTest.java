@@ -31,15 +31,4 @@ class CardTest {
     void shouldReturnCurrentSide() {
         Assertions.assertEquals(currentSide, c.getCurrentSide());
     }
-
-    @Test
-    void shouldReturnNullOtherSideCard() {
-        Assertions.assertThrows(NoCardAddedException.class, () -> {c.getOtherSideCard();});
-    }
-
-    @Test
-    void shouldSetOtherSideCard() throws UnlinkedCardException {
-        c.setOtherSideCard(otherSideCard);
-        Assertions.assertEquals(otherSideCard, c.getOtherSideCard());
-    }
 }

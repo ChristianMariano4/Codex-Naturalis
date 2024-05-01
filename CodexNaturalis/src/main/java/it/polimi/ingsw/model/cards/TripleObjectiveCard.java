@@ -3,7 +3,9 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.model.CardVisitor;
 
-public class TripleObjectiveCard extends ObjectiveCard{
+import java.io.Serializable;
+
+public class TripleObjectiveCard extends ObjectiveCard implements Serializable {
     /**
      * Constructor
      *

@@ -8,6 +8,7 @@ import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.exceptions.UnlinkedCardException;
 import it.polimi.ingsw.model.CardVisitor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.Map;
 /**
  * This class represents a started card, which is given to the player at the beginning of the game.
  */
-public abstract class PlayableCard extends Card{
+public abstract class PlayableCard extends Card implements Serializable {
 
     private final ArrayList<Resource> centralResources;
     private final HashMap<AngleOrientation, Angle> angles;

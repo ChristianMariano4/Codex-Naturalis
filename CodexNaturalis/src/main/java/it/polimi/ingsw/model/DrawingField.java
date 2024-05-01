@@ -6,13 +6,14 @@ import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
 
+import java.io.Serializable;
 import java.util.HashMap;
 /**
  * This class represents the drawing field in the game. It contains two types of decks: gold card deck and resource card deck.
  * It also maintains the discovered gold cards and discovered resource cards.
  * The drawing field is responsible for drawing cards from the decks and managing the discovered cards.
  */
-public class DrawingField {
+public class DrawingField implements Serializable {
     private final Deck<GoldCard> goldCardDeck;
     private final Deck<ResourceCard> resourceCardDeck;
     private final HashMap<DrawPosition, GoldCard> discoveredGoldCards;

@@ -2,11 +2,13 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.enumerations.Side;
 
+import java.io.Serializable;
+
 /**
  * This class represents the objective card that has the three different objects
  * (quill, inkwell, manuscript) as pattern to satisfy to obtain three points
  */
-public abstract class ObjectiveCard extends Card{
+public abstract class ObjectiveCard extends Card implements Serializable {
     private final int points;
 
     /**

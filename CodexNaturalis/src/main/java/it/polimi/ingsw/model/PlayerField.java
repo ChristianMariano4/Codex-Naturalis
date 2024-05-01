@@ -6,12 +6,14 @@ import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 
+import java.io.Serializable;
+
 import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 /**
  * This class represents a player field. It contains the field of the player, represented by a matrix.
  * This class is responsible for adding cards to the player field.
  */
-public class PlayerField {
+public class PlayerField implements Serializable {
     private final PlayableCard[][] matrixField;
 
     /**

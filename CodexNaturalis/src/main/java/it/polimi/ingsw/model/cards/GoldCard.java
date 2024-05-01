@@ -8,13 +8,14 @@ import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.CardVisitor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * This class represents a gold card, which is a special type of card that requires a specific set of resources to be played.
  */
-public class GoldCard extends PlayableCard implements Visitable{
+public class GoldCard extends PlayableCard implements Visitable, Serializable {
 
     private final ArrayList<Resource> requirements;
     private final GoldPointCondition goldPointCondition;

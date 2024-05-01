@@ -29,10 +29,11 @@ public class MainClient {
             while(true) {
                 System.out.println("test2");
 
-                ObjectiveCard card = (ObjectiveCard) in.readObject();
+                //ObjectiveCard card = (ObjectiveCard) in.readObject();
+                Game game = (Game) in.readObject();
                 System.out.println("test");
 
-                System.out.println(card.getCardId());
+                System.out.println(game.getGameId());
                 System.out.println("testsdfs");
             }
 

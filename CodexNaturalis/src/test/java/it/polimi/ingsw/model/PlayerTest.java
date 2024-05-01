@@ -1,12 +1,11 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.enumerations.DrawPosition;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
-import it.polimi.ingsw.model.cards.TripleObjectiveCard;
+import it.polimi.ingsw.model.cards.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,20 +17,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
+    Game game;
     public static int POINTS = 4;
     public static int RESAMOUNT = 6;
     Player p1;
     DrawingField d;
     @BeforeEach
-    void playerInit() throws InvalidConstructorDataException, CardTypeMismatchException, DeckIsEmptyException {
+    void playerInit() throws InvalidConstructorDataException, CardTypeMismatchException, DeckIsEmptyException, CardNotImportedException {
         // TODO: the player must be created by the controller
-        ArrayList<PlayableCard> li = new ArrayList<>();
-        Deck<PlayableCard> d1 = new Deck<PlayableCard>(li);
-        Deck<PlayableCard> d2 = new Deck<PlayableCard>(li);
-        d = new DrawingField(d1, d2);
-        ArrayList<ObjectiveCard> l = new ArrayList<>();
-        Game test = new Game(123, d, l);
-        p1 = new Player("test", Marker.BLACK, test);
+        Controller controller = new Controller();
+        game = controller.createGame();
+        p1 = new Player("test", game);
     }
     @Test
     void shouldReturnUsername()  {

@@ -41,7 +41,7 @@ public class ClientHandler implements Runnable{
             System.out.println(game);
             System.out.println("game5");
 
-            outC.writeObject(game.getObjectiveCardDeck().getTopCard());
+            outC.writeObject(game); //game.getObjectiveCardDeck().getTopCard()
 
         } catch (IOException e) {
             throw new RuntimeException(e);

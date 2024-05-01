@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.CardType;
 import it.polimi.ingsw.model.cards.*;
 
+import java.io.Serializable;
+
 public interface CardVisitor {
     CardInfo visitResourceCard(ResourceCard card);
     CardInfo visitGoldCard(GoldCard card);

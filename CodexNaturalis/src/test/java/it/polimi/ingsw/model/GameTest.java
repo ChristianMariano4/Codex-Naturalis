@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.network.Server;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,8 +37,7 @@ class GameTest {
     }
     @BeforeEach
     void gameTestInit() throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException {
-        Server server = new Server();
-        Controller controller = new Controller(server);
+        Controller controller = new Controller();
         g = controller.createGame();
         playersCreation();
         add4Players();

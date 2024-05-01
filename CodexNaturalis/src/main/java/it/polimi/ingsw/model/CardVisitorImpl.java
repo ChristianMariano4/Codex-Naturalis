@@ -3,7 +3,9 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.CardType;
 import it.polimi.ingsw.model.cards.*;
 
-public class CardVisitorImpl implements CardVisitor {
+import java.io.Serializable;
+
+public class CardVisitorImpl implements CardVisitor, Serializable {
 
     @Override
     public CardInfo visitGoldCard(GoldCard card) {

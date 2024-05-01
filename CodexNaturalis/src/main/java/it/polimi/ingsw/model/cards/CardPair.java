@@ -3,7 +3,9 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.UnlinkedCardException;
 
-public class CardPair<T extends Card> {
+import java.io.Serializable;
+
+public class CardPair<T extends Card> implements Serializable {
     private final T cardFront;
     private final T cardBack;
     public CardPair(T cardFront, T cardBack)

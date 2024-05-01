@@ -6,10 +6,12 @@ import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.model.CardVisitor;
 
+import java.io.Serializable;
+
 /**
  * This class represents a positional objective card, which can be diagonal or L-shaped.
  */
-public class PositionalObjectiveCard extends ObjectiveCard {
+public class PositionalObjectiveCard extends ObjectiveCard implements Serializable {
 
     private final Resource cardColor;
     private final AngleOrientation orientation;

@@ -6,6 +6,7 @@ import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,7 @@ import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
  * TableTop class is the class that contains the drawing field and all the players' fields.
  * It is responsible for adding players to the game and managing the drawing field.
  */
-public class TableTop {
+public class TableTop implements Serializable {
     private final DrawingField drawingField;
     private final HashMap<Player, PlayerField> playerFieldHashMap;
     private final ArrayList<ObjectiveCard> sharedObjectiveCards;
