@@ -164,7 +164,7 @@ public class PointCalculator {
                         try {
                             int firstAndSecondNextX = i + xValue;
                             int firstNextY = j + yValue;
-                            int secondNextY = firstNextY + yValue;
+                            int secondNextY = firstNextY + yValue + yValue; //moves two positions
                             PlayableCard firstNext = matrixFieled[firstAndSecondNextX][firstNextY];
                             PlayableCard secondNext = matrixFieled[firstAndSecondNextX][secondNextY];
                             if(firstNext != null && secondNext != null && !isVisited[firstAndSecondNextX][firstNextY] && !isVisited[firstAndSecondNextX][secondNextY]) {
