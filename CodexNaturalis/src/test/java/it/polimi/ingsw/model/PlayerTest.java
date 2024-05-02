@@ -26,8 +26,8 @@ class PlayerTest {
     void playerInit() throws InvalidConstructorDataException, CardTypeMismatchException, DeckIsEmptyException, CardNotImportedException {
         // TODO: the player must be created by the controller
         Controller controller = new Controller();
-        game = controller.createGame();
-        p1 = new Player("test", game);
+//        game = controller.createGame();
+//        p1 = new Player("test", game);
     }
     @Test
     void shouldReturnUsername()  {

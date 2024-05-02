@@ -8,18 +8,19 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GoldCardTest {
 
-    GoldCard goldCard;
-    int cardId = 41;
-    static Side currentSide = Side.FRONT;
-    GoldPointCondition goldPointCondition = GoldPointCondition.valueOf("QUILL");
-    int points = 1;
-    ArrayList<Resource> requirements = new ArrayList<>(Arrays.asList(Resource.FUNGI, Resource.FUNGI, Resource.ANIMAL));
+    private GoldCard goldCard;
+    private final Side currentSide = Side.FRONT;
+    private final GoldPointCondition goldPointCondition = GoldPointCondition.valueOf("QUILL");
+    private final ArrayList<Resource> requirements = new ArrayList<>(Arrays.asList(Resource.FUNGI, Resource.FUNGI, Resource.ANIMAL));
 
     @BeforeEach
     void goldCardInit() throws InvalidConstructorDataException {
+        int points = 1;
+        int cardId = 41;
         ArrayList<Resource> centralResources = new ArrayList<>();
         HashMap<AngleOrientation, Angle> angles = new HashMap<>();
         angles.put(AngleOrientation.TOPRIGHT, new Angle(true, Resource.valueOf("NONE"), null));
@@ -30,16 +31,6 @@ class GoldCardTest {
     }
 
     @Test
-    void shouldReturnCardId() {
-        assertEquals(cardId, goldCard.getCardId());
-    }
-
-    @Test
-    void shouldReturnCurrentSide() {
-        assertEquals(currentSide, goldCard.getCurrentSide());
-    }
-
-    @Test
     void shouldReturnGoldPointCondition() {
         assertEquals(goldPointCondition, goldCard.getGoldPointCondition());
     }
@@ -47,5 +38,13 @@ class GoldCardTest {
     @Test
     void shouldReturnRequirements() {
         assertEquals(requirements, goldCard.getRequirements());
+    }
+
+    @Test
+    void constructorShouldThrowExceptionForInvalidData() {
+
+        assertThrows(InvalidConstructorDataException.class, () -> {
+            new ResourceCard(-1, null, null, null, null, -1);
+        });
     }
 }

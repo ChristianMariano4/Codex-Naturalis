@@ -38,7 +38,7 @@ class GameTest {
     @BeforeEach
     void gameTestInit() throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException {
         Controller controller = new Controller();
-        g = controller.createGame();
+        g = controller.createGame(gameID);
         playersCreation();
         add4Players();
     }

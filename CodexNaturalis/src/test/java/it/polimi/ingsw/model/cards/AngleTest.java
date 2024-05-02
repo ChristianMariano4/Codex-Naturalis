@@ -15,15 +15,13 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//correctly tested by andrea (full coverage)
 class AngleTest {
 
-        Angle angle;
-        PlayableCard ownerCard;
+        private Angle angle;
+        private PlayableCard ownerCard;
         @BeforeEach
         void angleInit() throws InvalidConstructorDataException {
             ArrayList<Resource> centralResources = new ArrayList<>();
-
             HashMap<AngleOrientation, Angle> angles = new HashMap<>();
             angles.put(AngleOrientation.TOPRIGHT, new Angle(true, Resource.valueOf("NONE"), null));
             angles.put(AngleOrientation.TOPLEFT, new Angle(true, Resource.valueOf("FUNGI"), null));

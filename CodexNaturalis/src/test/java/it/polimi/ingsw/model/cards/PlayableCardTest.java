@@ -16,11 +16,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayableCardTest {
 
-    PlayableCard playableCard;
-    int cardId = 1;
-    Side currentSide = Side.FRONT;
-    Resource cardColor = Resource.FUNGI;
-    int points = 0;
+    private PlayableCard playableCard;
+    private final int cardId = 1;
+    private final Side currentSide = Side.FRONT;
+    private final Resource cardColor = Resource.FUNGI;
+    private final int points = 0;
 
     @BeforeEach
     void playableCardInit() throws InvalidConstructorDataException {
