@@ -65,7 +65,7 @@ public class Angle implements Serializable {
      */
     public void setLinkedAngle(Angle linkedAngle, AngleStatus angleStatus) throws AngleAlreadyLinkedException
     {
-        if(angleStatus != AngleStatus.UNLINKED) throw new AngleAlreadyLinkedException();
+        if(this.angleStatus != AngleStatus.UNLINKED) throw new AngleAlreadyLinkedException();
         this.linkedAngle = linkedAngle;
         this.angleStatus = angleStatus;
     }
