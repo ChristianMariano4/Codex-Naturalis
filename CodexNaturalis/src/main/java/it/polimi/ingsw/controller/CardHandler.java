@@ -7,6 +7,7 @@ import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.CardNotImportedException;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
+import it.polimi.ingsw.exceptions.UnlinkedCardException;
 import it.polimi.ingsw.model.CardVisitor;
 import it.polimi.ingsw.model.CardVisitorImpl;
 import it.polimi.ingsw.model.Player;
@@ -249,7 +250,13 @@ public class CardHandler {
      */
     public PlayableCard getOtherSideCard(PlayableCard card) throws CardNotFoundException {
 
-        return playableCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
+        return playableCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c-> {
+            try {
+                return c.getOtherSideCard(card.getCurrentSide());
+            } catch (UnlinkedCardException e) {
+                throw new RuntimeException(e);
+            }
+        }).findFirst().orElse(null);
     }
 
     /**
@@ -259,7 +266,13 @@ public class CardHandler {
      */
     public GoldCard getOtherSideCard(GoldCard card)
     {
-        return goldCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
+        return goldCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c-> {
+            try {
+                return c.getOtherSideCard(card.getCurrentSide());
+            } catch (UnlinkedCardException e) {
+                throw new RuntimeException(e);
+            }
+        }).findFirst().orElse(null);
     }
 
     /**
@@ -269,7 +282,13 @@ public class CardHandler {
      */
     public ResourceCard getOtherSideCard(ResourceCard card)
     {
-        return resourceCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
+        return resourceCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c-> {
+            try {
+                return c.getOtherSideCard(card.getCurrentSide());
+            } catch (UnlinkedCardException e) {
+                throw new RuntimeException(e);
+            }
+        }).findFirst().orElse(null);
     }
 
     /**
@@ -279,7 +298,13 @@ public class CardHandler {
      */
     public StarterCard getOtherSideCard(StarterCard card)
     {
-        return starterCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
+        return starterCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c-> {
+            try {
+                return c.getOtherSideCard(card.getCurrentSide());
+            } catch (UnlinkedCardException e) {
+                throw new RuntimeException(e);
+            }
+        }).findFirst().orElse(null);
     }
 
     /**
@@ -289,7 +314,13 @@ public class CardHandler {
      */
     public ObjectiveCard getOtherSideCard(ObjectiveCard card)
     {
-        return objectiveCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c->c.getOtherSideCard(card.getCurrentSide())).findFirst().orElse(null);
+        return objectiveCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c-> {
+            try {
+                return c.getOtherSideCard(card.getCurrentSide());
+            } catch (UnlinkedCardException e) {
+                throw new RuntimeException(e);
+            }
+        }).findFirst().orElse(null);
     }
 
     /**

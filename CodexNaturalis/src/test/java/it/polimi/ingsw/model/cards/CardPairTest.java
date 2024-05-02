@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.exceptions.UnlinkedCardException;
 import it.polimi.ingsw.model.CardVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,18 +33,18 @@ public class CardPairTest {
     }
 
     @Test
-    public void shouldReturnBackCardWhenFrontSideIsGiven() {
+    public void shouldReturnBackCardWhenFrontSideIsGiven() throws UnlinkedCardException {
         assertEquals(backCard, cardPair.getOtherSideCard(Side.FRONT));
     }
 
     @Test
-    public void shouldReturnFrontCardWhenBackSideIsGiven() {
+    public void shouldReturnFrontCardWhenBackSideIsGiven() throws UnlinkedCardException {
         assertEquals(frontCard, cardPair.getOtherSideCard(Side.BACK));
     }
 
     @Test
     public void shouldReturnNullWhenNullSideIsGiven() {
-        assertThrows(NullPointerException.class, () -> cardPair.getOtherSideCard(null));
+        assertThrows(UnlinkedCardException.class, () -> cardPair.getOtherSideCard(null));
     }
 
     @Test

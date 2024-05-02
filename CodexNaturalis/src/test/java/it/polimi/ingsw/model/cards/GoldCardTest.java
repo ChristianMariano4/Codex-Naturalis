@@ -41,10 +41,7 @@ class GoldCardTest {
     }
 
     @Test
-    void constructorShouldThrowExceptionForInvalidData() {
-
-        assertThrows(InvalidConstructorDataException.class, () -> {
-            new ResourceCard(-1, null, null, null, null, -1);
-        });
+    void shouldThrowExceptionForInvalidConstructorData() {
+        assertThrows(InvalidConstructorDataException.class, () -> new GoldCard(-1, null, null, null, null, null, null, -1));
     }
 }

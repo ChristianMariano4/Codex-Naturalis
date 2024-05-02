@@ -13,13 +13,14 @@ public class CardPair<T extends Card> implements Serializable {
         this.cardFront = cardFront;
         this.cardBack = cardBack;
     }
-    public T getOtherSideCard(Side side)  {
-        if (side.equals(Side.FRONT))
-            return cardBack;
-        else if (side.equals(Side.BACK))
-            return cardFront;
-        else
-            return null;
+    public T getOtherSideCard(Side side) throws UnlinkedCardException {
+        try{
+            if (side.equals(Side.FRONT))
+                return cardBack;
+            else return cardFront;
+        } catch (NullPointerException e) {
+            throw new UnlinkedCardException();
+        }
     }
     public int getCardsId()
     {
