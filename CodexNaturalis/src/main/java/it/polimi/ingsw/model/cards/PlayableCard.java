@@ -43,7 +43,6 @@ public abstract class PlayableCard extends Card implements Serializable {
         {
             throw new InvalidConstructorDataException();
         }
-
     }
 
     /**
