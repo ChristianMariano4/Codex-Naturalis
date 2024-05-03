@@ -114,7 +114,7 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         } catch (AlreadyFourPlayersException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Player " + username + "added to game successfully");
+        System.out.println("Player " + username + " added to game successfully");
         System.out.println("There are now " + game.getListOfPlayers().size() + " players in the game");
     }
 
