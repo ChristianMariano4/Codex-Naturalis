@@ -26,29 +26,6 @@ public class ViewCLI implements View {
     private final Scanner scanner = new Scanner(System.in);
     private boolean gameStarted = false;
 
-    //    queue used to pass data to another thread in a thread safe way
-    final BlockingQueue<EventWrapper> updates = new LinkedBlockingQueue<>();
-//    TODO: fix thread to update clients
-    Thread broadcastUpdateThread = new Thread(() -> {
-        System.out.println("Broadcasting thread started");
-        try{
-            while(true){
-                System.out.println("Waiting for updates");
-                EventWrapper update = updates.take();
-                System.out.println("We are after take method :)))))))");
-                System.out.println();
-                synchronized (this.clients) {
-                    for (ClientRMIInterface client : this.clients) {
-                        client.update(update.getType(), update.getMessage());
-                    }
-                }
-            }
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    });
     private void setUsername() {
         System.out.println("Insert your username: ");
         String username = scanner.nextLine();
