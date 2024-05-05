@@ -1,21 +1,18 @@
 package it.polimi.ingsw.network.rmi;
 
-//import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.network.GameHandler;
-import it.polimi.ingsw.network.messages.EventWrapper;
-import it.polimi.ingsw.network.socket.SocketClientHandler;
+import it.polimi.ingsw.network.EventManager;
+import it.polimi.ingsw.network.GameListener;
+import it.polimi.ingsw.network.messages.GameEvent;
+import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
+import it.polimi.ingsw.network.messages.userMessages.UserMessage;
+import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -24,26 +21,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class RMIServer extends Thread implements ServerRMIInterface {
     private final Map<Integer, GameHandler> gameHandlerMap;
-    private final List<ClientRMIInterface> newClients;
+    private final List<ClientRMIInterface> clients = new ArrayList<>(); //list of all client stubs
 
-    //final List<ClientRMIInterface> clients = new ArrayList<>(); //list of the client stubs
-    //per passare dati a un altro thread in modo thread safe
-    // final BlockingQueue<EventWrapper> updates = new LinkedBlockingQueue<>();
-    //TODO: fix thread to update clients
+//    queue used to pass data to another thread in a thread safe way
+     //final BlockingQueue<EventWrapper> updates = new LinkedBlockingQueue<>();
+//    TODO: fix thread to update clients
 //    Thread broadcastUpdateThread = new Thread(() -> {
 //        System.out.println("Broadcasting thread started");
 //        try{
 //            while(true){
 //                System.out.println("Waiting for updates");
 //                EventWrapper update = updates.take();
+//                System.out.println("We are after take method :)))))))");
+//                System.out.println();
 //                synchronized (this.clients) {
 //                    for (ClientRMIInterface client : this.clients) {
-//                        client.showUpdate(update.getMessage());
+//                        client.update(update.getType(), update.getMessage());
 //                    }
 //                }
 //            }
@@ -57,93 +53,75 @@ public class RMIServer extends Thread implements ServerRMIInterface {
 
     public RMIServer(Map<Integer, GameHandler> gameHandlerMap) {
         this.gameHandlerMap = gameHandlerMap;
-        this.newClients = new ArrayList<>();
     }
 
     @Override
     public void connect(ClientRMIInterface client) throws RemoteException {
         System.out.println("Connecting client to the server...");
-        synchronized (this.newClients) {
-            this.newClients.add(client);
+        synchronized (this.clients) {
+            this.clients.add(client);
         }
         System.out.println("Client connected to the server successfully");
     }
 
     @Override
-    public int createGame() {
+    public int createGame(ClientRMIInterface client) {
         System.out.println("createGame request received");
         //sequential game id starting from 0
         int id = GameValues.numberOfGames;
         GameValues.numberOfGames++;
-        gameHandlerMap.put(id, new GameHandler(id));
+        gameHandlerMap.put(id, new GameHandler(id, this));
 
-        System.out.println("Game created with id: " + gameHandlerMap.get(id).getGame().getGameId());
-        return id;
-
-//        synchronized (this.clients) {
-//            for(ClientRMIInterface client : this.clients) {
-//                try {
-//                    client.update(currGame, GameEvent.GAME_CREATED);
-//                } catch (RemoteException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        }
+        try {
+            addClientToGameHandler(id, client);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
 
 //        try {
-//            updates.put(new EventWrapper(currGame, GameEvent.GAME_CREATED));
-//            System.out.println("1) " + updates.size());
-//        } catch (InterruptedException e) {
+//            System.out.println("line 76) " + updates.size());
+//            updates.put(new EventWrapper(GameEvent.GAME_CREATED, gameHandlerMap.get(id).getGame()));
+//            System.out.println("line 78) " + updates.size());
+//        } catch (Exception e) {
+//            System.err.println("Error in adding game to the queue");
 //            throw new RuntimeException(e);
 //        }
 
+        return id;
+    }
+
+    @Override
+    public List<Integer> getAvailableGames() throws RemoteException {
+        return new ArrayList<>(gameHandlerMap.keySet());
     }
 
     @Override
     public void addPlayerToGame(int gameId, String username) throws RemoteException {
-        System.out.println("Request to add player to game " + gameId + " received");
-        Game game = this.gameHandlerMap.get(gameId).getGame();
-        try {
-
-            Player player = new Player(username, game);
-            game.addPlayer(player);
-        } catch (InvalidConstructorDataException e) {
-            throw new RuntimeException(e);
-        } catch (AlreadyExistingPlayerException e) {
-            throw new RuntimeException(e);
-        } catch (AlreadyFourPlayersException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("Player " + username + " added to game successfully");
-        System.out.println("There are now " + game.getListOfPlayers().size() + " players in the game");
+        this.gameHandlerMap.get(gameId).addPlayerToGame(gameId, username);
     }
 
     @Override
-    public void inzializeGame(Game game) throws RemoteException {
-
+    public int setReady(int gameId, String username) throws RemoteException {
+        return this.gameHandlerMap.get(gameId).setReady(gameId, username);
     }
 
     @Override
-    public void inizializeMarker(Player player, Marker marker) throws RemoteException {
-
+    public void subscribe(ClientRMIInterface client, int gameId) throws RemoteException {
+        this.gameHandlerMap.get(gameId).subscribe(client, gameId);
     }
 
-    @Override
-    public void inizializePlayerCards(Player player) throws RemoteException {
 
+    public GameHandler getGameHandler(int gameId){
+        return gameHandlerMap.get(gameId);
     }
 
-    @Override
-    public void inizializePlayerMatrix(Player player, Side side) throws RemoteException {
-
+    public void updateClient(ClientRMIInterface client, GameEvent event, Game game) throws RemoteException{
+        client.update(event, game);
     }
 
-    @Override
-    public void inizializePlayerHand(Player player) throws RemoteException {
 
-    }
 
-    public void addClientToGameHandler(Integer gameId, ClientRMIInterface client) throws RemoteException {
+    private void addClientToGameHandler(Integer gameId, ClientRMIInterface client) throws RemoteException {
         this.gameHandlerMap.get(gameId).addClient(client);
     }
 
@@ -164,49 +142,25 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         System.out.println("Server bound");
     }
 
-    private void startSocketServer(){
-        try {
-            ExecutorService executor = Executors.newCachedThreadPool();
-            ServerSocket serverSocket = new ServerSocket(GameValues.SERVER_PORT+1);
-            while (true) {
-                try {
-                    Socket clientSocket = serverSocket.accept();
-                    SocketClientHandler clientHandler = new SocketClientHandler(new GameHandler(), new ObjectInputStream(clientSocket.getInputStream()), new ObjectOutputStream(clientSocket.getOutputStream()));
-                    newClients.add(clientHandler);
-                    executor.submit(clientHandler);
-                } catch (Exception e) {
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Socket error");
-            return;
-        }
+    public void update(ClientRMIInterface clientRMIInterface, UserMessageWrapper message) throws RemoteException {
+        //RMIClient client = this.getClient(message.getMessage().getUsername());
+
+        UserInputEvent userInputEvent = message.getType();
+        UserMessage userMessage = message.getMessage();
+
     }
 
-    public void broadcastUpdate(EventWrapper ew){
-        //TODO: usare un thread per fare questo per non rallentare
-        for(ClientRMIInterface client: gameHandlerMap.get(ew.getMessage().getGameId()).getClients()){
-            try {
-                client.update(ew.getType(), ew.getMessage());
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
+//    public RMIClient getClient(String username){
+//        return this.clients.stream().filter(c -> c.getUsername().equals(username)).findFirst().orElse(null);
+//    }
 
     public void run(){
         startRMIServer();
-        startSocketServer();
+        //broadcastUpdateThread.start();
     }
 
     public static void main(String[] args) {
         RMIServer server = new RMIServer(new HashMap<>());
         server.start();
-
-
-        //register in registry
     }
 }

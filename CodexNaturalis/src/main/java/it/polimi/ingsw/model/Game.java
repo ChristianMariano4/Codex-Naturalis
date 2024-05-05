@@ -20,6 +20,7 @@ import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
  * The game is responsible for adding players to the game and managing the table.
  */
 public class Game implements Serializable {
+    private boolean isGameStarted;
     private final int gameId;
     private int numberOfPlayers;
     private final ArrayList<Player> listOfPlayers;
@@ -39,6 +40,7 @@ public class Game implements Serializable {
      * @throws InvalidConstructorDataException when controller didn't properly create Game
      */
     public Game(int gameId, DrawingField drawingField, ArrayList<ObjectiveCard> sharedObjectiveCards, Deck<ObjectiveCard> objectiveCardDeck, Deck<StarterCard> starterCardDeck) throws InvalidConstructorDataException {
+        this.isGameStarted = false;
         this.gameId = gameId;
         this.listOfPlayers = new ArrayList<Player>();
         this.numberOfPlayers = 0;
@@ -74,6 +76,7 @@ public class Game implements Serializable {
                 this.listOfPlayers.add(player);
                 numberOfPlayers++;
                 tableTop.addPlayerField(player);
+                player.setGame(this);
             } else {
                 throw new AlreadyFourPlayersException();
             }
@@ -131,5 +134,9 @@ public class Game implements Serializable {
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+
+    public boolean getgameStarted() {
+        return isGameStarted;
     }
 }

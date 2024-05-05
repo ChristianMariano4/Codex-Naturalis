@@ -22,21 +22,19 @@ public class Player implements Serializable {
     private int points;
     private final PlayerHand playerHand;
     private final PlayerField playerField;
-    private final Game game;
+    private Game game;
     private ObjectiveCard secretObjective;
     private StarterCard starterCard;
 
     /**
      * Constructor
      * @param username The ID of the player
-     * @param game The reference of the current game
      * @throws InvalidConstructorDataException Exception thrown if the constructor data are invalid
      */
     //controller crates player -> player creates empty playerhand -> controller adds cards to playerhand from deck
-    public Player(String username, Game game) throws InvalidConstructorDataException {
+    public Player(String username) throws InvalidConstructorDataException {
         try {
             this.username = username;
-            this.game = game;
         }
         catch(Exception e)
         {
@@ -49,6 +47,14 @@ public class Player implements Serializable {
         resourceAmount = new HashMap<Resource, Integer>();
 
         resourceAmountInitializer(resourceAmount);
+    }
+
+    /**
+     * Setter
+     * @param game The reference of the game to which the player belongs
+     */
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     /**

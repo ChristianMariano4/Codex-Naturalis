@@ -8,6 +8,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.EventManager;
+import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
 import it.polimi.ingsw.network.rmi.RMIServer;
 
@@ -22,12 +23,11 @@ public class Controller {
     private CardHandler cardHandler;
     private RMIServer server;
     private Game game;
-    private final Object markerLock = new Object();
-    private final Object PlayerLock = new Object();
-    private EventManager eventManager;
+    private final EventManager eventManager;
 
-    public Controller(){
+    public Controller(EventManager eventManager){
         this.cardHandler = new CardHandler();
+        this.eventManager = eventManager;
     }
   /* public Controller(Server server, EventManager eventManager)
     {
@@ -81,20 +81,33 @@ public class Controller {
         Deck<StarterCard> starterCardDeck = new Deck<StarterCard>(cardHandler.filterStarterCards(cardHandler.importStarterCards()));
         starterCardDeck.shuffleDeck();
         this.game = new Game(gameId, drawingField, sharedObjectiveCards, objectiveCardDeck, starterCardDeck);
+
+        eventManager.notify(GameEvent.GAME_CREATED, this.game);
         return this.game;
     }
 
-//    /** MAYBE NOT USEFUL, because the Player is already associated with a game when created
-//     * Adds a player to the game specified by gameId
-//     * @param gameId id of the game to which the player will be added
-//     * @param player player to add
-//     * @throws AlreadyExistingPlayerException when the player we want to add already exists in the game
-//     * @throws AlreadyFourPlayersException when the game already contains the maximum amount of players
-//     */
-//    public void addPlayerToGame(int gameId, Player player) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
-//        player.
-//               // getGameById(gameId).game.addPlayer(player);
-//    }
+    /**
+     * Getter
+     * @return the game
+     */
+    public Game getGame() {
+        return game;
+    }
+
+    /**
+     * Adds a player to the game specified by gameId
+     * @param gameId id of the game to which the player will be added
+     * @param username username of the player to be added
+     * @throws AlreadyExistingPlayerException when the player we want to add already exists in the game
+     * @throws AlreadyFourPlayersException when the game already contains the maximum amount of players
+     */
+    public void addPlayerToGame(int gameId, String username) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+        try {
+            this.game.addPlayer(new Player(username));
+        } catch (InvalidConstructorDataException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * Starts the game when all players are ready
@@ -163,6 +176,8 @@ public class Controller {
         player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
     }
 
+//    public void add
+
     public void update(UserMessageWrapper message) {
         switch(message.getType()) {
             case USERNAME_INSERTED -> {
@@ -197,4 +212,5 @@ public class Controller {
             objectiveCards.remove(2); // removes secret player objective
         }
     }
+
 }

@@ -26,16 +26,13 @@ public class EventManager {
         }
     }
 
-    public <E extends Enum<E>> void notify(UserMessageWrapper message) {
-        System.out.println("here: " + listeners.size());
-        List<Listener<?>> eventListeners = listeners.get(message.getType().getClass());
+    public <E extends Enum<E>> void notify(E event, Object... args) {
+        List<Listener<?>> eventListeners = listeners.get(event.getClass());
         if (eventListeners != null) {
-            System.out.println("event Listeners not null");
             for (Listener<?> listener : eventListeners) {
                 Listener<E> typedListener = (Listener<E>) listener;
-                typedListener.update(message);
+                typedListener.update(event, args);
             }
         }
     }
-
 }

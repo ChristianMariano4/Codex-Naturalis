@@ -1,14 +1,18 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.network.EventManager;
+import it.polimi.ingsw.network.Listener;
 import it.polimi.ingsw.network.View;
 import it.polimi.ingsw.network.ViewCLI;
 import it.polimi.ingsw.network.messages.GameEvent;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
-public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface, Runnable{
+public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface, Runnable {
+    private String username;
     private final ServerRMIInterface server;
     private int gameId;
     private View view;
@@ -16,13 +20,22 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
 
     public RMIClient(ServerRMIInterface server) throws RemoteException{
         this.server = server;
+        //eventManager.subscribe(UserInputEvent.class, new UserInputListener(this));
     }
 
     public void createGame(String username){
         try {
-            this.gameId = server.createGame();
+            this.gameId = server.createGame(this);
             server.addPlayerToGame(this.gameId, username);
-            server.addClientToGameHandler(this.gameId, this);
+            server.subscribe(this, this.gameId);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Integer> getAvailableGames(){
+        try {
+            return server.getAvailableGames();
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -41,6 +54,22 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
         return server;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public int setReady(){
+        try {
+            return server.setReady(this.gameId, this.username);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void update(GameEvent event, Game game) throws RemoteException {
         view.update(event, game);
@@ -55,4 +84,5 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             throw new RuntimeException(e);
         }
     }
+
 }

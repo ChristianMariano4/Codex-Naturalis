@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Player;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 //this is the skeleton (proxy of the server)
 public interface ServerRMIInterface extends Remote {
@@ -14,15 +15,11 @@ public interface ServerRMIInterface extends Remote {
     void connect(ClientRMIInterface client) throws RemoteException;
 
     //expose methods that the client can call, i.e. those of the controller
-    int createGame() throws RemoteException;
+    int createGame(ClientRMIInterface client) throws RemoteException;
 
-    void addPlayerToGame(int gameId, String username) throws RemoteException;
+    List<Integer> getAvailableGames() throws RemoteException;
+    public void addPlayerToGame(int gameId, String username) throws RemoteException;
+    public int setReady(int gameId, String username) throws RemoteException;
+    void subscribe(ClientRMIInterface client, int gameId) throws RemoteException;
 
-    void inzializeGame(Game game) throws RemoteException;
-    void inizializeMarker(Player player, Marker marker) throws RemoteException;
-    void inizializePlayerCards(Player player) throws RemoteException;
-    void inizializePlayerMatrix(Player player, Side side) throws RemoteException;
-    void inizializePlayerHand(Player player) throws RemoteException;
-
-    void addClientToGameHandler(Integer gameId, ClientRMIInterface client) throws RemoteException;
 }
