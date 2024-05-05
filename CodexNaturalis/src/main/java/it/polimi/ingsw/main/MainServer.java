@@ -2,15 +2,24 @@ package it.polimi.ingsw.main;
 
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.GameValues;
+import it.polimi.ingsw.network.rmi.RMIServer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MainServer {
-    public static void main(String[] args) throws AlreadyThreeCardsInHandException, InvalidConstructorDataException, CardTypeMismatchException, CardNotImportedException, DeckIsEmptyException, UnlinkedCardException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException {
+
+    public static void main(String[] args) {
+        RMIServer server = new RMIServer(new HashMap<>());
+        server.start();
+    }
+
+
+   // public static void main(String[] args) throws AlreadyThreeCardsInHandException, InvalidConstructorDataException, CardTypeMismatchException, CardNotImportedException, DeckIsEmptyException, UnlinkedCardException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException {
 
 /*
         try {
@@ -82,5 +91,5 @@ public class MainServer {
 
     */
 
-    }
+  //  }
 }

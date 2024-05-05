@@ -18,7 +18,7 @@ public interface ServerRMIInterface extends Remote {
     int createGame(ClientRMIInterface client) throws RemoteException;
 
     List<Integer> getAvailableGames() throws RemoteException;
-    public void addPlayerToGame(int gameId, String username) throws RemoteException;
+    public Game addPlayerToGame(int gameId, String username) throws RemoteException;
     public int setReady(int gameId, String username) throws RemoteException;
     void subscribe(ClientRMIInterface client, int gameId) throws RemoteException;
 

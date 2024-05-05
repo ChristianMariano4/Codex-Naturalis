@@ -96,13 +96,15 @@ public class RMIServer extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public void addPlayerToGame(int gameId, String username) throws RemoteException {
-        this.gameHandlerMap.get(gameId).addPlayerToGame(gameId, username);
+    public Game addPlayerToGame(int gameId, String username) throws RemoteException {
+        return this.gameHandlerMap.get(gameId).addPlayerToGame(gameId, username);
     }
 
     @Override
     public int setReady(int gameId, String username) throws RemoteException {
         return this.gameHandlerMap.get(gameId).setReady(gameId, username);
+
+        //TODO: inizializzazione del gioco se tutti i giocatori sono pronti
     }
 
     @Override
@@ -159,8 +161,5 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         //broadcastUpdateThread.start();
     }
 
-    public static void main(String[] args) {
-        RMIServer server = new RMIServer(new HashMap<>());
-        server.start();
-    }
+
 }

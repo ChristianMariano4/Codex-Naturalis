@@ -24,19 +24,44 @@ public class ViewCLI implements View {
     private Game game;
     private RMIClient client;
     private final Scanner scanner = new Scanner(System.in);
-    private final Thread threadUsername = new Thread(() -> {
+    private boolean gameStarted = false;
+
+    //    queue used to pass data to another thread in a thread safe way
+    final BlockingQueue<EventWrapper> updates = new LinkedBlockingQueue<>();
+//    TODO: fix thread to update clients
+    Thread broadcastUpdateThread = new Thread(() -> {
+        System.out.println("Broadcasting thread started");
+        try{
+            while(true){
+                System.out.println("Waiting for updates");
+                EventWrapper update = updates.take();
+                System.out.println("We are after take method :)))))))");
+                System.out.println();
+                synchronized (this.clients) {
+                    for (ClientRMIInterface client : this.clients) {
+                        client.update(update.getType(), update.getMessage());
+                    }
+                }
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    });
+    private void setUsername() {
         System.out.println("Insert your username: ");
         String username = scanner.nextLine();
         client.setUsername(username);
-    });
-    Thread threadGame = new Thread(() -> {
+    }
+    private void setChoiceGame() {
         while(true){
             System.out.println("Do you want to create a game or join an existing one?");
             System.out.println("1. Create a game\n2. Join a game");
             String choice = scanner.nextLine();
             if(choice.equals("1")) {
-                client.createGame(this.client.getUsername());
-                //System.out.println("Game created. Waiting for other players to join...");
+                this.game = client.createGame(this.client.getUsername());
+                System.out.println("Game created.");
                 break;
             }
             if(choice.equals("2")) {
@@ -46,28 +71,21 @@ public class ViewCLI implements View {
                     System.out.println(gameId);
                 }
                 System.out.print("Enter the game id you want to join: ");
-                client.joinGame(Integer.parseInt(scanner.nextLine()), this.client.getUsername());
+                this.game = client.joinGame(Integer.parseInt(scanner.nextLine()), this.client.getUsername());
                 break;
             }
         }
-    });
+        System.out.println(this);
+    }
 
-    Thread threadReady = new Thread( () -> {
+    private void setReady() {
         do{
             System.out.println("Press 1 when you are ready to start the game.");
         }while(!scanner.nextLine().equals("1"));
         int numberReadyPlayers = client.setReady();
         System.out.println("You are ready to start the game. Waiting for other players to be ready...");
-
-        while(numberReadyPlayers < game.getListOfPlayers().size()){
-            try {
-                this.wait();
-                //TODO thread has to be woke up when a player is ready
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    });
+        System.out.println(this);
+    }
 
     public ViewCLI(RMIClient client) {
         this.client = client;
@@ -75,12 +93,10 @@ public class ViewCLI implements View {
 
     @Override
     public void update(GameEvent event, Game gameUpdated) {
+        System.out.println("We are in ViewCLI update method");
+        System.out.println(gameUpdated.getGameId());
         this.game = gameUpdated;
         switch (event) {
-            case GAME_CREATED -> {
-                System.out.println("Game created. Waiting for other players to join...");
-                break;
-            }
             case BOARD_UPDATED -> {
                 //TODO: print what happened
                 //TODO: print new board
@@ -90,54 +106,29 @@ public class ViewCLI implements View {
                 System.out.println("New player joined the game. Now there are " + game.getListOfPlayers().size() + " players.");
                 break;
             }
+            case GAME_BEGIN -> {
+                System.out.println("The game is starting. Good luck!");
+                gameStarted = true;
+                break;
+            }
         }
     }
 
     @Override
     public void run() {
-        threadUsername.start();
-        try {
-            threadUsername.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        threadGame.start();
-        try {
-            threadGame.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        threadReady.start();
-        try {
-            threadReady.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        //here the game is started
+        setUsername(); //TODO
+        setChoiceGame();
+        setReady();
 
-        Thread t = new Thread(() -> {
-            while(true){
-                //TODO: thread that handles user input for the entire game
-            }
-        });
-        t.start();
+        while(!gameStarted){
+        }
+
+        while(gameStarted){
+            System.out.println("Game Started");
+            //TODO
+        }
+
     }
 
-    public static void main(String[] args) {
-        ViewCLI view;
-        System.out.println("Connecting to RMI server...");
-        String serverName = "Server";
-        try {
-            Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1234);
-            ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);
-            RMIClient client = new RMIClient(server);
-            new Thread(client).start();
-            view = new ViewCLI(client);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (NotBoundException e) {
-            throw new RuntimeException(e);
-        }
-        view.run();
-    }
+
 }

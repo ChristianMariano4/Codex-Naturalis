@@ -23,11 +23,11 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
         //eventManager.subscribe(UserInputEvent.class, new UserInputListener(this));
     }
 
-    public void createGame(String username){
+    public Game createGame(String username){
         try {
             this.gameId = server.createGame(this);
-            server.addPlayerToGame(this.gameId, username);
             server.subscribe(this, this.gameId);
+            return server.addPlayerToGame(this.gameId, username);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -41,10 +41,10 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
         }
     }
 
-    public void joinGame(int gameId,String username){
+    public Game joinGame(int gameId,String username){
         this.gameId = gameId;
         try {
-            server.addPlayerToGame(this.gameId, username);
+            return server.addPlayerToGame(this.gameId, username);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

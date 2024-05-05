@@ -19,6 +19,7 @@ import java.util.*;
  * MainServer controller class
  */
 public class Controller {
+    //TODO: metodi per giocare le carte e per pescare le carte
     public String testUsername;
     private CardHandler cardHandler;
     private RMIServer server;
@@ -51,7 +52,7 @@ public class Controller {
      * @throws CardTypeMismatchException if the cardType doesn't match
      * @throws DeckIsEmptyException if a deck is empty
      */
-    public Game createGame(int gameId) throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
+    public synchronized Game createGame(int gameId) throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
         //starts new thread in server and then returns new game
         //create new Decks
         Deck<GoldCard> goldCardDeck = new Deck<GoldCard>(cardHandler.filterGoldCards(cardHandler.importGoldCards()));
@@ -82,7 +83,6 @@ public class Controller {
         starterCardDeck.shuffleDeck();
         this.game = new Game(gameId, drawingField, sharedObjectiveCards, objectiveCardDeck, starterCardDeck);
 
-        eventManager.notify(GameEvent.GAME_CREATED, this.game);
         return this.game;
     }
 
@@ -90,7 +90,7 @@ public class Controller {
      * Getter
      * @return the game
      */
-    public Game getGame() {
+    public synchronized Game getGame() {
         return game;
     }
 
@@ -101,12 +101,14 @@ public class Controller {
      * @throws AlreadyExistingPlayerException when the player we want to add already exists in the game
      * @throws AlreadyFourPlayersException when the game already contains the maximum amount of players
      */
-    public void addPlayerToGame(int gameId, String username) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+    public synchronized Game addPlayerToGame(int gameId, String username) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
         try {
             this.game.addPlayer(new Player(username));
         } catch (InvalidConstructorDataException e) {
             throw new RuntimeException(e);
         }
+
+        return this.game;
     }
 
     /**
@@ -121,7 +123,7 @@ public class Controller {
      * @throws IOException
      * @throws UnlinkedCardException
      */
-    public void inzializeGame(Game game) throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException, UnlinkedCardException, AlreadyThreeCardsInHandException {
+    public synchronized void inzializeGame(Game game) throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException, UnlinkedCardException, AlreadyThreeCardsInHandException {
         //shuffle the list of player to determine the order of play
         game.shufflePlayers();
         //set the first player
@@ -136,7 +138,7 @@ public class Controller {
      * @param marker
      */
 //for each player in the game, initialize the marker, the cards, the matrix and the hand
-    public void inizializeMarker(Player player, Marker marker) {
+    public synchronized void inizializeMarker(Player player, Marker marker) {
         player.setMarker(marker);
         this.game.removeMarker(marker);
     }
@@ -146,7 +148,7 @@ public class Controller {
      * @param player
      * @throws DeckIsEmptyException if the deck is empty
      */
-    public void inizializePlayerCards(Player player) throws DeckIsEmptyException {
+    public synchronized void inizializePlayerCards(Player player) throws DeckIsEmptyException {
         player.setSecretObjective(this.game.getObjectiveCardDeck().getTopCard());
         player.setStarterCard(this.game.getAvailableStarterCards().getTopCard());
     }
@@ -156,7 +158,7 @@ public class Controller {
      * @param player the selected player
      * @param side the side of the starterCard chosen by the player
      */
-    public void inizializePlayerMatrix(Player player, Side side) {
+    public synchronized void inizializePlayerMatrix(Player player, Side side) {
         if(side == Side.FRONT){
             player.getPlayerField().addCardToCell(player.getStarterCard());
         } else {
@@ -170,7 +172,7 @@ public class Controller {
      * @throws DeckIsEmptyException if the deck is empty
      * @throws AlreadyThreeCardsInHandException if there are already three cards in the player hand
      */
-    public void inizializePlayerHand(Player player) throws DeckIsEmptyException, AlreadyThreeCardsInHandException {
+    public synchronized void inizializePlayerHand(Player player) throws DeckIsEmptyException, AlreadyThreeCardsInHandException {
         player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(DrawPosition.FROMDECK));
         player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
         player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
@@ -178,14 +180,14 @@ public class Controller {
 
 //    public void add
 
-    public void update(UserMessageWrapper message) {
+    public synchronized void update(UserMessageWrapper message) {
         switch(message.getType()) {
             case USERNAME_INSERTED -> {
                 testUsername = message.getMessage().getUsername();
             }
         }
     }
-    public void calculateAndUpdateFinalPoints(Game game) throws CardTypeMismatchException {
+    public synchronized void calculateAndUpdateFinalPoints(Game game) throws CardTypeMismatchException {
         ArrayList<ObjectiveCard> objectiveCards = game.getTableTop().getSharedObjectiveCards();
 
         for(Player player : game.getListOfPlayers())

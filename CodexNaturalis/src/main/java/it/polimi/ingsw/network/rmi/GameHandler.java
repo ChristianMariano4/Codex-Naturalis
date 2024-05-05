@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameHandler {
+    //TODO: check se il client ha i permessi giusti
     private Game game;
     private Controller controller;
     private int readyPlayers = 0;
@@ -41,26 +42,19 @@ public class GameHandler {
 
     }
 
-    public void addPlayerToGame(int gameId, String username) throws RemoteException {
+    public Game addPlayerToGame(int gameId, String username) throws RemoteException {
         System.out.println("Request to add player to game " + gameId + " received");
+        Game game;
         try {
-            this.controller.addPlayerToGame(gameId, username);
+            game = this.controller.addPlayerToGame(gameId, username);
         } catch (AlreadyExistingPlayerException e) {
             throw new RuntimeException(e);
         } catch (AlreadyFourPlayersException e) {
             //TODO: avvisare il client che non può entrare in questo game
             throw new RuntimeException(e);
         }
-        System.out.println("Player " + username + " added to game successfully");
-        System.out.println("There are now " + this.controller.getGame().getNumberOfPlayers() + " players in the game");
-
-//        try {
-//            updates.put(new EventWrapper(GameEvent.NEW_PLAYER, gameHandlerMap.get(gameId).getGame()));
-//            System.out.println("line 107) " + updates.size());
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-
+        eventManager.notify(GameEvent.NEW_PLAYER, this.game);
+        return game;
     }
 
     public void addClient(ClientRMIInterface client) {
@@ -82,25 +76,15 @@ public class GameHandler {
         if(readyPlayers == controller.getGame().getNumberOfPlayers()){
             try {
                 controller.inzializeGame(this.game);
-            } catch (CardTypeMismatchException e) {
-                throw new RuntimeException(e);
-            } catch (InvalidConstructorDataException e) {
-                throw new RuntimeException(e);
-            } catch (CardNotImportedException e) {
-                throw new RuntimeException(e);
-            } catch (DeckIsEmptyException e) {
-                throw new RuntimeException(e);
-            } catch (AlreadyExistingPlayerException e) {
-                throw new RuntimeException(e);
-            } catch (AlreadyFourPlayersException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (UnlinkedCardException e) {
-                throw new RuntimeException(e);
-            } catch (AlreadyThreeCardsInHandException e) {
+            } catch (CardTypeMismatchException | InvalidConstructorDataException | CardNotImportedException |
+                     DeckIsEmptyException | AlreadyExistingPlayerException | AlreadyFourPlayersException | IOException |
+                     UnlinkedCardException | AlreadyThreeCardsInHandException e) {
                 throw new RuntimeException(e);
             }
+        }
+
+        if(readyPlayers >= controller.getGame().getNumberOfPlayers()){
+            eventManager.notify(GameEvent.GAME_BEGIN, controller.getGame());
         }
         return readyPlayers;
     }
