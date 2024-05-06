@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
 import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
 import it.polimi.ingsw.network.rmi.RMIClient;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
+import it.polimi.ingsw.view.TUI;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -25,16 +26,16 @@ public class ViewCLI implements View {
     private RMIClient client;
     private final Scanner scanner = new Scanner(System.in);
     private boolean gameStarted = false;
+    TUI ui;
 
     private void setUsername() {
-        System.out.println("Insert your username: ");
+        ui.setUsername();
         String username = scanner.nextLine();
         client.setUsername(username);
     }
     private void setChoiceGame() {
         while(true){
-            System.out.println("Do you want to create a game or join an existing one?");
-            System.out.println("1. Create a game\n2. Join a game");
+            ui.createOrJoinAGame();
             String choice = scanner.nextLine();
             if(choice.equals("1")) {
                 this.game = client.createGame(this.client.getUsername());
@@ -42,12 +43,7 @@ public class ViewCLI implements View {
                 break;
             }
             if(choice.equals("2")) {
-                List<Integer> availableGames = client.getAvailableGames();
-                System.out.println("Available games:");
-                for (Integer gameId : availableGames) {
-                    System.out.println(gameId);
-                }
-                System.out.print("Enter the game id you want to join: ");
+                ui.showAllExistingGames(client.getAvailableGames());
                 this.game = client.joinGame(Integer.parseInt(scanner.nextLine()), this.client.getUsername());
                 break;
             }
@@ -93,7 +89,13 @@ public class ViewCLI implements View {
 
     @Override
     public void run() {
+
+        ui = new TUI();
+        ui.showGameTitle();
+        ui.showPlayerHand();
+
         setUsername(); //TODO
+        ui.clearScreen();
         setChoiceGame();
         setReady();
 

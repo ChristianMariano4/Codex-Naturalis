@@ -27,9 +27,6 @@ public class MainClient {
         System.out.println("Connecting to RMI server...");
         String serverName = "Server";
 
-        TUI ui = new TUI();
-        ui.showGameTitle();
-
         try {
             Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1234);
             ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);

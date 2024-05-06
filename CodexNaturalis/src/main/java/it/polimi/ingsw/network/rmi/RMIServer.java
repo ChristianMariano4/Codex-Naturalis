@@ -6,6 +6,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.network.EventManager;
 import it.polimi.ingsw.network.GameListener;
 import it.polimi.ingsw.network.messages.GameEvent;

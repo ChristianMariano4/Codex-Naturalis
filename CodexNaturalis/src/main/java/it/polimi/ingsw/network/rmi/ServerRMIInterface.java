@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerHand;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -21,5 +22,4 @@ public interface ServerRMIInterface extends Remote {
     public Game addPlayerToGame(int gameId, String username) throws RemoteException;
     public int setReady(int gameId, String username) throws RemoteException;
     void subscribe(ClientRMIInterface client, int gameId) throws RemoteException;
-
 }
