@@ -29,13 +29,8 @@ public class GameHandler {
         this.controller = new Controller(eventManager);
         try {
             this.game = controller.createGame(gameId);
-        } catch (InvalidConstructorDataException e) {
-            throw new RuntimeException(e);
-        } catch (CardNotImportedException e) {
-            throw new RuntimeException(e);
-        } catch (CardTypeMismatchException e) {
-            throw new RuntimeException(e);
-        } catch (DeckIsEmptyException e) {
+        } catch (InvalidConstructorDataException | CardNotImportedException | CardTypeMismatchException |
+                 DeckIsEmptyException e) {
             throw new RuntimeException(e);
         }
         this.clients = new ArrayList<>();
