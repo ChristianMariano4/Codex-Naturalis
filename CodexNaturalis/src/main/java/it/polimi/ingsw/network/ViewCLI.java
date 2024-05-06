@@ -93,7 +93,7 @@ public class ViewCLI implements View {
         ui = new TUI();
         ui.showGameTitle();
         ui.showPlayerHand();
-
+/*
         setUsername(); //TODO
         ui.clearScreen();
         setChoiceGame();
@@ -105,7 +105,9 @@ public class ViewCLI implements View {
         while(gameStarted){
             System.out.println("Game Started");
             //TODO
-        }
+        }*/
+
+        ui.showEndGameScreen();
 
     }
 

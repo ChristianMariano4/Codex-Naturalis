@@ -22,6 +22,12 @@ public class TUI extends UI{
         AnsiConsole.systemInstall();
     }
 
+    public void showGameStarted() {
+        this.clearScreen();
+        this.showGameTitle();
+        this.showAllPlayers();
+    }
+
     public void showGameTitle() {
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
@@ -57,16 +63,31 @@ public class TUI extends UI{
     }
 
     public void showPlayerHand() { //create a method in the view to get the playerHand
+        this.clearScreen();
+        int test = 0;
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
                 : Charset.defaultCharset())
-                .println(ansi().fg(GREEN).a("""
-                        |-----------------|
-                        |       ---       |
-                        |      | @ |    __|
-                        |       ---    |  |
-                        |--------------|--|
-                        """).reset());
+                .println(ansi().fg(GREEN).a("\n" +
+                        "█▄█ █▀█ █░█ █▀█   █░█ ▄▀█ █▄░█ █▀▄\n" +
+                        "░█░ █▄█ █▄█ █▀▄   █▀█ █▀█ █░▀█ █▄▀").reset());
+            new PrintStream(System.out, true, System.console() != null
+                    ? System.console().charset()
+                    : Charset.defaultCharset())
+                    .println(ansi().fg(GREEN).a(
+                              "┌──────┬───────────┬──────┐    ┌──────┬───────────┬──────┐     ┌──────┬───────────┬──────┐\n" +
+                                    "│┤►@@◄├│           │┤►@@◄├│    │┤►@@◄├│           │┤►@@◄├│     │┤►@@◄├│           │┤►@@◄├│\n" +
+                                    "│┼─────┘  ┌┬───┬┐  └─────┼│    │┼─────┘  ┌┬───┬┐  └─────┼│     │┼─────┘  ┌┬───┬┐  └─────┼│\n" +
+                                    "││        ││ "+test+" ││        ││    ││        ││ "+test+" ││        ││     ││        ││ "+test+" ││        ││\n" +
+                                    "││        └┴───┴┘  ┌─────┼│    ││        └┴───┴┘  ┌─────┼│     ││        └┴───┴┘  ┌─────┼│\n" +
+                                    "││                 │┤►@@◄├│    ││                 │┤►@@◄├│     ││                 │┤►@@◄├│\n" +
+                                    "└┴─────────────────┴──────┘    └┴─────────────────┴──────┘     └┴─────────────────┴──────┘").reset());
+            //Print all card information
+                System.out.println("card "+test+"                          card "+test+"                          card "+test);
+                System.out.println("descrizione                     descrizione                     descrizione");
+
+    }
+    public void showAllPlayers() {
     }
 
     public void showOtherPlayerTableTop(Player player) {
@@ -91,6 +112,23 @@ public class TUI extends UI{
 
     public void aPlayerJoinedTheGame() {
 
+    }
+
+    public void showPlayerTableTop() {}
+
+    public void showEndGameScreen() {
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset())
+                .println(ansi().fg(GREEN).a(""" 
+                        ███████  ██████  ██████  ██████  ███████ ██████   ██████   █████  ██████  ██████ \s
+                        ██      ██      ██    ██ ██   ██ ██      ██   ██ ██    ██ ██   ██ ██   ██ ██   ██\s
+                        ███████ ██      ██    ██ ██████  █████   ██████  ██    ██ ███████ ██████  ██   ██\s
+                             ██ ██      ██    ██ ██   ██ ██      ██   ██ ██    ██ ██   ██ ██   ██ ██   ██\s
+                        ███████  ██████  ██████  ██   ██ ███████ ██████   ██████  ██   ██ ██   ██ ██████ \s
+                                                                                                         \s
+                """).reset());
+        //list of the players based on their points
     }
 
     public void clearScreen() {
