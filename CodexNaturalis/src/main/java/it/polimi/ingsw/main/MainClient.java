@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.network.ViewCLI;
 import it.polimi.ingsw.network.rmi.RMIClient;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
+import it.polimi.ingsw.view.TUI;
+import it.polimi.ingsw.view.UI;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -24,6 +26,10 @@ public class MainClient {
         ViewCLI view;
         System.out.println("Connecting to RMI server...");
         String serverName = "Server";
+
+        TUI ui = new TUI();
+        ui.showGameTitle();
+
         try {
             Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1234);
             ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);
