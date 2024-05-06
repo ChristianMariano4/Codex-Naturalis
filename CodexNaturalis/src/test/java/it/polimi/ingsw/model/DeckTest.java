@@ -1,38 +1,53 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.enumerations.DrawPosition;
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
-import it.polimi.ingsw.exceptions.NoCardAddedException;
+import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.cards.Card;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class DeckTest {
 
-    static int number_of_cards; //to assign
-    Deck d;
+    private Deck<Card> deck;
+    private ArrayList<Card> cards;
 
     @BeforeEach
-    void DeckInit() {
-        //Deck controller method
+    void setUp() throws InvalidConstructorDataException {
+        cards = new ArrayList<>();
+        cards.add(mock(Card.class));
+        cards.add(mock(Card.class));
+        deck = new Deck<>(cards);
     }
-    @Test
-    void isEmptyShouldReturnFalse() throws DeckIsEmptyException {
-        for(int i = 0; i < number_of_cards; i++) {
-            d.getTopCard();
-            Assertions.assertFalse(d.isEmpty());
-        }
 
+    @Test
+    void shouldInitializeDeck() {
+        assertFalse(deck.isEmpty());
     }
+
+    @Test
+    void shouldThrowInvalidConstructorDataException() {
+        assertThrows(InvalidConstructorDataException.class, () -> new Deck<>(null));
+    }
+
+    @Test
+    void shouldReturnTopCard() throws DeckIsEmptyException {
+        assertNotNull(deck.getTopCard());
+    }
+
     @Test
     void shouldThrowDeckIsEmptyException() throws DeckIsEmptyException {
-        for(int i = 0; i < number_of_cards; i++) {
-            d.getTopCard();
-        }
-        Assertions.assertThrows(NoCardAddedException.class, () -> {d.getTopCard();});
+        deck.getTopCard();
+        deck.getTopCard();
+        assertThrows(DeckIsEmptyException.class, () -> deck.getTopCard());
     }
-    //TODO: shuffle test
+
+    @Test
+    void shouldShuffleDeck() {
+        assertDoesNotThrow(() -> deck.shuffleDeck());
+    }
 }
