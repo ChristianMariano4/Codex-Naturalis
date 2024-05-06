@@ -91,8 +91,15 @@ public class ViewCLI implements View {
     public void run() {
 
         ui = new TUI();
-        ui.showGameTitle();
-        ui.showPlayerHand();
+        //ui.showGameTitle();
+        //ui.showPlayerHand();
+
+        while(true) {
+            ui.showMainScreen();
+            String choice = scanner.nextLine();
+            ui.redirectByPlayerChoice();
+        }
+
 /*
         setUsername(); //TODO
         ui.clearScreen();
@@ -107,7 +114,7 @@ public class ViewCLI implements View {
             //TODO
         }*/
 
-        ui.showEndGameScreen();
+        //ui.showEndGameScreen();
 
     }
 

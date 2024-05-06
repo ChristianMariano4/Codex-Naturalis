@@ -28,6 +28,20 @@ public class TUI extends UI{
         this.showAllPlayers();
     }
 
+    public void showMainChoices() {
+        System.out.println("1: see your hand");
+    }
+
+    public void showMainScreen() {
+        this.clearScreen();
+        this.showGameTitle();
+        this.showMainChoices();
+    }
+
+    public void redirectByPlayerChoice() {
+        this.showPlayerHand();
+    }
+
     public void showGameTitle() {
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
@@ -134,7 +148,9 @@ public class TUI extends UI{
     public void clearScreen() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (InterruptedException | IOException e) {}
+        } catch (InterruptedException | IOException e) {
+            System.out.println("SCREEN CLEAN");
+        }
     }
 
 }
