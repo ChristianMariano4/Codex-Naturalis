@@ -5,6 +5,8 @@ import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerHand;
+import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.cards.CardInfo;
 import it.polimi.ingsw.network.maybeUseful.RemoteLock;
 
 import java.rmi.Remote;
@@ -27,4 +29,5 @@ public interface ServerRMIInterface extends Remote {
     void subscribe(ClientRMIInterface client, int gameId) throws RemoteException;
     RemoteLock getWaitingLock(int gameId) throws RemoteException;
     BlockingQueue<Boolean> getQueue(int gameId) throws RemoteException;
+    public CardInfo getCardInfo(Card card, int gameId) throws RemoteException;
 }

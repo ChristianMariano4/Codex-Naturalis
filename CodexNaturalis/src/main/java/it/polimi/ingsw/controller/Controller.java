@@ -138,7 +138,7 @@ public class Controller {
      * @param marker
      */
 //for each player in the game, initialize the marker, the cards, the matrix and the hand
-    public synchronized void initializeMarker(Player player, Marker marker) {
+    public synchronized void inizializeMarker(Player player, Marker marker) {
         player.setMarker(marker);
         this.game.removeMarker(marker);
     }
@@ -241,4 +241,8 @@ public class Controller {
             player.getPlayerHand().addCardToPlayerHand(card);
         }
     }
+    public CardHandler getCardHandler() {
+        return cardHandler;
+    }
+
 }

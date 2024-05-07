@@ -1,23 +1,19 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.PlayerHand;
-import it.polimi.ingsw.network.EventManager;
-import it.polimi.ingsw.network.Listener;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.View;
 import it.polimi.ingsw.network.ViewCLI;
-import it.polimi.ingsw.network.maybeUseful.RemoteLock;
 import it.polimi.ingsw.network.messages.GameEvent;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
 
 public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface, Runnable {
     private String username;
+
+    private Player player;
     private final ServerRMIInterface server;
     private int gameId;
     private View view;
@@ -97,11 +93,14 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
                 break;
             }
         }
-
+    }
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
-
-
+    public Player getPlayer() {
+        return this.player;
+    }
 
     public void run() {
         try {

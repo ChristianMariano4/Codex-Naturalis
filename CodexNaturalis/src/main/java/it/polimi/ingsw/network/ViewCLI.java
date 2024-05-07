@@ -1,8 +1,9 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameValues;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.enumerations.DrawPosition;
+import it.polimi.ingsw.enumerations.PositionalType;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.messages.userMessages.CreateGameMessage;
 import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
@@ -20,19 +21,25 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+
+import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 
 public class ViewCLI implements View {
     private Game game;
     private RMIClient client;
     private final Scanner scanner = new Scanner(System.in);
     private boolean gameStarted = false;
+
+    private String playerId;
     TUI ui = new TUI();;
 
     public void setUsername() {
         ui.setUsername();
         String username = scanner.nextLine();
+        playerId = username;
         client.setUsername(username);
     }
     public void setChoiceGame() {
@@ -50,6 +57,7 @@ public class ViewCLI implements View {
                 break;
             }
         }
+        client.setPlayer(game.getListOfPlayers().stream().filter(p1 -> p1.getUsername().equals(playerId)).findFirst().orElse(null));
     }
 
     public void setReady() {
@@ -72,7 +80,6 @@ public class ViewCLI implements View {
 
     @Override
     public void newPlayer(Game gameUpdated) {
-
     }
 
     @Override
@@ -81,13 +88,13 @@ public class ViewCLI implements View {
     }
 
     @Override
-    public void gameBegin()
-    {
+    public void gameBegin() throws RemoteException {
         boolean inGame = true;
+        ui.showMainScreen();
         while(inGame)
         {
             System.out.println("Waiting for input: ");
-            ui.showMainScreen();
+            ui.showMainChoices();
             String command = scanner.nextLine();
             switch(command){
                 case "q", "quit":
@@ -100,7 +107,10 @@ public class ViewCLI implements View {
                     showAllPlayers();
                     break;
                 case "myhand":
-                    ui.showPlayerHand();
+                    showPlayerHand();
+                    break;
+                case "showMyFiled":
+                    showPlayerField();
                     break;
                 default:
                     ui.commandNotFound();
@@ -117,5 +127,51 @@ public class ViewCLI implements View {
         ui.showAllPlayers(usernames);
     }
 
+    public void showPlayerHand() throws RemoteException {
+        HashMap<PlayableCard, CardInfo> cardsInHand = new HashMap<>();
+        for(PlayableCard card: client.getPlayer().getPlayerHand().getCardsInHand()) {
+            CardInfo cardInfo = client.getServer().getCardInfo(card, game.getGameId());
+            cardsInHand.put(card, cardInfo);
+        }
+        ui.showPlayerHand(cardsInHand);
+    }
+
+    public void showPlayerField() throws RemoteException {
+        ui.showPlayerField(createMatrixFromField(client.getPlayer().getPlayerField()));
+    }
+
+    public void showOtherPlayerField() throws RemoteException {
+        this.showAllPlayers();
+        String username = scanner.nextLine();
+        Player p = game.getListOfPlayers().stream().filter(p1 -> p1.getUsername().equals(username)).findFirst().orElse(null);
+        if(p != null) {
+            ui.showPlayerField(createMatrixFromField(p.getPlayerField()));
+        }
+    }
+
+    private int[][] createMatrixFromField(PlayerField  playerField) throws RemoteException {
+        int i = 0, j = 0;
+        int[][] matrix = new int[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
+        for(PlayableCard[] cards: playerField.getMatrixField()) {
+            for(PlayableCard card: cards) {
+                matrix[i][j] = card.getCardId();
+                j++;
+            }
+            i++;
+        }
+        return matrix;
+    }
+
+    public void showDiscoveredCards() { //in the drawingFiled
+
+        HashMap<DrawPosition, GoldCard> temp = game.getTableTop().getDrawingField().getDiscoveredGoldCards();
+
+        HashMap<GoldCard, CardInfo> discoveredGoldCards = new HashMap<>();
+        HashMap<ResourceCard, CardInfo> discoveredResourceCards = new HashMap<>();
+        for(DrawPosition position: temp.keySet()) {
+            discoveredGoldCards.put(temp.get(position))
+        }
+
+    }
 
 }

@@ -89,11 +89,32 @@ public class DrawingField implements Serializable {
         }
 
     }
+
+    /**
+     *
+     * @throws DeckIsEmptyException if the deck is empty
+     */
     public void setDiscoveredCards() throws DeckIsEmptyException {
         discoveredGoldCards.put(DrawPosition.LEFT, drawCardFromGoldCardDeck(DrawPosition.FROMDECK));
         discoveredGoldCards.put(DrawPosition.RIGHT, drawCardFromGoldCardDeck(DrawPosition.FROMDECK));
 
         discoveredResourceCards.put(DrawPosition.LEFT, drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
         discoveredResourceCards.put(DrawPosition.RIGHT, drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
+    }
+
+    /**
+     *
+     * @return the HashMap of the discovered goldCards
+     */
+    public HashMap<DrawPosition, GoldCard> getDiscoveredGoldCards() {
+        return this.discoveredGoldCards;
+    }
+
+    /**
+     *
+     * @return the HashMap of the discovered resourceCards
+     */
+    public HashMap<DrawPosition, ResourceCard> getDiscoveredResourceCards() {
+        return this.discoveredResourceCards;
     }
 }

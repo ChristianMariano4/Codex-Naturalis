@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.network.EventManager;
 import it.polimi.ingsw.network.GameListener;
@@ -134,4 +135,7 @@ public class GameHandler {
         return threadUpdates;
     }
 
+    public Controller getController() {
+        return controller;
+    }
 }
