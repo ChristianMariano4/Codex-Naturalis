@@ -11,6 +11,7 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
@@ -216,7 +217,7 @@ public class TUI extends UI{
         }
     }
 
-    public void showEndGameScreen() {
+    public void showEndGameScreen(LinkedHashMap<String, Integer> playersPlacement) {
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
                 : Charset.defaultCharset())
@@ -228,7 +229,18 @@ public class TUI extends UI{
                         ███████  ██████  ██████  ██   ██ ███████ ██████   ██████  ██   ██ ██   ██ ██████ \s
                                                                                                          \s
                 """).reset());
-        //TODO: list of the players based on their points
+        for(String username: playersPlacement.keySet()) {
+            int check = 0;
+            for(String temp: playersPlacement.keySet()) {
+                if(playersPlacement.get(username) < playersPlacement.get(temp)) {
+                    check++;
+                }
+            }
+            if(check == 0) {
+                System.out.println("            " + username + "-->" + playersPlacement.get(username));
+                playersPlacement.remove(username);
+            }
+        }
     }
 
     public void clearScreen() { //TODO: non funziona :(
@@ -238,13 +250,13 @@ public class TUI extends UI{
             System.out.println("SCREEN CLEAN");
         }
     }
-    public void showAllCommands()
-    {
-        System.out.println("Write all possible commands here"); //TODO: all commands
+    public void showAllCommands()  { //TODO: all commands
+        System.out.println("All commands:" +
+                "   1. type " +
+                "   2. type ");
     }
-    public void commandNotFound()
-    {
-        System.out.println("Invalid command");
+    public void commandNotFound() {
+        System.out.println(ansi().fg(RED).a("Invalid command"));
     }
 
 }

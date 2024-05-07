@@ -20,10 +20,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 
@@ -178,6 +175,14 @@ public class ViewCLI implements View {
         }
 
         ui.showDiscoveredCards(discoveredGoldCards, discoveredResourceCards);
+    }
+
+    public void showEndGameScreen() {
+        LinkedHashMap<String, Integer> playersPlacement = new LinkedHashMap<>();
+        for(Player p : game.getListOfPlayers()) {
+            playersPlacement.put(p.getUsername(), p.getPoints());
+        }
+        ui.showEndGameScreen(playersPlacement);
     }
 
 }
