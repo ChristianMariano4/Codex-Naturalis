@@ -164,16 +164,20 @@ public class ViewCLI implements View {
         return matrix;
     }
 
-    public void showDiscoveredCards() { //in the drawingFiled
-
+    public void showDiscoveredCards() throws RemoteException { //in the drawingFiled
         HashMap<DrawPosition, GoldCard> temp = game.getTableTop().getDrawingField().getDiscoveredGoldCards();
-
         HashMap<GoldCard, CardInfo> discoveredGoldCards = new HashMap<>();
-        HashMap<ResourceCard, CardInfo> discoveredResourceCards = new HashMap<>();
         for(DrawPosition position: temp.keySet()) {
-            discoveredGoldCards.put(temp.get(position))
+            discoveredGoldCards.put(temp.get(position), client.getServer().getCardInfo(temp.get(position), game.getGameId()));
         }
 
+        HashMap<DrawPosition, ResourceCard> temp2 = game.getTableTop().getDrawingField().getDiscoveredResourceCards();
+        HashMap<ResourceCard, CardInfo> discoveredResourceCards = new HashMap<>();
+        for(DrawPosition position: temp2.keySet()) {
+            discoveredResourceCards.put(temp2.get(position), client.getServer().getCardInfo(temp2.get(position), game.getGameId()));
+        }
+
+        ui.showDiscoveredCards(discoveredGoldCards, discoveredResourceCards);
     }
 
 }
