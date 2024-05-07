@@ -200,7 +200,7 @@ public class TUI extends UI{
                         ███████  ██████  ██████  ██   ██ ███████ ██████   ██████  ██   ██ ██   ██ ██████ \s
                                                                                                          \s
                 """).reset());
-        //list of the players based on their points
+        //TODO: list of the players based on their points
     }
 
     public void clearScreen() { //TODO: non funziona :(

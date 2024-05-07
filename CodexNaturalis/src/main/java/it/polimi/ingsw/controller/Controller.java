@@ -1,9 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.enumerations.CardType;
-import it.polimi.ingsw.enumerations.DrawPosition;
-import it.polimi.ingsw.enumerations.Marker;
-import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
@@ -204,6 +201,12 @@ public class Controller {
             }
         }
     }
+
+    public synchronized void playCard(Player player, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws InvalidCardPositionException {
+        player.getPlayerField().addCardToCell(card,orientation,otherCard);
+    }
+
+
     public synchronized void calculateAndUpdateFinalPoints(Game game) throws CardTypeMismatchException {
         ArrayList<ObjectiveCard> objectiveCards = game.getTableTop().getSharedObjectiveCards();
 

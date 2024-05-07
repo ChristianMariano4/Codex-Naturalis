@@ -21,6 +21,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
 
 
 
+
     public RMIClient(ServerRMIInterface server) throws RemoteException{
         this.server = server;
         //eventManager.subscribe(UserInputEvent.class, new UserInputListener(this));
@@ -89,7 +90,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             case GAME_BEGIN -> {
                 //System.out.println(Thread.currentThread());
                 this.playing = true;
-                view.update(game);
+
                 break;
             }
         }
@@ -110,14 +111,16 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             viewCLI.setUsername();
             viewCLI.setChoiceGame();
             viewCLI.setReady();
-            while(server.getQueue(gameId).isEmpty()); //this waits for gameHandler to add an element to the queue, signaling the beginning of the game
+           // while(server.getQueue(gameId).isEmpty()); //this waits for gameHandler to add an element to the queue, signaling the beginning of the game
 
-          /*  while(!this.playing)
+            while(!this.playing)
             {
-                Thread.sleep(1); //??????????????????????????????????''
-            }*/
+               Thread.sleep(10); //??????????????????????????????????''
+            }
             viewCLI.gameBegin();
         } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

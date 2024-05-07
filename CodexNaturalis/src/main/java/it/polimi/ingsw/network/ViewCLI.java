@@ -80,6 +80,7 @@ public class ViewCLI implements View {
 
     @Override
     public void newPlayer(Game gameUpdated) {
+
     }
 
     @Override
@@ -91,6 +92,7 @@ public class ViewCLI implements View {
     public void gameBegin() throws RemoteException {
         boolean inGame = true;
         ui.showMainScreen();
+
         while(inGame)
         {
             System.out.println("Waiting for input: ");
