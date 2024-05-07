@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.messages.GameEvent;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.concurrent.BlockingQueue;
 
 //used from the server to communicate with the client
 //this interface is implemented by the client remote object

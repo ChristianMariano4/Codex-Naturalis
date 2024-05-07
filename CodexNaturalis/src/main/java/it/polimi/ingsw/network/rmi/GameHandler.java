@@ -7,13 +7,17 @@ import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.network.EventManager;
 import it.polimi.ingsw.network.GameListener;
 import it.polimi.ingsw.network.Listener;
+import it.polimi.ingsw.network.maybeUseful.RemoteLock;
 import it.polimi.ingsw.network.messages.GameEvent;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.rmi.server.RemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameHandler {
     //TODO: check se il client ha i permessi giusti
@@ -23,6 +27,9 @@ public class GameHandler {
     private List<ClientRMIInterface> clients; //list of the clients related to this game
     private final EventManager eventManager;
     private final RMIServer server;
+    private final RemoteLock waitingLock = new RemoteLock();
+    private final BlockingQueue<Boolean> threadUpdates = new LinkedBlockingQueue<>();
+
 
     public GameHandler(int gameId, RMIServer server){
         this.server = server;
@@ -53,7 +60,7 @@ public class GameHandler {
         return game;
     }
 
-    public void addClient(ClientRMIInterface client) {
+    public void addClient(ClientRMIInterface client) throws RemoteException {
         clients.add(client);
     }
 
@@ -67,7 +74,7 @@ public class GameHandler {
         }
     }
 
-    public int setReady(int gameId, String username) throws RemoteException{
+    public int setReady(int gameId, String username) throws RemoteException {
         readyPlayers++;
         if(readyPlayers == controller.getGame().getNumberOfPlayers()){
             try {
@@ -80,6 +87,7 @@ public class GameHandler {
         }
 
         if(readyPlayers >= controller.getGame().getNumberOfPlayers()){
+            this.threadUpdates.add(true);
             eventManager.notify(GameEvent.GAME_BEGIN, controller.getGame());
         }
         return readyPlayers;
@@ -114,6 +122,16 @@ public class GameHandler {
     public void run(){
         //TODO: start listening for user input and then invoke a method in the controller
         //each instance of gameHandler is a listener, i.e. is subscribed in the Listeners HashMap in EventManager
+    }
+
+    public RemoteLock getWaitingLock()
+    {
+        return waitingLock;
+    }
+
+    public BlockingQueue<Boolean> getQueue()
+    {
+        return threadUpdates;
     }
 
 }

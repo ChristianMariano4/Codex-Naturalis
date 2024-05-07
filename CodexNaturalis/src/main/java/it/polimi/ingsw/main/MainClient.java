@@ -32,13 +32,11 @@ public class MainClient {
             ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);
             RMIClient client = new RMIClient(server);
             new Thread(client).start();
-            view = new ViewCLI(client);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (NotBoundException e) {
             throw new RuntimeException(e);
         }
-        view.run();
     }
 
 //    public static void main(String[] args)

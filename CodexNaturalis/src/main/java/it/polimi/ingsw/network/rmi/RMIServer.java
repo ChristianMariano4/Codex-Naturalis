@@ -1,14 +1,8 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.enumerations.Marker;
-import it.polimi.ingsw.enumerations.Side;
-import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerHand;
-import it.polimi.ingsw.network.EventManager;
-import it.polimi.ingsw.network.GameListener;
+import it.polimi.ingsw.network.maybeUseful.RemoteLock;
 import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
 import it.polimi.ingsw.network.messages.userMessages.UserMessage;
@@ -17,15 +11,17 @@ import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 
 public class RMIServer extends Thread implements ServerRMIInterface {
     private final Map<Integer, GameHandler> gameHandlerMap;
-    private final List<ClientRMIInterface> clients = new ArrayList<>(); //list of all client stubs
+    private final List<ClientRMIInterface> clients = new ArrayList<>(); //list of all client stubs+
 
 //    queue used to pass data to another thread in a thread safe way
      //final BlockingQueue<EventWrapper> updates = new LinkedBlockingQueue<>();
@@ -111,6 +107,17 @@ public class RMIServer extends Thread implements ServerRMIInterface {
     @Override
     public void subscribe(ClientRMIInterface client, int gameId) throws RemoteException {
         this.gameHandlerMap.get(gameId).subscribe(client, gameId);
+    }
+
+    @Override
+    public RemoteLock getWaitingLock(int gameId) {
+        return gameHandlerMap.get(gameId).getWaitingLock();
+    }
+
+    @Override
+    public BlockingQueue<Boolean> getQueue(int gameId) {
+
+        return gameHandlerMap.get(gameId).getQueue();
     }
 
 

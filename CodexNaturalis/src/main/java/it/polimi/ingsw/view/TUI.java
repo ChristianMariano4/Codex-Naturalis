@@ -1,11 +1,13 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.fusesource.jansi.Ansi.Color.*;
@@ -25,7 +27,7 @@ public class TUI extends UI{
     public void showGameStarted() {
         this.clearScreen();
         this.showGameTitle();
-        this.showAllPlayers();
+        //this.showAllPlayers();
     }
 
     public void showMainChoices() {
@@ -101,7 +103,13 @@ public class TUI extends UI{
                 System.out.println("descrizione                     descrizione                     descrizione");
 
     }
-    public void showAllPlayers() {
+    public void showAllPlayers(ArrayList<String> usernames) {
+        int playerCounter = 1;
+        for(String username : usernames) {
+            System.out.println("Player " + playerCounter + ": " + username);
+            playerCounter++;
+        }
+
     }
 
     public void showOtherPlayerTableTop(Player player) {
@@ -151,6 +159,14 @@ public class TUI extends UI{
         } catch (InterruptedException | IOException e) {
             System.out.println("SCREEN CLEAN");
         }
+    }
+    public void showAllCommands()
+    {
+        System.out.println("Write all possible commands here"); //TODO: all commands
+    }
+    public void commandNotFound()
+    {
+        System.out.println("Invalid command");
     }
 
 }
