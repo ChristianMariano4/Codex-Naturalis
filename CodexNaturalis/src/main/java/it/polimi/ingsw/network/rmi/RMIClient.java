@@ -34,9 +34,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             Game game = server.addPlayerToGame(this.gameId, username);
             this.player = server.getPlayer(game.getGameId(), username);
             return game;
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (NotExistingPlayerException e) {
+        } catch (RemoteException | NotExistingPlayerException e) {
             throw new RuntimeException(e);
         }
     }
@@ -77,7 +75,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
 
     public int setReady(){
         try {
-            return server.setReady(this.gameId, this.username);
+            return server.setReady(this.gameId);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

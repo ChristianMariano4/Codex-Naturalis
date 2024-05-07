@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.exceptions.NotAvailableMarkerException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -24,11 +25,11 @@ public interface ServerRMIInterface extends Remote {
     int createGame(ClientRMIInterface client) throws RemoteException;
     List<Integer> getAvailableGames() throws RemoteException;
     Game addPlayerToGame(int gameId, String username) throws RemoteException;
-    int setReady(int gameId, String username) throws RemoteException;
+    int setReady(int gameId) throws RemoteException;
     void subscribe(ClientRMIInterface client, int gameId) throws RemoteException;
     RemoteLock getWaitingLock(int gameId) throws RemoteException;
     BlockingQueue<Boolean> getQueue(int gameId) throws RemoteException;
     CardInfo getCardInfo(Card card, int gameId) throws RemoteException;
-    public Player getPlayer(int gameId, String username) throws RemoteException, NotExistingPlayerException;
-    //Marker setMarker( )
+    Player getPlayer(int gameId, String username) throws RemoteException, NotExistingPlayerException;
+    void setMarker(Player player, int gameId, Marker marker) throws RemoteException, NotAvailableMarkerException;
 }

@@ -80,12 +80,11 @@ public class Controller {
 
     /**
      * Adds a player to the game specified by gameId
-     * @param gameId id of the game to which the player will be added
      * @param username username of the player to be added
      * @throws AlreadyExistingPlayerException when the player we want to add already exists in the game
      * @throws AlreadyFourPlayersException when the game already contains the maximum amount of players
      */
-    public synchronized Game addPlayerToGame(int gameId, String username) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+    public synchronized Game addPlayerToGame(String username) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
         try {
             this.game.addPlayer(new Player(username));
         } catch (InvalidConstructorDataException e) {
@@ -97,7 +96,6 @@ public class Controller {
 
     /**
      * Starts the game when all players are ready
-     * @param game game to start
      * @throws CardTypeMismatchException
      * @throws InvalidConstructorDataException
      * @throws CardNotImportedException
@@ -107,29 +105,30 @@ public class Controller {
      * @throws IOException
      * @throws UnlinkedCardException
      */
-    public synchronized void inzializeGame(Game game) throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException, UnlinkedCardException, AlreadyThreeCardsInHandException {
+    public synchronized void initializeGame() throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException, UnlinkedCardException, AlreadyThreeCardsInHandException {
         //shuffle the list of player to determine the order of play
         game.shufflePlayers();
         //set the first player
         game.getListOfPlayers().getFirst().setIsFirst(true);
         //setting discovered cards
-        this.game.getTableTop().getDrawingField().setDiscoveredCards();
+        game.getTableTop().getDrawingField().setDiscoveredCards();
     }
 
     /**
-     * Assign the chosen marker to the player and remove it from the available ones
-     * @param player
-     * @param marker
+     * Set the chosen marker to the player
+     * @param player the player that has chosen the marker
+     * @param marker the marker chosen by the player
      */
-//for each player in the game, initialize the marker, the cards, the matrix and the hand
-    public synchronized void initializeMarker(Player player, Marker marker) {
+    public synchronized void setMarker(Player player, Marker marker) {
         player.setMarker(marker);
-        this.game.removeMarker(marker);
+        game.getAvailableMarkers().remove(marker);
     }
+
+
 
     /**
      * Give to the player the initial 3 cards in his hand
-     * @param player
+     * @param player the player that has to receive the cards
      * @throws DeckIsEmptyException if the deck is empty
      */
     public synchronized void initializeStarterCard(Player player) throws DeckIsEmptyException {
@@ -138,7 +137,7 @@ public class Controller {
 
     /**
      * Give to the player 2 secret objective cards to choose from
-     * @param player
+     * @param player the player that has to choose the secret objective card
      * @return a list composed of the two secret objective cards
      * @throws DeckIsEmptyException if the deck is empty
      */

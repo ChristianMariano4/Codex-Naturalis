@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -50,7 +51,7 @@ public class GameHandler {
         System.out.println("Request to add player to game " + gameId + " received");
         Game game;
         try {
-            game = this.controller.addPlayerToGame(gameId, username);
+            game = this.controller.addPlayerToGame(username);
         } catch (AlreadyExistingPlayerException e) {
             throw new RuntimeException(e);
         } catch (AlreadyFourPlayersException e) {
@@ -75,11 +76,11 @@ public class GameHandler {
         }
     }
 
-    public int setReady(int gameId, String username) throws RemoteException {
+    public int setReady() throws RemoteException {
         readyPlayers++;
         if(readyPlayers == controller.getGame().getNumberOfPlayers()){
             try {
-                controller.inzializeGame(this.game);
+                controller.initializeGame();
             } catch (CardTypeMismatchException | InvalidConstructorDataException | CardNotImportedException |
                      DeckIsEmptyException | AlreadyExistingPlayerException | AlreadyFourPlayersException | IOException |
                      UnlinkedCardException | AlreadyThreeCardsInHandException e) {
@@ -141,5 +142,12 @@ public class GameHandler {
 
     public Player getPlayer(String username) throws NotExistingPlayerException {
         return controller.getGame().getPlayer(username);
+    }
+
+    public void setMarker(Player player, Marker marker) throws NotAvailableMarkerException{
+        if(!game.getAvailableMarkers().contains(marker)) {
+            throw new NotAvailableMarkerException();
+        }
+        controller.setMarker(player, marker);
     }
 }

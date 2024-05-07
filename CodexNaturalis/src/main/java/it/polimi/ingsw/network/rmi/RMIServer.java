@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.enumerations.Marker;
+import it.polimi.ingsw.exceptions.NotAvailableMarkerException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
@@ -103,8 +105,8 @@ public class RMIServer extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public int setReady(int gameId, String username) throws RemoteException {
-        return this.gameHandlerMap.get(gameId).setReady(gameId, username);
+    public int setReady(int gameId) throws RemoteException {
+        return this.gameHandlerMap.get(gameId).setReady();
 
         //TODO: inizializzazione del gioco se tutti i giocatori sono pronti
     }
@@ -171,6 +173,10 @@ public class RMIServer extends Thread implements ServerRMIInterface {
 
     public CardInfo getCardInfo(Card card, int gameId) {
         return gameHandlerMap.get(gameId).getController().getCardHandler().getCardInfo(card);
+    }
+
+    public void setMarker(Player player, int gameId, Marker marker) throws NotAvailableMarkerException {
+        gameHandlerMap.get(gameId).setMarker(player, marker);
     }
 
     public void run(){
