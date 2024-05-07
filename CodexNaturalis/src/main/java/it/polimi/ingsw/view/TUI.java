@@ -110,8 +110,13 @@ public class TUI extends UI{
                     }
                     System.out.println("GoldPointCondition: "+playerHand.get(pc).getGoldPointCondition());
                     System.out.println("GoldPointCondition: "+playerHand.get(pc).getGoldPointCondition());
+                    System.out.println("Angles status:");
+                    for(AngleOrientation o: AngleOrientation.values()) {
+                        System.out.println("    Angle " + pc.getAngle(o) + ": " + pc.getAngle(o).getAngleStatus());
+                    }
                 }
     }
+
     public void showAllPlayers(ArrayList<String> usernames) {
         int playerCounter = 1;
         for(String username : usernames) {
@@ -133,6 +138,10 @@ public class TUI extends UI{
             }
             System.out.println("GoldPointCondition: "+discoveredGoldCards.get(card).getGoldPointCondition());
             System.out.println("GoldPointCondition: "+discoveredGoldCards.get(card).getGoldPointCondition());
+            System.out.println("Angles status:");
+            for(AngleOrientation o: AngleOrientation.values()) {
+                System.out.println("    Angle " + card.getAngle(o) + ": " + card.getAngle(o).getAngleStatus());
+            }
         }
         System.out.println("Discovered ResourceCards:");
         for(ResourceCard card: discoveredResourceCards.keySet()) {
@@ -145,6 +154,10 @@ public class TUI extends UI{
             }
             System.out.println("GoldPointCondition: "+discoveredResourceCards.get(card).getGoldPointCondition());
             System.out.println("GoldPointCondition: "+discoveredResourceCards.get(card).getGoldPointCondition());
+            System.out.println("Angles status:");
+            for(AngleOrientation o: AngleOrientation.values()) {
+                System.out.println("    Angle " + card.getAngle(o) + ": " + card.getAngle(o).getAngleStatus());
+            }
         }
     }
 
@@ -176,8 +189,23 @@ public class TUI extends UI{
         pField[37][37] = 1;
         pField[38][36] = 1;
 
+        int minRow = DEFAULT_MATRIX_SIZE;
+        int maxRow = 0;
+        int minColum = DEFAULT_MATRIX_SIZE;
+        int maxColum = 0;
+
         for(int i = 0; i < DEFAULT_MATRIX_SIZE; i++) {
-            for(int j = 0; j < DEFAULT_MATRIX_SIZE; j++) {
+            for (int j = 0; j < DEFAULT_MATRIX_SIZE; j++) {
+                if(pField[i][j] > 0) {
+                    if(minRow > i) {minRow = i;}
+                    if(maxRow < i) {maxRow = i;}
+                    if(minColum > j) {minColum = j;}
+                    if(maxColum < j) {maxColum = j;}
+                }
+            }
+        }
+        for(int i = minRow; i < maxRow; i++) {
+            for(int j = minColum; j < maxColum; j++) {
                 if(pField[i][j] == 0) {
                     System.out.print(ansi().a("   "));
                 } else {
