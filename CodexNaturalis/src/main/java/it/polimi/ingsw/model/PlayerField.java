@@ -21,16 +21,16 @@ public class PlayerField implements Serializable {
      */
     public PlayerField()
     {
-        this.matrixField = new StarterCard[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
+        this.matrixField = new PlayableCard[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
     }
 
     /**
      * Getter
      * @return the MatrixFiled of the player
      */
-    public StarterCard[][] getMatrixField()
+    public PlayableCard[][] getMatrixField()
     {
-        StarterCard[][] returnedMatrixField = new StarterCard[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
+        PlayableCard[][] returnedMatrixField = new PlayableCard[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
         for(int i = 0; i<DEFAULT_MATRIX_SIZE; i++)
         {
             System.arraycopy(matrixField[i], 0, returnedMatrixField[i], 0, DEFAULT_MATRIX_SIZE);
