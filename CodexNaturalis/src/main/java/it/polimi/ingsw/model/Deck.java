@@ -39,13 +39,6 @@ public class Deck<T extends Card> implements Serializable{
         deckInitializer(cards);
 
     }
-    /**
-     * Gets the top card from the deck.
-     *
-     * @return the top card
-     * @throws DeckIsEmptyException if the deck is empty
-     */
-
 
     /**
      * Initializes the deck with the given list of resource cards.
@@ -76,12 +69,31 @@ public class Deck<T extends Card> implements Serializable{
     public void shuffleDeck() throws UnsupportedOperationException {
         Collections.shuffle(this.deck);
     }
+
+    /**
+     * Gets the top card from the deck.
+     *
+     * @return the top card
+     * @throws DeckIsEmptyException if the deck is empty
+     */
     public T getTopCard() throws DeckIsEmptyException {
         if(deck.isEmpty())
         {
             throw new DeckIsEmptyException();
         }
         return deck.pop();
+    }
+
+    /**
+     * Adds a card to the deck.
+     *
+     * @param card the card to be added
+     */
+    public void addCard(T card) throws NullPointerException{
+        if(card == null) {
+            throw new NullPointerException();
+        }
+        deck.push(card);
     }
 
 }

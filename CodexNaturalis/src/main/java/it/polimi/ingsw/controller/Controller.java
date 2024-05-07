@@ -138,7 +138,7 @@ public class Controller {
      * @param marker
      */
 //for each player in the game, initialize the marker, the cards, the matrix and the hand
-    public synchronized void inizializeMarker(Player player, Marker marker) {
+    public synchronized void initializeMarker(Player player, Marker marker) {
         player.setMarker(marker);
         this.game.removeMarker(marker);
     }
@@ -148,17 +148,36 @@ public class Controller {
      * @param player
      * @throws DeckIsEmptyException if the deck is empty
      */
-    public synchronized void inizializePlayerCards(Player player) throws DeckIsEmptyException {
-        player.setSecretObjective(this.game.getObjectiveCardDeck().getTopCard());
+    public synchronized void initializeStarterCard(Player player) throws DeckIsEmptyException {
         player.setStarterCard(this.game.getAvailableStarterCards().getTopCard());
     }
 
+    /**
+     * Give to the player 2 secret objective cards to choose from
+     * @param player
+     * @return a list composed of the two secret objective cards
+     * @throws DeckIsEmptyException if the deck is empty
+     */
+    public synchronized List<ObjectiveCard> takeTwoObjectiveCards(Player player) throws DeckIsEmptyException {
+        List<ObjectiveCard> secretObjectiveCards = new ArrayList<>();
+        secretObjectiveCards.add(this.game.getObjectiveCardDeck().getTopCard());
+        secretObjectiveCards.add(this.game.getObjectiveCardDeck().getTopCard());
+        return secretObjectiveCards;
+    }
+
+    /**
+     * Add a secret objective card to the deck
+     * @param objectiveCard
+     */
+    public synchronized void addObjectiveCardToDeck(ObjectiveCard objectiveCard) throws NullPointerException {
+        this.game.getObjectiveCardDeck().addCard(objectiveCard);
+    }
     /**
      * Add to the playerField the starterCard of the player
      * @param player the selected player
      * @param side the side of the starterCard chosen by the player
      */
-    public synchronized void inizializePlayerMatrix(Player player, Side side) {
+    public synchronized void initializePlayerMatrix(Player player, Side side) {
         if(side == Side.FRONT){
             player.getPlayerField().addCardToCell(player.getStarterCard());
         } else {
@@ -172,13 +191,11 @@ public class Controller {
      * @throws DeckIsEmptyException if the deck is empty
      * @throws AlreadyThreeCardsInHandException if there are already three cards in the player hand
      */
-    public synchronized void inizializePlayerHand(Player player) throws DeckIsEmptyException, AlreadyThreeCardsInHandException {
+    public synchronized void initializePlayerHand(Player player) throws DeckIsEmptyException, AlreadyThreeCardsInHandException {
         player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(DrawPosition.FROMDECK));
         player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
         player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
     }
-
-//    public void add
 
     public synchronized void update(UserMessageWrapper message) {
         switch(message.getType()) {
