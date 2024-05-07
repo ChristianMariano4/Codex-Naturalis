@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.cards.ResourceCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.Stack;
 
 import static org.mockito.Mockito.*;
@@ -99,6 +100,26 @@ class DrawingFieldTest {
         when(resourceCardDeck.getTopCard()).thenReturn(null);
         drawingField.setDiscoveredCards();
         assertThrows(DeckIsEmptyException.class, () -> drawingField.drawCardFromResourceCardDeck(DrawPosition.LEFT));
+    }
+
+    @Test
+    void shouldReturnCorrectDiscoveredGoldCards() throws DeckIsEmptyException {
+        drawingField.setDiscoveredCards();
+        HashMap<DrawPosition, GoldCard> discoveredGoldCards = drawingField.getDiscoveredGoldCards();
+        assertNotNull(discoveredGoldCards);
+        assertEquals(2, discoveredGoldCards.size());
+        assertTrue(discoveredGoldCards.containsKey(DrawPosition.LEFT));
+        assertTrue(discoveredGoldCards.containsKey(DrawPosition.RIGHT));
+    }
+
+    @Test
+    void shouldReturnCorrectDiscoveredResourceCards() throws DeckIsEmptyException {
+        drawingField.setDiscoveredCards();
+        HashMap<DrawPosition, ResourceCard> discoveredResourceCards = drawingField.getDiscoveredResourceCards();
+        assertNotNull(discoveredResourceCards);
+        assertEquals(2, discoveredResourceCards.size());
+        assertTrue(discoveredResourceCards.containsKey(DrawPosition.LEFT));
+        assertTrue(discoveredResourceCards.containsKey(DrawPosition.RIGHT));
     }
 }
   

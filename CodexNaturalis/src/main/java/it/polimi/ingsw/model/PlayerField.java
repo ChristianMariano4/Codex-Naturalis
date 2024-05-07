@@ -49,28 +49,22 @@ public class PlayerField implements Serializable {
      */
     public void addCardToCell(PlayableCard card, AngleOrientation angleOrientation, PlayableCard cardToAdd) throws InvalidCardPositionException
     {
-        try{
-            for(int i = 0; i<DEFAULT_MATRIX_SIZE; i++)
+        for(int i = 0; i<DEFAULT_MATRIX_SIZE; i++)
+        {
+            for(int j = 0; j<DEFAULT_MATRIX_SIZE; j++)
             {
-                for(int j = 0; j<DEFAULT_MATRIX_SIZE; j++)
+                if(card.equals(matrixField[i][j]))
                 {
-                    if(card.equals(matrixField[i][j]))
-                    {
-                        int cardToAddX = i + angleOrientation.mapEnumToX();
-                        int cardToAddY = j + angleOrientation.mapEnumToY();
-                        if(matrixField[cardToAddX][cardToAddY] != null)
-                            throw new InvalidCardPositionException();
-                        matrixField[cardToAddX][cardToAddY] = cardToAdd;
-                        i = DEFAULT_MATRIX_SIZE;
-                        break;
+                    int cardToAddX = i + angleOrientation.mapEnumToX();
+                    int cardToAddY = j + angleOrientation.mapEnumToY();
+                    if(matrixField[cardToAddX][cardToAddY] != null)
+                        throw new InvalidCardPositionException();
+                    matrixField[cardToAddX][cardToAddY] = cardToAdd;
+                    i = DEFAULT_MATRIX_SIZE;
+                    break;
 
-                    }
                 }
             }
-        }
-        catch(IndexOutOfBoundsException e)
-        {
-            throw new InvalidCardPositionException();
         }
     }
 

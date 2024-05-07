@@ -51,4 +51,16 @@ class DeckTest {
         cards.add(mock(Card.class));
         assertDoesNotThrow(() -> new Deck<>(cards));
     }
+
+    @Test
+    void shouldAddCardSuccessfully() {
+        Card card = mock(Card.class);
+        assertDoesNotThrow(() -> deck.addCard(card));
+        assertFalse(deck.isEmpty());
+    }
+
+    @Test
+    void shouldThrowNullPointerExceptionWhenAddNullCard() {
+        assertThrows(NullPointerException.class, () -> deck.addCard(null));
+    }
 }
