@@ -1,40 +1,50 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.enumerations.DrawPosition;
+import it.polimi.ingsw.enumerations.AngleOrientation;
 import it.polimi.ingsw.exceptions.InvalidCardPositionException;
-import it.polimi.ingsw.exceptions.NoCardAddedException;
-import it.polimi.ingsw.model.cards.StarterCard;
-import org.junit.jupiter.api.Assertions;
+import it.polimi.ingsw.model.cards.PlayableCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
-import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class PlayerFieldTest {
-/*
-    PlayerField p;
+
+    private PlayerField playerField;
+    private PlayableCard card;
+    private PlayableCard cardToAdd;
 
     @BeforeEach
-    void PlayerFieldInit() {
-        p = new PlayerField();
-    }
-    @Test
-    void shouldReturnMatrixField() {
-        StarterCard[][] returnedMatrixField = p.getMatrixField();
-        StarterCard[][] emptyMatrixFiled = new StarterCard[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
-        for(int i = 0; i < DEFAULT_MATRIX_SIZE; i++) {
-            for(int j = 0; j < DEFAULT_MATRIX_SIZE; j++) {
-                Assertions.assertEquals(emptyMatrixFiled[i][j], returnedMatrixField[i][j]);
-            }
-        }
+    void setUp() {
+        playerField = new PlayerField();
+        card = mock(PlayableCard.class);
+        cardToAdd = mock(PlayableCard.class);
     }
 
     @Test
-    void shouldNotAddCardToCell() {
-        Assertions.assertThrows(InvalidCardPositionException.class, () -> {p.addCardToCell();});
-    }*/
+    void addCardToCellSuccessfully() {
+        assertDoesNotThrow(() -> playerField.addCardToCell(card, AngleOrientation.BOTTOMLEFT, cardToAdd));
+    }
+
+    @Test
+    void addCardToOccupiedCellThrowsException() throws InvalidCardPositionException {
+        playerField.addCardToCell(card, AngleOrientation.BOTTOMLEFT, cardToAdd);
+        assertThrows(InvalidCardPositionException.class, () -> playerField.addCardToCell(card, AngleOrientation.BOTTOMLEFT, cardToAdd));
+    }
+
+    @Test
+    void addCardOutOfBoundsThrowsException() {
+        assertThrows(InvalidCardPositionException.class, () -> playerField.addCardToCell(card, AngleOrientation.BOTTOMLEFT, cardToAdd));
+    }
+
+    @Test
+    void addStarterCardToCellSuccessfully() {
+        assertDoesNotThrow(() -> playerField.addCardToCell(card));
+    }
+
+    @Test
+    void addStarterCardToOccupiedCellThrowsException() {
+        playerField.addCardToCell(card);
+        assertThrows(InvalidCardPositionException.class, () -> playerField.addCardToCell(card));
+    }
 }

@@ -1,41 +1,49 @@
 package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.enumerations.AngleOrientation;
-import it.polimi.ingsw.enumerations.PositionalType;
-import it.polimi.ingsw.enumerations.Resource;
-import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.enumerations.*;
+import it.polimi.ingsw.model.CardVisitorImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class PositionalObjectiveCardTest {
 
-    PositionalObjectiveCard poc;
-    static AngleOrientation angle = AngleOrientation.BOTTOMLEFT;
-    static Side side = Side.FRONT;
-    static int points = 2;
-    static int cardID = 123;
-    static Resource resource = Resource.ANIMAL;
-    static PositionalType type = PositionalType.DIAGONAL;
+    private PositionalObjectiveCard positionalObjectiveCard;
+    private CardVisitorImpl cardVisitor;
 
     @BeforeEach
-    void PositionalObjectiveCardInit() {
-        poc = new PositionalObjectiveCard(cardID, side, points, resource, angle, type);
+    void setUp() {
+        positionalObjectiveCard = new PositionalObjectiveCard(1, Side.FRONT, 2, Resource.ANIMAL, AngleOrientation.BOTTOMLEFT, PositionalType.DIAGONAL);
+        cardVisitor = mock(CardVisitorImpl.class);
     }
+
     @Test
     void shouldReturnCardColor() {
-        Assertions.assertEquals(resource, poc.getCardColor());
+        assertEquals(Resource.ANIMAL, positionalObjectiveCard.getCardColor());
     }
 
     @Test
     void shouldReturnOrientation() {
-        Assertions.assertEquals(angle, poc.getOrientation());
+        assertEquals(AngleOrientation.BOTTOMLEFT, positionalObjectiveCard.getOrientation());
     }
 
     @Test
-    void ShouldReturnPositionalType() {
-        Assertions.assertEquals(type, poc.getPositionalType());
+    void shouldReturnPositionalType() {
+        assertEquals(PositionalType.DIAGONAL, positionalObjectiveCard.getPositionalType());
+    }
+
+    @Test
+    void shouldAcceptVisitor() {
+        when(cardVisitor.visitPositionalObjectiveCard(positionalObjectiveCard)).thenReturn(new CardInfo(CardType.POSITIONALOBJECTIVE));
+        assertNotNull(positionalObjectiveCard.accept(cardVisitor));
     }
 }

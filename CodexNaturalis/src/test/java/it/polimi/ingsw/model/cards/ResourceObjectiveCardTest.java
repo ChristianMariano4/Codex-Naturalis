@@ -1,25 +1,33 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.enumerations.CardType;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.enumerations.Side;
-import org.junit.jupiter.api.Assertions;
+import it.polimi.ingsw.model.CardVisitorImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class ResourceObjectiveCardTest {
-    ResourceObjectiveCard roc;
-    static int cardID = 123;
-    static Side cardSide = Side.FRONT;
-    static int points = 3;
-    static Resource resource = Resource.ANIMAL;
+
+    private ResourceObjectiveCard resourceObjectiveCard;
+    private CardVisitorImpl cardVisitor;
+
     @BeforeEach
-    void ResourceObjectiveCardInit() {
-        roc = new ResourceObjectiveCard(cardID, cardSide, points, resource);
+    void setUp() {
+        resourceObjectiveCard = new ResourceObjectiveCard(1, Side.FRONT, 2, Resource.ANIMAL);
+        cardVisitor = mock(CardVisitorImpl.class);
     }
+
     @Test
-    void getCardResource() {
-        Assertions.assertEquals(resource, roc.getCardResource());
+    void shouldReturnCardResource() {
+        assertEquals(Resource.ANIMAL, resourceObjectiveCard.getCardResource());
+    }
+
+    @Test
+    void shouldAcceptVisitor() {
+        when(cardVisitor.visitResourceObjectiveCard(resourceObjectiveCard)).thenReturn(new CardInfo(CardType.RESOURCEOBJECTIVE));
+        assertNotNull(resourceObjectiveCard.accept(cardVisitor));
     }
 }

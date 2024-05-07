@@ -1,26 +1,27 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.enumerations.CardType;
 import it.polimi.ingsw.enumerations.Side;
-import org.junit.jupiter.api.Assertions;
+import it.polimi.ingsw.model.CardVisitorImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class TripleObjectiveCardTest {
 
-    TripleObjectiveCard toc;
-    static int cardID = 123;
-    static Side choosenSide = Side.FRONT;
-    static int points = 10;
+    private TripleObjectiveCard tripleObjectiveCard;
+    private CardVisitorImpl cardVisitor;
 
     @BeforeEach
-    void TripleObjectiveCardInit() {
-        toc = new TripleObjectiveCard(cardID, choosenSide, points);
+    void setUp() {
+        tripleObjectiveCard = new TripleObjectiveCard(1, Side.FRONT, 2);
+        cardVisitor = mock(CardVisitorImpl.class);
     }
 
     @Test
-    void shouldReturnPoints() {
-        Assertions.assertEquals(points, toc.getPoints());
+    void shouldAcceptVisitor() {
+        when(cardVisitor.visitTripleObjectiveCard(tripleObjectiveCard)).thenReturn(new CardInfo(CardType.TRIPLEOBJECTIVE));
+        assertNotNull(tripleObjectiveCard.accept(cardVisitor));
     }
 }
