@@ -67,7 +67,6 @@ public class PlayerField implements Serializable {
                     }
                 }
             }
-            throw new InvalidCardPositionException();
         }
         catch(IndexOutOfBoundsException e)
         {
