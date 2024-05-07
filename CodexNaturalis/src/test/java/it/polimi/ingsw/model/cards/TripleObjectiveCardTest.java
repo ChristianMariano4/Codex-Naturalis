@@ -20,6 +20,11 @@ class TripleObjectiveCardTest {
     }
 
     @Test
+    void shouldReturnCardPoints() {
+        assertEquals(2, tripleObjectiveCard.getPoints());
+    }
+
+    @Test
     void shouldAcceptVisitor() {
         when(cardVisitor.visitTripleObjectiveCard(tripleObjectiveCard)).thenReturn(new CardInfo(CardType.TRIPLEOBJECTIVE));
         assertNotNull(tripleObjectiveCard.accept(cardVisitor));
