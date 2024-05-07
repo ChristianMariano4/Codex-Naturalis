@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
 import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
+import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 
@@ -138,5 +139,14 @@ public class Game implements Serializable {
 
     public boolean getgameStarted() {
         return isGameStarted;
+    }
+
+    public Player getPlayer(String username) throws NotExistingPlayerException{
+        for(Player player : listOfPlayers) {
+            if(player.getUsername().equals(username)) {
+                return player;
+            }
+        }
+        throw new NotExistingPlayerException();
     }
 }

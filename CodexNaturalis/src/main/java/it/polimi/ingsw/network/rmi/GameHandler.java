@@ -138,4 +138,8 @@ public class GameHandler {
     public Controller getController() {
         return controller;
     }
+
+    public Player getPlayer(String username) throws NotExistingPlayerException {
+        return controller.getGame().getPlayer(username);
+    }
 }

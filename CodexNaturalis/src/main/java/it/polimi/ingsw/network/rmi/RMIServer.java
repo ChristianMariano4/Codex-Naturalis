@@ -1,7 +1,9 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.CardInfo;
@@ -163,9 +165,9 @@ public class RMIServer extends Thread implements ServerRMIInterface {
 
     }
 
-//    public RMIClient getClient(String username){
-//        return this.clients.stream().filter(c -> c.getUsername().equals(username)).findFirst().orElse(null);
-//    }
+    public Player getPlayer(int gameId, String username) throws RemoteException, NotExistingPlayerException {
+        return this.gameHandlerMap.get(gameId).getPlayer(username);
+    }
 
     public CardInfo getCardInfo(Card card, int gameId) {
         return gameHandlerMap.get(gameId).getController().getCardHandler().getCardInfo(card);

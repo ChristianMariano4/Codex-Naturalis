@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.View;
@@ -12,7 +13,6 @@ import java.util.List;
 
 public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface, Runnable {
     private String username;
-
     private Player player;
     private final ServerRMIInterface server;
     private int gameId;
@@ -31,8 +31,12 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
         try {
             this.gameId = server.createGame(this);
             server.subscribe(this, this.gameId);
-            return server.addPlayerToGame(this.gameId, username);
+            Game game = server.addPlayerToGame(this.gameId, username);
+            this.player = server.getPlayer(game.getGameId(), username);
+            return game;
         } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        } catch (NotExistingPlayerException e) {
             throw new RuntimeException(e);
         }
     }
@@ -49,8 +53,12 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
         this.gameId = gameId;
         try {
             server.subscribe(this, this.gameId);
-            return server.addPlayerToGame(this.gameId, username);
+            Game game = server.addPlayerToGame(this.gameId, username);
+            this.player = server.getPlayer(game.getGameId(), username);
+            return game;
         } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        } catch (NotExistingPlayerException e) {
             throw new RuntimeException(e);
         }
     }

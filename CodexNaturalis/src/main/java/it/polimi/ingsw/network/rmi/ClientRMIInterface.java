@@ -12,4 +12,6 @@ import java.util.concurrent.BlockingQueue;
 //this is the stub (proxy of the client)
 public interface ClientRMIInterface extends Remote {
     void update(GameEvent event, Game game) throws RemoteException;
+
+    String getUsername();
 }
