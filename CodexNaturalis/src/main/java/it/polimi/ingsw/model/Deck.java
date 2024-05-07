@@ -29,15 +29,8 @@ public class Deck<T extends Card> implements Serializable{
     protected final Stack<T> deck;
 
     public Deck(ArrayList<T> cards) throws InvalidConstructorDataException {
-        try {
-            deck = new Stack<>();
-        }
-        catch(Exception e)
-        {
-            throw new InvalidConstructorDataException();
-        }
+        deck = new Stack<>();
         deckInitializer(cards);
-
     }
 
     /**
@@ -47,13 +40,8 @@ public class Deck<T extends Card> implements Serializable{
      * @throws InvalidConstructorDataException if the data provided to the constructor is invalid
      */
     private void deckInitializer(ArrayList<T> cards) throws InvalidConstructorDataException {
-        try {
-            for (T card : cards) {
-                deck.push(card);
-            }
-        }
-        catch(Exception e){
-            throw new InvalidConstructorDataException();
+        for (T card : cards) {
+            deck.push(card);
         }
     }
     /**
@@ -64,7 +52,7 @@ public class Deck<T extends Card> implements Serializable{
     //TODO: check if isEmpty value is updated
     public boolean isEmpty()
     {
-        return deck.isEmpty();
+        return this.deck.isEmpty();
     }
     public void shuffleDeck() throws UnsupportedOperationException {
         Collections.shuffle(this.deck);

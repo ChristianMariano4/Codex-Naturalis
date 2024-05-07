@@ -14,11 +14,10 @@ import static org.mockito.Mockito.*;
 class DeckTest {
 
     private Deck<Card> deck;
-    private ArrayList<Card> cards;
 
     @BeforeEach
     void setUp() throws InvalidConstructorDataException {
-        cards = new ArrayList<>();
+        ArrayList<Card> cards = new ArrayList<>();
         cards.add(mock(Card.class));
         cards.add(mock(Card.class));
         deck = new Deck<>(cards);
@@ -27,11 +26,6 @@ class DeckTest {
     @Test
     void shouldInitializeDeck() {
         assertFalse(deck.isEmpty());
-    }
-
-    @Test
-    void shouldThrowInvalidConstructorDataException() {
-        assertThrows(InvalidConstructorDataException.class, () -> new Deck<>(null));
     }
 
     @Test
@@ -49,5 +43,12 @@ class DeckTest {
     @Test
     void shouldShuffleDeck() {
         assertDoesNotThrow(() -> deck.shuffleDeck());
+    }
+
+    @Test
+    void shouldInitializeDeckWithValidCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(mock(Card.class));
+        assertDoesNotThrow(() -> new Deck<>(cards));
     }
 }

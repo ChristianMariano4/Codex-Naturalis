@@ -33,13 +33,7 @@ public class Player implements Serializable {
      */
     //controller crates player -> player creates empty playerhand -> controller adds cards to playerhand from deck
     public Player(String username) throws InvalidConstructorDataException {
-        try {
-            this.username = username;
-        }
-        catch(Exception e)
-        {
-            throw new InvalidConstructorDataException();
-        }
+        this.username = username;
         this.playerHand  = new PlayerHand();
         this.playerField = new PlayerField();
         this.points = 0;
