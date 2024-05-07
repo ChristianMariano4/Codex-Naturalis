@@ -31,7 +31,10 @@ public class TUI extends UI{
     }
 
     public void showMainChoices() {
-        System.out.println("1: see your hand");
+        System.out.println( "q: quit \n" +
+                            "h: help\n" +
+                            "showplayers: show all players in the game\n" +
+                            "myhand: show your hand");
     }
 
     public void showMainScreen() {

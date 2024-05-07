@@ -87,6 +87,7 @@ public class ViewCLI implements View {
         while(inGame)
         {
             System.out.println("Waiting for input: ");
+            ui.showMainScreen();
             String command = scanner.nextLine();
             switch(command){
                 case "q", "quit":
@@ -97,6 +98,9 @@ public class ViewCLI implements View {
                     break;
                 case "showplayers":
                     showAllPlayers();
+                    break;
+                case "myhand":
+                    ui.showPlayerHand();
                     break;
                 default:
                     ui.commandNotFound();
