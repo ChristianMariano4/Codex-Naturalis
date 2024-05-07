@@ -232,4 +232,13 @@ public class Controller {
         }
     }
 
+    public synchronized void drawCard(Player player, CardType cardType, DrawPosition drawPosition) throws DeckIsEmptyException, AlreadyThreeCardsInHandException {
+        if(cardType == CardType.RESOURCE) {
+            ResourceCard card = game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(drawPosition);
+            player.getPlayerHand().addCardToPlayerHand(card);
+        } else {
+            GoldCard card = game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(drawPosition);
+            player.getPlayerHand().addCardToPlayerHand(card);
+        }
+    }
 }
