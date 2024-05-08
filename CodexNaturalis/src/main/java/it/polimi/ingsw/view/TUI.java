@@ -205,8 +205,8 @@ public class TUI extends UI{
                 }
             }
         }
-        for(int i = minRow; i < maxRow; i++) {
-            for(int j = minColum; j < maxColum; j++) {
+        for(int i = minRow-1; i < maxRow+1; i++) {
+            for(int j = minColum-1; j < maxColum+1; j++) {
                 if(pField[i][j] == 0) {
                     System.out.print(ansi().a("   "));
                 } else {

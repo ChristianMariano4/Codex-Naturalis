@@ -148,12 +148,14 @@ public class ViewCLI implements View {
         }
     }
 
-    private int[][] createMatrixFromField(PlayerField  playerField) throws RemoteException {
+    private int[][] createMatrixFromField(PlayerField  playerField) {
         int i = 0, j = 0;
         int[][] matrix = new int[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
         for(PlayableCard[] cards: playerField.getMatrixField()) {
             for(PlayableCard card: cards) {
-                matrix[i][j] = card.getCardId();
+                if(card != null) {
+                    matrix[i][j] = card.getCardId();
+                }
                 j++;
             }
             i++;
