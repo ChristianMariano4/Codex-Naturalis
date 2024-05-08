@@ -3,6 +3,7 @@ import it.polimi.ingsw.enumerations.DrawPosition;
 import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
 import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
+import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.enumerations.Marker;
@@ -161,4 +162,38 @@ class GameTest {
     void shouldThrowInvalidConstructorDataExceptionWhenAllParametersAreNull() {
         assertThrows(InvalidConstructorDataException.class, () -> new Game(1, null, null, null, null));
     }
+
+
+    @Test
+    void shouldThrowExceptionWhenPlayerDoesNotExist() {
+        assertThrows(NotExistingPlayerException.class, () -> {
+            game.getPlayer("nonexistent");
+        });
+    }
+
+    @Test
+    void shouldReturnPlayerWhenPlayerExists() throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+        when(player.getUsername()).thenReturn("existing");
+        game.addPlayer(player);
+        assertDoesNotThrow(() -> {
+            Player existingPlayer = game.getPlayer("existing");
+            assertEquals(player, existingPlayer);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionWhenPlayerNotExists() throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+        when(player.getUsername()).thenReturn("existing");
+        game.addPlayer(player);
+        assertThrows(NotExistingPlayerException.class,() -> {
+            game.getPlayer("notexisting");
+        });
+    }
+
+    @Test
+    void shouldRemoveMarkerWhenMarkerExists() {
+        game.removeMarker(Marker.YELLOW);
+        assertFalse(game.getAvailableMarkers().contains(Marker.YELLOW));
+    }
+
 }
