@@ -2,10 +2,12 @@ package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.enumerations.Marker;
+import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerHand;
+import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.EventManager;
 import it.polimi.ingsw.network.GameListener;
 import it.polimi.ingsw.network.Listener;
@@ -149,5 +151,17 @@ public class GameHandler {
             throw new NotAvailableMarkerException();
         }
         controller.setMarker(player, marker);
+    }
+
+    public StarterCard giveStarterCard(Player player) {
+        try {
+            return controller.giveStarterCard(player);
+        } catch (DeckIsEmptyException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setStarterCardSide(Player player, StarterCard starterCard, Side side) {
+        controller.initializeStarterCard(player, starterCard, side);
     }
 }

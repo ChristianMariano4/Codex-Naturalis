@@ -124,6 +124,11 @@ public class Controller {
         game.getAvailableMarkers().remove(marker);
     }
 
+    public StarterCard giveStarterCard(Player player) throws DeckIsEmptyException {
+        StarterCard starterCard = game.getAvailableStarterCards().getTopCard();
+        player.setStarterCard(starterCard);
+        return starterCard;
+    }
 
 
     /**
@@ -131,8 +136,12 @@ public class Controller {
      * @param player the player that has to receive the cards
      * @throws DeckIsEmptyException if the deck is empty
      */
-    public synchronized void initializeStarterCard(Player player) throws DeckIsEmptyException {
-        player.setStarterCard(this.game.getAvailableStarterCards().getTopCard());
+    public synchronized void initializeStarterCard(Player player, StarterCard starterCard, Side side) {
+        if(side == Side.FRONT){
+            player.getPlayerField().addCardToCell(starterCard);
+        } else {
+            player.getPlayerField().addCardToCell(cardHandler.getOtherSideCard(starterCard));
+        }
     }
 
     /**

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.enumerations.Marker;
+import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.NotAvailableMarkerException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
@@ -9,6 +10,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.CardInfo;
+import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.maybeUseful.RemoteLock;
 import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
@@ -177,6 +179,14 @@ public class RMIServer extends Thread implements ServerRMIInterface {
 
     public void setMarker(Player player, int gameId, Marker marker) throws NotAvailableMarkerException {
         gameHandlerMap.get(gameId).setMarker(player, marker);
+    }
+
+    public StarterCard giveStarterCard(int gameId, Player player) throws RemoteException {
+        return gameHandlerMap.get(gameId).giveStarterCard(player);
+    }
+
+    public void setStarterCardSide(int gameId, Player player, StarterCard starterCard, Side side) throws RemoteException {
+        gameHandlerMap.get(gameId).setStarterCardSide(player, starterCard, side);
     }
 
     public void run(){

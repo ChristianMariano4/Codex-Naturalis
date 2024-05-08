@@ -15,37 +15,39 @@ class PlayerFieldTest {
     private PlayerField playerField;
     private PlayableCard card;
     private PlayableCard cardToAdd;
+    private StarterCard starterCard;
 
     @BeforeEach
     void setUp() {
         playerField = new PlayerField();
         card = mock(PlayableCard.class);
         cardToAdd = mock(PlayableCard.class);
+        starterCard = mock(StarterCard.class);
     }
 
     @Test
     void shouldAddCardToCellSuccessfully() throws InvalidCardPositionException {
-        playerField.addCardToCell(card);
-        playerField.addCardToCell(card, AngleOrientation.BOTTOMLEFT, cardToAdd);
+        playerField.addCardToCell(starterCard);
+        playerField.addCardToCell(starterCard, AngleOrientation.BOTTOMLEFT, cardToAdd);
         assertEquals(cardToAdd, playerField.getMatrixField()[DEFAULT_MATRIX_SIZE/2 + AngleOrientation.BOTTOMLEFT.mapEnumToX()][DEFAULT_MATRIX_SIZE/2 + AngleOrientation.BOTTOMLEFT.mapEnumToY()]);
     }
 
     @Test
     void shouldThrowExceptionWhenAddingACardToAnOccupiedPosition() throws InvalidCardPositionException {
-        playerField.addCardToCell(card);
-        playerField.addCardToCell(card, AngleOrientation.BOTTOMLEFT, cardToAdd);
-        assertThrows(InvalidCardPositionException.class, () -> playerField.addCardToCell(card, AngleOrientation.BOTTOMLEFT, cardToAdd));
+        playerField.addCardToCell(starterCard);
+        playerField.addCardToCell(starterCard, AngleOrientation.BOTTOMLEFT, cardToAdd);
+        assertThrows(InvalidCardPositionException.class, () -> playerField.addCardToCell(starterCard, AngleOrientation.BOTTOMLEFT, cardToAdd));
     }
 
     @Test
     void shouldAddStarterCardToCellSuccessfully() {
-        assertDoesNotThrow(() -> playerField.addCardToCell(card));
+        assertDoesNotThrow(() -> playerField.addCardToCell(starterCard));
     }
 
     @Test
     void shouldAddStarterCardToCellSuccessfullyWhenCellIsEmpty() {
-        playerField.addCardToCell(card);
-        assertEquals(card, playerField.getMatrixField()[DEFAULT_MATRIX_SIZE/2][DEFAULT_MATRIX_SIZE/2]);
+        playerField.addCardToCell(starterCard);
+        assertEquals(starterCard, playerField.getMatrixField()[DEFAULT_MATRIX_SIZE/2][DEFAULT_MATRIX_SIZE/2]);
 
     }
 

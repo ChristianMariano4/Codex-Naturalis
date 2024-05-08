@@ -68,7 +68,7 @@ public class PlayerField implements Serializable {
         }
     }
 
-    public void addCardToCell(PlayableCard starterCard){
+    public void addCardToCell(StarterCard starterCard){
         matrixField[DEFAULT_MATRIX_SIZE/2][DEFAULT_MATRIX_SIZE/2] = starterCard;
     }
 

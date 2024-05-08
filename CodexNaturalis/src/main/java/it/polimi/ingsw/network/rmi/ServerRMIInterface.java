@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.CardInfo;
+import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.maybeUseful.RemoteLock;
 
 import java.rmi.Remote;
@@ -32,4 +33,17 @@ public interface ServerRMIInterface extends Remote {
     CardInfo getCardInfo(Card card, int gameId) throws RemoteException;
     Player getPlayer(int gameId, String username) throws RemoteException, NotExistingPlayerException;
     void setMarker(Player player, int gameId, Marker marker) throws RemoteException, NotAvailableMarkerException;
+    StarterCard giveStarterCard(int gameId, Player player) throws RemoteException;
+    void setStarterCardSide(int gameId, Player player,StarterCard starterCard, Side side) throws RemoteException;
 }
+
+//TODO: game setup
+//1 - create game
+//2 - initialize game
+//3 - each player receives a random starter card and choose the side to play
+//4 - each player draws 2 resources card and 1 gold card
+//5 - discover 2 shared objective cards
+//6 - each player chooses 1 secret objective card among 2
+//7 - the game starts and the player order is shown -> black marker is assigned to first player
+
+//TODO: game begins -> rounds
