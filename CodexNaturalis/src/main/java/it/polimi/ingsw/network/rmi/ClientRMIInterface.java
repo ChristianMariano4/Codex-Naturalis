@@ -13,5 +13,5 @@ import java.util.concurrent.BlockingQueue;
 public interface ClientRMIInterface extends Remote {
     void update(GameEvent event, Game game) throws RemoteException;
 
-    String getUsername();
+    String getUsername() throws RemoteException;
 }
