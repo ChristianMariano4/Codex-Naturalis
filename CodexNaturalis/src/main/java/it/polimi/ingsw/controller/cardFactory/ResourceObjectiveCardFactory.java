@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller.cardFactory;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.controller.cardFactory.CardFactory;
 import it.polimi.ingsw.exceptions.CardNotImportedException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.ResourceObjectiveCard;
@@ -13,10 +12,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ResourceObjectiveCardFactory extends CardFactory<ObjectiveCard> {
+    private final String filePath;
+
+    public ResourceObjectiveCardFactory(String filePath) {
+        this.filePath = filePath;
+    }
+
     public ArrayList<ObjectiveCard> createCardList() throws CardNotImportedException {
         ResourceObjectiveCard[] resourceObjectiveCardArray;
         Gson gson = new Gson();
-        try(Reader reader = new FileReader("CodexNaturalis/src/main/resources/resourceObjectiveCards.json")) {
+        try(Reader reader = new FileReader(filePath)) {
             resourceObjectiveCardArray = gson.fromJson(reader, ResourceObjectiveCard[].class);
         } catch (IOException e) {
             throw new CardNotImportedException();

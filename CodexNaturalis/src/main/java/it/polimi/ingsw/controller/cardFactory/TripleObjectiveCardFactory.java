@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller.cardFactory;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.controller.cardFactory.CardFactory;
 import it.polimi.ingsw.exceptions.CardNotImportedException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.TripleObjectiveCard;
@@ -13,14 +12,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TripleObjectiveCardFactory extends CardFactory<ObjectiveCard> {
+    private final String filePath;
+
+    public TripleObjectiveCardFactory(String filePath) {
+        this.filePath = filePath;
+    }
+
     public ArrayList<ObjectiveCard> createCardList() throws CardNotImportedException {
-        TripleObjectiveCard[] tripleObjectiveCard;
+        TripleObjectiveCard[] tripleObjectiveCardArray;
         Gson gson = new Gson();
-        try(Reader reader = new FileReader("CodexNaturalis/src/main/resources/tripleObjectiveCard.json")) {
-            tripleObjectiveCard = gson.fromJson(reader, TripleObjectiveCard[].class);
+        try(Reader reader = new FileReader(filePath)) {
+            tripleObjectiveCardArray = gson.fromJson(reader, TripleObjectiveCard[].class);
         } catch (IOException e) {
             throw new CardNotImportedException();
         }
-        return new ArrayList<>(Arrays.asList(tripleObjectiveCard));
+        return new ArrayList<>(Arrays.asList(tripleObjectiveCardArray));
     }
 }
