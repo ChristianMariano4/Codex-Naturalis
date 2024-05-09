@@ -31,7 +31,7 @@ public interface ServerRMIInterface extends Remote {
     BlockingQueue<Boolean> getQueue(int gameId) throws RemoteException;
     CardInfo getCardInfo(Card card, int gameId) throws RemoteException;
     Player getPlayer(int gameId, String username) throws RemoteException, NotExistingPlayerException;
-    void setMarker(Player player, int gameId, Marker marker) throws RemoteException, NotAvailableMarkerException;
+    void setMarker(Player player, int gameId, Marker marker) throws RemoteException, NotAvailableMarkerException, NotExistingPlayerException;
     StarterCard giveStarterCard(int gameId, Player player) throws RemoteException;
     void setStarterCardSide(int gameId, Player player,StarterCard starterCard, Side side) throws RemoteException;
     public void playCard(int gameId, String username, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws RemoteException, NotExistingPlayerException, InvalidCardPositionException, RequirementsNotMetException, CardTypeMismatchException, AngleAlreadyLinkedException, NotTurnException;

@@ -133,7 +133,7 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         return gameHandlerMap.get(gameId);
     }
 
-    public void updateClient(ClientRMIInterface client, GameEvent event, Game game) throws RemoteException, InterruptedException {
+    public void updateClient(ClientRMIInterface client, GameEvent event, Game game) throws RemoteException, InterruptedException, NotExistingPlayerException {
         client.update(event, game);
     }
 
@@ -176,7 +176,7 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         return gameHandlerMap.get(gameId).getController().getCardHandler().getCardInfo(card);
     }
 
-    public void setMarker(Player player, int gameId, Marker marker) throws NotAvailableMarkerException {
+    public void setMarker(Player player, int gameId, Marker marker) throws NotAvailableMarkerException, NotExistingPlayerException {
         gameHandlerMap.get(gameId).setMarker(player, marker);
     }
 

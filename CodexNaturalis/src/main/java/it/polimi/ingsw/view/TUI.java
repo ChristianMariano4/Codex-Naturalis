@@ -36,17 +36,40 @@ public class TUI extends UI{
         //this.showAllPlayers();
     }
 
-    public void showMainChoices() {
+    public void showTurnScreen(String playerPlaying, String client) {
+        if(playerPlaying.equals(client))
+            System.out.println("It is currently your turn, write playTurn to play.");
+        else
+            System.out.println("It is currently "+ playerPlaying+"'s turn.");
         System.out.println( "q: quit \n" +
                             "h: help\n" +
                             "showplayers: show all players in the game\n" +
                             "myhand: show your hand");
+        System.out.println("Waiting for input");
     }
 
     public void showMainScreen() {
         this.clearScreen();
         this.showGameTitle();
-        this.showMainChoices();
+    }
+    public void waitingForMarkerTurn()
+    {
+        System.out.println("Wait for your turn to select the marker");
+    }
+    public void showAvailableMarkers(ArrayList<Marker> markers)
+    {
+        int counter = 1;
+        System.out.print("Select your marker: ");
+        for(Marker marker : markers)
+        {
+            System.out.print(counter + " - " + marker);
+            if(counter != markers.size())
+            {
+                System.out.print(", ");
+            }
+            counter += 1;
+        }
+        System.out.print(".\n");
     }
 
     public void showGameTitle() {
@@ -261,6 +284,10 @@ public class TUI extends UI{
     public void drawCard()
     {
         System.out.println("Choose where to draw the card: 1 - Resource Card Deck, 2 - Gold Card Deck, 3 - Left Discovered Resource, 4 - Right Discovered Resource, 5 - Left Discovered Gold, 6 - Right Discovered Gold, 0 - cancel");
+    }
+    public void waitingForOthers()
+    {
+        System.out.println("Waiting for other players to choose their marker");
     }
     public void clearScreen() { //TODO: non funziona :(
         try {

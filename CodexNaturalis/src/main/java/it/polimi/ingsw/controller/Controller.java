@@ -125,8 +125,8 @@ public class Controller {
      * @param player the player that has chosen the marker
      * @param marker the marker chosen by the player
      */
-    public synchronized void setMarker(Player player, Marker marker) {
-        player.setMarker(marker);
+    public synchronized void setMarker(Player player, Marker marker) throws NotExistingPlayerException {
+        gameHandler.getGame().getPlayer(player.getUsername()).setMarker(marker);
         gameHandler.getGame().getAvailableMarkers().remove(marker);
     }
 

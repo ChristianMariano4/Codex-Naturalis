@@ -78,6 +78,8 @@ public class GameHandler {
                 client.update(event, game);
             } catch (RemoteException | InterruptedException e) {
                 throw new RuntimeException(e);
+            } catch (NotExistingPlayerException e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -125,6 +127,8 @@ public class GameHandler {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        } catch (NotExistingPlayerException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -151,11 +155,19 @@ public class GameHandler {
         return this.game.getPlayer(username);
     }
 
-    public void setMarker(Player player, Marker marker) throws NotAvailableMarkerException{
+    public void setMarker(Player player, Marker marker) throws NotAvailableMarkerException, NotExistingPlayerException {
         if(!game.getAvailableMarkers().contains(marker)) {
             throw new NotAvailableMarkerException();
         }
         controller.setMarker(player, marker);
+        eventManager.notify(GameEvent.MARKER_EVENT, game);
+        for(Player p: game.getListOfPlayers())
+        {
+            if(p.getMarker()==null)
+                return;
+
+        }
+        eventManager.notify(GameEvent.MARKER_DONE, game);
     }
 
     public StarterCard giveStarterCard(Player player) {

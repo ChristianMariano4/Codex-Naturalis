@@ -6,5 +6,7 @@ public enum GameEvent {
     NEW_PLAYER,
     GAME_BEGIN,
     TURN_EVENT,
+    MARKER_EVENT,
+    MARKER_DONE,
 
 }

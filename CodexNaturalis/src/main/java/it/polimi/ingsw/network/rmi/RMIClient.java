@@ -21,7 +21,8 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
     private View view;
     private boolean playing = false;
     Thread viewThread;
-
+    boolean markerTurn = false;
+    boolean markerDone = false;
 
 
     public RMIClient(ServerRMIInterface server) throws RemoteException{
@@ -84,7 +85,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
         }
     }
     @Override
-    public void update(GameEvent event, Game game) throws RemoteException, InterruptedException {
+    public void update(GameEvent event, Game game) throws RemoteException, InterruptedException, NotExistingPlayerException {
         switch (event) {
             case BOARD_UPDATED -> {
                 //TODO: print what happened
@@ -108,6 +109,20 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
                 this.viewThread.interrupt();
                 this.viewThread.start();
             }
+            case MARKER_EVENT ->
+            {
+                view.update(game);
+                if(!this.markerTurn) {
+                    String currentMarkerChoice = game.getListOfPlayers().get(4 - game.getAvailableMarkers().size()).getUsername(); //how many markers have already been chosen
+                    if (username.equals(currentMarkerChoice))
+                        this.markerTurn = true;
+                }
+            }
+            case MARKER_DONE ->
+            {
+                view.update(game);
+                this.markerDone = true;
+            }
         }
     }
     public void setPlayer(Player player) {
@@ -130,6 +145,17 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             while(!this.playing)
             {
                Thread.sleep(10);
+            }
+            this.markerTurn = viewCLI.waitingForMarkerTurn();
+            while(!this.markerTurn)
+            {
+                Thread.sleep(10);
+            }
+            viewCLI.markerSelection();
+            this.markerDone = !viewCLI.waitingForOthers();
+            while(!this.markerDone)
+            {
+                Thread.sleep(10);
             }
             this.viewThread = new Thread(viewCLI);
             this.viewThread.start();

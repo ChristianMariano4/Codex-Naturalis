@@ -3,6 +3,7 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.enumerations.AngleOrientation;
 import it.polimi.ingsw.enumerations.CardType;
 import it.polimi.ingsw.enumerations.DrawPosition;
+import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
@@ -80,41 +81,41 @@ public class ViewCLI implements View, Runnable {
         ui.showMainScreen();
         while(inGame)
         {
-            boolean isTurn = game.getPlayer(client.getUsername()).getIsTurn();
-            System.out.println("Waiting for input: ");
-            ui.showMainChoices();
-            String command = scanner.nextLine();
-            switch(command){
-                case "q", "quit":
-                    inGame = false;
-                    break;
-                case "h", "help":
-                    ui.showAllCommands();
-                    break;
-                case "showplayers":
-                    showAllPlayers();
-                    break;
-                case "myhand":
-                    showPlayerHand();
-                    break;
-                case "showMyField":
-                    showPlayerField();
-                    break;
-                case "playTurn":
-                    if(isTurn) {
-                        playCard();
-                        drawCard();
-                        endTurn();
-                    }
-                    else
-                        notYourTurn();
-                    break;
+            while(!Thread.interrupted()) {
+                boolean isTurn = game.getPlayer(client.getUsername()).getIsTurn();
+                String playerPlaying = game.getCurrentPlayer().getUsername();
+                ui.showTurnScreen(playerPlaying, client.getUsername());
+                String command = scanner.nextLine();
+                switch (command) {
+                    case "q", "quit":
+                        inGame = false;
+                        break;
+                    case "h", "help":
+                        ui.showAllCommands();
+                        break;
+                    case "showplayers":
+                        showAllPlayers();
+                        break;
+                    case "myhand":
+                        showPlayerHand();
+                        break;
+                    case "showMyField":
+                        showPlayerField();
+                        break;
+                    case "playTurn":
+                        if (isTurn) {
+                            playCard();
+                            drawCard();
+                            endTurn();
+                        } else
+                            notYourTurn();
+                        break;
 
-                default:
-                    ui.commandNotFound();
-                    break;
+                    default:
+                        ui.commandNotFound();
+                        break;
+                }
             }
-
         }
     }
 
@@ -259,6 +260,44 @@ public class ViewCLI implements View, Runnable {
             ui.showPlayerField(createMatrixFromField(p.getPlayerField()));
         }
     }
+    public void markerSelection()
+    {
+        ArrayList<Marker> markerList = game.getAvailableMarkers();
+        ui.showAvailableMarkers(markerList);
+        do{
+            try {
+                Marker chosenMarker;
+                int choice = Integer.parseInt(scanner.nextLine());
+
+                if(choice > markerList.size())
+                    throw new NumberFormatException();
+                chosenMarker = switch (choice) {
+                    case 1 -> markerList.get(0);
+                    case 2 -> markerList.get(1);
+                    case 3 -> markerList.get(2);
+                    case 4 -> markerList.get(3);
+                    default -> throw new NumberFormatException();
+                };
+                client.getServer().setMarker(game.getPlayer(client.getUsername()), game.getGameId(), chosenMarker);
+                break;
+            }
+            catch(Exception e)
+            {
+                ui.invalidInput();
+            }
+
+
+        }while(true);
+    }
+
+    public boolean waitingForMarkerTurn()
+    {
+        if(!game.getCurrentPlayer().getUsername().equals(client.getUsername())) {
+            ui.waitingForMarkerTurn();
+            return false;
+        }
+        return true;
+    }
 
     private int[][] createMatrixFromField(PlayerField  playerField) {
         int i = 0, j = 0;
@@ -297,6 +336,14 @@ public class ViewCLI implements View, Runnable {
             playersPlacement.put(p.getUsername(), p.getPoints());
         }
         ui.showEndGameScreen(playersPlacement);
+    }
+    public boolean waitingForOthers()
+    {
+        if(!game.getListOfPlayers().getLast().getUsername().equals(client.getUsername())) {
+            ui.waitingForOthers();
+            return true;
+        }
+        return false;
     }
 
 

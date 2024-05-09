@@ -46,6 +46,7 @@ public class Game implements Serializable {
         this.listOfPlayers = new ArrayList<Player>();
         this.numberOfPlayers = 0;
         this.availableMarkers = new ArrayList<Marker>(Arrays.asList(Marker.values()));
+        availableMarkers.remove(Marker.BLACK);
         try {
             this.tableTop = new TableTop(drawingField, sharedObjectiveCards);
             this.objectiveCardDeck = objectiveCardDeck;

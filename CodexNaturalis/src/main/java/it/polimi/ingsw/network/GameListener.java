@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.rmi.ClientRMIInterface;
@@ -26,6 +27,8 @@ public class GameListener implements Listener<GameEvent> {
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (NotExistingPlayerException e) {
             throw new RuntimeException(e);
         }
         System.out.println("We are in GameListener update method");
