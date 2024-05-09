@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
 import org.fusesource.jansi.AnsiConsole;
 
+import javax.swing.text.html.StyleSheet;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
@@ -92,30 +93,30 @@ public class TUI extends UI{
                         "█▄█ █▀█ █░█ █▀█   █░█ ▄▀█ █▄░█ █▀▄\n" +
                         "░█░ █▄█ █▄█ █▀▄   █▀█ █▀█ █░▀█ █▄▀").reset());
             //Print all card information
-                for(PlayableCard pc: playerHand.keySet()) {
-                    new PrintStream(System.out, true, System.console() != null
-                            ? System.console().charset()
-                            : Charset.defaultCharset())
-                            .println(ansi().fg(GREEN).a(
-                                    "┌──────┬───────────┬──────┐\n" +
-                                            "│┤►@@◄├│           │┤►@@◄├│\n" +
-                                            "│┼─────┘  ┌┬───┬┐  └─────┼│\n" +
-                                            "││        ││ "+pc.getCardId()+" ││        ││\n" +
-                                            "││        └┴───┴┘  ┌─────┼│\n" +
-                                            "││                 │┤►@@◄├│\n" +
-                                            "└┴─────────────────┴──────┘").reset());
-                    System.out.println("CardType: "+playerHand.get(pc).getCardType());
-                    System.out.println("Requirements:");
-                    for(Resource rs: playerHand.get(pc).getRequirements()) {
-                        System.out.println("    " + rs.toString());
-                    }
-                    System.out.println("GoldPointCondition: "+playerHand.get(pc).getGoldPointCondition());
-                    System.out.println("GoldPointCondition: "+playerHand.get(pc).getGoldPointCondition());
-                    System.out.println("Angles status:");
-                    for(AngleOrientation o: AngleOrientation.values()) {
-                        System.out.println("    Angle " + pc.getAngle(o) + ": " + pc.getAngle(o).getAngleStatus());
-                    }
-                }
+        for(PlayableCard pc: playerHand.keySet()) {
+            new PrintStream(System.out, true, System.console() != null
+                    ? System.console().charset()
+                    : Charset.defaultCharset())
+                    .println(ansi().fg(GREEN).a(
+                            "┌──────┬───────────┬──────┐\n" +
+                                    "│┤►@@◄├│           │┤►@@◄├│\n" +
+                                    "│┼─────┘  ┌┬───┬┐  └─────┼│\n" +
+                                    "││        ││ "+pc.getCardId()+" ││        ││\n" +
+                                    "││        └┴───┴┘  ┌─────┼│\n" +
+                                    "││                 │┤►@@◄├│\n" +
+                                    "└┴─────────────────┴──────┘").reset());
+            System.out.println("CardType: "+playerHand.get(pc).getCardType());
+            System.out.println("Requirements:");
+            for(Resource rs: playerHand.get(pc).getRequirements()) {
+                System.out.println("    " + rs.toString());
+            }
+            System.out.println("GoldPointCondition: "+playerHand.get(pc).getGoldPointCondition());
+            System.out.println("GoldPointCondition: "+playerHand.get(pc).getGoldPointCondition());
+            System.out.println("Angles status:");
+            for(AngleOrientation o: AngleOrientation.values()) {
+                System.out.println("    Angle " + pc.getAngle(o) + ": " + pc.getAngle(o).getAngleStatus());
+            }
+        }
     }
 
     public void showAllPlayers(ArrayList<String> usernames) {

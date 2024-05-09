@@ -2,6 +2,8 @@ package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHandException;
+import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.exceptions.NotAvailableMarkerException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
@@ -35,13 +37,14 @@ public interface ServerRMIInterface extends Remote {
     void setMarker(Player player, int gameId, Marker marker) throws RemoteException, NotAvailableMarkerException;
     StarterCard giveStarterCard(int gameId, Player player) throws RemoteException;
     void setStarterCardSide(int gameId, Player player,StarterCard starterCard, Side side) throws RemoteException;
+    public void initializePlayersHand(int gameId, Player player) throws RemoteException, AlreadyThreeCardsInHandException, DeckIsEmptyException;
 }
 
 //TODO: game setup
 //1 - create game
 //2 - initialize game
 //3 - each player receives a random starter card and choose the side to play
-//4 - each player draws 2 resources card and 1 gold card
+//4 - each player draws 2 resources card and 1 gold card --> DONE
 //5 - discover 2 shared objective cards
 //6 - each player chooses 1 secret objective card among 2
 //7 - the game starts and the player order is shown -> black marker is assigned to first player

@@ -161,6 +161,10 @@ public class GameHandler {
         }
     }
 
+    public void initializePlayersHand(Player player) throws AlreadyThreeCardsInHandException, DeckIsEmptyException {
+        controller.initializePlayerHand(player);
+    }
+
     public void setStarterCardSide(Player player, StarterCard starterCard, Side side) {
         controller.initializeStarterCard(player, starterCard, side);
     }

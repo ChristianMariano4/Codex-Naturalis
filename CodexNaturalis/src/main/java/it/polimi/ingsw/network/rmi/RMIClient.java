@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHandException;
+import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -33,6 +35,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             server.subscribe(this, this.gameId);
             Game game = server.addPlayerToGame(this.gameId, username);
             this.player = server.getPlayer(game.getGameId(), username);
+            //server.initializePlayersHand(this.gameId, this.player);
             return game;
         } catch (RemoteException | NotExistingPlayerException e) {
             throw new RuntimeException(e);
@@ -123,10 +126,15 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             {
                Thread.sleep(10); //??????????????????????????????????''
             }
+            server.initializePlayersHand(this.gameId, this.player);
             viewCLI.gameBegin();
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (AlreadyThreeCardsInHandException e) {
+            throw new RuntimeException(e);
+        } catch (DeckIsEmptyException e) {
             throw new RuntimeException(e);
         }
     }

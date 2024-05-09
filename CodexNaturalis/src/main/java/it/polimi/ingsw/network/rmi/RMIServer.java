@@ -2,6 +2,8 @@ package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHandException;
+import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.exceptions.NotAvailableMarkerException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
@@ -187,6 +189,10 @@ public class RMIServer extends Thread implements ServerRMIInterface {
 
     public void setStarterCardSide(int gameId, Player player, StarterCard starterCard, Side side) throws RemoteException {
         gameHandlerMap.get(gameId).setStarterCardSide(player, starterCard, side);
+    }
+
+    public void initializePlayersHand(int gameId, Player player) throws AlreadyThreeCardsInHandException, DeckIsEmptyException {
+        gameHandlerMap.get(gameId).initializePlayersHand(player);
     }
 
     public void run(){
