@@ -249,7 +249,7 @@ public class CardHandler {
      * @return the other side of the selected PlayableCard
      * @throws CardNotFoundException if the card selected doesn't exist
      */
-    public PlayableCard getOtherSideCard(PlayableCard card) throws CardNotFoundException {
+    public PlayableCard getOtherSideCard(PlayableCard card) {
 
         return playableCards.stream().filter(c -> c.getCardsId() == card.getCardId()).map(c-> {
             try {

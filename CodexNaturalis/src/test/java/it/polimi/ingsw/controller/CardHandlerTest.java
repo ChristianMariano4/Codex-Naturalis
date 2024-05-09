@@ -1,13 +1,11 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.cardFactory.FilePathProvider;
+import it.polimi.ingsw.enumerations.AngleOrientation;
 import it.polimi.ingsw.enumerations.CardType;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.enumerations.Side;
-import it.polimi.ingsw.exceptions.CardNotFoundException;
-import it.polimi.ingsw.exceptions.CardNotImportedException;
-import it.polimi.ingsw.exceptions.CardTypeMismatchException;
-import it.polimi.ingsw.exceptions.UnlinkedCardException;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +15,7 @@ import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -109,7 +108,7 @@ public class CardHandlerTest {
     @Test
     public void getOtherSideCard_returnsCorrectResourceCard() throws CardNotImportedException, CardNotFoundException {
         ArrayList<ResourceCard> resourceCards = cardHandler.importResourceCards();
-        ResourceCard frontCard = resourceCards.get(0);
+        ResourceCard frontCard = resourceCards.getFirst();
         ResourceCard backCard = cardHandler.getOtherSideCard(frontCard);
         assertEquals(frontCard.getCardId(), backCard.getCardId());
         assertNotEquals(frontCard.getCurrentSide(), backCard.getCurrentSide());
@@ -174,6 +173,15 @@ public class CardHandlerTest {
     }
 
     @Test
+    public void checkRequirements_throwsExceptionForTypeMismatch() throws CardTypeMismatchException {
+        PlayableCard mockCard = mock(PlayableCard.class);
+        CardInfo mockInfo = mock(CardInfo.class);
+        when(mockCard.accept(any())).thenReturn(mockInfo);
+        when(mockInfo.getCardType()).thenReturn(CardType.STARTER);
+        assertThrows(CardTypeMismatchException.class, () -> cardHandler.checkRequirements(mockCard, mockPlayer));
+    }
+
+    @Test
     public void getCardInfo_returnsCorrectInfo() {
         Card mockCard = mock(Card.class);
         CardInfo mockInfo = mock(CardInfo.class);
@@ -192,27 +200,88 @@ public class CardHandlerTest {
     }
 
     @Test
-    public void getOtherSideCard_throwsCardNotFoundException() {
+    public void getOtherSideCardCalledOnPlayableCard_throwsRuntimeException() throws CardNotFoundException, CardNotImportedException {
         PlayableCard mockCard = mock(PlayableCard.class);
-
+        cardHandler.importResourceCards();
         when(mockCard.getCardId()).thenReturn(1);
-        when(mockCard.getCurrentSide()).thenReturn(Side.FRONT);
-
-        assertThrows(CardNotFoundException.class, () -> cardHandler.getOtherSideCard(mockCard));
+        when(mockCard.getCurrentSide()).thenReturn(null);
+        assertThrows(RuntimeException.class, () -> cardHandler.getOtherSideCard(mockCard));
     }
 
     @Test
-    public void getOtherSideCard_throwsRuntimeException() throws UnlinkedCardException {
-        PlayableCard mockCard = mock(PlayableCard.class);
-        CardPair<PlayableCard> mockCardPair = mock(CardPair.class);
-
-        when(mockCard.getCardId()).thenReturn(1);
-        when(mockCard.getCurrentSide()).thenReturn(Side.FRONT);
-        when(mockCardPair.getCardsId()).thenReturn(1);
-        when(mockCardPair.getOtherSideCard(Side.FRONT)).thenThrow(UnlinkedCardException.class);
-
-//        cardHandler.getPlayableCards().add(mockCardPair);
-
+    public void getOtherSideCardCalledOnGoldCard_throwsRuntimeException() throws CardNotFoundException, CardNotImportedException {
+        GoldCard mockCard = mock(GoldCard.class);
+        cardHandler.importGoldCards();
+        when(mockCard.getCardId()).thenReturn(41);
+        when(mockCard.getCurrentSide()).thenReturn(null);
         assertThrows(RuntimeException.class, () -> cardHandler.getOtherSideCard(mockCard));
     }
+
+    @Test
+    public void getOtherSideCardCalledOnResourceCard_throwsRuntimeException() throws CardNotFoundException, CardNotImportedException {
+        ResourceCard mockCard = mock(ResourceCard.class);
+        cardHandler.importResourceCards();
+        when(mockCard.getCardId()).thenReturn(1);
+        when(mockCard.getCurrentSide()).thenReturn(null);
+        assertThrows(RuntimeException.class, () -> cardHandler.getOtherSideCard(mockCard));
+    }
+
+    @Test
+    public void getOtherSideCardCalledOnStarterCard_throwsRuntimeException() throws CardNotFoundException, CardNotImportedException {
+        StarterCard mockCard = mock(StarterCard.class);
+        cardHandler.importStarterCards();
+        when(mockCard.getCardId()).thenReturn(81);
+        when(mockCard.getCurrentSide()).thenReturn(null);
+        assertThrows(RuntimeException.class, () -> cardHandler.getOtherSideCard(mockCard));
+    }
+
+    @Test
+    public void getOtherSideCardCalledOnObjectiveCard_throwsRuntimeException() throws CardNotFoundException, CardNotImportedException {
+        ObjectiveCard mockCard = mock(ObjectiveCard.class);
+        cardHandler.importTripleObjectiveCard();
+        when(mockCard.getCardId()).thenReturn(99);
+        when(mockCard.getCurrentSide()).thenReturn(null);
+        assertThrows(RuntimeException.class, () -> cardHandler.getOtherSideCard(mockCard));
+    }
+
+    @Test
+    public void getOtherSideCardCalledOnPlayableCard_returnsNull() throws CardNotFoundException, CardNotImportedException {
+        PlayableCard mockCard = mock(PlayableCard.class);
+        cardHandler.importResourceCards();
+        when(mockCard.getCardId()).thenReturn(1000);
+        assertNull(cardHandler.getOtherSideCard(mockCard));
+    }
+
+    @Test
+    public void getOtherSideCardCalledOnGoldCard_returnsNull() throws CardNotFoundException, CardNotImportedException {
+        GoldCard mockCard = mock(GoldCard.class);
+        cardHandler.importGoldCards();
+        when(mockCard.getCardId()).thenReturn(1000);
+        assertNull(cardHandler.getOtherSideCard(mockCard));
+    }
+
+    @Test
+    public void getOtherSideCardCalledOnResourceCard_returnsNull() throws CardNotFoundException, CardNotImportedException {
+        ResourceCard mockCard = mock(ResourceCard.class);
+        cardHandler.importResourceCards();
+        when(mockCard.getCardId()).thenReturn(1000);
+        assertNull(cardHandler.getOtherSideCard(mockCard));
+    }
+
+    @Test
+    public void getOtherSideCardCalledOnStarterCard_returnsNull() throws CardNotFoundException, CardNotImportedException {
+        StarterCard mockCard = mock(StarterCard.class);
+        cardHandler.importStarterCards();
+        when(mockCard.getCardId()).thenReturn(1000);
+        assertNull(cardHandler.getOtherSideCard(mockCard));
+    }
+
+    @Test
+    public void getOtherSideCardCalledOnObjectiveCard_returnsNull() throws CardNotFoundException, CardNotImportedException {
+        ObjectiveCard mockCard = mock(ObjectiveCard.class);
+        cardHandler.importTripleObjectiveCard();
+        when(mockCard.getCardId()).thenReturn(1000);
+        assertNull(cardHandler.getOtherSideCard(mockCard));
+    }
+
 }
