@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.AngleOrientation;
+import it.polimi.ingsw.enumerations.AngleStatus;
+import it.polimi.ingsw.exceptions.AngleAlreadyLinkedException;
+import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.InvalidCardPositionException;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.PlayableCard;
@@ -47,8 +50,7 @@ public class PlayerField implements Serializable {
      * @param cardToAdd is the reference to the card to add to the playerField
      * @throws InvalidCardPositionException when the player try to add a card in an invalid position
      */
-    public void addCardToCell(PlayableCard card, AngleOrientation angleOrientation, PlayableCard cardToAdd) throws InvalidCardPositionException
-    {
+    public void addCardToCell(PlayableCard card, AngleOrientation angleOrientation, PlayableCard cardToAdd) throws InvalidCardPositionException, AngleAlreadyLinkedException {
         for(int i = 0; i<DEFAULT_MATRIX_SIZE; i++)
         {
             for(int j = 0; j<DEFAULT_MATRIX_SIZE; j++)
@@ -59,7 +61,15 @@ public class PlayerField implements Serializable {
                     int cardToAddY = j + angleOrientation.mapEnumToY();
                     if(matrixField[cardToAddX][cardToAddY] != null)
                         throw new InvalidCardPositionException();
-                    matrixField[cardToAddX][cardToAddY] = cardToAdd;
+                    if(card.getAngle(angleOrientation).isPlayable())
+                    {
+                        matrixField[cardToAddX][cardToAddY] = cardToAdd;
+                        card.getAngle(angleOrientation).setLinkedAngle(cardToAdd.getAngle(angleOrientation.getOpposite()), AngleStatus.UNDER);
+                        cardToAdd.getAngle(angleOrientation.getOpposite()).setLinkedAngle(card.getAngle(angleOrientation), AngleStatus.OVER);
+                    }
+
+
+
                     i = DEFAULT_MATRIX_SIZE;
                     break;
 
@@ -70,6 +80,19 @@ public class PlayerField implements Serializable {
 
     public void addCardToCell(StarterCard starterCard){
         matrixField[DEFAULT_MATRIX_SIZE/2][DEFAULT_MATRIX_SIZE/2] = starterCard;
+    }
+    public PlayableCard getCardById(int cardId) throws CardNotFoundException {
+        for(int i = 0; i<DEFAULT_MATRIX_SIZE; i++)
+        {
+            for(int j = 0; j<DEFAULT_MATRIX_SIZE; j++) {
+                if(matrixField[i][j] != null && matrixField[i][j].getCardId() == cardId)
+                {
+                    return matrixField[i][j];
+                }
+            }
+
+        }
+        throw new CardNotFoundException();
     }
 
 }

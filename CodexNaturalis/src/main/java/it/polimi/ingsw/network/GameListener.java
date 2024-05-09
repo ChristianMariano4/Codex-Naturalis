@@ -25,6 +25,8 @@ public class GameListener implements Listener<GameEvent> {
             server.updateClient(client, event, (Game)args[0]);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
         System.out.println("We are in GameListener update method");
     }

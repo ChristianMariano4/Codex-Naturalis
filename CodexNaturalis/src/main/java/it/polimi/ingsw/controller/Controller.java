@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.EventManager;
 import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
+import it.polimi.ingsw.network.rmi.GameHandler;
 import it.polimi.ingsw.network.rmi.RMIServer;
 
 import java.io.IOException;
@@ -21,12 +22,13 @@ public class Controller {
     public String testUsername;
     private CardHandler cardHandler;
     private RMIServer server;
-    private Game game;
+    private GameHandler gameHandler;
     private final EventManager eventManager;
 
-    public Controller(EventManager eventManager){
+    public Controller(EventManager eventManager, GameHandler gameHandler){
         this.cardHandler = new CardHandler(new ProductionFilePathProvider());
         this.eventManager = eventManager;
+        this.gameHandler = gameHandler;
     }
 
     /**
@@ -66,18 +68,13 @@ public class Controller {
         sharedObjectiveCards.add(cardHandler.getOtherSideCard(objectiveCardDeck.getTopCard()));
         Deck<StarterCard> starterCardDeck = new Deck<StarterCard>(cardHandler.filterStarterCards(cardHandler.importStarterCards()));
         starterCardDeck.shuffleDeck();
-        this.game = new Game(gameId, drawingField, sharedObjectiveCards, objectiveCardDeck, starterCardDeck);
-
-        return this.game;
+        return new Game(gameId, drawingField, sharedObjectiveCards, objectiveCardDeck, starterCardDeck);
     }
 
     /**
      * Getter
      * @return the game
      */
-    public synchronized Game getGame() {
-        return game;
-    }
 
     /**
      * Adds a player to the game specified by gameId
@@ -87,12 +84,12 @@ public class Controller {
      */
     public synchronized Game addPlayerToGame(String username) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
         try {
-            this.game.addPlayer(new Player(username));
+            this.gameHandler.getGame().addPlayer(new Player(username));
         } catch (InvalidConstructorDataException e) {
             throw new RuntimeException(e);
         }
 
-        return this.game;
+        return this.gameHandler.getGame();
     }
 
     /**
@@ -106,13 +103,21 @@ public class Controller {
      * @throws IOException
      * @throws UnlinkedCardException
      */
-    public synchronized void initializeGame() throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException, UnlinkedCardException, AlreadyThreeCardsInHandException {
+    public synchronized Game initializeGame() throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException, UnlinkedCardException, AlreadyThreeCardsInHandException {
         //shuffle the list of player to determine the order of play
-        game.shufflePlayers();
+        gameHandler.getGame().shufflePlayers();
         //set the first player
-        game.getListOfPlayers().getFirst().setIsFirst(true);
+        gameHandler.getGame().getListOfPlayers().getFirst().setIsFirst(true);
+        gameHandler.getGame().setCurrentPlayer(gameHandler.getGame().getListOfPlayers().getFirst());
         //setting discovered cards
-        game.getTableTop().getDrawingField().setDiscoveredCards();
+        gameHandler.getGame().getTableTop().getDrawingField().setDiscoveredCards();
+        for(Player player: gameHandler.getGame().getListOfPlayers())
+        {
+            this.initializePlayerHand(player);
+          //  this.initializePlayerMatrix(player, );
+        }
+
+        return gameHandler.getGame();
     }
 
     /**
@@ -122,11 +127,11 @@ public class Controller {
      */
     public synchronized void setMarker(Player player, Marker marker) {
         player.setMarker(marker);
-        game.getAvailableMarkers().remove(marker);
+        gameHandler.getGame().getAvailableMarkers().remove(marker);
     }
 
     public StarterCard giveStarterCard(Player player) throws DeckIsEmptyException {
-        StarterCard starterCard = game.getAvailableStarterCards().getTopCard();
+        StarterCard starterCard = gameHandler.getGame().getAvailableStarterCards().getTopCard();
         player.setStarterCard(starterCard);
         return starterCard;
     }
@@ -153,8 +158,8 @@ public class Controller {
      */
     public synchronized List<ObjectiveCard> takeTwoObjectiveCards(Player player) throws DeckIsEmptyException {
         List<ObjectiveCard> secretObjectiveCards = new ArrayList<>();
-        secretObjectiveCards.add(this.game.getObjectiveCardDeck().getTopCard());
-        secretObjectiveCards.add(this.game.getObjectiveCardDeck().getTopCard());
+        secretObjectiveCards.add(this.gameHandler.getGame().getObjectiveCardDeck().getTopCard());
+        secretObjectiveCards.add(this.gameHandler.getGame().getObjectiveCardDeck().getTopCard());
         return secretObjectiveCards;
     }
 
@@ -163,7 +168,7 @@ public class Controller {
      * @param objectiveCard
      */
     public synchronized void addObjectiveCardToDeck(ObjectiveCard objectiveCard) throws NullPointerException {
-        this.game.getObjectiveCardDeck().addCard(objectiveCard);
+        this.gameHandler.getGame().getObjectiveCardDeck().addCard(objectiveCard);
     }
     /**
      * Add to the playerField the starterCard of the player
@@ -185,9 +190,9 @@ public class Controller {
      * @throws AlreadyThreeCardsInHandException if there are already three cards in the player hand
      */
     public synchronized void initializePlayerHand(Player player) throws DeckIsEmptyException, AlreadyThreeCardsInHandException {
-        player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(DrawPosition.FROMDECK));
-        player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
-        player.getPlayerHand().addCardToPlayerHand(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
+        player.getPlayerHand().addCardToPlayerHand(gameHandler.getGame().getTableTop().getDrawingField().drawCardFromGoldCardDeck(DrawPosition.FROMDECK));
+        player.getPlayerHand().addCardToPlayerHand(gameHandler.getGame().getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
+        player.getPlayerHand().addCardToPlayerHand(gameHandler.getGame().getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
     }
 
     public synchronized void update(UserMessageWrapper message) {
@@ -198,8 +203,13 @@ public class Controller {
         }
     }
 
-    public synchronized void playCard(Player player, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws InvalidCardPositionException {
-        player.getPlayerField().addCardToCell(card,orientation,otherCard);
+    public synchronized void playCard(Player player, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws InvalidCardPositionException, CardTypeMismatchException, RequirementsNotMetException, AngleAlreadyLinkedException {
+        if(cardHandler.checkRequirements(card, player)) {
+            player.getPlayerField().addCardToCell(card, orientation, otherCard);
+        }
+        else{
+            throw new RequirementsNotMetException();
+        }
     }
 
 
@@ -233,15 +243,26 @@ public class Controller {
 
     public synchronized void drawCard(Player player, CardType cardType, DrawPosition drawPosition) throws DeckIsEmptyException, AlreadyThreeCardsInHandException {
         if(cardType == CardType.RESOURCE) {
-            ResourceCard card = game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(drawPosition);
+            ResourceCard card = gameHandler.getGame().getTableTop().getDrawingField().drawCardFromResourceCardDeck(drawPosition);
             player.getPlayerHand().addCardToPlayerHand(card);
         } else {
-            GoldCard card = game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(drawPosition);
+            GoldCard card = gameHandler.getGame().getTableTop().getDrawingField().drawCardFromGoldCardDeck(drawPosition);
             player.getPlayerHand().addCardToPlayerHand(card);
         }
     }
     public CardHandler getCardHandler() {
         return cardHandler;
+    }
+    public void nextTurn(Player player)
+    {
+        player.setIsTurn(false);
+        int index = gameHandler.getGame().getListOfPlayers().indexOf(player);
+        int nextIndex = index + 1;
+        if(nextIndex>= gameHandler.getGame().getListOfPlayers().size())
+            nextIndex = 0;
+        gameHandler.getGame().getListOfPlayers().get(nextIndex).setIsTurn(true);
+        gameHandler.getGame().setCurrentPlayer(gameHandler.getGame().getListOfPlayers().get(nextIndex));
+
     }
 
 }

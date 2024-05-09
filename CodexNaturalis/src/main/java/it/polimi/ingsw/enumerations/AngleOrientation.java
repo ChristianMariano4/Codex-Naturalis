@@ -55,5 +55,26 @@ public enum AngleOrientation {
             case NONE-> 0;
         };
     }
+    public AngleOrientation getOpposite()
+    {
+        switch(this){
+            case TOPRIGHT -> {
+                return BOTTOMLEFT;
+            }
+            case BOTTOMLEFT -> {
+                return TOPRIGHT;
+            }
+            case TOPLEFT -> {
+                return BOTTOMRIGHT;
+            }
+            case BOTTOMRIGHT -> {
+                return TOPLEFT;
+            }
+            case NONE -> {
+                return NONE;
+            }
+        }
+        return NONE;
+    }
 
 }

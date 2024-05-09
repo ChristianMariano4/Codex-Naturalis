@@ -20,7 +20,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
     private int gameId;
     private View view;
     private boolean playing = false;
-
+    Thread viewThread;
 
 
 
@@ -84,7 +84,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
         }
     }
     @Override
-    public void update(GameEvent event, Game game) throws RemoteException {
+    public void update(GameEvent event, Game game) throws RemoteException, InterruptedException {
         switch (event) {
             case BOARD_UPDATED -> {
                 //TODO: print what happened
@@ -98,9 +98,15 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             }
             case GAME_BEGIN -> {
                 //System.out.println(Thread.currentThread());
+                view.update(game);
                 this.playing = true;
 
                 break;
+            }
+            case TURN_EVENT -> {
+                view.update(game);
+                this.viewThread.interrupt();
+                this.viewThread.start();
             }
         }
     }
@@ -120,21 +126,17 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             viewCLI.setUsername();
             viewCLI.setChoiceGame();
             viewCLI.setReady();
-           // while(server.getQueue(gameId).isEmpty()); //this waits for gameHandler to add an element to the queue, signaling the beginning of the game
 
             while(!this.playing)
             {
-               Thread.sleep(10); //??????????????????????????????????''
+               Thread.sleep(10);
             }
-            server.initializePlayersHand(this.gameId, this.player);
-            viewCLI.gameBegin();
+            this.viewThread = new Thread(viewCLI);
+            this.viewThread.start();
+
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (AlreadyThreeCardsInHandException e) {
-            throw new RuntimeException(e);
-        } catch (DeckIsEmptyException e) {
             throw new RuntimeException(e);
         }
     }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHandException;
+import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.InvalidCardPositionException;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
@@ -55,5 +56,14 @@ public class PlayerHand implements Serializable {
         {
             throw new InvalidCardPositionException();
         }
+    }
+
+    public PlayableCard getCardById(int cardId) throws CardNotFoundException {
+        for(PlayableCard card: cardsInHand)
+        {
+            if(card.getCardId() == cardId)
+                return card;
+        }
+        throw new CardNotFoundException();
     }
 }

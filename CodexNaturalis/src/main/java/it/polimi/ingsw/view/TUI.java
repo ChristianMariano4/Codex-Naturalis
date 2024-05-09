@@ -94,28 +94,7 @@ public class TUI extends UI{
                         "░█░ █▄█ █▄█ █▀▄   █▀█ █▀█ █░▀█ █▄▀").reset());
             //Print all card information
         for(PlayableCard pc: playerHand.keySet()) {
-            new PrintStream(System.out, true, System.console() != null
-                    ? System.console().charset()
-                    : Charset.defaultCharset())
-                    .println(ansi().fg(GREEN).a(
-                            "┌──────┬───────────┬──────┐\n" +
-                                    "│┤►@@◄├│           │┤►@@◄├│\n" +
-                                    "│┼─────┘  ┌┬───┬┐  └─────┼│\n" +
-                                    "││        ││ "+pc.getCardId()+" ││        ││\n" +
-                                    "││        └┴───┴┘  ┌─────┼│\n" +
-                                    "││                 │┤►@@◄├│\n" +
-                                    "└┴─────────────────┴──────┘").reset());
-            System.out.println("CardType: "+playerHand.get(pc).getCardType());
-            System.out.println("Requirements:");
-            for(Resource rs: playerHand.get(pc).getRequirements()) {
-                System.out.println("    " + rs.toString());
-            }
-            System.out.println("GoldPointCondition: "+playerHand.get(pc).getGoldPointCondition());
-            System.out.println("GoldPointCondition: "+playerHand.get(pc).getGoldPointCondition());
-            System.out.println("Angles status:");
-            for(AngleOrientation o: AngleOrientation.values()) {
-                System.out.println("    Angle " + pc.getAngle(o) + ": " + pc.getAngle(o).getAngleStatus());
-            }
+            showPlayableCardInfo(pc, playerHand.get(pc));
         }
     }
 
@@ -188,9 +167,6 @@ public class TUI extends UI{
 
     public void showPlayerField(int[][] pField) {
 
-        pField[37][37] = 1;
-        pField[38][36] = 1;
-
         int minRow = DEFAULT_MATRIX_SIZE;
         int maxRow = 0;
         int minColum = DEFAULT_MATRIX_SIZE;
@@ -243,7 +219,49 @@ public class TUI extends UI{
             }
         }
     }
-
+    public void showPlayableCardInfo(PlayableCard card, CardInfo cardInfo)
+    {
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset())
+                .println(ansi().fg(GREEN).a(
+                        "┌──────┬───────────┬──────┐\n" +
+                                "│┤►@@◄├│           │┤►@@◄├│\n" +
+                                "│┼─────┘  ┌┬───┬┐  └─────┼│\n" +
+                                "││        ││ "+card.getCardId()+" ││        ││\n" +
+                                "││        └┴───┴┘  ┌─────┼│\n" +
+                                "││                 │┤►@@◄├│\n" +
+                                "└┴─────────────────┴──────┘").reset());
+        System.out.println("CardType: "+ cardInfo.getCardType());
+        System.out.println("Requirements:");
+        for(Resource rs: cardInfo.getRequirements()) {
+            System.out.println("    " + rs.toString());
+        }
+        System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
+        System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
+        System.out.println("Angles status:");
+        for(AngleOrientation o: AngleOrientation.values()) {
+            if(o.equals(AngleOrientation.NONE))
+                continue;
+            System.out.println("    Angle " + o + ": " + card.getAngle(o).getAngleStatus());
+        }
+    }
+    public void chooseCardToPlay()
+    {
+        System.out.println("Insert the ID of the card you want to play");
+    }
+    public void chooseWhereToPlay()
+    {
+        System.out.println("Insert the ID of the card where you want to place your card");
+    }
+    public void chooseAngle()
+    {
+        System.out.println("Choose the angle where you want to play the card: 1 - TOPRIGHT, 2 - TOPLEFT, 3 - BOTTOMRIGHT, 4 - BOTTOMLEFT, 0 - cancel");
+    }
+    public void drawCard()
+    {
+        System.out.println("Choose where to draw the card: 1 - Resource Card Deck, 2 - Gold Card Deck, 3 - Left Discovered Resource, 4 - Right Discovered Resource, 5 - Left Discovered Gold, 6 - Right Discovered Gold, 0 - cancel");
+    }
     public void clearScreen() { //TODO: non funziona :(
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -259,5 +277,12 @@ public class TUI extends UI{
     public void commandNotFound() {
         System.out.println(ansi().fg(RED).a("Invalid command"));
     }
+    public void notYourTurn(String currentPlayer) {
+        System.out.println("Wait until it's your turn to play, currently it's " + currentPlayer +"'s turn.");
+    }
 
+    public void invalidInput()
+    {
+        System.out.println("Invalid input, try again");
+    }
 }

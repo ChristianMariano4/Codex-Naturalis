@@ -89,6 +89,8 @@ public class Player implements Serializable {
      */
     public void setIsFirst(boolean isFirst) {
         this.isFirst = isFirst;
+        if(this.isFirst == true)
+            this.isTurn = true;
     }
 
     /**

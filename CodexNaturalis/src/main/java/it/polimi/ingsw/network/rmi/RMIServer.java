@@ -1,17 +1,14 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.enumerations.Marker;
-import it.polimi.ingsw.enumerations.Side;
-import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHandException;
-import it.polimi.ingsw.exceptions.DeckIsEmptyException;
-import it.polimi.ingsw.exceptions.NotAvailableMarkerException;
-import it.polimi.ingsw.exceptions.NotExistingPlayerException;
+import it.polimi.ingsw.enumerations.*;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.CardInfo;
+import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.maybeUseful.RemoteLock;
 import it.polimi.ingsw.network.messages.GameEvent;
@@ -136,7 +133,7 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         return gameHandlerMap.get(gameId);
     }
 
-    public void updateClient(ClientRMIInterface client, GameEvent event, Game game) throws RemoteException{
+    public void updateClient(ClientRMIInterface client, GameEvent event, Game game) throws RemoteException, InterruptedException {
         client.update(event, game);
     }
 
@@ -191,8 +188,26 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         gameHandlerMap.get(gameId).setStarterCardSide(player, starterCard, side);
     }
 
-    public void initializePlayersHand(int gameId, Player player) throws AlreadyThreeCardsInHandException, DeckIsEmptyException {
-        gameHandlerMap.get(gameId).initializePlayersHand(player);
+    public void playCard(int gameId, String username, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws RemoteException, NotExistingPlayerException, InvalidCardPositionException, RequirementsNotMetException, CardTypeMismatchException, AngleAlreadyLinkedException, NotTurnException {
+        GameHandler game = gameHandlerMap.get(gameId);
+        if(game.getGame().getCurrentPlayer().equals(game.getPlayer(username)))
+        {
+            game.getController().playCard(game.getPlayer(username), card, otherCard, orientation);
+        }
+        throw new NotTurnException();
+    }
+    public void drawCard(int gameId, String username, CardType cardType, DrawPosition drawPosition) throws RemoteException, NotTurnException, NotExistingPlayerException, AlreadyThreeCardsInHandException, DeckIsEmptyException {
+        GameHandler game = gameHandlerMap.get(gameId);
+        if(game.getGame().getCurrentPlayer().equals(game.getPlayer(username)))
+        {
+           game.getController().drawCard(game.getPlayer(username), cardType, drawPosition);
+        }
+        throw new NotTurnException();
+    }
+    public void endTurn(int gameId, String username) throws RemoteException, NotExistingPlayerException {
+        GameHandler game = gameHandlerMap.get(gameId);
+        game.getController().nextTurn(game.getPlayer(username));
+        game.turnEvent();
     }
 
     public void run(){

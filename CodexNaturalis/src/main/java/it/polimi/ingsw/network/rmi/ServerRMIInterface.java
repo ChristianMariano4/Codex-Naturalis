@@ -1,16 +1,13 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.enumerations.Marker;
-import it.polimi.ingsw.enumerations.Side;
-import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHandException;
-import it.polimi.ingsw.exceptions.DeckIsEmptyException;
-import it.polimi.ingsw.exceptions.NotAvailableMarkerException;
-import it.polimi.ingsw.exceptions.NotExistingPlayerException;
+import it.polimi.ingsw.enumerations.*;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.CardInfo;
+import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.maybeUseful.RemoteLock;
 
@@ -37,8 +34,12 @@ public interface ServerRMIInterface extends Remote {
     void setMarker(Player player, int gameId, Marker marker) throws RemoteException, NotAvailableMarkerException;
     StarterCard giveStarterCard(int gameId, Player player) throws RemoteException;
     void setStarterCardSide(int gameId, Player player,StarterCard starterCard, Side side) throws RemoteException;
-    public void initializePlayersHand(int gameId, Player player) throws RemoteException, AlreadyThreeCardsInHandException, DeckIsEmptyException;
-}
+    public void playCard(int gameId, String username, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws RemoteException, NotExistingPlayerException, InvalidCardPositionException, RequirementsNotMetException, CardTypeMismatchException, AngleAlreadyLinkedException, NotTurnException;
+
+    public void drawCard(int gameId, String username, CardType cardType, DrawPosition drawPosition) throws RemoteException, NotTurnException, NotExistingPlayerException, AlreadyThreeCardsInHandException, DeckIsEmptyException;
+    public void endTurn(int gameId, String username) throws RemoteException, NotExistingPlayerException;
+
+    }
 
 //TODO: game setup
 //1 - create game

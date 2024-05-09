@@ -38,7 +38,7 @@ public class GameHandler {
     public GameHandler(int gameId, RMIServer server){
         this.server = server;
         this.eventManager = new EventManager();
-        this.controller = new Controller(eventManager);
+        this.controller = new Controller(eventManager, this);
         try {
             this.game = controller.createGame(gameId);
         } catch (InvalidConstructorDataException | CardNotImportedException | CardTypeMismatchException |
@@ -47,6 +47,10 @@ public class GameHandler {
         }
         this.clients = new ArrayList<>();
 
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public Game addPlayerToGame(int gameId, String username) throws RemoteException {
@@ -72,7 +76,7 @@ public class GameHandler {
         for(ClientRMIInterface client : clients){
             try {
                 client.update(event, game);
-            } catch (RemoteException e) {
+            } catch (RemoteException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -80,9 +84,9 @@ public class GameHandler {
 
     public int setReady() throws RemoteException {
         readyPlayers++;
-        if(readyPlayers == controller.getGame().getNumberOfPlayers()){
+        if(readyPlayers == this.game.getNumberOfPlayers()){
             try {
-                controller.initializeGame();
+                this.game = controller.initializeGame();
             } catch (CardTypeMismatchException | InvalidConstructorDataException | CardNotImportedException |
                      DeckIsEmptyException | AlreadyExistingPlayerException | AlreadyFourPlayersException | IOException |
                      UnlinkedCardException | AlreadyThreeCardsInHandException e) {
@@ -90,9 +94,8 @@ public class GameHandler {
             }
         }
 
-        if(readyPlayers >= controller.getGame().getNumberOfPlayers()){
-            this.threadUpdates.add(true);
-            eventManager.notify(GameEvent.GAME_BEGIN, controller.getGame());
+        if(readyPlayers >= this.game.getNumberOfPlayers()){
+            eventManager.notify(GameEvent.GAME_BEGIN, this.game);
         }
         return readyPlayers;
     }
@@ -120,6 +123,8 @@ public class GameHandler {
             server.updateClient(client, event, game);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -143,7 +148,7 @@ public class GameHandler {
     }
 
     public Player getPlayer(String username) throws NotExistingPlayerException {
-        return controller.getGame().getPlayer(username);
+        return this.game.getPlayer(username);
     }
 
     public void setMarker(Player player, Marker marker) throws NotAvailableMarkerException{
@@ -160,10 +165,12 @@ public class GameHandler {
             throw new RuntimeException(e);
         }
     }
-
-    public void initializePlayersHand(Player player) throws AlreadyThreeCardsInHandException, DeckIsEmptyException {
-        controller.initializePlayerHand(player);
+    public void turnEvent()
+    {
+        eventManager.notify(GameEvent.TURN_EVENT, game);
     }
+
+
 
     public void setStarterCardSide(Player player, StarterCard starterCard, Side side) {
         controller.initializeStarterCard(player, starterCard, side);
