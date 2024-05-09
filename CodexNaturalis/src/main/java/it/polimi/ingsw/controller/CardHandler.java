@@ -24,17 +24,18 @@ public class CardHandler {
     private final ArrayList<CardPair<StarterCard>> starterCards;
     private final ArrayList<CardPair<ObjectiveCard>> objectiveCards;
     private final ArrayList<CardPair<PlayableCard>> playableCards;
-
+    private final FilePathProvider filePathProvider;
     /**
      * Constructor
      */
-    public CardHandler()
+    public CardHandler(FilePathProvider filePathProvider)
     {
         this.resourceCards = new ArrayList<>();
         this.goldCards = new ArrayList<>();
         this.starterCards = new ArrayList<>();
         this.objectiveCards = new ArrayList<>();
         this.playableCards = new ArrayList<>();
+        this.filePathProvider = filePathProvider;
     }
 
     /**
@@ -43,7 +44,7 @@ public class CardHandler {
      * @throws CardNotImportedException if a card is not imported correctly
      */
     public ArrayList<GoldCard> importGoldCards() throws CardNotImportedException {
-        GoldCardFactory factory = new GoldCardFactory("CodexNaturalis/src/main/resources/goldCards.json");
+        GoldCardFactory factory = new GoldCardFactory(this.filePathProvider.getGoldCardsFilePath());
         ArrayList<GoldCard> cardList = factory.createCardList();
         linkGoldCards(cardList);
         return cardList;
@@ -55,7 +56,7 @@ public class CardHandler {
      * @throws CardNotImportedException if a card is not imported correctly
      */
     public ArrayList<ResourceCard> importResourceCards() throws CardNotImportedException {
-        ResourceCardFactory factory = new ResourceCardFactory("CodexNaturalis/src/main/resources/resourceCards.json");
+        ResourceCardFactory factory = new ResourceCardFactory(this.filePathProvider.getResourceCardsFilePath());
         ArrayList<ResourceCard> cardList = factory.createCardList();
         linkResourceCards(cardList);
         return cardList;
@@ -67,7 +68,7 @@ public class CardHandler {
      * @throws CardNotImportedException if a card is not imported correctly
      */
     public ArrayList<StarterCard> importStarterCards() throws CardNotImportedException {
-        StarterCardFactory factory = new StarterCardFactory("CodexNaturalis/src/main/resources/starterCards.json");
+        StarterCardFactory factory = new StarterCardFactory(this.filePathProvider.getStarterCardsFilePath());
         ArrayList<StarterCard> cardList = factory.createCardList();
         linkStarterCards(cardList);
         return cardList;
@@ -79,7 +80,7 @@ public class CardHandler {
      * @throws CardNotImportedException if a card is not imported correctly
      */
     public ArrayList<ObjectiveCard> importPositionalObjectiveCards() throws CardNotImportedException {
-        PositionalObjectiveCardFactory factory = new PositionalObjectiveCardFactory("CodexNaturalis/src/main/resources/positionalObjectiveCards.json");
+        PositionalObjectiveCardFactory factory = new PositionalObjectiveCardFactory(this.filePathProvider.getPositionalObjectiveCardsFilePath());
         ArrayList<ObjectiveCard> cardList = factory.createCardList();
         linkObjectiveCards(cardList);
         return cardList;
@@ -91,7 +92,7 @@ public class CardHandler {
      * @throws CardNotImportedException if a card is not imported correctly
      */
     public ArrayList<ObjectiveCard> importResourceObjectiveCards() throws CardNotImportedException {
-        ResourceObjectiveCardFactory factory = new ResourceObjectiveCardFactory("CodexNaturalis/src/main/resources/resourceObjectiveCards.json");
+        ResourceObjectiveCardFactory factory = new ResourceObjectiveCardFactory(this.filePathProvider.getResourceObjectiveCardsFilePath());
         ArrayList<ObjectiveCard> cardList = factory.createCardList();
         linkObjectiveCards(cardList);
         return cardList;
@@ -103,7 +104,7 @@ public class CardHandler {
      * @throws CardNotImportedException if a card is not imported correctly
      */
     public ArrayList<ObjectiveCard> importTripleObjectiveCard() throws CardNotImportedException {
-        TripleObjectiveCardFactory factory = new TripleObjectiveCardFactory("CodexNaturalis/src/main/resources/tripleObjectiveCard.json");
+        TripleObjectiveCardFactory factory = new TripleObjectiveCardFactory(this.filePathProvider.getTripleObjectiveCardFilePath());
         ArrayList<ObjectiveCard> cardList = factory.createCardList();
         linkObjectiveCards(cardList);
         return cardList;

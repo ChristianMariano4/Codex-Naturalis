@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.cardFactory.ProductionFilePathProvider;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
@@ -24,7 +25,7 @@ public class Controller {
     private final EventManager eventManager;
 
     public Controller(EventManager eventManager){
-        this.cardHandler = new CardHandler();
+        this.cardHandler = new CardHandler(new ProductionFilePathProvider());
         this.eventManager = eventManager;
     }
 
