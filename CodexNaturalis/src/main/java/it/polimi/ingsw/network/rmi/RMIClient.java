@@ -14,7 +14,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface, Runnable {
-    private String username;
+    private String username = null;
 
     private final ServerRMIInterface server;
     private int gameId;
@@ -136,7 +136,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             viewCLI.setUsername();
             viewCLI.setChoiceGame();
             viewCLI.setReady();
-
+            //TODO: deal with back side of cards!
             while(!this.playing)
             {
                Thread.sleep(10);

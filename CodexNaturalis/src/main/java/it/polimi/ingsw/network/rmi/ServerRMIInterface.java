@@ -34,6 +34,7 @@ public interface ServerRMIInterface extends Remote {
 
     public void drawCard(int gameId, String username, CardType cardType, DrawPosition drawPosition) throws RemoteException, NotTurnException, NotExistingPlayerException, AlreadyThreeCardsInHandException, DeckIsEmptyException;
     public void endTurn(int gameId, String username) throws RemoteException, NotExistingPlayerException;
+    public boolean checkUsername(String username) throws RemoteException;
 
     public PlayableCard getOtherSideCard(int gameId, PlayableCard card) throws RemoteException;
     public GoldCard getOtherSideCard(int gameId, GoldCard card) throws RemoteException;

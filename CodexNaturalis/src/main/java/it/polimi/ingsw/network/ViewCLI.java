@@ -22,11 +22,23 @@ public class ViewCLI implements View, Runnable {
     private String playerId;
     TUI ui = new TUI();;
 
-    public void setUsername() {
+
+    public void setUsername() throws RemoteException {
+
         ui.setUsername();
-        String username = scanner.nextLine();
-        playerId = username;
+        String username = null;
+        do {
+            username = scanner.nextLine();
+
+            if(client.getServer().checkUsername(username))
+                break;
+            else
+                System.out.println("Username already in use, try again: ");
+
+        }while(true);
         client.setUsername(username);
+        playerId = username;
+
     }
     public void setChoiceGame() {
         while(true){

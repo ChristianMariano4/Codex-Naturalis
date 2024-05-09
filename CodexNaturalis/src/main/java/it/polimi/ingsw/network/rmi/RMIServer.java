@@ -133,6 +133,16 @@ public class RMIServer extends Thread implements ServerRMIInterface {
     public void updateClient(ClientRMIInterface client, GameEvent event, Game game) throws RemoteException, InterruptedException, NotExistingPlayerException {
         client.update(event, game);
     }
+    public boolean checkUsername(String username) throws RemoteException{
+        for(ClientRMIInterface client : clients)
+        {
+            if(client.getUsername() == null)
+                continue;
+            if(client.getUsername().equals(username))
+                return false;
+        }
+        return true;
+    }
 
 
 
