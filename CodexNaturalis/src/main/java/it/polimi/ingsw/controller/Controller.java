@@ -114,6 +114,7 @@ public class Controller {
         for(Player player: gameHandler.getGame().getListOfPlayers())
         {
             this.initializePlayerHand(player);
+
           //  this.initializePlayerMatrix(player, );
         }
 
@@ -130,9 +131,9 @@ public class Controller {
         gameHandler.getGame().getAvailableMarkers().remove(marker);
     }
 
-    public StarterCard giveStarterCard(Player player) throws DeckIsEmptyException {
+    public StarterCard giveStarterCard(Player player) throws DeckIsEmptyException, NotExistingPlayerException {
         StarterCard starterCard = gameHandler.getGame().getAvailableStarterCards().getTopCard();
-        player.setStarterCard(starterCard);
+        gameHandler.getGame().getPlayer(player.getUsername()).setStarterCard(starterCard);
         return starterCard;
     }
 
@@ -142,11 +143,12 @@ public class Controller {
      * @param player the player that has to receive the cards
      * @throws DeckIsEmptyException if the deck is empty
      */
-    public synchronized void initializeStarterCard(Player player, StarterCard starterCard, Side side) {
+    public synchronized void initializeStarterCard(Player player, StarterCard starterCard, Side side) throws NotExistingPlayerException {
+        Player playerObj = gameHandler.getPlayer(player.getUsername());
         if(side == Side.FRONT){
-            player.getPlayerField().addCardToCell(starterCard);
+            playerObj.getPlayerField().addCardToCell(starterCard);
         } else {
-            player.getPlayerField().addCardToCell(cardHandler.getOtherSideCard(starterCard));
+            playerObj.getPlayerField().addCardToCell(cardHandler.getOtherSideCard(starterCard));
         }
     }
 
@@ -170,18 +172,6 @@ public class Controller {
     public synchronized void addObjectiveCardToDeck(ObjectiveCard objectiveCard) throws NullPointerException {
         this.gameHandler.getGame().getObjectiveCardDeck().addCard(objectiveCard);
     }
-    /**
-     * Add to the playerField the starterCard of the player
-     * @param player the selected player
-     * @param side the side of the starterCard chosen by the player
-     */
-    public synchronized void initializePlayerMatrix(Player player, Side side) {
-        if(side == Side.FRONT){
-            player.getPlayerField().addCardToCell(player.getStarterCard());
-        } else {
-            player.getPlayerField().addCardToCell(cardHandler.getOtherSideCard(player.getStarterCard()));
-        }
-    }
 
     /**
      * Inizialize the playerHand of the player
@@ -203,9 +193,11 @@ public class Controller {
         }
     }
 
-    public synchronized void playCard(Player player, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws InvalidCardPositionException, CardTypeMismatchException, RequirementsNotMetException, AngleAlreadyLinkedException {
-        if(cardHandler.checkRequirements(card, player)) {
-            player.getPlayerField().addCardToCell(card, orientation, otherCard);
+    public synchronized void playCard(Player player, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws InvalidCardPositionException, CardTypeMismatchException, RequirementsNotMetException, AngleAlreadyLinkedException, NotExistingPlayerException {
+        Player playerObj = gameHandler.getPlayer(player.getUsername());
+        if(cardHandler.checkRequirements(otherCard, playerObj)) {
+            playerObj.getPlayerField().addCardToCell(card, orientation, otherCard);
+            playerObj.getPlayerHand().removeCardFromHand(otherCard);
         }
         else{
             throw new RequirementsNotMetException();
@@ -241,22 +233,23 @@ public class Controller {
         }
     }
 
-    public synchronized void drawCard(Player player, CardType cardType, DrawPosition drawPosition) throws DeckIsEmptyException, AlreadyThreeCardsInHandException {
+    public synchronized void drawCard(Player player, CardType cardType, DrawPosition drawPosition) throws DeckIsEmptyException, AlreadyThreeCardsInHandException, NotExistingPlayerException {
+        Player playerObj = gameHandler.getPlayer(player.getUsername());
         if(cardType == CardType.RESOURCE) {
             ResourceCard card = gameHandler.getGame().getTableTop().getDrawingField().drawCardFromResourceCardDeck(drawPosition);
-            player.getPlayerHand().addCardToPlayerHand(card);
+            playerObj.getPlayerHand().addCardToPlayerHand(card);
         } else {
             GoldCard card = gameHandler.getGame().getTableTop().getDrawingField().drawCardFromGoldCardDeck(drawPosition);
-            player.getPlayerHand().addCardToPlayerHand(card);
+            playerObj.getPlayerHand().addCardToPlayerHand(card);
         }
     }
     public CardHandler getCardHandler() {
         return cardHandler;
     }
-    public void nextTurn(Player player)
-    {
-        player.setIsTurn(false);
-        int index = gameHandler.getGame().getListOfPlayers().indexOf(player);
+    public void nextTurn(Player player) throws NotExistingPlayerException {
+        Player playerObj = gameHandler.getPlayer(player.getUsername());
+        playerObj.setIsTurn(false);
+        int index = gameHandler.getGame().getListOfPlayers().indexOf(playerObj);
         int nextIndex = index + 1;
         if(nextIndex>= gameHandler.getGame().getListOfPlayers().size())
             nextIndex = 0;

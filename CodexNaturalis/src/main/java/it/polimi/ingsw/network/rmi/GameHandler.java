@@ -6,18 +6,14 @@ import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.EventManager;
 import it.polimi.ingsw.network.GameListener;
-import it.polimi.ingsw.network.Listener;
 import it.polimi.ingsw.network.maybeUseful.RemoteLock;
 import it.polimi.ingsw.network.messages.GameEvent;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.rmi.server.RemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -97,7 +93,7 @@ public class GameHandler {
         }
 
         if(readyPlayers >= this.game.getNumberOfPlayers()){
-            eventManager.notify(GameEvent.GAME_BEGIN, this.game);
+            eventManager.notify(GameEvent.GAME_INITIALIZED, this.game);
         }
         return readyPlayers;
     }
@@ -168,15 +164,22 @@ public class GameHandler {
 
         }
         eventManager.notify(GameEvent.MARKER_DONE, game);
+        assignStarterCards(); //this assigns starter cards to all players in order right after they are done with choosing their marker
+
+    }
+    private void assignStarterCards()
+    {
+        for(Player p : game.getListOfPlayers())
+        {
+            try {
+                controller.giveStarterCard(p);
+            } catch (DeckIsEmptyException | NotExistingPlayerException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        eventManager.notify(GameEvent.ASSIGNED_STARTER_CARDS, game);
     }
 
-    public StarterCard giveStarterCard(Player player) {
-        try {
-            return controller.giveStarterCard(player);
-        } catch (DeckIsEmptyException e) {
-            throw new RuntimeException(e);
-        }
-    }
     public void turnEvent()
     {
         eventManager.notify(GameEvent.TURN_EVENT, game);
@@ -184,7 +187,8 @@ public class GameHandler {
 
 
 
-    public void setStarterCardSide(Player player, StarterCard starterCard, Side side) {
+    public void setStarterCardSide(Player player, StarterCard starterCard, Side side) throws NotExistingPlayerException {
         controller.initializeStarterCard(player, starterCard, side);
+        eventManager.notify(GameEvent.STARTER_CARD_SIDE_CHOSEN, game);
     }
 }

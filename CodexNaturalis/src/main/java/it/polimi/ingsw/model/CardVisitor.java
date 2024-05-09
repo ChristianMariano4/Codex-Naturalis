@@ -11,4 +11,5 @@ public interface CardVisitor {
     CardInfo visitTripleObjectiveCard(TripleObjectiveCard card);
     CardInfo visitPositionalObjectiveCard(PositionalObjectiveCard card);
     CardInfo visitResourceObjectiveCard(ResourceObjectiveCard card);
+    CardInfo visitStarterCard(StarterCard card);
 }

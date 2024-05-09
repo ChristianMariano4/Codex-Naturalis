@@ -37,7 +37,7 @@ public class CardInfo implements Serializable {
     }
 
     /**
-     * ResourceCard and TripleObjectiveCard CardInfo constructor
+     * ResourceCard and TripleObjectiveCard and StarterCard CardInfo constructor
      * @param cardType
      */
     public CardInfo(CardType cardType)

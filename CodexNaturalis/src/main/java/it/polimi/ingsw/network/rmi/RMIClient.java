@@ -15,14 +15,15 @@ import java.util.List;
 
 public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface, Runnable {
     private String username;
-    private Player player;
+
     private final ServerRMIInterface server;
     private int gameId;
     private View view;
     private boolean playing = false;
-    Thread viewThread;
-    boolean markerTurn = false;
-    boolean markerDone = false;
+    private Thread viewThread;
+    private boolean markerTurn = false;
+    private boolean markerDone = false;
+    private boolean starterCardAssigned = false;
 
 
     public RMIClient(ServerRMIInterface server) throws RemoteException{
@@ -35,10 +36,9 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             this.gameId = server.createGame(this);
             server.subscribe(this, this.gameId);
             Game game = server.addPlayerToGame(this.gameId, username);
-            this.player = server.getPlayer(game.getGameId(), username);
             //server.initializePlayersHand(this.gameId, this.player);
             return game;
-        } catch (RemoteException | NotExistingPlayerException e) {
+        } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
     }
@@ -56,11 +56,8 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
         try {
             server.subscribe(this, this.gameId);
             Game game = server.addPlayerToGame(this.gameId, username);
-            this.player = server.getPlayer(game.getGameId(), username);
             return game;
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (NotExistingPlayerException e) {
             throw new RuntimeException(e);
         }
     }
@@ -91,23 +88,18 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
                 //TODO: print what happened
                 //TODO: print new board
                 view.boardUpdate(game);
-                break;
             }
             case NEW_PLAYER -> {
                 view.newPlayer(game);
-                    break;
             }
-            case GAME_BEGIN -> {
-                //System.out.println(Thread.currentThread());
+            case GAME_INITIALIZED -> {
                 view.update(game);
                 this.playing = true;
 
-                break;
             }
             case TURN_EVENT -> {
                 view.update(game);
                 this.viewThread.interrupt();
-                this.viewThread.start();
             }
             case MARKER_EVENT ->
             {
@@ -123,14 +115,17 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
                 view.update(game);
                 this.markerDone = true;
             }
-        }
-    }
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
+            case ASSIGNED_STARTER_CARDS ->
+            {
+                view.update(game);
+                this.starterCardAssigned = true;
+            }
+            case STARTER_CARD_SIDE_CHOSEN ->
+            {
+                view.update(game);
+            }
 
-    public Player getPlayer() {
-        return this.player;
+        }
     }
 
     public void run() {
@@ -157,12 +152,20 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             {
                 Thread.sleep(10);
             }
-            this.viewThread = new Thread(viewCLI);
+            while(!this.starterCardAssigned)
+            {
+                Thread.sleep(10);
+            }
+            viewCLI.chooseStarterCardSide();
+            Thread.sleep(10);
+            this.viewThread = new Thread(viewCLI); //game loop actually begins here
             this.viewThread.start();
 
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (NotExistingPlayerException e) {
             throw new RuntimeException(e);
         }
     }

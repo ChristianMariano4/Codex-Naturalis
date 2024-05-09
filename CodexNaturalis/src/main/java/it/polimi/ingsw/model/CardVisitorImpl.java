@@ -32,4 +32,9 @@ public class CardVisitorImpl implements CardVisitor, Serializable {
         return new CardInfo(CardType.RESOURCEOBJECTIVE, card.getCardResource());
     }
 
+    @Override
+    public CardInfo visitStarterCard(StarterCard card) {
+        return new CardInfo(CardType.STARTER);
+    }
+
 }

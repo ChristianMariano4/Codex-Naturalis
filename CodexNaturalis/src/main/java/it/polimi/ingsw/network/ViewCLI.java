@@ -1,15 +1,13 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.enumerations.AngleOrientation;
-import it.polimi.ingsw.enumerations.CardType;
-import it.polimi.ingsw.enumerations.DrawPosition;
-import it.polimi.ingsw.enumerations.Marker;
+import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.rmi.RMIClient;
 import it.polimi.ingsw.view.TUI;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
 
@@ -76,16 +74,20 @@ public class ViewCLI implements View, Runnable {
     }
 
     @Override
-    public void gameLoop() throws RemoteException, NotExistingPlayerException {
+    public void gameLoop() throws IOException, NotExistingPlayerException, InterruptedException {
         boolean inGame = true;
         ui.showMainScreen();
         while(inGame)
         {
+            boolean isTurn = game.getPlayer(client.getUsername()).getIsTurn();
+            String playerPlaying = game.getCurrentPlayer().getUsername();
+            ui.showTurnScreen(playerPlaying, client.getUsername());
             while(!Thread.interrupted()) {
-                boolean isTurn = game.getPlayer(client.getUsername()).getIsTurn();
-                String playerPlaying = game.getCurrentPlayer().getUsername();
-                ui.showTurnScreen(playerPlaying, client.getUsername());
-                String command = scanner.nextLine();
+                String command = null;
+                while(System.in.available() > 0)
+                {
+                    command = scanner.nextLine();
+                }
                 switch (command) {
                     case "q", "quit":
                         inGame = false;
@@ -110,12 +112,14 @@ public class ViewCLI implements View, Runnable {
                         } else
                             notYourTurn();
                         break;
-
+                    case null:
+                        break;
                     default:
                         ui.commandNotFound();
                         break;
                 }
             }
+            Thread.sleep(1);
         }
     }
 
@@ -218,7 +222,7 @@ public class ViewCLI implements View, Runnable {
                 {
                     continue;
                 }
-                client.getServer().playCard(game.getGameId(),client.getUsername(), card, cardOnBoard, orientation);
+                client.getServer().playCard(game.getGameId(),client.getUsername(), cardOnBoard, card , orientation);
                 break;
 
             }
@@ -299,10 +303,11 @@ public class ViewCLI implements View, Runnable {
         return true;
     }
 
-    private int[][] createMatrixFromField(PlayerField  playerField) {
+    private int[][] createMatrixFromField(PlayerField playerField) {
         int i = 0, j = 0;
         int[][] matrix = new int[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
         for(PlayableCard[] cards: playerField.getMatrixField()) {
+            j=0;
             for(PlayableCard card: cards) {
                 if(card != null) {
                     matrix[i][j] = card.getCardId();
@@ -345,6 +350,34 @@ public class ViewCLI implements View, Runnable {
         }
         return false;
     }
+    public void chooseStarterCardSide() throws NotExistingPlayerException, RemoteException {
+        StarterCard cardFront = game.getPlayer(client.getUsername()).getStarterCard();
+        StarterCard cardBack = client.getServer().getOtherSideCard(game.getGameId(), cardFront);
+
+        ui.chooseStarterCardSide(cardFront,cardBack);
+        do{
+            try{
+                Side side;
+                int choice = Integer.parseInt(scanner.nextLine());
+                switch(choice)
+                {
+                    case 1:
+                        side = Side.FRONT;
+                        break;
+                    case 2:
+                        side = Side.BACK;
+                        break;
+                    default: throw new NumberFormatException();
+                }
+                client.getServer().setStarterCardSide(game.getGameId(), game.getPlayer(client.getUsername()), cardFront, side);
+                break;
+            }
+            catch(Exception e)
+            {
+                ui.invalidInput();
+            }
+        }while(true);
+    }
 
 
     @Override
@@ -352,6 +385,10 @@ public class ViewCLI implements View, Runnable {
         try {
             this.gameLoop();
         } catch (RemoteException | NotExistingPlayerException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

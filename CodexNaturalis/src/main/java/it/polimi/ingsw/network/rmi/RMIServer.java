@@ -6,10 +6,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerHand;
-import it.polimi.ingsw.model.cards.Card;
-import it.polimi.ingsw.model.cards.CardInfo;
-import it.polimi.ingsw.model.cards.PlayableCard;
-import it.polimi.ingsw.model.cards.StarterCard;
+import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.maybeUseful.RemoteLock;
 import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
@@ -180,11 +177,8 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         gameHandlerMap.get(gameId).setMarker(player, marker);
     }
 
-    public StarterCard giveStarterCard(int gameId, Player player) throws RemoteException {
-        return gameHandlerMap.get(gameId).giveStarterCard(player);
-    }
 
-    public void setStarterCardSide(int gameId, Player player, StarterCard starterCard, Side side) throws RemoteException {
+    public void setStarterCardSide(int gameId, Player player, StarterCard starterCard, Side side) throws RemoteException, NotExistingPlayerException {
         gameHandlerMap.get(gameId).setStarterCardSide(player, starterCard, side);
     }
 
@@ -193,6 +187,7 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         if(game.getGame().getCurrentPlayer().equals(game.getPlayer(username)))
         {
             game.getController().playCard(game.getPlayer(username), card, otherCard, orientation);
+            return;
         }
         throw new NotTurnException();
     }
@@ -201,6 +196,7 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         if(game.getGame().getCurrentPlayer().equals(game.getPlayer(username)))
         {
            game.getController().drawCard(game.getPlayer(username), cardType, drawPosition);
+           return;
         }
         throw new NotTurnException();
     }
@@ -208,6 +204,60 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         GameHandler game = gameHandlerMap.get(gameId);
         game.getController().nextTurn(game.getPlayer(username));
         game.turnEvent();
+    }
+
+    /**
+     * Get the other side of the selected PlayableCard
+     * @param card is the selected PlayableCard
+     * @return the other side of the selected PlayableCard
+     * @throws CardNotFoundException if the card selected doesn't exist
+     */
+    public PlayableCard getOtherSideCard(int gameId, PlayableCard card) throws RemoteException {
+        return gameHandlerMap.get(gameId).getController().getCardHandler().getOtherSideCard(card);
+    }
+
+    /**
+     * Get the other side of the selected GoldCard
+     * @param card is the selected GoldCard
+     * @return the other side of the selected GoldCard
+     */
+    public GoldCard getOtherSideCard(int gameId, GoldCard card) throws RemoteException
+    {
+        return gameHandlerMap.get(gameId).getController().getCardHandler().getOtherSideCard(card);
+
+    }
+
+    /**
+     * Get the other side of the selected ResourceCard
+     * @param card is the selected ResourceCard
+     * @return the other side of the selected ResourceCard
+     */
+    public ResourceCard getOtherSideCard(int gameId, ResourceCard card) throws RemoteException
+    {
+        return gameHandlerMap.get(gameId).getController().getCardHandler().getOtherSideCard(card);
+
+    }
+
+    /**
+     * Get the other side of the selected StarterCard
+     * @param card is the selected StarterCard
+     * @return the other side of the selected StarterCard
+     */
+    public StarterCard getOtherSideCard(int gameId, StarterCard card) throws RemoteException
+    {
+        return gameHandlerMap.get(gameId).getController().getCardHandler().getOtherSideCard(card);
+
+    }
+
+    /**
+     * Get the other side of the selected ObjectiveCard
+     * @param card is the selected ObjectiveCard
+     * @return the other side of the selected ObjectiveCard
+     */
+    public ObjectiveCard getOtherSideCard(int gameId, ObjectiveCard card) throws RemoteException
+    {
+        return gameHandlerMap.get(gameId).getController().getCardHandler().getOtherSideCard(card);
+
     }
 
     public void run(){

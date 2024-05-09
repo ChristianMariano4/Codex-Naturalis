@@ -47,7 +47,12 @@ public abstract class Card implements Serializable {
       return currentSide;
    }
 
-
-
-
+   @Override
+   public boolean equals(Object obj) {
+      if (obj instanceof Card) {
+         if (this.cardId == ((Card) obj).getCardId())
+            return true;
+      }
+      return super.equals(obj);
+   }
 }

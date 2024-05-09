@@ -31,6 +31,6 @@ public class StarterCard extends PlayableCard implements Serializable {
 
     @Override
     public CardInfo accept(CardVisitor visitor) {
-        return null;
+        return visitor.visitStarterCard(this);
     }
 }

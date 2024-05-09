@@ -212,7 +212,7 @@ public class CardHandler {
      * @return the list without all the Side.BACK cards
      */
     public ArrayList<ResourceCard> filterResourceCards(ArrayList<ResourceCard> cardList) {
-        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.BACK)).toList());
+        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.FRONT)).toList());
 
     }
 
@@ -222,7 +222,7 @@ public class CardHandler {
      * @return the list without all the Side.BACK cards
      */
     public ArrayList<GoldCard> filterGoldCards(ArrayList<GoldCard> cardList) {
-        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.BACK)).toList());
+        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.FRONT)).toList());
 
     }
     /**
@@ -231,7 +231,7 @@ public class CardHandler {
      * @return the list without all the Side.BACK cards
      */
     public ArrayList<StarterCard> filterStarterCards(ArrayList<StarterCard> cardList) {
-        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.BACK)).toList());
+        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.FRONT)).toList());
 
     }
     /**
@@ -240,7 +240,7 @@ public class CardHandler {
      * @return the list without all the Side.BACK cards
      */
     public ArrayList<ObjectiveCard> filterObjectiveCards(ArrayList<ObjectiveCard> cardList) {
-        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.BACK)).toList());
+        return new ArrayList<>(cardList.stream().filter(c -> c.getCurrentSide().equals(Side.FRONT)).toList());
     }
 
     /**

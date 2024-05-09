@@ -144,7 +144,9 @@ public class TUI extends UI{
             System.out.println("GoldPointCondition: "+discoveredGoldCards.get(card).getGoldPointCondition());
             System.out.println("Angles status:");
             for(AngleOrientation o: AngleOrientation.values()) {
-                System.out.println("    Angle " + card.getAngle(o) + ": " + card.getAngle(o).getAngleStatus());
+                if(o.equals(AngleOrientation.NONE))
+                    continue;
+                System.out.println("    Angle " + o + ": " + card.getAngle(o).getAngleStatus());
             }
         }
         System.out.println("Discovered ResourceCards:");
@@ -160,7 +162,9 @@ public class TUI extends UI{
             System.out.println("GoldPointCondition: "+discoveredResourceCards.get(card).getGoldPointCondition());
             System.out.println("Angles status:");
             for(AngleOrientation o: AngleOrientation.values()) {
-                System.out.println("    Angle " + card.getAngle(o) + ": " + card.getAngle(o).getAngleStatus());
+                if(o.equals(AngleOrientation.NONE))
+                    continue;
+                System.out.println("    Angle " + o + ": " + card.getAngle(o).getAngleStatus());
             }
         }
     }
@@ -266,7 +270,7 @@ public class TUI extends UI{
         for(AngleOrientation o: AngleOrientation.values()) {
             if(o.equals(AngleOrientation.NONE))
                 continue;
-            System.out.println("    Angle " + o + ": " + card.getAngle(o).getAngleStatus());
+            System.out.println("    Angle " + o + ": " + card.getAngle(o).getAngleStatus() + ", Playable: " + card.getAngle(o).isPlayable());
         }
     }
     public void chooseCardToPlay()
@@ -288,6 +292,38 @@ public class TUI extends UI{
     public void waitingForOthers()
     {
         System.out.println("Waiting for other players to choose their marker");
+    }
+    public void chooseStarterCardSide(StarterCard cardFront, StarterCard cardBack)
+    {
+        System.out.println("Card: " + cardFront.getCardId());
+
+        System.out.println("Front:");
+        System.out.println("Central Resources: ");
+        for(Resource resource : cardFront.getCentralResources())
+        {
+            System.out.print(resource +" ");
+        }
+        System.out.println();
+        System.out.println("Angles:");
+        for(AngleOrientation o: AngleOrientation.values()) {
+            if(o.equals(AngleOrientation.NONE))
+                continue;
+            System.out.println("    Angle " + o + ": " + cardFront.getAngle(o).getResource());
+        }
+        System.out.println("\nBack:");
+        System.out.print("Central Resources: ");
+        for(Resource resource : cardBack.getCentralResources())
+        {
+            System.out.print(resource +" ");
+        }
+        System.out.println();
+        System.out.println("Angles:");
+        for(AngleOrientation o: AngleOrientation.values()) {
+            if(o.equals(AngleOrientation.NONE))
+                continue;
+            System.out.println("    Angle " + o + ": " + cardBack.getAngle(o).getResource());
+        }
+        System.out.println("\nChoose card Side: 1 - FRONT, 2 - BACK");
     }
     public void clearScreen() { //TODO: non funziona :(
         try {

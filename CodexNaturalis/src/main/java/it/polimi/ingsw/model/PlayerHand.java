@@ -48,11 +48,11 @@ public class PlayerHand implements Serializable {
 
     /**
      * Remove a card from the player's hand
-     * @param resourceCard is the reference to the card to remove
+     * @param playableCard is the reference to the card to remove
      * @throws InvalidCardPositionException when the card is not in the playerHand
      */
-    public void removeCardFromHand(ResourceCard resourceCard) throws InvalidCardPositionException {
-        if(!cardsInHand.remove(resourceCard))
+    public void removeCardFromHand(PlayableCard playableCard) throws InvalidCardPositionException {
+        if(!cardsInHand.remove(playableCard))
         {
             throw new InvalidCardPositionException();
         }
