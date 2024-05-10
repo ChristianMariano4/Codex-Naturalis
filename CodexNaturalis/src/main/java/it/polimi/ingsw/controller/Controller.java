@@ -31,13 +31,6 @@ public class Controller {
         this.eventManager = eventManager;
         this.gameHandler = gameHandler;
     }
-    public static void main(String[] args) throws CardNotImportedException {
-        CardHandler c = new CardHandler();
-        for(GoldCard card : c.importGoldCards())
-        {
-            System.out.println(card.getCardId());
-        }
-    }
 
     /**
      *
