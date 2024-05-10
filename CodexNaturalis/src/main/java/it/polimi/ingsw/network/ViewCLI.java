@@ -230,7 +230,7 @@ public class ViewCLI implements View, Runnable {
                 ui.chooseWhereToPlay();
                 int cardIdOnBoard = Integer.parseInt(scanner.nextLine());
                 PlayableCard cardOnBoard = game.getPlayer(client.getUsername()).getPlayerField().getCardById(cardIdOnBoard);
-                ui.showPlayableCardInfo(cardOnBoard, client.getServer().getCardInfo(cardOnBoard, game.getGameId()));
+                ui.showCardInfo(cardOnBoard, client.getServer().getCardInfo(cardOnBoard, game.getGameId()));
                 ui.chooseAngle();
                 int choice = Integer.parseInt(scanner.nextLine());
                 AngleOrientation orientation = switch (choice) {

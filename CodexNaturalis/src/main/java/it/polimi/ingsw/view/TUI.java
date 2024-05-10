@@ -117,7 +117,7 @@ public class TUI extends UI{
                         "░█░ █▄█ █▄█ █▀▄   █▀█ █▀█ █░▀█ █▄▀").reset());
             //Print all card information
         for(PlayableCard pc: playerHand.keySet()) {
-            showPlayableCardInfo(pc, playerHand.get(pc));
+            showCardInfo(pc, playerHand.get(pc));
         }
     }
 
@@ -246,32 +246,91 @@ public class TUI extends UI{
             }
         }
     }
-    public void showPlayableCardInfo(PlayableCard card, CardInfo cardInfo)
-    {
+    public void showCardInfo(PlayableCard card, CardInfo cardInfo) {
+        //this.asciiCardCreator(card);
+        System.out.println("CardType: "+ cardInfo.getCardType());
+
+        if(cardInfo.getCardType().equals(CardType.GOLD)) {
+            System.out.println("Requirements:");
+            for(Resource rs: cardInfo.getRequirements()) {
+                System.out.println("    " + rs.toString());
+            }
+            System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
+            System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
+        }
+
+        System.out.println("Angles status:");
+        //TODO: Remove this for and use asciiCardCreator
+        for(AngleOrientation o: AngleOrientation.values()) {
+            if(o.equals(AngleOrientation.NONE))
+                continue;
+            System.out.println("    Angle " + o + ": " + card.getAngle(o).getAngleStatus() + ", Playable: " + card.getAngle(o).isPlayable());
+        }
+    }
+
+    private void asciiCardCreator(PlayableCard card) { //TODO: All possible angle combinations
+
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
                 : Charset.defaultCharset())
                 .println(ansi().fg(GREEN).a(
-                        "┌──────┬───────────┬──────┐\n" +
+                          "┌──────┬───────────┬──────┐\n" +
                                 "│┤►@@◄├│           │┤►@@◄├│\n" +
                                 "│┼─────┘  ┌┬───┬┐  └─────┼│\n" +
                                 "││        ││ "+card.getCardId()+" ││        ││\n" +
                                 "││        └┴───┴┘  ┌─────┼│\n" +
                                 "││                 │┤►@@◄├│\n" +
                                 "└┴─────────────────┴──────┘").reset());
-        System.out.println("CardType: "+ cardInfo.getCardType());
-        System.out.println("Requirements:");
-        for(Resource rs: cardInfo.getRequirements()) {
-            System.out.println("    " + rs.toString());
-        }
-        System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
-        System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
-        System.out.println("Angles status:");
+
+        boolean[] anglesCombination = new boolean[4];
+
         for(AngleOrientation o: AngleOrientation.values()) {
-            if(o.equals(AngleOrientation.NONE))
-                continue;
-            System.out.println("    Angle " + o + ": " + card.getAngle(o).getAngleStatus() + ", Playable: " + card.getAngle(o).isPlayable());
+            if(o.equals(AngleOrientation.TOPRIGHT)) {
+                anglesCombination[0] = true;
+            }
+            if(o.equals(AngleOrientation.TOPLEFT)) {
+                anglesCombination[1] = true;
+            }
+            if(o.equals(AngleOrientation.BOTTOMRIGHT)) {
+                anglesCombination[2] = true;
+            }
+            if(o.equals(AngleOrientation.BOTTOMLEFT)) {
+                anglesCombination[3] = true;
+            }
         }
+    }
+
+    public void showCardInfo(StarterCard card, CardInfo cardInfo) {
+        //TODO: custom graphic for objective cards
+        if(card.getCurrentSide().equals(Side.FRONT)) {
+            new PrintStream(System.out, true, System.console() != null
+                    ? System.console().charset()
+                    : Charset.defaultCharset())
+                    .println(ansi().fg(GREEN).a(
+                            "┌──────┬───────────┬──────┐\n" +
+                                    "│┤►@@◄├│           │┤►@@◄├│\n" +
+                                    "│┼─────┘  ┌┬───┬┐  └─────┼│\n" +
+                                    "││        ││ "+card.getCardId()+" ││        ││\n" +
+                                    "│┼─────┐  └┴───┴┘  ┌─────┼│\n" +
+                                    "│┤►@@◄├│           │┤►@@◄├│\n" +
+                                    "└──────┴───────────┴──────┘").reset());
+        } else {
+            new PrintStream(System.out, true, System.console() != null
+                    ? System.console().charset()
+                    : Charset.defaultCharset())
+                    .println(ansi().fg(GREEN).a(
+                              "┌┬───────────────────────┬┐\n" +
+                                    "││        ┌┬───┬┐        ││\n" +
+                                    "││        ││   ││        ││\n" +
+                                    "││        ││ "+card.getCardId()+" ││        ││\n" +
+                                    "││        ││   ││        ││\n" +
+                                    "││        └┴───┴┘        ││\n" +
+                                    "└┴───────────────────────┴┘").reset());
+        }
+
+        System.out.println("CardType: " + cardInfo.getCardType());
+        System.out.println("Resource type: " + cardInfo.getCardColor());
+        System.out.println("Positional condition: " + cardInfo.getPositionalType());
     }
     public void chooseCardToPlay()
     {
@@ -325,7 +384,7 @@ public class TUI extends UI{
         }
         System.out.println("\nChoose card Side: 1 - FRONT, 2 - BACK");
     }
-    public void clearScreen() { //TODO: non funziona :(
+    public void clearScreen() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (InterruptedException | IOException e) {
