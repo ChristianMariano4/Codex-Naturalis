@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.AngleOrientation;
+import it.polimi.ingsw.exceptions.AngleAlreadyLinkedException;
 import it.polimi.ingsw.exceptions.InvalidCardPositionException;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
@@ -26,14 +27,14 @@ class PlayerFieldTest {
     }
 
     @Test
-    void shouldAddCardToCellSuccessfully() throws InvalidCardPositionException {
+    void shouldAddCardToCellSuccessfully() throws InvalidCardPositionException, AngleAlreadyLinkedException {
         playerField.addCardToCell(starterCard);
         playerField.addCardToCell(starterCard, AngleOrientation.BOTTOMLEFT, cardToAdd);
         assertEquals(cardToAdd, playerField.getMatrixField()[DEFAULT_MATRIX_SIZE/2 + AngleOrientation.BOTTOMLEFT.mapEnumToX()][DEFAULT_MATRIX_SIZE/2 + AngleOrientation.BOTTOMLEFT.mapEnumToY()]);
     }
 
     @Test
-    void shouldThrowExceptionWhenAddingACardToAnOccupiedPosition() throws InvalidCardPositionException {
+    void shouldThrowExceptionWhenAddingACardToAnOccupiedPosition() throws InvalidCardPositionException, AngleAlreadyLinkedException {
         playerField.addCardToCell(starterCard);
         playerField.addCardToCell(starterCard, AngleOrientation.BOTTOMLEFT, cardToAdd);
         assertThrows(InvalidCardPositionException.class, () -> playerField.addCardToCell(starterCard, AngleOrientation.BOTTOMLEFT, cardToAdd));

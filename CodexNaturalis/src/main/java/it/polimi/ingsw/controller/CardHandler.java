@@ -24,18 +24,16 @@ public class CardHandler {
     private final ArrayList<CardPair<StarterCard>> starterCards;
     private final ArrayList<CardPair<ObjectiveCard>> objectiveCards;
     private final ArrayList<CardPair<PlayableCard>> playableCards;
-    private final FilePathProvider filePathProvider;
     /**
      * Constructor
      */
-    public CardHandler(FilePathProvider filePathProvider)
+    public CardHandler()
     {
         this.resourceCards = new ArrayList<>();
         this.goldCards = new ArrayList<>();
         this.starterCards = new ArrayList<>();
         this.objectiveCards = new ArrayList<>();
         this.playableCards = new ArrayList<>();
-        this.filePathProvider = filePathProvider;
     }
 
     /**
@@ -44,7 +42,7 @@ public class CardHandler {
      * @throws CardNotImportedException if a card is not imported correctly
      */
     public ArrayList<GoldCard> importGoldCards() throws CardNotImportedException {
-        GoldCardFactory factory = new GoldCardFactory(this.filePathProvider.getGoldCardsFilePath());
+        GoldCardFactory factory = new GoldCardFactory();
         ArrayList<GoldCard> cardList = factory.createCardList();
         linkGoldCards(cardList);
         return cardList;
@@ -56,7 +54,7 @@ public class CardHandler {
      * @throws CardNotImportedException if a card is not imported correctly
      */
     public ArrayList<ResourceCard> importResourceCards() throws CardNotImportedException {
-        ResourceCardFactory factory = new ResourceCardFactory(this.filePathProvider.getResourceCardsFilePath());
+        ResourceCardFactory factory = new ResourceCardFactory();
         ArrayList<ResourceCard> cardList = factory.createCardList();
         linkResourceCards(cardList);
         return cardList;
@@ -68,7 +66,7 @@ public class CardHandler {
      * @throws CardNotImportedException if a card is not imported correctly
      */
     public ArrayList<StarterCard> importStarterCards() throws CardNotImportedException {
-        StarterCardFactory factory = new StarterCardFactory(this.filePathProvider.getStarterCardsFilePath());
+        StarterCardFactory factory = new StarterCardFactory();
         ArrayList<StarterCard> cardList = factory.createCardList();
         linkStarterCards(cardList);
         return cardList;
@@ -80,7 +78,7 @@ public class CardHandler {
      * @throws CardNotImportedException if a card is not imported correctly
      */
     public ArrayList<ObjectiveCard> importPositionalObjectiveCards() throws CardNotImportedException {
-        PositionalObjectiveCardFactory factory = new PositionalObjectiveCardFactory(this.filePathProvider.getPositionalObjectiveCardsFilePath());
+        PositionalObjectiveCardFactory factory = new PositionalObjectiveCardFactory();
         ArrayList<ObjectiveCard> cardList = factory.createCardList();
         linkObjectiveCards(cardList);
         return cardList;
@@ -92,7 +90,7 @@ public class CardHandler {
      * @throws CardNotImportedException if a card is not imported correctly
      */
     public ArrayList<ObjectiveCard> importResourceObjectiveCards() throws CardNotImportedException {
-        ResourceObjectiveCardFactory factory = new ResourceObjectiveCardFactory(this.filePathProvider.getResourceObjectiveCardsFilePath());
+        ResourceObjectiveCardFactory factory = new ResourceObjectiveCardFactory();
         ArrayList<ObjectiveCard> cardList = factory.createCardList();
         linkObjectiveCards(cardList);
         return cardList;
@@ -104,7 +102,7 @@ public class CardHandler {
      * @throws CardNotImportedException if a card is not imported correctly
      */
     public ArrayList<ObjectiveCard> importTripleObjectiveCard() throws CardNotImportedException {
-        TripleObjectiveCardFactory factory = new TripleObjectiveCardFactory(this.filePathProvider.getTripleObjectiveCardFilePath());
+        TripleObjectiveCardFactory factory = new TripleObjectiveCardFactory();
         ArrayList<ObjectiveCard> cardList = factory.createCardList();
         linkObjectiveCards(cardList);
         return cardList;

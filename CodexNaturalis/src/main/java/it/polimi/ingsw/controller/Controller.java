@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.cardFactory.FilePathProvider;
 import it.polimi.ingsw.controller.cardFactory.ProductionFilePathProvider;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
@@ -26,9 +27,16 @@ public class Controller {
     private final EventManager eventManager;
 
     public Controller(EventManager eventManager, GameHandler gameHandler){
-        this.cardHandler = new CardHandler(new ProductionFilePathProvider());
+        this.cardHandler = new CardHandler();
         this.eventManager = eventManager;
         this.gameHandler = gameHandler;
+    }
+    public static void main(String[] args) throws CardNotImportedException {
+        CardHandler c = new CardHandler();
+        for(GoldCard card : c.importGoldCards())
+        {
+            System.out.println(card.getCardId());
+        }
     }
 
     /**

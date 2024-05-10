@@ -100,6 +100,7 @@ public class ViewCLI implements View, Runnable {
                 {
                     command = scanner.nextLine();
                 }
+
                 switch (command) {
                     case "q", "quit":
                         inGame = false;

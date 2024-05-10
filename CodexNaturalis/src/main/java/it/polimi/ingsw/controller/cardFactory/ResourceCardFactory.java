@@ -6,21 +6,17 @@ import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ResourceCardFactory extends CardFactory<ResourceCard> {
-    private final String filePath;
-
-    public ResourceCardFactory(String filePath) {
-        this.filePath = filePath;
-    }
 
     public ArrayList<ResourceCard> createCardList() throws CardNotImportedException {
         ResourceCard[] resourceCardArray;
         Gson gson = new Gson();
-        try(Reader reader = new FileReader(filePath)) {
+        try(Reader reader = new InputStreamReader(getClass().getResourceAsStream("/resourceCards.json"))) {
             resourceCardArray = gson.fromJson(reader, ResourceCard[].class);
         } catch (IOException e) {
             throw new CardNotImportedException();
