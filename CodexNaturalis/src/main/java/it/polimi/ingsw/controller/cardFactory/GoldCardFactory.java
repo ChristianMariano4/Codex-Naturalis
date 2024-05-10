@@ -17,7 +17,7 @@ public class GoldCardFactory extends CardFactory<GoldCard> {
     public ArrayList<GoldCard> createCardList() throws CardNotImportedException {
         GoldCard[] goldCardCardArray;
         Gson gson = new Gson();
-        try(Reader reader = new InputStreamReader(getClass().getResourceAsStream("/goldObjectiveCards.json"))) {
+        try(Reader reader = new InputStreamReader(getClass().getResourceAsStream("/goldCards.json"))) {
             goldCardCardArray = gson.fromJson(reader, GoldCard[].class);
         } catch (IOException e) {
             throw new CardNotImportedException();
