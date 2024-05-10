@@ -155,12 +155,11 @@ public class Controller {
 
     /**
      * Give to the player 2 secret objective cards to choose from
-     * @param player the player that has to choose the secret objective card
      * @return a list composed of the two secret objective cards
      * @throws DeckIsEmptyException if the deck is empty
      */
-    public synchronized List<ObjectiveCard> takeTwoObjectiveCards(Player player) throws DeckIsEmptyException {
-        List<ObjectiveCard> secretObjectiveCards = new ArrayList<>();
+    public synchronized ArrayList<ObjectiveCard> takeTwoObjectiveCards() throws DeckIsEmptyException {
+        ArrayList<ObjectiveCard> secretObjectiveCards = new ArrayList<>();
         secretObjectiveCards.add(this.gameHandler.getGame().getObjectiveCardDeck().getTopCard());
         secretObjectiveCards.add(this.gameHandler.getGame().getObjectiveCardDeck().getTopCard());
         return secretObjectiveCards;
@@ -185,6 +184,11 @@ public class Controller {
         player.getPlayerHand().addCardToPlayerHand(gameHandler.getGame().getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
         player.getPlayerHand().addCardToPlayerHand(gameHandler.getGame().getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
     }
+    public void setSecretObjectiveCard(Player player, ObjectiveCard chosenObjectiveCard) throws NotExistingPlayerException {
+        Player playerObj = gameHandler.getPlayer(player.getUsername());
+        playerObj.setSecretObjective(chosenObjectiveCard);
+    }
+
 
     public synchronized void update(UserMessageWrapper message) {
         switch(message.getType()) {

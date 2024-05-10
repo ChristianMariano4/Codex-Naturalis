@@ -181,12 +181,6 @@ public class TUI extends UI{
             System.out.println("Card Resource:" + sharedObjectiveCards.get(card).getCardResource());
         }
     }
-    public void showHiddenObjectiveCards(ObjectiveCard secretObjectiveCard, CardInfo secretCardInfo) {
-        System.out.println("CardId:" + secretObjectiveCard.getCardId());
-        System.out.println("Card Type:" + secretCardInfo.getCardType());
-        System.out.println("Positional Type:" + secretCardInfo.getPositionalType());
-        System.out.println("Card Resource:" + secretCardInfo.getCardResource());
-    }
 
     public void aPlayerJoinedTheGame(String username) {
         System.out.println(username + "joined the game.");
@@ -352,6 +346,11 @@ public class TUI extends UI{
     {
         System.out.println("Waiting for other players to choose their marker");
     }
+
+    public void waitingForGameBegin()
+    {
+        System.out.println("Waiting for the game to begin...");
+    }
     public void chooseStarterCardSide(StarterCard cardFront, StarterCard cardBack)
     {
         System.out.println("Card: " + cardFront.getCardId());
@@ -384,7 +383,7 @@ public class TUI extends UI{
         }
         System.out.println("\nChoose card Side: 1 - FRONT, 2 - BACK");
     }
-    public void clearScreen() {
+    public void clearScreen() { //TODO: non funziona :(
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (InterruptedException | IOException e) {
@@ -410,5 +409,13 @@ public class TUI extends UI{
     public void twentyPoints(String username)
     {
         System.out.println("Player " + username+ "has reached twenty points!");
+    }
+    public void somethingWentWrong()
+    {
+        System.out.println("Something went wrong.");
+    }
+    public void chooseSecretObjectiveCard()
+    {
+        System.out.println("Choose one of the two cards: 1 - first, 2 - second.");
     }
 }

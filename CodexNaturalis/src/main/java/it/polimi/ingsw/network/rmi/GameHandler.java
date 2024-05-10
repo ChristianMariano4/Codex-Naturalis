@@ -7,6 +7,7 @@ import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.EventManager;
@@ -82,7 +83,7 @@ public class GameHandler {
         }
     }
 
-    public int setReady() throws RemoteException {
+    public int setReady() throws RemoteException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException {
         readyPlayers++;
         if(readyPlayers == this.game.getNumberOfPlayers()){
             try {
@@ -96,6 +97,11 @@ public class GameHandler {
 
         if(readyPlayers >= this.game.getNumberOfPlayers()){
             eventManager.notify(GameEvent.GAME_INITIALIZED, this.game);
+            for(ClientRMIInterface client : clients)
+            {
+                ArrayList<ObjectiveCard> objectiveCardsToChoose = controller.takeTwoObjectiveCards();
+                client.update(GameEvent.SECRET_OBJECTIVE_CHOICE_REQUEST, objectiveCardsToChoose);
+            }
         }
         return readyPlayers;
     }
@@ -198,7 +204,18 @@ public class GameHandler {
 
 
     public void setStarterCardSide(Player player, StarterCard starterCard, Side side) throws NotExistingPlayerException {
-        controller.initializeStarterCard(player, starterCard, side);
+        controller.initializeStarterCard(game.getPlayer(player.getUsername()), starterCard, side);
         eventManager.notify(GameEvent.STARTER_CARD_SIDE_CHOSEN, game);
+    }
+
+
+    public void setSecretObjectiveCard(Player player, ObjectiveCard chosenObjectiveCard) throws NotExistingPlayerException {
+        controller.setSecretObjectiveCard(player, chosenObjectiveCard);
+        for(Player p : game.getListOfPlayers())
+        {
+            if(p.getSecretObjective() == null)
+                return;
+        }
+        eventManager.notify(GameEvent.GAME_BEGIN, game);
     }
 }

@@ -21,8 +21,8 @@ public interface ServerRMIInterface extends Remote {
     //expose methods that the client can call, i.e. those of the controller
     int createGame(ClientRMIInterface client) throws RemoteException;
     List<Integer> getAvailableGames() throws RemoteException;
-    Game addPlayerToGame(int gameId, String username) throws RemoteException;
-    int setReady(int gameId) throws RemoteException;
+    Game addPlayerToGame(int gameId, String username, ClientRMIInterface client) throws RemoteException;
+    int setReady(int gameId) throws RemoteException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException;
     void subscribe(ClientRMIInterface client, int gameId) throws RemoteException;
     RemoteLock getWaitingLock(int gameId) throws RemoteException;
     BlockingQueue<Boolean> getQueue(int gameId) throws RemoteException;
@@ -31,7 +31,7 @@ public interface ServerRMIInterface extends Remote {
     void setMarker(Player player, int gameId, Marker marker) throws RemoteException, NotAvailableMarkerException, NotExistingPlayerException;
     void setStarterCardSide(int gameId, Player player,StarterCard starterCard, Side side) throws RemoteException, NotExistingPlayerException;
     public void playCard(int gameId, String username, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws RemoteException, NotExistingPlayerException, InvalidCardPositionException, RequirementsNotMetException, CardTypeMismatchException, AngleAlreadyLinkedException, NotTurnException;
-
+    void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard objectiveCard) throws RemoteException, NotExistingPlayerException;
     public void drawCard(int gameId, String username, CardType cardType, DrawPosition drawPosition) throws RemoteException, NotTurnException, NotExistingPlayerException, AlreadyThreeCardsInHandException, DeckIsEmptyException;
     public void endTurn(int gameId, String username) throws RemoteException, NotExistingPlayerException;
     public boolean checkUsername(String username) throws RemoteException;

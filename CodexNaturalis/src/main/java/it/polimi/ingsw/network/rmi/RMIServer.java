@@ -74,11 +74,6 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         GameValues.numberOfGames++;
         gameHandlerMap.put(id, new GameHandler(id, this));
 
-        try {
-            addClientToGameHandler(id, client);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
 
 //        try {
 //            System.out.println("line 76) " + updates.size());
@@ -98,12 +93,17 @@ public class RMIServer extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public Game addPlayerToGame(int gameId, String username) throws RemoteException {
+    public Game addPlayerToGame(int gameId, String username, ClientRMIInterface client) throws RemoteException {
+        try {
+            addClientToGameHandler(gameId, client);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
         return this.gameHandlerMap.get(gameId).addPlayerToGame(gameId, username);
     }
 
     @Override
-    public int setReady(int gameId) throws RemoteException {
+    public int setReady(int gameId) throws RemoteException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException {
         return this.gameHandlerMap.get(gameId).setReady();
 
         //TODO: inizializzazione del gioco se tutti i giocatori sono pronti
@@ -143,6 +143,12 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         }
         return true;
     }
+
+    public void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard objectiveCard) throws NotExistingPlayerException {
+        GameHandler game = gameHandlerMap.get(gameId);
+        game.setSecretObjectiveCard(player, objectiveCard);
+    }
+
 
 
 

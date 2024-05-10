@@ -5,12 +5,14 @@ import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.network.View;
 import it.polimi.ingsw.network.ViewCLI;
 import it.polimi.ingsw.network.messages.GameEvent;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface, Runnable {
@@ -24,6 +26,8 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
     private boolean markerTurn = false;
     private boolean markerDone = false;
     private boolean starterCardAssigned = false;
+    private ArrayList<ObjectiveCard> objectiveCardsToChoose = null;
+    private boolean gameBegin = false;
 
 
     public RMIClient(ServerRMIInterface server) throws RemoteException{
@@ -35,7 +39,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
         try {
             this.gameId = server.createGame(this);
             server.subscribe(this, this.gameId);
-            Game game = server.addPlayerToGame(this.gameId, username);
+            Game game = server.addPlayerToGame(this.gameId, username, this);
             //server.initializePlayersHand(this.gameId, this.player);
             return game;
         } catch (RemoteException e) {
@@ -55,7 +59,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
         this.gameId = gameId;
         try {
             server.subscribe(this, this.gameId);
-            Game game = server.addPlayerToGame(this.gameId, username);
+            Game game = server.addPlayerToGame(this.gameId, username, this);
             return game;
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -79,9 +83,16 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             return server.setReady(this.gameId);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
+        } catch (NotExistingPlayerException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (DeckIsEmptyException e) {
+            throw new RuntimeException(e);
         }
     }
     @Override
+    @SuppressWarnings("unchecked")
     public void update(GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException {
         switch (event) {
             case BOARD_UPDATED -> {
@@ -97,9 +108,18 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
                 this.playing = true;
 
             }
+            case GAME_BEGIN ->
+            {
+                view.update((Game) gameUpdate);
+                this.gameBegin = true;
+            }
             case TURN_EVENT -> {
                 view.update((Game) gameUpdate);
                 this.viewThread.interrupt();
+            }
+            case SECRET_OBJECTIVE_CHOICE_REQUEST ->
+            {
+                this.objectiveCardsToChoose = (ArrayList<ObjectiveCard>) gameUpdate;
             }
             case MARKER_EVENT ->
             {
@@ -161,7 +181,16 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
                 Thread.sleep(10);
             }
             viewCLI.chooseStarterCardSide();
-            Thread.sleep(10);
+            while(this.objectiveCardsToChoose == null)
+            {
+                Thread.sleep(10);
+            }
+            viewCLI.chooseObjectiveCard(this.objectiveCardsToChoose);
+            viewCLI.waitingForGameBegin();
+            while(!this.gameBegin)
+            {
+                Thread.sleep(10);
+            }
             this.viewThread = new Thread(viewCLI); //game loop actually begins here
             this.viewThread.start();
 

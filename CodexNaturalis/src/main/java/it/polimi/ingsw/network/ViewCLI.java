@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.enumerations.*;
+import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
@@ -267,6 +268,43 @@ public class ViewCLI implements View, Runnable {
     {
         ui.twentyPoints(username);
     }
+    public void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose)
+    {
+        try {
+            ui.showCardInfo(objectiveCardsToChoose.get(0), client.getServer().getCardInfo(objectiveCardsToChoose.get(0), game.getGameId()));
+            ui.showCardInfo(objectiveCardsToChoose.get(1), client.getServer().getCardInfo(objectiveCardsToChoose.get(1), game.getGameId()));
+            ui.chooseSecretObjectiveCard();
+            try {
+                do {
+                    int choice = Integer.parseInt(scanner.nextLine());
+                    ObjectiveCard chosenObjectiveCard = null;
+                    switch(choice)
+                    {
+                        case 1:
+                            chosenObjectiveCard = objectiveCardsToChoose.get(0);
+                            break;
+                        case 2:
+                            chosenObjectiveCard = objectiveCardsToChoose.get(1);
+                            break;
+                        default: throw new NumberFormatException();
+                    }
+                    if (chosenObjectiveCard == null)
+                        throw new CardNotFoundException();
+                    client.getServer().setSecretObjectiveCard(game.getGameId(), game.getPlayer(client.getUsername()), chosenObjectiveCard);
+                    break;
+                }while(true);
+            }
+            catch (Exception e)
+            {
+                ui.invalidInput();
+            }
+
+        }
+        catch (Exception e)
+        {
+            ui.somethingWentWrong();
+        }
+    }
 
     public void showPlayerHand() throws RemoteException, NotExistingPlayerException {
         HashMap<PlayableCard, CardInfo> cardsInHand = new HashMap<>();
@@ -376,6 +414,10 @@ public class ViewCLI implements View, Runnable {
             return true;
         }
         return false;
+    }
+    public void waitingForGameBegin()
+    {
+        ui.waitingForGameBegin();
     }
     public void chooseStarterCardSide() throws NotExistingPlayerException, RemoteException {
         StarterCard cardFront = game.getPlayer(client.getUsername()).getStarterCard();
