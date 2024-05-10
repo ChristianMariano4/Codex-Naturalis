@@ -38,7 +38,7 @@ public class TUI extends UI{
 
     public void showTurnScreen(String playerPlaying, String client) {
         if(playerPlaying.equals(client))
-            System.out.println("It is currently your turn, write playTurn to play.");
+            System.out.println("\nIt is currently your turn, write playTurn to play.");
         else
             System.out.println("It is currently "+ playerPlaying+"'s turn.");
         System.out.println( "q: quit \n" +
@@ -242,6 +242,7 @@ public class TUI extends UI{
     }
     public void showCardInfo(PlayableCard card, CardInfo cardInfo) {
         //this.asciiCardCreator(card);
+        System.out.println("Id: " +card.getCardId());
         System.out.println("CardType: "+ cardInfo.getCardType());
 
         if(cardInfo.getCardType().equals(CardType.GOLD)) {
@@ -292,6 +293,38 @@ public class TUI extends UI{
                 anglesCombination[3] = true;
             }
         }
+    }
+    public void showCardInfo(ObjectiveCard card, CardInfo cardInfo) {
+        //TODO: custom graphic for objective cards
+        if(card.getCurrentSide().equals(Side.FRONT)) {
+            new PrintStream(System.out, true, System.console() != null
+                    ? System.console().charset()
+                    : Charset.defaultCharset())
+                    .println(ansi().fg(GREEN).a(
+                            "┌──────┬───────────┬──────┐\n" +
+                                    "│┤►@@◄├│           │┤►@@◄├│\n" +
+                                    "│┼─────┘  ┌┬───┬┐  └─────┼│\n" +
+                                    "││        ││ "+card.getCardId()+" ││        ││\n" +
+                                    "│┼─────┐  └┴───┴┘  ┌─────┼│\n" +
+                                    "│┤►@@◄├│           │┤►@@◄├│\n" +
+                                    "└──────┴───────────┴──────┘").reset());
+        } else {
+            new PrintStream(System.out, true, System.console() != null
+                    ? System.console().charset()
+                    : Charset.defaultCharset())
+                    .println(ansi().fg(GREEN).a(
+                            "┌┬───────────────────────┬┐\n" +
+                                    "││        ┌┬───┬┐        ││\n" +
+                                    "││        ││   ││        ││\n" +
+                                    "││        ││ "+card.getCardId()+" ││        ││\n" +
+                                    "││        ││   ││        ││\n" +
+                                    "││        └┴───┴┘        ││\n" +
+                                    "└┴───────────────────────┴┘").reset());
+        }
+
+        System.out.println("CardType: " + cardInfo.getCardType());
+        System.out.println("Resource type: " + cardInfo.getCardColor());
+        System.out.println("Positional condition: " + cardInfo.getPositionalType());
     }
 
     public void showCardInfo(StarterCard card, CardInfo cardInfo) {
@@ -418,4 +451,6 @@ public class TUI extends UI{
     {
         System.out.println("Choose one of the two cards: 1 - first, 2 - second.");
     }
+
+
 }

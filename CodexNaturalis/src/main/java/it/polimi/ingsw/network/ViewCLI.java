@@ -270,35 +270,34 @@ public class ViewCLI implements View, Runnable {
     }
     public void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose)
     {
-        try {
-            ui.showCardInfo(objectiveCardsToChoose.get(0), client.getServer().getCardInfo(objectiveCardsToChoose.get(0), game.getGameId()));
-            ui.showCardInfo(objectiveCardsToChoose.get(1), client.getServer().getCardInfo(objectiveCardsToChoose.get(1), game.getGameId()));
-            ui.chooseSecretObjectiveCard();
             try {
+                ui.showCardInfo(objectiveCardsToChoose.get(0), client.getServer().getCardInfo(objectiveCardsToChoose.get(0), game.getGameId()));
+                ui.showCardInfo(objectiveCardsToChoose.get(1), client.getServer().getCardInfo(objectiveCardsToChoose.get(1), game.getGameId()));
+                ui.chooseSecretObjectiveCard();
                 do {
-                    int choice = Integer.parseInt(scanner.nextLine());
-                    ObjectiveCard chosenObjectiveCard = null;
-                    switch(choice)
-                    {
-                        case 1:
-                            chosenObjectiveCard = objectiveCardsToChoose.get(0);
-                            break;
-                        case 2:
-                            chosenObjectiveCard = objectiveCardsToChoose.get(1);
-                            break;
-                        default: throw new NumberFormatException();
+                    try {
+                        int choice = Integer.parseInt(scanner.nextLine());
+                        ObjectiveCard chosenObjectiveCard = null;
+                        switch (choice) {
+                            case 1:
+                                chosenObjectiveCard = objectiveCardsToChoose.get(0);
+                                break;
+                            case 2:
+                                chosenObjectiveCard = objectiveCardsToChoose.get(1);
+                                break;
+                            default:
+                                throw new NumberFormatException();
+                        }
+                        if (chosenObjectiveCard == null)
+                            throw new CardNotFoundException();
+                        client.getServer().setSecretObjectiveCard(game.getGameId(), game.getPlayer(client.getUsername()), chosenObjectiveCard);
+                        break;
                     }
-                    if (chosenObjectiveCard == null)
-                        throw new CardNotFoundException();
-                    client.getServer().setSecretObjectiveCard(game.getGameId(), game.getPlayer(client.getUsername()), chosenObjectiveCard);
-                    break;
+                    catch(Exception e)
+                    {
+                        ui.invalidInput();
+                    }
                 }while(true);
-            }
-            catch (Exception e)
-            {
-                ui.invalidInput();
-            }
-
         }
         catch (Exception e)
         {
