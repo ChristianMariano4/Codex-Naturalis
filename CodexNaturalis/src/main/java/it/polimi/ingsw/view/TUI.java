@@ -348,4 +348,8 @@ public class TUI extends UI{
     {
         System.out.println("Invalid input, try again");
     }
+    public void twentyPoints(String username)
+    {
+        System.out.println("Player " + username+ "has reached twenty points!");
+    }
 }

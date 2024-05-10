@@ -82,27 +82,28 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
         }
     }
     @Override
-    public void update(GameEvent event, Game game) throws RemoteException, InterruptedException, NotExistingPlayerException {
+    public void update(GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException {
         switch (event) {
             case BOARD_UPDATED -> {
                 //TODO: print what happened
                 //TODO: print new board
-                view.boardUpdate(game);
+                view.boardUpdate((Game) gameUpdate);
             }
             case NEW_PLAYER -> {
-                view.newPlayer(game);
+                view.newPlayer((Game) gameUpdate);
             }
             case GAME_INITIALIZED -> {
-                view.update(game);
+                view.update((Game) gameUpdate);
                 this.playing = true;
 
             }
             case TURN_EVENT -> {
-                view.update(game);
+                view.update((Game) gameUpdate);
                 this.viewThread.interrupt();
             }
             case MARKER_EVENT ->
             {
+                Game game = (Game) gameUpdate;
                 view.update(game);
                 if(!this.markerTurn) {
                     String currentMarkerChoice = game.getListOfPlayers().get(4 - game.getAvailableMarkers().size()).getUsername(); //how many markers have already been chosen
@@ -112,17 +113,20 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             }
             case MARKER_DONE ->
             {
-                view.update(game);
+                view.update((Game) gameUpdate);
                 this.markerDone = true;
             }
             case ASSIGNED_STARTER_CARDS ->
             {
-                view.update(game);
+                view.update((Game) gameUpdate);
                 this.starterCardAssigned = true;
             }
             case STARTER_CARD_SIDE_CHOSEN ->
             {
-                view.update(game);
+                view.update((Game) gameUpdate);
+            }
+            case TWENTY_POINTS -> {
+                view.twentyPoints((String) gameUpdate);
             }
 
         }

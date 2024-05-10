@@ -1,11 +1,13 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.enumerations.AngleOrientation;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.EventManager;
 import it.polimi.ingsw.network.GameListener;
@@ -102,7 +104,9 @@ public class GameHandler {
         eventManager.subscribe(GameEvent.class, new GameListener(client, server));
     }
 
-
+    public void playCard(Player player, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, RequirementsNotMetException, CardTypeMismatchException, AngleAlreadyLinkedException {
+        controller.playCard(player, card ,otherCard, orientation);
+    }
     public List<ClientRMIInterface> getClients() {
         return clients;
     }
@@ -182,7 +186,13 @@ public class GameHandler {
 
     public void turnEvent()
     {
+        for(Player p : game.getListOfPlayers())
+        {
+            if(p.getPoints() >= 20)
+                eventManager.notify(GameEvent.TWENTY_POINTS, game);
+        }
         eventManager.notify(GameEvent.TURN_EVENT, game);
+
     }
 
 

@@ -199,6 +199,8 @@ public class Controller {
         if(cardHandler.checkRequirements(otherCard, playerObj)) {
             playerObj.getPlayerField().addCardToCell(card, orientation, otherCard);
             playerObj.getPlayerHand().removeCardFromHand(otherCard);
+            playerObj.addPoints(otherCard.getPoints());
+
         }
         else{
             throw new RequirementsNotMetException();

@@ -11,5 +11,7 @@ public enum GameEvent {
     MARKER_DONE,
     ASSIGNED_STARTER_CARDS,
     STARTER_CARD_SIDE_CHOSEN,
+    FINAL_ROUND,
+    TWENTY_POINTS,
 
 }

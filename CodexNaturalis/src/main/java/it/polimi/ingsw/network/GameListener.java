@@ -23,7 +23,7 @@ public class GameListener implements Listener<GameEvent> {
     @Override
     public void update(GameEvent event, Object... args) {
         try {
-            server.updateClient(client, event, (Game)args[0]);
+            server.updateClient(client, event, args[0]);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {

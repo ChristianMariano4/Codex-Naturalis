@@ -10,6 +10,8 @@ import it.polimi.ingsw.view.TUI;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 
@@ -89,47 +91,55 @@ public class ViewCLI implements View, Runnable {
     public void gameLoop() throws IOException, NotExistingPlayerException, InterruptedException {
         boolean inGame = true;
         ui.showMainScreen();
+        Object lock = new Object();
+        BlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>();
+        AsyncReader reader = new AsyncReader(lock, blockingQueue);
+        Thread readerThread = new Thread(reader);
+        readerThread.start();
         while(inGame)
         {
             boolean isTurn = game.getPlayer(client.getUsername()).getIsTurn();
             String playerPlaying = game.getCurrentPlayer().getUsername();
             ui.showTurnScreen(playerPlaying, client.getUsername());
+
+
             while(!Thread.interrupted()) {
                 String command = null;
-                while(System.in.available() > 0)
-                {
-                    command = scanner.nextLine();
-                }
-
-                switch (command) {
-                    case "q", "quit":
-                        inGame = false;
-                        break;
-                    case "h", "help":
-                        ui.showAllCommands();
-                        break;
-                    case "showplayers":
-                        showAllPlayers();
-                        break;
-                    case "myhand":
-                        showPlayerHand();
-                        break;
-                    case "showMyField":
-                        showPlayerField();
-                        break;
-                    case "playTurn":
-                        if (isTurn) {
-                            playCard();
-                            drawCard();
-                            endTurn();
-                        } else
-                            notYourTurn();
-                        break;
-                    case null:
-                        break;
-                    default:
-                        ui.commandNotFound();
-                        break;
+                if(!blockingQueue.isEmpty()) {
+                    synchronized (lock) {
+                        command = blockingQueue.take();
+                        switch (command) {
+                            case "q", "quit":
+                                inGame = false;
+                                break;
+                            case "h", "help":
+                                ui.showAllCommands();
+                                break;
+                            case "showplayers":
+                                showAllPlayers();
+                                break;
+                            case "myhand":
+                                showPlayerHand();
+                                break;
+                            case "showMyField":
+                                showPlayerField();
+                                break;
+                            case "playTurn":
+                                if (isTurn) {
+                                    playCard();
+                                    drawCard();
+                                    endTurn();
+                                } else
+                                    notYourTurn();
+                                break;
+                            case null:
+                                break;
+                            default:
+                                ui.commandNotFound();
+                                break;
+                        }
+                        lock.notifyAll();
+                    }
                 }
             }
             Thread.sleep(1);
@@ -252,6 +262,10 @@ public class ViewCLI implements View, Runnable {
         for(Player player : game.getListOfPlayers())
             usernames.add(player.getUsername());
         ui.showAllPlayers(usernames);
+    }
+    public void twentyPoints(String username)
+    {
+        ui.twentyPoints(username);
     }
 
     public void showPlayerHand() throws RemoteException, NotExistingPlayerException {

@@ -12,4 +12,6 @@ public interface View  {
     void newPlayer(Game gameUpdated);
     void update(Game gameUpdated);
     void gameLoop() throws IOException, NotExistingPlayerException, InterruptedException;
+
+    void twentyPoints(String username);
 }

@@ -130,8 +130,8 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         return gameHandlerMap.get(gameId);
     }
 
-    public void updateClient(ClientRMIInterface client, GameEvent event, Game game) throws RemoteException, InterruptedException, NotExistingPlayerException {
-        client.update(event, game);
+    public void updateClient(ClientRMIInterface client, GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException {
+        client.update(event, gameUpdate);
     }
     public boolean checkUsername(String username) throws RemoteException{
         for(ClientRMIInterface client : clients)
@@ -196,7 +196,7 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         GameHandler game = gameHandlerMap.get(gameId);
         if(game.getGame().getCurrentPlayer().equals(game.getPlayer(username)))
         {
-            game.getController().playCard(game.getPlayer(username), card, otherCard, orientation);
+            game.playCard(game.getPlayer(username), card, otherCard, orientation);
             return;
         }
         throw new NotTurnException();
