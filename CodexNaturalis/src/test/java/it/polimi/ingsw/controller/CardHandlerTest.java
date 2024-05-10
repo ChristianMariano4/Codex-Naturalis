@@ -28,13 +28,13 @@ public class CardHandlerTest {
 
     @BeforeEach
     public void setUp() {
-        when(mockFilePathProvider.getGoldCardsFilePath()).thenReturn("src/main/resources/goldCards.json");
-        when(mockFilePathProvider.getResourceCardsFilePath()).thenReturn("src/main/resources/resourceCards.json");
-        when(mockFilePathProvider.getStarterCardsFilePath()).thenReturn("src/main/resources/starterCards.json");
-        when(mockFilePathProvider.getPositionalObjectiveCardsFilePath()).thenReturn("src/main/resources/positionalObjectiveCards.json");
-        when(mockFilePathProvider.getResourceObjectiveCardsFilePath()).thenReturn("src/main/resources/resourceObjectiveCards.json");
-        when(mockFilePathProvider.getTripleObjectiveCardFilePath()).thenReturn("src/main/resources/tripleObjectiveCard.json");
-        cardHandler = new CardHandler(mockFilePathProvider);
+//        when(mockFilePathProvider.getGoldCardsFilePath()).thenReturn("src/main/resources/goldCards.json");
+//        when(mockFilePathProvider.getResourceCardsFilePath()).thenReturn("src/main/resources/resourceCards.json");
+//        when(mockFilePathProvider.getStarterCardsFilePath()).thenReturn("src/main/resources/starterCards.json");
+//        when(mockFilePathProvider.getPositionalObjectiveCardsFilePath()).thenReturn("src/main/resources/positionalObjectiveCards.json");
+//        when(mockFilePathProvider.getResourceObjectiveCardsFilePath()).thenReturn("src/main/resources/resourceObjectiveCards.json");
+//        when(mockFilePathProvider.getTripleObjectiveCardFilePath()).thenReturn("src/main/resources/tripleObjectiveCard.json");
+        cardHandler = new CardHandler();
     }
 
     @Test

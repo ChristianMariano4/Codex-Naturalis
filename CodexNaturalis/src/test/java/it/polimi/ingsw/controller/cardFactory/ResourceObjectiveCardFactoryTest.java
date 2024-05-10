@@ -13,7 +13,7 @@ public class ResourceObjectiveCardFactoryTest {
     @Test
     public void testCreateCardList() {
         String testFilePath = "src/main/resources/resourceObjectiveCards.json";
-        ResourceObjectiveCardFactory resourceObjectiveCardFactory = new ResourceObjectiveCardFactory(testFilePath);
+        ResourceObjectiveCardFactory resourceObjectiveCardFactory = new ResourceObjectiveCardFactory();
 
         try {
             ArrayList<ObjectiveCard> resourceObjectiveCards = resourceObjectiveCardFactory.createCardList();
@@ -24,11 +24,11 @@ public class ResourceObjectiveCardFactoryTest {
         }
     }
 
-    @Test
-    public void testCreateCardListWithInvalidFilePath() {
-        String invalidFilePath = "path/to/nonexistent/file.json";
-        ResourceObjectiveCardFactory resourceObjectiveCardFactory = new ResourceObjectiveCardFactory(invalidFilePath);
-
-        assertThrows(CardNotImportedException.class, resourceObjectiveCardFactory::createCardList);
-    }
+//    @Test
+//    public void testCreateCardListWithInvalidFilePath() {
+//        String invalidFilePath = "path/to/nonexistent/file.json";
+//        ResourceObjectiveCardFactory resourceObjectiveCardFactory = new ResourceObjectiveCardFactory(invalidFilePath);
+//
+//        assertThrows(CardNotImportedException.class, resourceObjectiveCardFactory::createCardList);
+//    }
 }

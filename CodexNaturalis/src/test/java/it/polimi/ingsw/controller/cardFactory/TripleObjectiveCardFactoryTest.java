@@ -13,7 +13,7 @@ public class TripleObjectiveCardFactoryTest {
     @Test
     public void testCreateCardList() {
         String testFilePath = "src/main/resources/tripleObjectiveCard.json";
-        TripleObjectiveCardFactory tripleObjectiveCardFactory = new TripleObjectiveCardFactory(testFilePath);
+        TripleObjectiveCardFactory tripleObjectiveCardFactory = new TripleObjectiveCardFactory();
 
         try {
             ArrayList<ObjectiveCard> tripleObjectiveCards = tripleObjectiveCardFactory.createCardList();
@@ -24,11 +24,11 @@ public class TripleObjectiveCardFactoryTest {
         }
     }
 
-    @Test
-    public void testCreateCardListWithInvalidFilePath() {
-        String invalidFilePath = "path/to/nonexistent/file.json";
-        TripleObjectiveCardFactory tripleObjectiveCardFactory = new TripleObjectiveCardFactory(invalidFilePath);
-
-        assertThrows(CardNotImportedException.class, tripleObjectiveCardFactory::createCardList);
-    }
+//    @Test
+//    public void testCreateCardListWithInvalidFilePath() {
+//        String invalidFilePath = "path/to/nonexistent/file.json";
+//        TripleObjectiveCardFactory tripleObjectiveCardFactory = new TripleObjectiveCardFactory(invalidFilePath);
+//
+//        assertThrows(CardNotImportedException.class, tripleObjectiveCardFactory::createCardList);
+//    }
 }

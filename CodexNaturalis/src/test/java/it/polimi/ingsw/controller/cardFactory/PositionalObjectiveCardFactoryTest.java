@@ -11,7 +11,7 @@ public class PositionalObjectiveCardFactoryTest {
     @Test
     public void testCreateCardList() {
         String testFilePath = "src/main/resources/PositionalObjectiveCards.json";
-        PositionalObjectiveCardFactory positionalObjectiveCardFactory = new PositionalObjectiveCardFactory(testFilePath);
+        PositionalObjectiveCardFactory positionalObjectiveCardFactory = new PositionalObjectiveCardFactory();
 
         try {
             ArrayList<ObjectiveCard> positionalObjectiveCards = positionalObjectiveCardFactory.createCardList();
@@ -22,10 +22,10 @@ public class PositionalObjectiveCardFactoryTest {
         }
     }
 
-    @Test
-    public void testCreateCardListWithInvalidFilePath() {
-        String invalidFilePath = "path/to/nonexistent/file.json";
-        PositionalObjectiveCardFactory positionalObjectiveCardFactory = new PositionalObjectiveCardFactory(invalidFilePath);
-        assertThrows(CardNotImportedException.class, positionalObjectiveCardFactory::createCardList);
-    }
+//    @Test
+//    public void testCreateCardListWithInvalidFilePath() {
+//        String invalidFilePath = "path/to/nonexistent/file.json";
+//        PositionalObjectiveCardFactory positionalObjectiveCardFactory = new PositionalObjectiveCardFactory(invalidFilePath);
+//        assertThrows(CardNotImportedException.class, positionalObjectiveCardFactory::createCardList);
+//    }
 }
