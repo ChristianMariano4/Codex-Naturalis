@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.AngleOrientation;
+import it.polimi.ingsw.enumerations.AngleStatus;
 import it.polimi.ingsw.exceptions.AngleAlreadyLinkedException;
 import it.polimi.ingsw.exceptions.InvalidCardPositionException;
+import it.polimi.ingsw.model.cards.Angle;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +26,13 @@ class PlayerFieldTest {
         card = mock(PlayableCard.class);
         cardToAdd = mock(PlayableCard.class);
         starterCard = mock(StarterCard.class);
+        when(starterCard.getAngle(AngleOrientation.BOTTOMLEFT)).thenReturn(mock(Angle.class));
+        when(starterCard.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()).thenReturn(true);
+        when(starterCard.getAngle(AngleOrientation.BOTTOMLEFT).getAngleStatus()).thenReturn(AngleStatus.UNLINKED);
+        when(cardToAdd.getAngle(AngleOrientation.TOPRIGHT)).thenReturn(mock(Angle.class));
+        when(cardToAdd.getAngle(AngleOrientation.TOPRIGHT).isPlayable()).thenReturn(true);
+        when(cardToAdd.getAngle(AngleOrientation.TOPRIGHT).getAngleStatus()).thenReturn(AngleStatus.UNLINKED);
+
     }
 
     @Test

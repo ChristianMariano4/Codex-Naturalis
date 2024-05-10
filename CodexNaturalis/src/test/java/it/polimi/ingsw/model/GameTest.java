@@ -90,9 +90,8 @@ class GameTest {
     @Test
     void shouldReturnAvailableMarkers() {
         ArrayList<Marker> markers = game.getAvailableMarkers();
-        assertEquals(Marker.values().length, markers.size());
+        assertEquals(Marker.values().length - 1, markers.size());
         assertTrue(markers.contains(Marker.BLUE));
-        assertTrue(markers.contains(Marker.BLACK));
         assertTrue(markers.contains(Marker.RED));
         assertTrue(markers.contains(Marker.GREEN));
         assertTrue(markers.contains(Marker.YELLOW));
@@ -102,7 +101,7 @@ class GameTest {
     void shouldRemoveMarker() {
         game.removeMarker(Marker.YELLOW);
         ArrayList<Marker> markers = game.getAvailableMarkers();
-        assertEquals(Marker.values().length - 1, markers.size());
+        assertEquals(Marker.values().length - 2, markers.size());
         assertFalse(markers.contains(Marker.YELLOW));
     }
 
