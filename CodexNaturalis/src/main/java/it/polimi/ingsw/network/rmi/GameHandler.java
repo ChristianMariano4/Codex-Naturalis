@@ -32,6 +32,8 @@ public class GameHandler {
     private final RMIServer server;
     private final RemoteLock waitingLock = new RemoteLock();
     private final BlockingQueue<Boolean> threadUpdates = new LinkedBlockingQueue<>();
+    private boolean twentPointsReached = false;
+    private boolean finalRound = false;
 
 
     public GameHandler(int gameId, RMIServer server){
@@ -190,13 +192,27 @@ public class GameHandler {
         eventManager.notify(GameEvent.ASSIGNED_STARTER_CARDS, game);
     }
 
-    public void turnEvent()
-    {
+    public void turnEvent(String username) throws NotExistingPlayerException, CardTypeMismatchException {
+        if(this.finalRound && game.getCurrentPlayer().equals(game.getListOfPlayers().getClass()))
+        {
+            controller.calculateAndUpdateFinalPoints();
+            eventManager.notify(GameEvent.GAME_END, game);
+            return;
+        }
+        controller.nextTurn(game.getPlayer(username));
         for(Player p : game.getListOfPlayers())
         {
-            if(p.getPoints() >= 20)
-                eventManager.notify(GameEvent.TWENTY_POINTS, game);
+            if(p.getPoints() >= 20 && !twentPointsReached) {
+                this.twentPointsReached = true;
+                eventManager.notify(GameEvent.TWENTY_POINTS, p.getUsername());
+            }
         }
+        if(twentPointsReached && game.getCurrentPlayer().equals(game.getListOfPlayers().getFirst())) //final round begins when first player is playing and a player has reached 20 points
+        {
+            this.finalRound = true;
+            eventManager.notify(GameEvent.FINAL_ROUND, null);
+        }
+
         eventManager.notify(GameEvent.TURN_EVENT, game);
 
     }

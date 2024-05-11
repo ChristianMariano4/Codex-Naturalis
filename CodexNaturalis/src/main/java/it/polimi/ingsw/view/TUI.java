@@ -569,10 +569,23 @@ public class TUI extends UI{
     {
         System.out.println("Waiting for other players to choose their marker");
     }
+    public void gameEnd(HashMap<String, Integer> points, String winner)
+    {
+        System.out.println("Game has ended, winner is: " + winner +".\n");
+        for(String player : points.keySet())
+        {
+            System.out.println(player + ": " + points.get(player) + " points.");
+        }
+        System.out.println("Press any key to exit...");
+    }
 
     public void waitingForGameBegin()
     {
         System.out.println("Waiting for the game to begin...");
+    }
+    public void finalRound()
+    {
+        System.out.println("Final round begins now!");
     }
     public void chooseStarterCardSide(StarterCard cardFront, StarterCard cardBack)
     {

@@ -212,7 +212,9 @@ public class Controller {
     }
 
 
-    public synchronized void calculateAndUpdateFinalPoints(Game game) throws CardTypeMismatchException {
+    public synchronized void calculateAndUpdateFinalPoints() throws CardTypeMismatchException {
+        Game game = gameHandler.getGame();
+
         ArrayList<ObjectiveCard> objectiveCards = game.getTableTop().getSharedObjectiveCards();
 
         for(Player player : game.getListOfPlayers())
@@ -238,6 +240,7 @@ public class Controller {
 
             objectiveCards.remove(2); // removes secret player objective
         }
+        game.setIsGameEnded(true);
     }
 
     public synchronized void drawCard(Player player, CardType cardType, DrawPosition drawPosition) throws DeckIsEmptyException, AlreadyThreeCardsInHandException, NotExistingPlayerException {

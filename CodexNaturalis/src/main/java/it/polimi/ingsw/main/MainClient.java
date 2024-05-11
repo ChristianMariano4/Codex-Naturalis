@@ -34,7 +34,7 @@ public class MainClient {
             Thread clientThread = new Thread(client);
             clientThread.start();
             clientThread.join();
-            System.exit(0);
+            //System.exit(0);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (NotBoundException e) {

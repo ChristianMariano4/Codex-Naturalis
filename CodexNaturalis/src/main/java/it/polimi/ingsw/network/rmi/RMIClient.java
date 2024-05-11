@@ -147,6 +147,18 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
             }
             case TWENTY_POINTS -> {
                 view.twentyPoints((String) gameUpdate);
+                this.viewThread.interrupt();
+            }
+            case FINAL_ROUND ->
+            {
+                view.finalRound();
+                this.viewThread.interrupt();
+            }
+            case GAME_END ->
+            {
+                view.update((Game) gameUpdate);
+                this.viewThread.interrupt();
+                //view.gameEnd();
             }
 
         }
@@ -209,6 +221,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
                 this.viewThread.start();
                 this.viewThread.join();
                 resetClient(viewCLI); //resetting the client after end of game
+                //TODO: add server side reset
             }
 
         } catch (RemoteException e) {

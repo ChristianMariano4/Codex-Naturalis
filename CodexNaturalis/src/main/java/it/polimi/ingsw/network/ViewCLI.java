@@ -2,6 +2,7 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.CardNotFoundException;
+import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
@@ -101,7 +102,7 @@ public class ViewCLI implements View, Runnable {
     }
 
     @Override
-    public void gameLoop() throws IOException, NotExistingPlayerException, InterruptedException {
+    public void gameLoop() throws IOException, NotExistingPlayerException, InterruptedException, CardTypeMismatchException {
         boolean inGame = true;
         ui.showMainScreen();
         Object lock = new Object();
@@ -113,14 +114,23 @@ public class ViewCLI implements View, Runnable {
         {
             boolean isTurn = game.getPlayer(client.getUsername()).getIsTurn();
             String playerPlaying = game.getCurrentPlayer().getUsername();
-            ui.showTurnScreen(playerPlaying, client.getUsername());
-
+            if(!game.getIsGameEnded()) {
+                ui.showTurnScreen(playerPlaying, client.getUsername());
+            }
+            else
+            {
+                gameEnd();
+            }
 
             while(!Thread.interrupted()) {
                 String command = null;
                 if(!blockingQueue.isEmpty()) {
                     synchronized (lock) {
                         command = blockingQueue.take();
+                        if(game.getIsGameEnded())
+                        {
+                            return;
+                        }
 
                         switch (command) {
                             case "q", "quit":
@@ -175,7 +185,7 @@ public class ViewCLI implements View, Runnable {
     {
         ui.notYourTurn(game.getCurrentPlayer().getUsername());
     }
-    private void endTurn() throws NotExistingPlayerException, RemoteException {
+    private void endTurn() throws NotExistingPlayerException, RemoteException, CardTypeMismatchException {
         client.getServer().endTurn(game.getGameId(), client.getUsername());
     }
     private void drawCard() throws RemoteException {
@@ -471,6 +481,27 @@ public class ViewCLI implements View, Runnable {
         }while(true);
     }
 
+    public void finalRound()
+    {
+        ui.finalRound();
+    }
+    public void gameEnd()
+    {
+        String winner = null;
+        int maxPoints = -1;
+        HashMap<String, Integer> points = new HashMap<>();
+        for(Player player : game.getListOfPlayers())
+        {
+            points.put(player.getUsername(), player.getPoints());
+            if(player.getPoints() > maxPoints)
+            {
+                maxPoints = player.getPoints();
+                winner = player.getUsername();
+            }
+        }
+        ui.gameEnd(points, winner);
+    }
+
 
     @Override
     public void run() {
@@ -481,6 +512,8 @@ public class ViewCLI implements View, Runnable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (CardTypeMismatchException e) {
             throw new RuntimeException(e);
         }
     }

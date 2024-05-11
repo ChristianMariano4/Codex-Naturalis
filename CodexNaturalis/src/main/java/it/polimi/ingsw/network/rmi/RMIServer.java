@@ -218,10 +218,9 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         }
         throw new NotTurnException();
     }
-    public void endTurn(int gameId, String username) throws RemoteException, NotExistingPlayerException {
+    public void endTurn(int gameId, String username) throws RemoteException, NotExistingPlayerException, CardTypeMismatchException {
         GameHandler game = gameHandlerMap.get(gameId);
-        game.getController().nextTurn(game.getPlayer(username));
-        game.turnEvent();
+        game.turnEvent(username);
     }
 
 

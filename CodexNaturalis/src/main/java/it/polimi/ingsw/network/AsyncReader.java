@@ -18,7 +18,7 @@ public class AsyncReader implements Runnable{
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
-        while(true) {
+        while(!Thread.interrupted()) {
             synchronized (lock) {
                 String value = scanner.nextLine();
                 this.blockingQueue.add(value);

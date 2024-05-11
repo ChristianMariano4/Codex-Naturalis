@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
@@ -14,8 +15,12 @@ public interface View  {
     void boardUpdate(Game gameUpdated);
     void newPlayer(Game gameUpdated);
     void update(Game gameUpdated);
-    void gameLoop() throws IOException, NotExistingPlayerException, InterruptedException;
+    void gameLoop() throws IOException, NotExistingPlayerException, InterruptedException, CardTypeMismatchException;
 
     void twentyPoints(String username);
     void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose);
+
+    void finalRound();
+
+    void gameEnd();
 }
