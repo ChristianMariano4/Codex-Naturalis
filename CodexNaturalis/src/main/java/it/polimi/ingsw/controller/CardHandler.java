@@ -354,6 +354,16 @@ public class CardHandler {
         }
         throw new CardTypeMismatchException();
     }
+    public PlayableCard getPlayableCardById(int cardId)
+    {
+        return playableCards.stream().filter((c -> c.getCardsId() == cardId)).map(c -> {
+            try {
+                return c.getOtherSideCard(Side.BACK);
+            } catch (UnlinkedCardException e) {
+                throw new RuntimeException(e);
+            }
+        }).findFirst().orElseThrow();
+    }
     public CardInfo getCardInfo(Card card)
     {
         CardVisitor visitor = new CardVisitorImpl();

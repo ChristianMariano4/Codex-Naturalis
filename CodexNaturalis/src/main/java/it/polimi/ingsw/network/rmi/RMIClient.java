@@ -19,7 +19,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
     private String username = null;
 
     private final ServerRMIInterface server;
-    private int gameId;
+    private int gameId = -1; //invalid default value
     private View view;
     private boolean playing = false;
     private Thread viewThread;
@@ -152,47 +152,64 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
         }
     }
 
+    private boolean preGameStart(ViewCLI viewCLI) throws InterruptedException, NotExistingPlayerException, RemoteException {
+        if (!viewCLI.setChoiceGame())
+            return false;
+        viewCLI.setReady();
+        while (!this.playing) {
+            Thread.sleep(10);
+        }
+        this.markerTurn = viewCLI.waitingForMarkerTurn();
+        while (!this.markerTurn) {
+            Thread.sleep(10);
+        }
+        viewCLI.markerSelection();
+        this.markerDone = !viewCLI.waitingForOthers();
+        while (!this.markerDone) {
+            Thread.sleep(10);
+        }
+        while (!this.starterCardAssigned) {
+            Thread.sleep(10);
+        }
+        viewCLI.chooseStarterCardSide();
+        while (this.objectiveCardsToChoose == null) {
+            Thread.sleep(10);
+        }
+        viewCLI.chooseObjectiveCard(this.objectiveCardsToChoose);
+        viewCLI.waitingForGameBegin();
+        while (!this.gameBegin) {
+            Thread.sleep(10);
+        }
+        return true;
+    }
+    private void resetClient(ViewCLI viewCLI)
+    {
+         this.gameId = -1;
+         this.playing = false;
+         this.viewThread = null;
+         this.markerTurn = false;
+         this.markerDone = false;
+         this.starterCardAssigned = false;
+         this.objectiveCardsToChoose = null;
+         this.gameBegin = false;
+    }
+
     public void run() {
         try {
             this.server.connect(this); //connect to the server
             view = new ViewCLI(this);
             ViewCLI viewCLI = (ViewCLI) view;
-            viewCLI.setUsername();
-            viewCLI.setChoiceGame();
-            viewCLI.setReady();
+            viewCLI.setUsername(); //set only once per client, outside of loop
             //TODO: deal with back side of cards!
-            while(!this.playing)
-            {
-               Thread.sleep(10);
+
+            while(true) {
+                if(!preGameStart(viewCLI))
+                    break;
+                this.viewThread = new Thread(viewCLI); //game loop actually begins here
+                this.viewThread.start();
+                this.viewThread.join();
+                resetClient(viewCLI); //resetting the client after end of game
             }
-            this.markerTurn = viewCLI.waitingForMarkerTurn();
-            while(!this.markerTurn)
-            {
-                Thread.sleep(10);
-            }
-            viewCLI.markerSelection();
-            this.markerDone = !viewCLI.waitingForOthers();
-            while(!this.markerDone)
-            {
-                Thread.sleep(10);
-            }
-            while(!this.starterCardAssigned)
-            {
-                Thread.sleep(10);
-            }
-            viewCLI.chooseStarterCardSide();
-            while(this.objectiveCardsToChoose == null)
-            {
-                Thread.sleep(10);
-            }
-            viewCLI.chooseObjectiveCard(this.objectiveCardsToChoose);
-            viewCLI.waitingForGameBegin();
-            while(!this.gameBegin)
-            {
-                Thread.sleep(10);
-            }
-            this.viewThread = new Thread(viewCLI); //game loop actually begins here
-            this.viewThread.start();
 
         } catch (RemoteException e) {
             throw new RuntimeException(e);

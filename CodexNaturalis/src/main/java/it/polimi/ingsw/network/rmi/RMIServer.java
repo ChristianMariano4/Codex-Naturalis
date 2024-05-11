@@ -92,6 +92,8 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         return new ArrayList<>(gameHandlerMap.keySet());
     }
 
+
+
     @Override
     public Game addPlayerToGame(int gameId, String username, ClientRMIInterface client) throws RemoteException {
         try {
@@ -222,12 +224,19 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         game.turnEvent();
     }
 
+
+    public PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException
+    {
+        return gameHandlerMap.get(gameId).getController().getCardHandler().getPlayableCardById(cardId);
+    }
+
     /**
      * Get the other side of the selected PlayableCard
      * @param card is the selected PlayableCard
      * @return the other side of the selected PlayableCard
      * @throws CardNotFoundException if the card selected doesn't exist
      */
+
     public PlayableCard getOtherSideCard(int gameId, PlayableCard card) throws RemoteException {
         return gameHandlerMap.get(gameId).getController().getCardHandler().getOtherSideCard(card);
     }

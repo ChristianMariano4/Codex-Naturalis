@@ -20,8 +20,6 @@ public class ViewCLI implements View, Runnable {
     private Game game;
     private RMIClient client;
     private final Scanner scanner = new Scanner(System.in);
-    private boolean gameStarted = false;
-
     private String playerId;
     TUI ui = new TUI();;
 
@@ -37,27 +35,41 @@ public class ViewCLI implements View, Runnable {
                 break;
             else
                 System.out.println("Username already in use, try again: ");
-
         }while(true);
         client.setUsername(username);
         playerId = username;
 
     }
-    public void setChoiceGame() {
-        while(true){
-            ui.createOrJoinAGame();
-            String choice = scanner.nextLine();
-            if(choice.equals("1")) {
-                this.game = client.createGame(this.client.getUsername());
-                System.out.println("Game created.");
-                break;
+    public boolean setChoiceGame() {
+        do
+        {
+            try {
+                ui.createOrJoinAGame();
+                int choice = Integer.parseInt(scanner.nextLine());
+                if (choice == 1) {
+                    this.game = client.createGame(this.client.getUsername());
+                    System.out.println("Game created.");
+                    break;
+                }
+                else if (choice == 2) {
+                    ui.showAllExistingGames(client.getAvailableGames());
+                    this.game = client.joinGame(Integer.parseInt(scanner.nextLine()), this.client.getUsername());
+                    break;
+                }
+                else if(choice == 0)
+                {
+                    return false;
+                }
+                else
+                    throw new NumberFormatException();
             }
-            if(choice.equals("2")) {
-                ui.showAllExistingGames(client.getAvailableGames());
-                this.game = client.joinGame(Integer.parseInt(scanner.nextLine()), this.client.getUsername());
-                break;
+            catch(Exception e)
+            {
+                ui.invalidInput();
             }
-        }
+        }while(true);
+
+        return true;
     }
 
     public void setReady() {
@@ -109,6 +121,7 @@ public class ViewCLI implements View, Runnable {
                 if(!blockingQueue.isEmpty()) {
                     synchronized (lock) {
                         command = blockingQueue.take();
+
                         switch (command) {
                             case "q", "quit":
                                 inGame = false;
@@ -136,7 +149,18 @@ public class ViewCLI implements View, Runnable {
                             case null:
                                 break;
                             default:
-                                ui.commandNotFound();
+                                try
+                                {
+                                    int cardId = Integer.parseInt(command);
+                                    PlayableCard cardFront = client.getServer().getPlayableCardById(game.getGameId(), cardId);
+                                    PlayableCard cardBack = client.getServer().getOtherSideCard(game. getGameId(), cardFront);
+                                    ui.showCardInfo(cardFront, client.getServer().getCardInfo(cardFront, game.getGameId()));
+                                    ui.showCardInfo(cardBack, client.getServer().getCardInfo(cardBack, game.getGameId()));
+
+                                } catch (Exception e)
+                                {
+                                    ui.commandNotFound();
+                                }
                                 break;
                         }
                         lock.notifyAll();

@@ -27,6 +27,7 @@ public interface ServerRMIInterface extends Remote {
     RemoteLock getWaitingLock(int gameId) throws RemoteException;
     BlockingQueue<Boolean> getQueue(int gameId) throws RemoteException;
     CardInfo getCardInfo(Card card, int gameId) throws RemoteException;
+    PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException;
     Player getPlayer(int gameId, String username) throws RemoteException, NotExistingPlayerException;
     void setMarker(Player player, int gameId, Marker marker) throws RemoteException, NotAvailableMarkerException, NotExistingPlayerException;
     void setStarterCardSide(int gameId, Player player,StarterCard starterCard, Side side) throws RemoteException, NotExistingPlayerException;

@@ -31,44 +31,18 @@ public class MainClient {
             Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1234);
             ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);
             RMIClient client = new RMIClient(server);
-            new Thread(client).start();
+            Thread clientThread = new Thread(client);
+            clientThread.start();
+            clientThread.join();
+            System.exit(0);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (NotBoundException e) {
             throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
-//    public static void main(String[] args)
-//    {
-//        Scanner clientScanner = new Scanner(System.in);
-//        System.out.println("Insert client ip (nothing for localhost): ");
-//        String serverIp = clientScanner.nextLine();
-//        if(serverIp.isEmpty())
-//        {
-//            serverIp = "localhost";
-//        }
-//        try{
-//            Socket socket = new Socket(serverIp, GameValues.SERVER_PORT);
-//            System.out.println("test1");
-//
-//            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-//
-//            while(true) {
-//                System.out.println("test2");
-//
-//                //ObjectiveCard card = (ObjectiveCard) in.readObject();
-//                Game game = (Game) in.readObject();
-//                System.out.println("test");
-//
-//                System.out.println(game.getGameId());
-//                System.out.println("testsdfs");
-//            }
-//
-//        }
-//        catch (Exception e)
-//        {
-//            System.err.println(e.getMessage());
-//        }
-//  }
+
 }

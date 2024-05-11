@@ -39,14 +39,16 @@ public class TUI extends UI{
 
     public void showTurnScreen(String playerPlaying, String client) {
         this.clearScreen();
-        new PrintStream(System.out, true, System.console() != null
-                ? System.console().charset()
-                : Charset.defaultCharset())
-                .println(ansi().fg(GREEN).a("\n" +
-                        "█▄█ █▀█ █░█ █▀█   ▀█▀ █░█ █▀█ █▄░█\n" +
-                        "░█░ █▄█ █▄█ █▀▄   ░█░ █▄█ █▀▄ █░▀█").reset());
-        if(playerPlaying.equals(client))
+
+        if(playerPlaying.equals(client)) {
+            new PrintStream(System.out, true, System.console() != null
+                    ? System.console().charset()
+                    : Charset.defaultCharset())
+                    .println(ansi().fg(GREEN).a("\n" +
+                            "█▄█ █▀█ █░█ █▀█   ▀█▀ █░█ █▀█ █▄░█\n" +
+                            "░█░ █▄█ █▄█ █▀▄   ░█░ █▄█ █▀▄ █░▀█").reset());
             System.out.println("\nIt is currently your turn, write playTurn to play.");
+        }
         else
             System.out.println("It is currently "+ playerPlaying+"'s turn.");
         System.out.println( "q: quit \n" +
@@ -112,8 +114,8 @@ public class TUI extends UI{
     }
 
     public void createOrJoinAGame() {
-        System.out.println("Do you want to create a game or join an existing one?");
-        System.out.println("1. Create a game\n2. Join a game");
+        System.out.println("\nDo you want to create a game or join an existing one?");
+        System.out.println("1 - Create a game\n2 - Join a game\n0 - quit");
     }
 
     public void setUsername() {
@@ -121,7 +123,7 @@ public class TUI extends UI{
     }
 
     public void showPlayerHand(HashMap<PlayableCard, CardInfo> playerHand) { //create a method in the view to get the playerHand
-        this.clearScreen();
+        //this.clearScreen();
         int test = 0;
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
@@ -211,7 +213,7 @@ public class TUI extends UI{
     }
 
     public void showPlayerField(int[][] pField) {
-        this.clearScreen();
+        //this.clearScreen();
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
                 : Charset.defaultCharset())
