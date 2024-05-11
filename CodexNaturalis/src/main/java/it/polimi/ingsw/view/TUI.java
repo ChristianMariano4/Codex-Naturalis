@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
+import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
 import javax.swing.text.html.StyleSheet;
@@ -241,7 +242,7 @@ public class TUI extends UI{
         }
     }
     public void showCardInfo(PlayableCard card, CardInfo cardInfo) {
-        //this.asciiCardCreator(card);
+        this.asciiCardCreator(card);
         System.out.println("Id: " +card.getCardId());
         System.out.println("CardType: "+ cardInfo.getCardType());
 
@@ -253,46 +254,112 @@ public class TUI extends UI{
             System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
             System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
         }
-
-        System.out.println("Angles status:");
-        //TODO: Remove this for and use asciiCardCreator
-        for(AngleOrientation o: AngleOrientation.values()) {
-            if(o.equals(AngleOrientation.NONE))
-                continue;
-            System.out.println("    Angle " + o + ": " + card.getAngle(o).getAngleStatus() + ", Playable: " + card.getAngle(o).isPlayable());
-        }
     }
 
-    private void asciiCardCreator(PlayableCard card) { //TODO: All possible angle combinations
+    private void asciiCardCreator(PlayableCard card) {
+    //TODO: extends the method for all unlinked angles during the game
+        Ansi.Color color = WHITE;
+        switch (card.getCardColor()) {
+            case Resource.FUNGI -> color = RED;
+            case Resource.ANIMAL -> color = CYAN;
+            case Resource.INSECT -> color = MAGENTA;
+            case Resource.PLANT -> color = GREEN;
+        }
 
+        StringBuilder output = new StringBuilder();
+        for(int i = 0; i < 7; i++) {
+            switch (i) {
+                case 0:
+                    if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
+                        output.append("┌──────┬");
+                    } else {
+                        output.append("┌┬──────");
+                    }
+                    output.append("───────────");
+                    if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
+                        output.append("┬──────┐\n");
+                    } else {
+                        output.append("──────┬┐\n");
+                    }
+                    break;
+                case 1:
+                    if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
+                        output.append("│┤►@@◄├│");
+                    } else {
+                        output.append("││      ");
+                    }
+                    output.append("           ");
+                    if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
+                        output.append("│┤►@@◄├│\n");
+                    } else {
+                        output.append("      ││\n");
+                    }
+                    break;
+                case 2:
+                    if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
+                        output.append("│┼─────┘");
+                    } else {
+                        output.append("││      ");
+                    }
+                    output.append("  ┌┬───┬┐  ");
+                    if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
+                        output.append("└─────┼│\n");
+                    } else {
+                        output.append("      ││\n");
+                    }
+                    break;
+                case 3:
+                    if(card.getCardId() > 9) {
+                        output.append("││        ││").append(card.getCardId()).append(" ││        ││\n");
+                    } else {
+                        output.append("││        ││ ").append(card.getCardId()).append(" ││        ││\n");
+                    }
+                    break;
+                case 4:
+                    if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
+                        output.append("│┼─────┐");
+                    } else {
+                        output.append("││      ");
+                    }
+                    output.append("  └┴───┴┘  ");
+                    if(card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
+                        output.append("┌─────┼│\n");
+                    } else {
+                        output.append("      ││\n");
+                    }
+                    break;
+                case 5:
+                    if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
+                        output.append("│┤►@@◄├│");
+                    } else {
+                        output.append("││      ");
+                    }
+                    output.append("           ");
+                    if(card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
+                        output.append("│┤►@@◄├│\n");
+                    } else {
+                        output.append("      ││\n");
+                    }
+                    break;
+                case 6:
+                    if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
+                        output.append("└──────┴");
+                    } else {
+                        output.append("└┴──────");
+                    }
+                    output.append("───────────");
+                    if(/*card.getAngle(AngleOrientation.BOTTOMLEFT).getAngleStatus().equals(AngleStatus.UNLINKED)*/card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
+                        output.append("┴──────┘\n");
+                    } else {
+                        output.append("──────┴┘\n");
+                    }
+                    break;
+            }
+        }
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
                 : Charset.defaultCharset())
-                .println(ansi().fg(GREEN).a(
-                          "┌──────┬───────────┬──────┐\n" +
-                                "│┤►@@◄├│           │┤►@@◄├│\n" +
-                                "│┼─────┘  ┌┬───┬┐  └─────┼│\n" +
-                                "││        ││ "+card.getCardId()+" ││        ││\n" +
-                                "││        └┴───┴┘  ┌─────┼│\n" +
-                                "││                 │┤►@@◄├│\n" +
-                                "└┴─────────────────┴──────┘").reset());
-
-        boolean[] anglesCombination = new boolean[4];
-
-        for(AngleOrientation o: AngleOrientation.values()) {
-            if(o.equals(AngleOrientation.TOPRIGHT)) {
-                anglesCombination[0] = true;
-            }
-            if(o.equals(AngleOrientation.TOPLEFT)) {
-                anglesCombination[1] = true;
-            }
-            if(o.equals(AngleOrientation.BOTTOMRIGHT)) {
-                anglesCombination[2] = true;
-            }
-            if(o.equals(AngleOrientation.BOTTOMLEFT)) {
-                anglesCombination[3] = true;
-            }
-        }
+                .println(ansi().fg(color).a(output.toString()).reset());
     }
     public void showCardInfo(ObjectiveCard card, CardInfo cardInfo) {
         //TODO: custom graphic for objective cards
@@ -304,7 +371,7 @@ public class TUI extends UI{
                             "┌──────┬───────────┬──────┐\n" +
                                     "│┤►@@◄├│           │┤►@@◄├│\n" +
                                     "│┼─────┘  ┌┬───┬┐  └─────┼│\n" +
-                                    "││        ││ "+card.getCardId()+" ││        ││\n" +
+                                    "││        ││"+card.getCardId()+" ││        ││\n" +
                                     "│┼─────┐  └┴───┴┘  ┌─────┼│\n" +
                                     "│┤►@@◄├│           │┤►@@◄├│\n" +
                                     "└──────┴───────────┴──────┘").reset());
@@ -416,7 +483,7 @@ public class TUI extends UI{
         }
         System.out.println("\nChoose card Side: 1 - FRONT, 2 - BACK");
     }
-    public void clearScreen() { //TODO: non funziona :(
+    public void clearScreen() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (InterruptedException | IOException e) {
