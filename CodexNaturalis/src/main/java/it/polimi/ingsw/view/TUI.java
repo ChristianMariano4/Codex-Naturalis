@@ -38,6 +38,13 @@ public class TUI extends UI{
     }
 
     public void showTurnScreen(String playerPlaying, String client) {
+        this.clearScreen();
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset())
+                .println(ansi().fg(GREEN).a("\n" +
+                        "█▄█ █▀█ █░█ █▀█   ▀█▀ █░█ █▀█ █▄░█\n" +
+                        "░█░ █▄█ █▄█ █▀▄   ░█░ █▄█ █▀▄ █░▀█").reset());
         if(playerPlaying.equals(client))
             System.out.println("\nIt is currently your turn, write playTurn to play.");
         else
@@ -59,6 +66,13 @@ public class TUI extends UI{
     }
     public void showAvailableMarkers(ArrayList<Marker> markers)
     {
+        this.clearScreen();
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset())
+                .println(ansi().fg(GREEN).a("\n" +
+                        "█▀▄▀█ ▄▀█ █▀█ █▄▀ █▀▀ █▀█   █▀ █▀▀ █░░ █▀▀ █▀▀ ▀█▀ █ █▀█ █▄░█\n" +
+                        "█░▀░█ █▀█ █▀▄ █░█ ██▄ █▀▄   ▄█ ██▄ █▄▄ ██▄ █▄▄ ░█░ █ █▄█ █░▀█").reset());
         int counter = 1;
         System.out.print("Select your marker: ");
         for(Marker marker : markers)
@@ -85,7 +99,6 @@ public class TUI extends UI{
                         ╚█████╔╝╚█████╔╝██████╔╝███████╗██╔╝╚██╗  ██║░╚███║██║░░██║░░░██║░░░╚██████╔╝██║░░██║██║░░██║███████╗██║██████╔╝
                         ░╚════╝░░╚════╝░╚═════╝░╚══════╝╚═╝░░╚═╝  ╚═╝░░╚══╝╚═╝░░╚═╝░░░╚═╝░░░░╚═════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝╚═════╝░                                                                                                                                                                                                  \s
                 """).reset());
-        //ℭ𝔬𝔡𝔢𝔵 𝔑𝔞𝔱𝔲𝔯𝔞𝔩𝔦𝔰
     }
 
     public void showAllExistingGames(List<Integer> availableGames) {
@@ -93,7 +106,7 @@ public class TUI extends UI{
         System.out.println("Available Games:");
         for(Integer game: availableGames) {
             counter++;
-            System.out.println("GameID n°" + counter + ": " + game);
+            System.out.println(ansi().a("GameID n°" + counter + ": " + game));
         }
         System.out.print("Enter the game id you want to join: ");
     }
@@ -123,6 +136,12 @@ public class TUI extends UI{
     }
 
     public void showAllPlayers(ArrayList<String> usernames) {
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset())
+                .println(ansi().fg(GREEN).a("\n" +
+                        "█▀█ █░░ ▄▀█ █▄█ █▀▀ █▀█ █▀\n" +
+                        "█▀▀ █▄▄ █▀█ ░█░ ██▄ █▀▄ ▄█").reset());
         int playerCounter = 1;
         for(String username : usernames) {
             System.out.println("Player " + playerCounter + ": " + username);
@@ -175,11 +194,15 @@ public class TUI extends UI{
     }
 
     public void showSharedObjectiveCard(HashMap<ObjectiveCard, CardInfo> sharedObjectiveCards) {
+        this.clearScreen();
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset())
+                .println(ansi().fg(GREEN).a("\n" +
+                        "█▀ █░█ ▄▀█ █▀█ █▀▀ █▀▄   █▀█ █▄▄ ░░█ █▀▀ █▀▀ ▀█▀ █ █░█ █▀▀   █▀▀ ▄▀█ █▀█ █▀▄ █▀\n" +
+                        "▄█ █▀█ █▀█ █▀▄ ██▄ █▄▀   █▄█ █▄█ █▄█ ██▄ █▄▄ ░█░ █ ▀▄▀ ██▄   █▄▄ █▀█ █▀▄ █▄▀ ▄█").reset());
         for(ObjectiveCard card: sharedObjectiveCards.keySet()) {
-            System.out.println("CardId:" + card.getCardId());
-            System.out.println("Card Type:" + sharedObjectiveCards.get(card).getCardType());
-            System.out.println("Positional Type:" + sharedObjectiveCards.get(card).getPositionalType());
-            System.out.println("Card Resource:" + sharedObjectiveCards.get(card).getCardResource());
+            showCardInfo(card, sharedObjectiveCards.get(card));
         }
     }
 
@@ -188,6 +211,13 @@ public class TUI extends UI{
     }
 
     public void showPlayerField(int[][] pField) {
+        this.clearScreen();
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset())
+                .println(ansi().fg(GREEN).a("\n" +
+                        "█▀▀ ▄▀█ █▀▄▀█ █▀▀   █▀▀ █ █▀▀ █░░ █▀▄\n" +
+                        "█▄█ █▀█ █░▀░█ ██▄   █▀░ █ ██▄ █▄▄ █▄▀").reset());
 
         int minRow = DEFAULT_MATRIX_SIZE;
         int maxRow = 0;
