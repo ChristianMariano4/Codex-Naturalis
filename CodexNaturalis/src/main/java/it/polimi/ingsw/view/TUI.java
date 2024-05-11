@@ -363,19 +363,61 @@ public class TUI extends UI{
     }
     public void showCardInfo(ObjectiveCard card, CardInfo cardInfo) {
         //TODO: custom graphic for objective cards
+
         if(card.getCurrentSide().equals(Side.FRONT)) {
+            String cardImage = "";
+            Ansi.Color color = WHITE;
+            if(cardInfo.getCardType().equals(CardType.POSITIONALOBJECTIVE)) {
+                color = switch (cardInfo.getCardColor()) {
+                    case Resource.FUNGI -> {
+                        cardImage = "┌┬───────┬───────┬───────┬┐\n" +
+                                "││       ├───────┤       ││\n" +
+                                "││       │    @  │       ││\n" +
+                                "││       │   @   │       ││\n" +
+                                "││       │  @    │       ││\n" +
+                                "││       ├───────┤       ││\n" +
+                                "└┴───────┴───────┴───────┴┘";
+                        yield RED;
+                    }
+                    case Resource.PLANT -> {
+                        cardImage = "┌┬───────┬───────┬───────┬┐\n" +
+                                "││       ├───────┤       ││\n" +
+                                "││       │  @    │       ││\n" +
+                                "││       │   @   │       ││\n" +
+                                "││       │    @  │       ││\n" +
+                                "││       ├───────┤       ││\n" +
+                                "└┴───────┴───────┴───────┴┘";
+                        yield GREEN;
+                    }
+                    case Resource.ANIMAL -> {
+                        cardImage = "┌┬───────┬───────┬───────┬┐\n" +
+                                "││       ├───────┤       ││\n" +
+                                "││       │    @  │       ││\n" +
+                                "││       │   @   │       ││\n" +
+                                "││       │  @    │       ││\n" +
+                                "││       ├───────┤       ││\n" +
+                                "└┴───────┴───────┴───────┴┘";
+                        yield CYAN;
+                    }
+                    case Resource.INSECT -> {
+                        cardImage = "┌┬───────┬───────┬───────┬┐\n" +
+                                "││       ├───────┤       ││\n" +
+                                "││       │  @    │       ││\n" +
+                                "││       │   @   │       ││\n" +
+                                "││       │    @  │       ││\n" +
+                                "││       ├───────┤       ││\n" +
+                                "└┴───────┴───────┴───────┴┘";
+                        yield MAGENTA;
+                    }
+                    default -> color;
+                };
+            }
             new PrintStream(System.out, true, System.console() != null
                     ? System.console().charset()
                     : Charset.defaultCharset())
-                    .println(ansi().fg(GREEN).a(
-                            "┌──────┬───────────┬──────┐\n" +
-                                    "│┤►@@◄├│           │┤►@@◄├│\n" +
-                                    "│┼─────┘  ┌┬───┬┐  └─────┼│\n" +
-                                    "││        ││"+card.getCardId()+" ││        ││\n" +
-                                    "│┼─────┐  └┴───┴┘  ┌─────┼│\n" +
-                                    "│┤►@@◄├│           │┤►@@◄├│\n" +
-                                    "└──────┴───────────┴──────┘").reset());
+                    .println(ansi().fg(color).a(cardImage).reset());
         } else {
+            //Objective card has back?
             new PrintStream(System.out, true, System.console() != null
                     ? System.console().charset()
                     : Charset.defaultCharset())
@@ -403,9 +445,9 @@ public class TUI extends UI{
                     .println(ansi().fg(GREEN).a(
                             "┌──────┬───────────┬──────┐\n" +
                                     "│┤►@@◄├│           │┤►@@◄├│\n" +
-                                    "│┼─────┘  ┌┬───┬┐  └─────┼│\n" +
-                                    "││        ││ "+card.getCardId()+" ││        ││\n" +
-                                    "│┼─────┐  └┴───┴┘  ┌─────┼│\n" +
+                                    "│┼─────┘  ┌─────┐  └─────┼│\n" +
+                                    "││        │  "+card.getCardId()+"  │        ││\n" +
+                                    "│┼─────┐  └─────┘  ┌─────┼│\n" +
                                     "│┤►@@◄├│           │┤►@@◄├│\n" +
                                     "└──────┴───────────┴──────┘").reset());
         } else {
@@ -426,6 +468,57 @@ public class TUI extends UI{
         System.out.println("Resource type: " + cardInfo.getCardColor());
         System.out.println("Positional condition: " + cardInfo.getPositionalType());
     }
+
+    /*
+┌┬───────┬───────┬───────┬┐
+││       ├───────┤       ││
+││       │  @    │       ││
+││       │   @   │       ││
+││       │   @   │       ││
+││       ├───────┤       ││
+└┴───────┴───────┴───────┴┘
+
+┌┬───────┬───────┬───────┬┐
+││       ├───────┤       ││
+││       │    @  │       ││
+││       │   @   │       ││
+││       │   @   │       ││
+││       ├───────┤       ││
+└┴───────┴───────┴───────┴┘
+
+┌┬───────┬───────┬───────┬┐
+││       ├───────┤       ││
+││       │    @  │       ││
+││       │   @   │       ││
+││       │  @    │       ││
+││       ├───────┤       ││
+└┴───────┴───────┴───────┴┘
+
+┌┬───────┬───────┬───────┬┐
+││       ├───────┤       ││
+││       │  @    │       ││
+││       │   @   │       ││
+││       │    @  │       ││
+││       ├───────┤       ││
+└┴───────┴───────┴───────┴┘
+
+┌┬───────┬───────┬───────┬┐
+││       ├───────┤       ││
+││       │    @  │       ││
+││       │    @  │       ││
+││       │   @   │       ││
+││       ├───────┤       ││
+└┴───────┴───────┴───────┴┘
+
+┌┬───────┬───────┬───────┬┐
+││       ├───────┤       ││
+││       │  @    │       ││
+││       │  @    │       ││
+││       │   @   │       ││
+││       ├───────┤       ││
+└┴───────┴───────┴───────┴┘
+     */
+
     public void chooseCardToPlay()
     {
         System.out.println("Insert the ID of the card you want to play");
