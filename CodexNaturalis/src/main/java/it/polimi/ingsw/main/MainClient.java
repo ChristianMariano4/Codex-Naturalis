@@ -1,18 +1,10 @@
 package it.polimi.ingsw.main;
 
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameValues;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.network.ViewCLI;
-import it.polimi.ingsw.network.rmi.RMIClient;
+import it.polimi.ingsw.view.TUI.ViewCLI;
+import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
-import it.polimi.ingsw.view.TUI;
-import it.polimi.ingsw.view.UI;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.net.Socket;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -23,14 +15,59 @@ public class MainClient {
 
 
     public static void main(String[] args) {
-        ViewCLI view;
+        Scanner scanner = new Scanner(System.in);
+        do {
+        try {
+            System.out.println("Choose how to connect: ");
+            System.out.println("1 - Socket + TUI");
+            System.out.println("2 - RMI + TUI");
+            System.out.println();
+            System.out.println("3 - Socket + GUI");
+            System.out.println("4 - RMI + GUI");
+
+            int choice = Integer.parseInt(scanner.nextLine());
+
+            switch (choice){
+                case 1:
+                    MainClient.SocketTUI();
+                    break;
+                case 2:
+                    MainClient.RMITUI();
+                    break;
+                case 3:
+                    MainClient.SocketGUI();
+                    break;
+                case 4:
+                    MainClient.RMIGUI();
+                    break;
+                default:
+                    throw new NumberFormatException();
+            }
+            break;
+        }
+        catch (Exception e)
+        {
+            System.out.println("Invalid input, try again");
+        }
+        }while(true);
+        scanner.close();
+
+
+
+    }
+    private static void SocketTUI()
+    {
+        return;
+    }
+    private static void RMITUI()
+    {
         System.out.println("Connecting to RMI server...");
         String serverName = "Server";
 
         try {
             Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1234);
             ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);
-            RMIClient client = new RMIClient(server);
+            Client client = new Client(server, true);
             Thread clientThread = new Thread(client);
             clientThread.start();
             clientThread.join();
@@ -42,6 +79,16 @@ public class MainClient {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        return;
+    }
+    private static void SocketGUI()
+    {
+        return;
+    }
+    private static void RMIGUI()
+    {
+        return;
     }
 
 

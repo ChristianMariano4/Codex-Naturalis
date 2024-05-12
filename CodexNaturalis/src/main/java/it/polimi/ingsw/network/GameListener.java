@@ -4,8 +4,6 @@ import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.rmi.ClientRMIInterface;
-import it.polimi.ingsw.network.rmi.RMIClient;
-import it.polimi.ingsw.network.rmi.RMIServer;
 
 import java.rmi.RemoteException;
 
@@ -13,9 +11,9 @@ public class GameListener implements Listener<GameEvent> {
 
     private Game updatedGame;
     private final ClientRMIInterface client;
-    private final RMIServer server;
+    private final Server server;
 
-    public GameListener(ClientRMIInterface client, RMIServer server) {
+    public GameListener(ClientRMIInterface client, Server server) {
         this.client = client;
         this.server = server;
     }

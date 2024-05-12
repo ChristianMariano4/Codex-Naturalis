@@ -6,7 +6,7 @@
 //import it.polimi.ingsw.network.messages.userMessages.CreateGameMessage;
 //import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
 //import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
-//import it.polimi.ingsw.network.rmi.RMIClient;
+//import it.polimi.ingsw.network.Client;
 //import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 //
 //import java.io.IOException;
@@ -22,7 +22,7 @@
 //public class ViewCLI implements View {
 //    private String username;
 //    private Game game;
-//    private RMIClient client;
+//    private Client client;
 //    private final Scanner scanner = new Scanner(System.in);
 //    private Socket socket;
 //    private ObjectInputStream input;
@@ -73,7 +73,7 @@
 //
 //    });
 //
-//    public ViewCLI(RMIClient client/*, boolean isRMI*/) {
+//    public ViewCLI(Client client/*, boolean isRMI*/) {
 //        this.client = client;
 //        //this.isRMI = isRMI;
 //    }
@@ -130,9 +130,9 @@
 //            try {
 //                Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1234);
 //                ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);
-//                Runnable client = new RMIClient(server);
+//                Runnable client = new Client(server);
 //                new Thread(client).start();
-//                view = new ViewCLI((RMIClient) client);
+//                view = new ViewCLI((Client) client);
 //            } catch (RemoteException e) {
 //                throw new RuntimeException(e);
 //            } catch (NotBoundException e) {

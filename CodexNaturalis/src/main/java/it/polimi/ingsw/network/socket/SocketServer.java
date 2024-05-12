@@ -12,7 +12,7 @@
 //import it.polimi.ingsw.network.messages.EventWrapper;
 //import it.polimi.ingsw.network.messages.GameEvent;
 //import it.polimi.ingsw.network.rmi.ClientRMIInterface;
-//import it.polimi.ingsw.network.rmi.RMIServer;
+//import it.polimi.ingsw.network.Server;
 //import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 //
 //import java.io.ObjectInputStream;

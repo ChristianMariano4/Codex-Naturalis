@@ -4,13 +4,10 @@ import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.*;
-import it.polimi.ingsw.network.maybeUseful.RemoteLock;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.server.RemoteObject;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
@@ -24,7 +21,6 @@ public interface ServerRMIInterface extends Remote {
     Game addPlayerToGame(int gameId, String username, ClientRMIInterface client) throws RemoteException;
     int setReady(int gameId) throws RemoteException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException;
     void subscribe(ClientRMIInterface client, int gameId) throws RemoteException;
-    RemoteLock getWaitingLock(int gameId) throws RemoteException;
     BlockingQueue<Boolean> getQueue(int gameId) throws RemoteException;
     CardInfo getCardInfo(Card card, int gameId) throws RemoteException;
     PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException;

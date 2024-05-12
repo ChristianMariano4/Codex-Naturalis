@@ -7,7 +7,7 @@
 //import it.polimi.ingsw.model.Game;
 //import it.polimi.ingsw.model.GameValues;
 //import it.polimi.ingsw.network.rmi.GameHandler;
-//import it.polimi.ingsw.network.View;
+//import it.polimi.ingsw.view.View;
 //import it.polimi.ingsw.network.messages.GameEvent;
 //import it.polimi.ingsw.network.messages.userMessages.CreateGameMessage;
 //import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;

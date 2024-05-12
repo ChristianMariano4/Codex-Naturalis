@@ -1,9 +1,10 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.TUI;
 
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.view.UI;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -20,7 +21,7 @@ import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
 
-public class TUI extends UI{
+public class TUI extends UI {
 
     public TUI() {
         init();

@@ -1,22 +1,22 @@
-package it.polimi.ingsw.network.rmi;
+package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.*;
-import it.polimi.ingsw.network.maybeUseful.RemoteLock;
 import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
 import it.polimi.ingsw.network.messages.userMessages.UserMessage;
 import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
+import it.polimi.ingsw.network.rmi.ClientRMIInterface;
+import it.polimi.ingsw.network.rmi.GameHandler;
+import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
-public class RMIServer extends Thread implements ServerRMIInterface {
+public class Server extends Thread implements ServerRMIInterface {
     private final Map<Integer, GameHandler> gameHandlerMap;
     private final List<ClientRMIInterface> clients = new ArrayList<>(); //list of all client stubs+
 
@@ -53,7 +53,7 @@ public class RMIServer extends Thread implements ServerRMIInterface {
 //    });
 
 
-    public RMIServer(Map<Integer, GameHandler> gameHandlerMap) {
+    public Server(Map<Integer, GameHandler> gameHandlerMap) {
         this.gameHandlerMap = gameHandlerMap;
     }
 
@@ -107,8 +107,6 @@ public class RMIServer extends Thread implements ServerRMIInterface {
     @Override
     public int setReady(int gameId) throws RemoteException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
         return this.gameHandlerMap.get(gameId).setReady();
-
-        //TODO: inizializzazione del gioco se tutti i giocatori sono pronti
     }
 
     @Override
@@ -116,10 +114,6 @@ public class RMIServer extends Thread implements ServerRMIInterface {
         this.gameHandlerMap.get(gameId).subscribe(client, gameId);
     }
 
-    @Override
-    public RemoteLock getWaitingLock(int gameId) {
-        return gameHandlerMap.get(gameId).getWaitingLock();
-    }
 
     @Override
     public BlockingQueue<Boolean> getQueue(int gameId) {
@@ -160,7 +154,7 @@ public class RMIServer extends Thread implements ServerRMIInterface {
 
     private void startRMIServer() {
         //creating server stub
-        ServerRMIInterface server = new RMIServer(new HashMap<>());
+        ServerRMIInterface server = new Server(new HashMap<>());
 
         final String serverName = "Server"; //name of the server used to register itself
         ServerRMIInterface stub = null;
@@ -176,7 +170,7 @@ public class RMIServer extends Thread implements ServerRMIInterface {
     }
 
     public void update(ClientRMIInterface clientRMIInterface, UserMessageWrapper message) throws RemoteException {
-        //RMIClient client = this.getClient(message.getMessage().getUsername());
+        //Client client = this.getClient(message.getMessage().getUsername());
 
         UserInputEvent userInputEvent = message.getType();
         UserMessage userMessage = message.getMessage();

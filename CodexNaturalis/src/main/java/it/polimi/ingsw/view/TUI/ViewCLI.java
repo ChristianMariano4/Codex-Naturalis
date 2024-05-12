@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.view.TUI;
 
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.CardNotFoundException;
@@ -7,8 +7,8 @@ import it.polimi.ingsw.exceptions.NotEnoughPlayersException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
-import it.polimi.ingsw.network.rmi.RMIClient;
-import it.polimi.ingsw.view.TUI;
+import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.network.Client;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -20,7 +20,7 @@ import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 
 public class ViewCLI implements View, Runnable {
     private Game game;
-    private RMIClient client;
+    private Client client;
     private final Scanner scanner = new Scanner(System.in);
     private String playerId;
     TUI ui = new TUI();;
@@ -33,7 +33,7 @@ public class ViewCLI implements View, Runnable {
         do {
             username = scanner.nextLine();
 
-            if(client.getServer().checkUsername(username))
+            if(client.checkUsername(username))
                 break;
             else
                 System.out.println("Username already in use, try again: ");
@@ -101,7 +101,7 @@ public class ViewCLI implements View, Runnable {
         System.out.println("You are ready to start the game. Waiting for other players to be ready...");
     }
 
-    public ViewCLI(RMIClient client) {
+    public ViewCLI(Client client) {
 
         this.client = client;
     }
@@ -184,10 +184,10 @@ public class ViewCLI implements View, Runnable {
                                 try
                                 {
                                     int cardId = Integer.parseInt(command);
-                                    PlayableCard cardFront = client.getServer().getPlayableCardById(game.getGameId(), cardId);
-                                    PlayableCard cardBack = client.getServer().getOtherSideCard(game. getGameId(), cardFront);
-                                    ui.showCardInfo(cardFront, client.getServer().getCardInfo(cardFront, game.getGameId()));
-                                    ui.showCardInfo(cardBack, client.getServer().getCardInfo(cardBack, game.getGameId()));
+                                    PlayableCard cardFront = client.getPlayableCardById(game.getGameId(), cardId);
+                                    PlayableCard cardBack = client.getOtherSideCard(game. getGameId(), cardFront);
+                                    ui.showCardInfo(cardFront, client.getCardInfo(cardFront, game.getGameId()));
+                                    ui.showCardInfo(cardBack, client.getCardInfo(cardBack, game.getGameId()));
 
                                 } catch (Exception e)
                                 {
@@ -208,7 +208,7 @@ public class ViewCLI implements View, Runnable {
         ui.notYourTurn(game.getCurrentPlayer().getUsername());
     }
     private void endTurn() throws NotExistingPlayerException, RemoteException, CardTypeMismatchException {
-        client.getServer().endTurn(game.getGameId(), client.getUsername());
+        client.endTurn(game.getGameId(), client.getUsername());
     }
     private void drawCard() throws RemoteException {
         HashMap<DrawPosition, GoldCard> discoveredGoldCards =  game.getTableTop().getDrawingField().getDiscoveredGoldCards();
@@ -218,12 +218,12 @@ public class ViewCLI implements View, Runnable {
         HashMap<ResourceCard, CardInfo> uiDiscoveredResourceCards = new HashMap<>();
         for(GoldCard card: discoveredGoldCards.values())
         {
-            uiDiscoveredGoldCards.put(card, client.getServer().getCardInfo(card, game.getGameId()));
+            uiDiscoveredGoldCards.put(card, client.getCardInfo(card, game.getGameId()));
         }
 
         for(ResourceCard card: discoveredResourceCards.values())
         {
-            uiDiscoveredResourceCards.put(card, client.getServer().getCardInfo(card, game.getGameId()));
+            uiDiscoveredResourceCards.put(card, client.getCardInfo(card, game.getGameId()));
         }
         ui.showDiscoveredCards(uiDiscoveredGoldCards, uiDiscoveredResourceCards);
         ui.drawCard();
@@ -267,7 +267,7 @@ public class ViewCLI implements View, Runnable {
                 {
                     continue;
                 }
-                client.getServer().drawCard(game.getGameId(), client.getUsername(), cardType, drawPosition);
+                client.drawCard(game.getGameId(), client.getUsername(), cardType, drawPosition);
                 break;
             }
             catch(Exception e)
@@ -287,7 +287,7 @@ public class ViewCLI implements View, Runnable {
                 ui.chooseWhereToPlay();
                 int cardIdOnBoard = Integer.parseInt(scanner.nextLine());
                 PlayableCard cardOnBoard = game.getPlayer(client.getUsername()).getPlayerField().getCardById(cardIdOnBoard);
-                ui.showCardInfo(cardOnBoard, client.getServer().getCardInfo(cardOnBoard, game.getGameId()));
+                ui.showCardInfo(cardOnBoard, client.getCardInfo(cardOnBoard, game.getGameId()));
                 ui.chooseAngle();
                 int choice = Integer.parseInt(scanner.nextLine());
                 AngleOrientation orientation = switch (choice) {
@@ -302,7 +302,7 @@ public class ViewCLI implements View, Runnable {
                 {
                     continue;
                 }
-                client.getServer().playCard(game.getGameId(),client.getUsername(), cardOnBoard, card , orientation);
+                client.playCard(game.getGameId(),client.getUsername(), cardOnBoard, card , orientation);
                 break;
 
             }
@@ -327,16 +327,16 @@ public class ViewCLI implements View, Runnable {
     public void showSharedObjectiveCards() throws RemoteException {
         HashMap<ObjectiveCard, CardInfo> sharedObjectiveCards = new HashMap<>();
         ArrayList<ObjectiveCard> objectiveCards = game.getTableTop().getSharedObjectiveCards();
-        sharedObjectiveCards.put(objectiveCards.get(0), client.getServer().getCardInfo(objectiveCards.get(0), game.getGameId()));
-        sharedObjectiveCards.put(objectiveCards.get(1), client.getServer().getCardInfo(objectiveCards.get(1), game.getGameId()));
+        sharedObjectiveCards.put(objectiveCards.get(0), client.getCardInfo(objectiveCards.get(0), game.getGameId()));
+        sharedObjectiveCards.put(objectiveCards.get(1), client.getCardInfo(objectiveCards.get(1), game.getGameId()));
 
         ui.showSharedObjectiveCard(sharedObjectiveCards);
     }
     public void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose)
     {
             try {
-                ui.showCardInfo(objectiveCardsToChoose.get(0), client.getServer().getCardInfo(objectiveCardsToChoose.get(0), game.getGameId()));
-                ui.showCardInfo(objectiveCardsToChoose.get(1), client.getServer().getCardInfo(objectiveCardsToChoose.get(1), game.getGameId()));
+                ui.showCardInfo(objectiveCardsToChoose.get(0), client.getCardInfo(objectiveCardsToChoose.get(0), game.getGameId()));
+                ui.showCardInfo(objectiveCardsToChoose.get(1), client.getCardInfo(objectiveCardsToChoose.get(1), game.getGameId()));
                 ui.chooseSecretObjectiveCard();
                 do {
                     try {
@@ -354,7 +354,7 @@ public class ViewCLI implements View, Runnable {
                         }
                         if (chosenObjectiveCard == null)
                             throw new CardNotFoundException();
-                        client.getServer().setSecretObjectiveCard(game.getGameId(), game.getPlayer(client.getUsername()), chosenObjectiveCard);
+                        client.setSecretObjectiveCard(game.getGameId(), game.getPlayer(client.getUsername()), chosenObjectiveCard);
                         break;
                     }
                     catch(Exception e)
@@ -374,7 +374,7 @@ public class ViewCLI implements View, Runnable {
 
 
         for(PlayableCard card: game.getPlayer(client.getUsername()).getPlayerHand().getCardsInHand()) {
-            CardInfo cardInfo = client.getServer().getCardInfo(card, game.getGameId());
+            CardInfo cardInfo = client.getCardInfo(card, game.getGameId());
             cardsInHand.put(card, cardInfo);
         }
         ui.showPlayerHand(cardsInHand);
@@ -410,7 +410,7 @@ public class ViewCLI implements View, Runnable {
                     case 4 -> markerList.get(3);
                     default -> throw new NumberFormatException();
                 };
-                client.getServer().setMarker(game.getPlayer(client.getUsername()), game.getGameId(), chosenMarker);
+                client.setMarker(game.getPlayer(client.getUsername()), game.getGameId(), chosenMarker);
                 break;
             }
             catch(Exception e)
@@ -451,13 +451,13 @@ public class ViewCLI implements View, Runnable {
         HashMap<DrawPosition, GoldCard> temp = game.getTableTop().getDrawingField().getDiscoveredGoldCards();
         HashMap<GoldCard, CardInfo> discoveredGoldCards = new HashMap<>();
         for(DrawPosition position: temp.keySet()) {
-            discoveredGoldCards.put(temp.get(position), client.getServer().getCardInfo(temp.get(position), game.getGameId()));
+            discoveredGoldCards.put(temp.get(position), client.getCardInfo(temp.get(position), game.getGameId()));
         }
 
         HashMap<DrawPosition, ResourceCard> temp2 = game.getTableTop().getDrawingField().getDiscoveredResourceCards();
         HashMap<ResourceCard, CardInfo> discoveredResourceCards = new HashMap<>();
         for(DrawPosition position: temp2.keySet()) {
-            discoveredResourceCards.put(temp2.get(position), client.getServer().getCardInfo(temp2.get(position), game.getGameId()));
+            discoveredResourceCards.put(temp2.get(position), client.getCardInfo(temp2.get(position), game.getGameId()));
         }
 
         ui.showDiscoveredCards(discoveredGoldCards, discoveredResourceCards);
@@ -484,7 +484,7 @@ public class ViewCLI implements View, Runnable {
     }
     public void chooseStarterCardSide() throws NotExistingPlayerException, RemoteException {
         StarterCard cardFront = game.getPlayer(client.getUsername()).getStarterCard();
-        StarterCard cardBack = client.getServer().getOtherSideCard(game.getGameId(), cardFront);
+        StarterCard cardBack = client.getOtherSideCard(game.getGameId(), cardFront);
 
         ui.chooseStarterCardSide(cardFront,cardBack);
         do{
@@ -501,7 +501,7 @@ public class ViewCLI implements View, Runnable {
                         break;
                     default: throw new NumberFormatException();
                 }
-                client.getServer().setStarterCardSide(game.getGameId(), game.getPlayer(client.getUsername()), cardFront, side);
+                client.setStarterCardSide(game.getGameId(), game.getPlayer(client.getUsername()), cardFront, side);
                 break;
             }
             catch(Exception e)

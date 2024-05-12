@@ -12,7 +12,7 @@ import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.EventManager;
 import it.polimi.ingsw.network.GameListener;
-import it.polimi.ingsw.network.maybeUseful.RemoteLock;
+import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.messages.GameEvent;
 
 import java.io.IOException;
@@ -28,14 +28,13 @@ public class GameHandler {
     private int readyPlayers = 0;
     private List<ClientRMIInterface> clients; //list of the clients related to this game
     private final EventManager eventManager;
-    private final RMIServer server;
-    private final RemoteLock waitingLock = new RemoteLock();
+    private final Server server;
     private final BlockingQueue<Boolean> threadUpdates = new LinkedBlockingQueue<>();
     private boolean twentPointsReached = false;
     private boolean finalRound = false;
 
 
-    public GameHandler(int gameId, RMIServer server){
+    public GameHandler(int gameId, Server server){
         this.server = server;
         this.eventManager = new EventManager();
         this.controller = new Controller(eventManager, this);
@@ -157,10 +156,6 @@ public class GameHandler {
         //each instance of gameHandler is a listener, i.e. is subscribed in the Listeners HashMap in EventManager
     }
 
-    public RemoteLock getWaitingLock()
-    {
-        return waitingLock;
-    }
 
     public BlockingQueue<Boolean> getQueue()
     {

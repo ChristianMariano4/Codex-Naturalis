@@ -3,12 +3,12 @@
 //import it.polimi.ingsw.network.Listener;
 //import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
 //import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
-//import it.polimi.ingsw.network.rmi.RMIClient;
+//import it.polimi.ingsw.network.Client;
 //
 //public class UserInputListener implements Listener<UserInputEvent> {
-//    private final RMIClient client;
+//    private final Client client;
 //
-//    public UserInputListener(RMIClient client) {
+//    public UserInputListener(Client client) {
 //        this.client = client;
 //    }
 //

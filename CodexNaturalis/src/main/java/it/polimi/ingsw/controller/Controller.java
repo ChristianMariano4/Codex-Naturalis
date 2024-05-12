@@ -1,16 +1,13 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.controller.cardFactory.FilePathProvider;
-import it.polimi.ingsw.controller.cardFactory.ProductionFilePathProvider;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.EventManager;
-import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
 import it.polimi.ingsw.network.rmi.GameHandler;
-import it.polimi.ingsw.network.rmi.RMIServer;
+import it.polimi.ingsw.network.Server;
 
 import java.io.IOException;
 import java.util.*;
@@ -22,7 +19,7 @@ public class Controller {
     //TODO: metodi per giocare le carte e per pescare le carte
     public String testUsername;
     private CardHandler cardHandler;
-    private RMIServer server;
+    private Server server;
     private GameHandler gameHandler;
     private final EventManager eventManager;
 

@@ -1,22 +1,13 @@
 package it.polimi.ingsw.main;
 
-import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameValues;
-import it.polimi.ingsw.network.rmi.RMIServer;
+import it.polimi.ingsw.network.Server;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MainServer {
 
     public static void main(String[] args) {
-        RMIServer server = new RMIServer(new HashMap<>());
+        Server server = new Server(new HashMap<>());
         server.start();
     }
 

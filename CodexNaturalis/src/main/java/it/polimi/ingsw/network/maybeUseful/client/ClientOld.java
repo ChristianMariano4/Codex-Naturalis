@@ -7,7 +7,7 @@
 //import it.polimi.ingsw.network.messages.GameEvent;
 //import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
 //import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
-//import it.polimi.ingsw.network.View;
+//import it.polimi.ingsw.view.View;
 //
 //import java.io.IOException;
 //import java.io.ObjectInputStream;
