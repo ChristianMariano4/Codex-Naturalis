@@ -22,7 +22,7 @@ public interface ServerRMIInterface extends Remote {
     int createGame(ClientRMIInterface client) throws RemoteException;
     List<Integer> getAvailableGames() throws RemoteException;
     Game addPlayerToGame(int gameId, String username, ClientRMIInterface client) throws RemoteException;
-    int setReady(int gameId) throws RemoteException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException;
+    int setReady(int gameId) throws RemoteException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException;
     void subscribe(ClientRMIInterface client, int gameId) throws RemoteException;
     RemoteLock getWaitingLock(int gameId) throws RemoteException;
     BlockingQueue<Boolean> getQueue(int gameId) throws RemoteException;

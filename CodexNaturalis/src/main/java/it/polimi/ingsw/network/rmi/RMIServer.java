@@ -105,7 +105,7 @@ public class RMIServer extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public int setReady(int gameId) throws RemoteException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException {
+    public int setReady(int gameId) throws RemoteException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
         return this.gameHandlerMap.get(gameId).setReady();
 
         //TODO: inizializzazione del gioco se tutti i giocatori sono pronti

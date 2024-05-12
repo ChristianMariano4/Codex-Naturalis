@@ -3,6 +3,7 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
+import it.polimi.ingsw.exceptions.NotEnoughPlayersException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
@@ -75,9 +76,28 @@ public class ViewCLI implements View, Runnable {
 
     public void setReady() {
         do{
-            System.out.println("Press 1 when you are ready to start the game.");
-        }while(!scanner.nextLine().equals("1"));
-        int numberReadyPlayers = client.setReady();
+            //TODO: remove println from view methods
+            try {
+                System.out.println("Press 1 when you are ready to start the game.");
+                int choice = Integer.parseInt(scanner.nextLine());
+                if(choice == 1) {
+                    try {
+                        client.setReady();
+                        break;
+                    } catch (NotEnoughPlayersException e) {
+                        ui.notEnoughPlayers();
+                    }
+                }
+                else {
+                    throw new NumberFormatException();
+                }
+            }
+            catch (Exception e)
+            {
+                ui.invalidInput();
+            }
+        }while(true);
+
         System.out.println("You are ready to start the game. Waiting for other players to be ready...");
     }
 
@@ -303,6 +323,14 @@ public class ViewCLI implements View, Runnable {
     public void twentyPoints(String username)
     {
         ui.twentyPoints(username);
+    }
+    public void showSharedObjectiveCards() throws RemoteException {
+        HashMap<ObjectiveCard, CardInfo> sharedObjectiveCards = new HashMap<>();
+        ArrayList<ObjectiveCard> objectiveCards = game.getTableTop().getSharedObjectiveCards();
+        sharedObjectiveCards.put(objectiveCards.get(0), client.getServer().getCardInfo(objectiveCards.get(0), game.getGameId()));
+        sharedObjectiveCards.put(objectiveCards.get(1), client.getServer().getCardInfo(objectiveCards.get(1), game.getGameId()));
+
+        ui.showSharedObjectiveCard(sharedObjectiveCards);
     }
     public void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose)
     {

@@ -196,7 +196,7 @@ public class TUI extends UI{
     }
 
     public void showSharedObjectiveCard(HashMap<ObjectiveCard, CardInfo> sharedObjectiveCards) {
-        this.clearScreen();
+        //this.clearScreen();
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
                 : Charset.defaultCharset())
@@ -560,6 +560,10 @@ public class TUI extends UI{
     public void chooseAngle()
     {
         System.out.println("Choose the angle where you want to play the card: 1 - TOPRIGHT, 2 - TOPLEFT, 3 - BOTTOMRIGHT, 4 - BOTTOMLEFT, 0 - cancel");
+    }
+    public void notEnoughPlayers()
+    {
+        System.out.println("Not enough players, minimum amount of players is 2.");
     }
     public void drawCard()
     {

@@ -17,8 +17,7 @@ import it.polimi.ingsw.network.messages.GameEvent;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -85,9 +84,15 @@ public class GameHandler {
         }
     }
 
-    public int setReady() throws RemoteException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException {
+    public int setReady() throws RemoteException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
         readyPlayers++;
         if(readyPlayers == this.game.getNumberOfPlayers()){
+
+            if(readyPlayers < 2) {
+                if(readyPlayers == 1)
+                    readyPlayers--;
+                throw new NotEnoughPlayersException();
+            }
             try {
                 this.game = controller.initializeGame();
             } catch (CardTypeMismatchException | InvalidConstructorDataException | CardNotImportedException |
@@ -99,9 +104,16 @@ public class GameHandler {
 
         if(readyPlayers >= this.game.getNumberOfPlayers()){
             eventManager.notify(GameEvent.GAME_INITIALIZED, this.game);
-            for(ClientRMIInterface client : clients)
+            for(Player player : game.getListOfPlayers())
             {
                 ArrayList<ObjectiveCard> objectiveCardsToChoose = controller.takeTwoObjectiveCards();
+                HashMap<ClientRMIInterface, String> usernames = new HashMap<>();
+                for(ClientRMIInterface client : clients)
+                {
+                    usernames.put(client, client.getUsername());
+                }
+                ClientRMIInterface client;
+                client = usernames.entrySet().stream().filter(c -> Objects.equals(player.getUsername(), c.getValue())).map(Map.Entry::getKey).findFirst().orElse(null);
                 client.update(GameEvent.SECRET_OBJECTIVE_CHOICE_REQUEST, objectiveCardsToChoose);
             }
         }
@@ -193,7 +205,7 @@ public class GameHandler {
     }
 
     public void turnEvent(String username) throws NotExistingPlayerException, CardTypeMismatchException {
-        if(this.finalRound && game.getCurrentPlayer().equals(game.getListOfPlayers().getClass()))
+        if(this.finalRound && game.getCurrentPlayer().equals(game.getListOfPlayers().getLast()))
         {
             controller.calculateAndUpdateFinalPoints();
             eventManager.notify(GameEvent.GAME_END, game);

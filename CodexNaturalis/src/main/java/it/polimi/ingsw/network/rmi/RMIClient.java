@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHandException;
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
+import it.polimi.ingsw.exceptions.NotEnoughPlayersException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -78,7 +79,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
         return this.username;
     }
 
-    public int setReady(){
+    public int setReady() throws NotEnoughPlayersException {
         try {
             return server.setReady(this.gameId);
         } catch (RemoteException e) {
@@ -180,6 +181,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientRMIInterface
         while (!this.markerDone) {
             Thread.sleep(10);
         }
+        viewCLI.showSharedObjectiveCards();
         while (!this.starterCardAssigned) {
             Thread.sleep(10);
         }
