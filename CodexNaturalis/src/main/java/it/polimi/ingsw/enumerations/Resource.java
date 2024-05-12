@@ -1,5 +1,7 @@
 package it.polimi.ingsw.enumerations;
 
+import it.polimi.ingsw.model.Player;
+
 public enum Resource {
     ANIMAL,
     INSECT,
@@ -8,5 +10,21 @@ public enum Resource {
     QUILL,
     INKWELL,
     MANUSCRIPT,
-    NONE
+    NONE;
+
+    /**
+     * Used when calculating points for PositionalObjectiveCard, returns the resource not saved in the card
+     * The two resources are the ones saved in the cardColor field, and the third one is returned by this method
+     * @return the third resource
+     */
+    public Resource getOtherLShaped()
+    {
+        return switch (this) {
+            case FUNGI -> PLANT;
+            case PLANT -> INSECT;
+            case ANIMAL -> FUNGI;
+            case INSECT -> ANIMAL;
+            default -> NONE;
+        };
+    }
 }

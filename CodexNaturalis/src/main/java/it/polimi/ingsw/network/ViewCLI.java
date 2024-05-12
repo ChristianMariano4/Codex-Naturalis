@@ -129,6 +129,8 @@ public class ViewCLI implements View, Runnable {
                         command = blockingQueue.take();
                         if(game.getIsGameEnded())
                         {
+                            readerThread.interrupt();
+                            lock.notifyAll();
                             return;
                         }
 

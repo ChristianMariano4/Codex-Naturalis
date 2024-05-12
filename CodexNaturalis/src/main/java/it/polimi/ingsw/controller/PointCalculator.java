@@ -160,7 +160,7 @@ public class PointCalculator {
         for(int i = 0; i < matrixFieled.length; i++) {
             for(int j = 0; j < matrixFieled[0].length; j++) {
                 if(matrixFieled[i][j] != null) {
-                    if(matrixFieled[i][j].getCardColor() == cardInfo.getCardColor()) {
+                    if(matrixFieled[i][j].getCardColor() == cardInfo.getCardColor().getOtherLShaped()) {
                         try {
                             int firstAndSecondNextX = i + xValue;
                             int firstNextY = j + yValue;
