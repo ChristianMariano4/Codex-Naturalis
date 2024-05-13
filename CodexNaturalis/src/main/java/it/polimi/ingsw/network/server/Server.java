@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
@@ -12,7 +12,6 @@ import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
 import it.polimi.ingsw.network.messages.userMessages.UserMessage;
 import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
 import it.polimi.ingsw.network.rmi.ClientRMIInterface;
-import it.polimi.ingsw.network.rmi.GameHandler;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 import it.polimi.ingsw.network.socket.SocketConnectionHandler;
 

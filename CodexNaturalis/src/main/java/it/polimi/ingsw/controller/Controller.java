@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.observer.EventManager;
 import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
-import it.polimi.ingsw.network.rmi.GameHandler;
-import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.server.GameHandler;
+import it.polimi.ingsw.network.server.Server;
 
 import java.io.IOException;
 import java.util.*;

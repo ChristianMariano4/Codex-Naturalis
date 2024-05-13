@@ -1,11 +1,10 @@
 package it.polimi.ingsw.network.socket;
 
-import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.server.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

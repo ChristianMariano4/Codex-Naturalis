@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.rmi;
+package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.enumerations.AngleOrientation;
@@ -13,7 +13,8 @@ import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.client.AbstractClientHandler;
 import it.polimi.ingsw.network.observer.EventManager;
 import it.polimi.ingsw.network.observer.GameListener;
-import it.polimi.ingsw.network.Server;
+import it.polimi.ingsw.network.rmi.ClientRMIInterface;
+import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.network.messages.GameEvent;
 
 import java.io.IOException;
