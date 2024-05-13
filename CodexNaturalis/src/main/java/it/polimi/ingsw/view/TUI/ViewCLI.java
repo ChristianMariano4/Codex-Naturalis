@@ -139,7 +139,7 @@ public class ViewCLI implements View, Runnable {
             }
             else
             {
-                gameEnd();
+                showEndGameScreen();
             }
 
             while(!Thread.interrupted()) {
@@ -158,17 +158,20 @@ public class ViewCLI implements View, Runnable {
                             case "q", "quit":
                                 inGame = false;
                                 break;
-                            case "h", "help":
-                                ui.showAllCommands();
-                                break;
-                            case "showplayers":
+                            case "showPlayers":
                                 showAllPlayers();
                                 break;
-                            case "myhand":
+                            case "myHand":
                                 showPlayerHand();
                                 break;
                             case "showMyField":
                                 showPlayerField();
+                                break;
+                            case "showOtherField":
+                                showOtherPlayerField();
+                                break;
+                            case "scoreboard":
+                                showScoreboard();
                                 break;
                             case "playTurn":
                                 if (isTurn) {
@@ -203,6 +206,12 @@ public class ViewCLI implements View, Runnable {
         }
     }
 
+    private void showScoreboard() {
+        ui.scoreboardTitle();
+        for(Player player : game.getListOfPlayers()) {
+            ui.showPoints(player);
+        }
+    }
     private void notYourTurn()
     {
         ui.notYourTurn(game.getCurrentPlayer().getUsername());
@@ -372,7 +381,6 @@ public class ViewCLI implements View, Runnable {
     public void showPlayerHand() throws RemoteException, NotExistingPlayerException {
         HashMap<PlayableCard, CardInfo> cardsInHand = new HashMap<>();
 
-
         for(PlayableCard card: game.getPlayer(client.getUsername()).getPlayerHand().getCardsInHand()) {
             CardInfo cardInfo = client.getCardInfo(card, game.getGameId());
             cardsInHand.put(card, cardInfo);
@@ -386,6 +394,7 @@ public class ViewCLI implements View, Runnable {
 
     public void showOtherPlayerField() throws RemoteException {
         this.showAllPlayers();
+        ui.playerFiledChoice();
         String username = scanner.nextLine();
         Player p = game.getListOfPlayers().stream().filter(p1 -> p1.getUsername().equals(username)).findFirst().orElse(null);
         if(p != null) {
@@ -446,23 +455,6 @@ public class ViewCLI implements View, Runnable {
         }
         return matrix;
     }
-
-    public void showDiscoveredCards() throws RemoteException { //in the drawingFiled
-        HashMap<DrawPosition, GoldCard> temp = game.getTableTop().getDrawingField().getDiscoveredGoldCards();
-        HashMap<GoldCard, CardInfo> discoveredGoldCards = new HashMap<>();
-        for(DrawPosition position: temp.keySet()) {
-            discoveredGoldCards.put(temp.get(position), client.getCardInfo(temp.get(position), game.getGameId()));
-        }
-
-        HashMap<DrawPosition, ResourceCard> temp2 = game.getTableTop().getDrawingField().getDiscoveredResourceCards();
-        HashMap<ResourceCard, CardInfo> discoveredResourceCards = new HashMap<>();
-        for(DrawPosition position: temp2.keySet()) {
-            discoveredResourceCards.put(temp2.get(position), client.getCardInfo(temp2.get(position), game.getGameId()));
-        }
-
-        ui.showDiscoveredCards(discoveredGoldCards, discoveredResourceCards);
-    }
-
     public void showEndGameScreen() {
         LinkedHashMap<String, Integer> playersPlacement = new LinkedHashMap<>();
         for(Player p : game.getListOfPlayers()) {
@@ -486,7 +478,7 @@ public class ViewCLI implements View, Runnable {
         StarterCard cardFront = game.getPlayer(client.getUsername()).getStarterCard();
         StarterCard cardBack = client.getOtherSideCard(game.getGameId(), cardFront);
 
-        ui.chooseStarterCardSide(cardFront,cardBack);
+        ui.chooseStarterCardSide(cardFront,cardBack, client.getCardInfo(cardFront, game.getGameId()), client.getCardInfo(cardBack, game.getGameId()));
         do{
             try{
                 Side side;
@@ -515,23 +507,6 @@ public class ViewCLI implements View, Runnable {
     {
         ui.finalRound();
     }
-    public void gameEnd()
-    {
-        String winner = null;
-        int maxPoints = -1;
-        HashMap<String, Integer> points = new HashMap<>();
-        for(Player player : game.getListOfPlayers())
-        {
-            points.put(player.getUsername(), player.getPoints());
-            if(player.getPoints() > maxPoints)
-            {
-                maxPoints = player.getPoints();
-                winner = player.getUsername();
-            }
-        }
-        ui.gameEnd(points, winner);
-    }
-
 
     @Override
     public void run() {

@@ -21,6 +21,4 @@ public interface View  {
     void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose);
 
     void finalRound();
-
-    void gameEnd();
 }

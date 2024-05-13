@@ -49,13 +49,16 @@ public class TUI extends UI {
                             "█▄█ █▀█ █░█ █▀█   ▀█▀ █░█ █▀█ █▄░█\n" +
                             "░█░ █▄█ █▄█ █▀▄   ░█░ █▄█ █▀▄ █░▀█").reset());
             System.out.println("\nIt is currently your turn, write playTurn to play.");
-        }
-        else
+        } else {
+            new PrintStream(System.out, true, System.console() != null
+                    ? System.console().charset()
+                    : Charset.defaultCharset())
+                    .println(ansi().fg(GREEN).a("\n" +
+                            "█▄░█ █▀█ ▀█▀   █▄█ █▀█ █░█ █▀█   ▀█▀ █░█ █▀█ █▄░█\n" +
+                            "█░▀█ █▄█ ░█░   ░█░ █▄█ █▄█ █▀▄   ░█░ █▄█ █▀▄ █░▀█").reset());
             System.out.println("It is currently "+ playerPlaying+"'s turn.");
-        System.out.println( "q: quit \n" +
-                            "h: help\n" +
-                            "showplayers: show all players in the game\n" +
-                            "myhand: show your hand");
+        }
+        this.showAllCommands();
         System.out.println("Waiting for input");
     }
 
@@ -156,44 +159,26 @@ public class TUI extends UI {
     public void showDiscoveredCards(HashMap<GoldCard, CardInfo> discoveredGoldCards, HashMap<ResourceCard, CardInfo> discoveredResourceCards) {
         System.out.println("Discovered GoldCards:");
         for(GoldCard card: discoveredGoldCards.keySet()) {
-            System.out.println(card.getCardId());
-
-            System.out.println("CardType: "+discoveredGoldCards.get(card).getCardType());
-            System.out.println("Requirements:");
-            for(Resource rs: discoveredGoldCards.get(card).getRequirements()) {
-                System.out.println("    " + rs.toString());
-            }
-            System.out.println("GoldPointCondition: "+discoveredGoldCards.get(card).getGoldPointCondition());
-            System.out.println("GoldPointCondition: "+discoveredGoldCards.get(card).getGoldPointCondition());
-            System.out.println("Angles status:");
-            for(AngleOrientation o: AngleOrientation.values()) {
-                if(o.equals(AngleOrientation.NONE))
-                    continue;
-                System.out.println("    Angle " + o + ": " + card.getAngle(o).getAngleStatus());
-            }
+            showCardInfo(card, discoveredGoldCards.get(card));
         }
         System.out.println("Discovered ResourceCards:");
         for(ResourceCard card: discoveredResourceCards.keySet()) {
-            System.out.println(card.getCardId());
-
-            System.out.println("CardType: "+discoveredResourceCards.get(card).getCardType());
-            System.out.println("Requirements:");
-            for(Resource rs: discoveredResourceCards.get(card).getRequirements()) {
-                System.out.println("    " + rs.toString());
-            }
-            System.out.println("GoldPointCondition: "+discoveredResourceCards.get(card).getGoldPointCondition());
-            System.out.println("GoldPointCondition: "+discoveredResourceCards.get(card).getGoldPointCondition());
-            System.out.println("Angles status:");
-            for(AngleOrientation o: AngleOrientation.values()) {
-                if(o.equals(AngleOrientation.NONE))
-                    continue;
-                System.out.println("    Angle " + o + ": " + card.getAngle(o).getAngleStatus());
-            }
+            showCardInfo(card, discoveredResourceCards.get(card));
         }
     }
 
     public void showPoints(Player player) {
         System.out.println(player.getUsername() + "points: " + player.getPoints());
+    }
+
+    public void scoreboardTitle() {
+        //this.clearScreen()
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset())
+                .println(ansi().fg(GREEN).a("\n" +
+                        "█▀ █▀▀ █▀█ █▀█ █▀▀ █▄▄ █▀█ ▄▀█ █▀█ █▀▄\n" +
+                        "▄█ █▄▄ █▄█ █▀▄ ██▄ █▄█ █▄█ █▀█ █▀▄ █▄▀").reset());
     }
 
     public void showSharedObjectiveCard(HashMap<ObjectiveCard, CardInfo> sharedObjectiveCards) {
@@ -288,7 +273,6 @@ public class TUI extends UI {
             System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
         }
     }
-
     private void asciiCardCreator(PlayableCard card) {
     //TODO: extends the method for all unlinked angles during the game
         Ansi.Color color = WHITE;
@@ -299,100 +283,117 @@ public class TUI extends UI {
             case Resource.PLANT -> color = GREEN;
         }
 
-        StringBuilder output = new StringBuilder();
-        for(int i = 0; i < 7; i++) {
-            switch (i) {
-                case 0:
-                    if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
-                        output.append("┌──────┬");
-                    } else {
-                        output.append("┌┬──────");
-                    }
-                    output.append("───────────");
-                    if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
-                        output.append("┬──────┐\n");
-                    } else {
-                        output.append("──────┬┐\n");
-                    }
-                    break;
-                case 1:
-                    if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
-                        output.append("│┤►@@◄├│");
-                    } else {
-                        output.append("││      ");
-                    }
-                    output.append("           ");
-                    if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
-                        output.append("│┤►@@◄├│\n");
-                    } else {
-                        output.append("      ││\n");
-                    }
-                    break;
-                case 2:
-                    if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
-                        output.append("│┼─────┘");
-                    } else {
-                        output.append("││      ");
-                    }
-                    output.append("  ┌┬───┬┐  ");
-                    if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
-                        output.append("└─────┼│\n");
-                    } else {
-                        output.append("      ││\n");
-                    }
-                    break;
-                case 3:
-                    if(card.getCardId() > 9) {
-                        output.append("││        ││").append(card.getCardId()).append(" ││        ││\n");
-                    } else {
-                        output.append("││        ││ ").append(card.getCardId()).append(" ││        ││\n");
-                    }
-                    break;
-                case 4:
-                    if(card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
-                        output.append("│┼─────┐");
-                    } else {
-                        output.append("││      ");
-                    }
-                    output.append("  └┴───┴┘  ");
-                    if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
-                        output.append("┌─────┼│\n");
-                    } else {
-                        output.append("      ││\n");
-                    }
-                    break;
-                case 5:
-                    if(card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
-                        output.append("│┤►@@◄├│");
-                    } else {
-                        output.append("││      ");
-                    }
-                    output.append("           ");
-                    if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
-                        output.append("│┤►@@◄├│\n");
-                    } else {
-                        output.append("      ││\n");
-                    }
-                    break;
-                case 6:
-                    if(card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
-                        output.append("└──────┴");
-                    } else {
-                        output.append("└┴──────");
-                    }
-                    output.append("───────────");
-                    if(/*card.getAngle(AngleOrientation.BOTTOMLEFT).getAngleStatus().equals(AngleStatus.UNLINKED)*/card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
-                        output.append("┴──────┘\n");
-                    } else {
-                        output.append("──────┴┘\n");
-                    }
-                    break;
+        if(card.getCurrentSide().equals(Side.FRONT)) {
+
+            //TODO: startercard
+            System.out.println(card.getCurrentSide() + ":");
+            StringBuilder output = new StringBuilder();
+            for(int i = 0; i < 7; i++) {
+                switch (i) {
+                    case 0:
+                        if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
+                            output.append("┌──────┬");
+                        } else {
+                            output.append("┌┬──────");
+                        }
+                        output.append("───────────");
+                        if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
+                            output.append("┬──────┐\n");
+                        } else {
+                            output.append("──────┬┐\n");
+                        }
+                        break;
+                    case 1:
+                        if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
+                            output.append("│┤►@@◄├│");
+                        } else {
+                            output.append("││      ");
+                        }
+                        output.append("           ");
+                        if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
+                            output.append("│┤►@@◄├│\n");
+                        } else {
+                            output.append("      ││\n");
+                        }
+                        break;
+                    case 2:
+                        if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
+                            output.append("│┼─────┘");
+                        } else {
+                            output.append("││      ");
+                        }
+                        output.append("  ┌┬───┬┐  ");
+                        if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
+                            output.append("└─────┼│\n");
+                        } else {
+                            output.append("      ││\n");
+                        }
+                        break;
+                    case 3:
+                        if(card.getCardId() > 9) {
+                            output.append("││        ││").append(card.getCardId()).append(" ││        ││\n");
+                        } else {
+                            output.append("││        ││ ").append(card.getCardId()).append(" ││        ││\n");
+                        }
+                        break;
+                    case 4:
+                        if(card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
+                            output.append("│┼─────┐");
+                        } else {
+                            output.append("││      ");
+                        }
+                        output.append("  └┴───┴┘  ");
+                        if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
+                            output.append("┌─────┼│\n");
+                        } else {
+                            output.append("      ││\n");
+                        }
+                        break;
+                    case 5:
+                        if(card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
+                            output.append("│┤►@@◄├│");
+                        } else {
+                            output.append("││      ");
+                        }
+                        output.append("           ");
+                        if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
+                            output.append("│┤►@@◄├│\n");
+                        } else {
+                            output.append("      ││\n");
+                        }
+                        break;
+                    case 6:
+                        if(card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
+                            output.append("└──────┴");
+                        } else {
+                            output.append("└┴──────");
+                        }
+                        output.append("───────────");
+                        if(/*card.getAngle(AngleOrientation.BOTTOMLEFT).getAngleStatus().equals(AngleStatus.UNLINKED)*/card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
+                            output.append("┴──────┘\n");
+                        } else {
+                            output.append("──────┴┘\n");
+                        }
+                        break;
+                }
             }
+            new PrintStream(System.out, true, System.console() != null
+                    ? System.console().charset()
+                    : Charset.defaultCharset())
+                    .println(ansi().fg(color).a(output.toString()).reset());
+        } else {
+            System.out.println(card.getCurrentSide() + ":");
+            new PrintStream(System.out, true, System.console() != null
+                    ? System.console().charset()
+                    : Charset.defaultCharset())
+                    .println(ansi().fg(color).a("┌──────┬───────────┬──────┐\n" +
+                            "│┤►&&◄├│           │┤►&&◄├│\n" +
+                            "│┼─────┘  ┌─────┐  └─────┼│\n" +
+                            "││        │  "+card.getCardId()+"  │        ││\n" +
+                            "│┼─────┐  └─────┘  ┌─────┼│\n" +
+                            "│┤►&&◄├│           │┤►&&◄├│\n" +
+                            "└──────┴───────────┴──────┘").reset());
         }
-        new PrintStream(System.out, true, System.console() != null
-                ? System.console().charset()
-                : Charset.defaultCharset())
-                .println(ansi().fg(color).a(output.toString()).reset());
     }
     public void showCardInfo(ObjectiveCard card, CardInfo cardInfo) {
         //TODO: custom graphic for objective cards
@@ -520,30 +521,58 @@ public class TUI extends UI {
 
     public void showCardInfo(StarterCard card, CardInfo cardInfo) {
         //TODO: custom graphic for objective cards
-        if(card.getCurrentSide().equals(Side.FRONT)) {
-            new PrintStream(System.out, true, System.console() != null
-                    ? System.console().charset()
-                    : Charset.defaultCharset())
-                    .println(ansi().fg(GREEN).a(
-                            "┌──────┬───────────┬──────┐\n" +
-                                    "│┤►@@◄├│           │┤►@@◄├│\n" +
-                                    "│┼─────┘  ┌─────┐  └─────┼│\n" +
-                                    "││        │  "+card.getCardId()+"  │        ││\n" +
-                                    "│┼─────┐  └─────┘  ┌─────┼│\n" +
-                                    "│┤►@@◄├│           │┤►@@◄├│\n" +
-                                    "└──────┴───────────┴──────┘").reset());
+        if(card.getCardId() <= 9) {
+            if(card.getCurrentSide().equals(Side.FRONT)) {
+                new PrintStream(System.out, true, System.console() != null
+                        ? System.console().charset()
+                        : Charset.defaultCharset())
+                        .println(ansi().fg(GREEN).a(
+                                "┌──────┬───────────┬──────┐\n" +
+                                        "│┤►@@◄├│           │┤►@@◄├│\n" +
+                                        "│┼─────┘  ┌─────┐  └─────┼│\n" +
+                                        "││        │  "+card.getCardId()+"  │        ││\n" +
+                                        "│┼─────┐  └─────┘  ┌─────┼│\n" +
+                                        "│┤►@@◄├│           │┤►@@◄├│\n" +
+                                        "└──────┴───────────┴──────┘").reset());
+            } else {
+                new PrintStream(System.out, true, System.console() != null
+                        ? System.console().charset()
+                        : Charset.defaultCharset())
+                        .println(ansi().fg(GREEN).a(
+                                "┌┬───────────────────────┬┐\n" +
+                                        "││        ┌┬───┬┐        ││\n" +
+                                        "││        ││   ││        ││\n" +
+                                        "││        ││ "+card.getCardId()+" ││        ││\n" +
+                                        "││        ││   ││        ││\n" +
+                                        "││        └┴───┴┘        ││\n" +
+                                        "└┴───────────────────────┴┘").reset());
+            }
         } else {
-            new PrintStream(System.out, true, System.console() != null
-                    ? System.console().charset()
-                    : Charset.defaultCharset())
-                    .println(ansi().fg(GREEN).a(
-                              "┌┬───────────────────────┬┐\n" +
-                                    "││        ┌┬───┬┐        ││\n" +
-                                    "││        ││   ││        ││\n" +
-                                    "││        ││ "+card.getCardId()+" ││        ││\n" +
-                                    "││        ││   ││        ││\n" +
-                                    "││        └┴───┴┘        ││\n" +
-                                    "└┴───────────────────────┴┘").reset());
+            if(card.getCurrentSide().equals(Side.FRONT)) {
+                new PrintStream(System.out, true, System.console() != null
+                        ? System.console().charset()
+                        : Charset.defaultCharset())
+                        .println(ansi().fg(GREEN).a(
+                                "┌──────┬───────────┬──────┐\n" +
+                                        "│┤►@@◄├│           │┤►@@◄├│\n" +
+                                        "│┼─────┘  ┌─────┐  └─────┼│\n" +
+                                        "││        │ "+card.getCardId()+"  │        ││\n" +
+                                        "│┼─────┐  └─────┘  ┌─────┼│\n" +
+                                        "│┤►@@◄├│           │┤►@@◄├│\n" +
+                                        "└──────┴───────────┴──────┘").reset());
+            } else {
+                new PrintStream(System.out, true, System.console() != null
+                        ? System.console().charset()
+                        : Charset.defaultCharset())
+                        .println(ansi().fg(GREEN).a(
+                                "┌┬───────────────────────┬┐\n" +
+                                        "││        ┌┬───┬┐        ││\n" +
+                                        "││        ││   ││        ││\n" +
+                                        "││        ││"+card.getCardId()+" ││        ││\n" +
+                                        "││        ││   ││        ││\n" +
+                                        "││        └┴───┴┘        ││\n" +
+                                        "└┴───────────────────────┴┘").reset());
+            }
         }
 
         System.out.println("CardType: " + cardInfo.getCardType());
@@ -574,15 +603,6 @@ public class TUI extends UI {
     {
         System.out.println("Waiting for other players to choose their marker");
     }
-    public void gameEnd(HashMap<String, Integer> points, String winner)
-    {
-        System.out.println("Game has ended, winner is: " + winner +".\n");
-        for(String player : points.keySet())
-        {
-            System.out.println(player + ": " + points.get(player) + " points.");
-        }
-        System.out.println("Press any key to exit...");
-    }
 
     public void waitingForGameBegin()
     {
@@ -592,36 +612,16 @@ public class TUI extends UI {
     {
         System.out.println("Final round begins now!");
     }
-    public void chooseStarterCardSide(StarterCard cardFront, StarterCard cardBack)
+    public void chooseStarterCardSide(StarterCard cardFront, StarterCard cardBack, CardInfo cardFrontInfo, CardInfo cardBackInfo)
     {
-        System.out.println("Card: " + cardFront.getCardId());
-
-        System.out.println("Front:");
-        System.out.println("Central Resources: ");
-        for(Resource resource : cardFront.getCentralResources())
-        {
-            System.out.print(resource +" ");
-        }
-        System.out.println();
-        System.out.println("Angles:");
-        for(AngleOrientation o: AngleOrientation.values()) {
-            if(o.equals(AngleOrientation.NONE))
-                continue;
-            System.out.println("    Angle " + o + ": " + cardFront.getAngle(o).getResource());
-        }
-        System.out.println("\nBack:");
-        System.out.print("Central Resources: ");
-        for(Resource resource : cardBack.getCentralResources())
-        {
-            System.out.print(resource +" ");
-        }
-        System.out.println();
-        System.out.println("Angles:");
-        for(AngleOrientation o: AngleOrientation.values()) {
-            if(o.equals(AngleOrientation.NONE))
-                continue;
-            System.out.println("    Angle " + o + ": " + cardBack.getAngle(o).getResource());
-        }
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset())
+                .println(ansi().fg(GREEN).a("\n" +
+                        "█▀ ▀█▀ ▄▀█ █▀█ ▀█▀ █▀▀ █▀█   █▀▀ ▄▀█ █▀█ █▀▄\n" +
+                        "▄█ ░█░ █▀█ █▀▄ ░█░ ██▄ █▀▄   █▄▄ █▀█ █▀▄ █▄▀").reset());
+        showCardInfo(cardFront, cardFrontInfo);
+        showCardInfo(cardBack, cardBackInfo);
         System.out.println("\nChoose card Side: 1 - FRONT, 2 - BACK");
     }
     public void clearScreen() {
@@ -632,9 +632,12 @@ public class TUI extends UI {
         }
     }
     public void showAllCommands()  { //TODO: all commands
-        System.out.println("All commands:" +
-                "   1. type " +
-                "   2. type ");
+        System.out.println("All commands:\n" +
+                "   1. type showPlayers to see all players in the game\n" +
+                "   2. type myHand to see your hand\n" +
+                "   3. type showMyField to see your filed\n" +
+                "   4. type playTurn to play your turn\n" +
+                "   5. type showPoints to see your or other player points\n");
     }
     public void commandNotFound() {
         System.out.println(ansi().fg(RED).a("Invalid command"));
@@ -658,6 +661,10 @@ public class TUI extends UI {
     public void chooseSecretObjectiveCard()
     {
         System.out.println("Choose one of the two cards: 1 - first, 2 - second.");
+    }
+
+    public void playerFiledChoice() {
+        System.out.println("Type the username of the player:");
     }
 
 

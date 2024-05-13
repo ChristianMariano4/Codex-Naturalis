@@ -62,8 +62,8 @@ public class Controller {
         objectiveCardDeck.shuffleDeck();
         //add first two front side objective cards to the shared objective cards
         ArrayList<ObjectiveCard> sharedObjectiveCards = new ArrayList<>();
-        sharedObjectiveCards.add(cardHandler.getOtherSideCard(objectiveCardDeck.getTopCard()));
-        sharedObjectiveCards.add(cardHandler.getOtherSideCard(objectiveCardDeck.getTopCard()));
+        sharedObjectiveCards.add(objectiveCardDeck.getTopCard());
+        sharedObjectiveCards.add(objectiveCardDeck.getTopCard());
         Deck<StarterCard> starterCardDeck = new Deck<StarterCard>(cardHandler.filterStarterCards(cardHandler.importStarterCards()));
         starterCardDeck.shuffleDeck();
         return new Game(gameId, drawingField, sharedObjectiveCards, objectiveCardDeck, starterCardDeck);
