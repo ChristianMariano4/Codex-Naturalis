@@ -26,7 +26,7 @@ public class ViewCLI implements View, Runnable {
     TUI ui = new TUI();;
 
 
-    public void setUsername() throws RemoteException {
+    public void setUsername() throws IOException, InterruptedException {
 
         ui.setUsername();
         String username = null;

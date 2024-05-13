@@ -5,24 +5,55 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.network.socket.SocketClientMessageHandler;
+import it.polimi.ingsw.view.TUI.ViewCLI;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.SimpleTimeZone;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class SocketClient extends Client {
     private final Socket serverSocket;
+    SocketClientMessageHandler messageHandler;
+    Thread messageHandlerThread;
+    BlockingQueue<Object> messageHandlerQueue = new LinkedBlockingQueue<>();
+
     public SocketClient(Socket serverSocket) throws RemoteException {
         super(false);
         this.serverSocket = serverSocket;
 
     }
+    @Override
+    public void setUsername(String username) throws IOException {
+        this.username = username;
+        messageHandler.sendMessage(ClientMessageType.SET_USERNAME, this.username);
+    }
 
     @Override
     public Game createGame(String username) {
-        return null;
+        try
+        {
+            messageHandler.sendMessage(ClientMessageType.CREATE_GAME, null);
+            this.gameId = (int) messageHandlerQueue.take();
+            messageHandler.sendMessage(ClientMessageType.SUBSCRIBE, this.gameId);
+            messageHandler.sendMessage(ClientMessageType.ADD_PLAYER, this.gameId, this.username);
+            Game game = (Game) messageHandlerQueue.take();
+            return game;
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -42,8 +73,9 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public boolean checkUsername(String username) throws RemoteException {
-        return false;
+    public boolean checkUsername(String username) throws IOException, InterruptedException {
+        messageHandler.sendMessage(ClientMessageType.CHECK_USERNAME, username);
+        return (boolean) messageHandlerQueue.take();
     }
 
     @Override
@@ -99,15 +131,33 @@ public class SocketClient extends Client {
     public void run()
     {
         try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(serverSocket.getInputStream());
-            while(true) {
-                System.out.println(objectInputStream.readObject().toString());
+            ObjectOutputStream outputStream = new ObjectOutputStream(serverSocket.getOutputStream()); //OutputStream must be created before InputStream otherwise it doesn't work
+            ObjectInputStream inputStream = new ObjectInputStream(serverSocket.getInputStream());
+            SocketClientMessageHandler messageHandler = new SocketClientMessageHandler(this, inputStream , outputStream, messageHandlerQueue);
+
+            this.messageHandler = messageHandler;
+            Thread messageHandlerThread = new Thread(messageHandler);
+            this.messageHandlerThread = messageHandlerThread;
+            messageHandlerThread.start();
+            view = new ViewCLI(this);
+            ViewCLI viewCLI = (ViewCLI) view;
+            viewCLI.setUsername();
+            while (true) {
+                if (!preGameStart(viewCLI))
+                    break;
+                this.viewThread = new Thread(viewCLI); //game loop actually begins here
+                this.viewThread.start();
+                this.viewThread.join();
+                resetClient(viewCLI); //resetting the client after end of game
+                //TODO: add server side reset
             }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        } catch (NotExistingPlayerException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

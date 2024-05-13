@@ -6,12 +6,11 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
-import it.polimi.ingsw.network.client.AbstractClientHandler;
+import it.polimi.ingsw.network.client.ClientHandlerInterface;
 import it.polimi.ingsw.network.messages.GameEvent;
-import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
-import it.polimi.ingsw.network.messages.userMessages.UserMessage;
-import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
-import it.polimi.ingsw.network.rmi.ClientRMIInterface;
+import it.polimi.ingsw.network.messages.clientMessages.UserInputEvent;
+import it.polimi.ingsw.network.messages.clientMessages.UserMessage;
+import it.polimi.ingsw.network.messages.clientMessages.UserMessageWrapper;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 import it.polimi.ingsw.network.socket.SocketConnectionHandler;
 
@@ -21,15 +20,12 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
 
 public class Server extends Thread implements ServerRMIInterface {
     private final Map<Integer, GameHandler> gameHandlerMap;
-    private final List<AbstractClientHandler> clients = new ArrayList<>(); //list of all client stubs+
+    private final List<ClientHandlerInterface> clients = new ArrayList<>(); //list of all client stubs+
 
 //    queue used to pass data to another thread in a thread safe way
      //final BlockingQueue<EventWrapper> updates = new LinkedBlockingQueue<>();
@@ -61,7 +57,7 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public void connect(AbstractClientHandler client) throws RemoteException {
+    public void connect(ClientHandlerInterface client) throws RemoteException {
         System.out.println("Connecting client to the server...");
         synchronized (this.clients) {
             this.clients.add(client);
@@ -70,7 +66,7 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public int createGame(ClientRMIInterface client) {
+    public int createGame(ClientHandlerInterface client) {
         System.out.println("createGame request received");
         //sequential game id starting from 0
         int id = GameValues.numberOfGames;
@@ -98,7 +94,7 @@ public class Server extends Thread implements ServerRMIInterface {
 
 
     @Override
-    public Game addPlayerToGame(int gameId, String username, ClientRMIInterface client) throws RemoteException {
+    public Game addPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException {
         try {
             addClientToGameHandler(gameId, client);
         } catch (RemoteException e) {
@@ -108,12 +104,12 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public int setReady(int gameId) throws RemoteException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
+    public int setReady(int gameId) throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
         return this.gameHandlerMap.get(gameId).setReady();
     }
 
     @Override
-    public void subscribe(ClientRMIInterface client, int gameId) throws RemoteException {
+    public void subscribe(ClientHandlerInterface client, int gameId) throws RemoteException {
         this.gameHandlerMap.get(gameId).subscribe(client, gameId);
     }
 
@@ -129,11 +125,11 @@ public class Server extends Thread implements ServerRMIInterface {
         return gameHandlerMap.get(gameId);
     }
 
-    public void updateClient(ClientRMIInterface client, GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException {
+    public void updateClient(ClientHandlerInterface client, GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException {
         client.update(event, gameUpdate);
     }
-    public boolean checkUsername(String username) throws RemoteException{
-        for(AbstractClientHandler client : clients)
+    public boolean checkUsername(String username) throws IOException {
+        for(ClientHandlerInterface client : clients)
         {
             if(client.getUsername() == null)
                 continue;
@@ -151,18 +147,18 @@ public class Server extends Thread implements ServerRMIInterface {
 
 
 
-    private void addClientToGameHandler(Integer gameId, ClientRMIInterface client) throws RemoteException {
+    private void addClientToGameHandler(Integer gameId, ClientHandlerInterface client) throws RemoteException {
         this.gameHandlerMap.get(gameId).addClient(client);
     }
 
     private void startRMIServer() {
         //creating server stub
-        ServerRMIInterface server = new Server(new HashMap<>());
+        //ServerRMIInterface server = this;
 
         final String serverName = "Server"; //name of the server used to register itself
         ServerRMIInterface stub = null;
         try {
-            stub = (ServerRMIInterface) UnicastRemoteObject.exportObject(server, 0);
+            stub = (ServerRMIInterface) UnicastRemoteObject.exportObject(this, 0);
             Registry registry = LocateRegistry.createRegistry(1234);
             registry.rebind(serverName, stub);
         } catch (RemoteException e) {
@@ -188,7 +184,7 @@ public class Server extends Thread implements ServerRMIInterface {
 
     }
 
-    public void update(ClientRMIInterface clientRMIInterface, UserMessageWrapper message) throws RemoteException {
+    public void update(ClientHandlerInterface ClientHandlerInterface, UserMessageWrapper message) throws RemoteException {
         //Client client = this.getClient(message.getMessage().getUsername());
 
         UserInputEvent userInputEvent = message.getType();
@@ -300,6 +296,16 @@ public class Server extends Thread implements ServerRMIInterface {
     public void run(){
         startSocketServer();
         startRMIServer();
+    /*    while(true)
+        {
+            try {
+                Thread.sleep(1);
+            }
+            catch(Exception e)
+            {
+
+            }
+        }*/
 
         //broadcastUpdateThread.start();
     }

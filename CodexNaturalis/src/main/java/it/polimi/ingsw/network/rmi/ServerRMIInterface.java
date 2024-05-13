@@ -5,8 +5,9 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
-import it.polimi.ingsw.network.client.AbstractClientHandler;
+import it.polimi.ingsw.network.client.ClientHandlerInterface;
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -15,13 +16,13 @@ import java.util.concurrent.BlockingQueue;
 //this is the skeleton (proxy of the server)
 public interface ServerRMIInterface extends Remote {
     //method used from client to tell the server how to contact it
-    void connect(AbstractClientHandler client) throws RemoteException;
+    void connect(ClientHandlerInterface client) throws RemoteException;
     //expose methods that the client can call, i.e. those of the controller
-    int createGame(ClientRMIInterface client) throws RemoteException;
+    int createGame(ClientHandlerInterface client) throws RemoteException;
     List<Integer> getAvailableGames() throws RemoteException;
-    Game addPlayerToGame(int gameId, String username, ClientRMIInterface client) throws RemoteException;
-    int setReady(int gameId) throws RemoteException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException;
-    void subscribe(ClientRMIInterface client, int gameId) throws RemoteException;
+    Game addPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException;
+    int setReady(int gameId) throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException;
+    void subscribe(ClientHandlerInterface client, int gameId) throws RemoteException;
     BlockingQueue<Boolean> getQueue(int gameId) throws RemoteException;
     CardInfo getCardInfo(Card card, int gameId) throws RemoteException;
     PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException;
@@ -32,7 +33,7 @@ public interface ServerRMIInterface extends Remote {
     void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard objectiveCard) throws RemoteException, NotExistingPlayerException;
     public void drawCard(int gameId, String username, CardType cardType, DrawPosition drawPosition) throws RemoteException, NotTurnException, NotExistingPlayerException, AlreadyThreeCardsInHandException, DeckIsEmptyException;
     public void endTurn(int gameId, String username) throws RemoteException, NotExistingPlayerException, CardTypeMismatchException;
-    public boolean checkUsername(String username) throws RemoteException;
+    public boolean checkUsername(String username) throws IOException;
 
     public PlayableCard getOtherSideCard(int gameId, PlayableCard card) throws RemoteException;
     public GoldCard getOtherSideCard(int gameId, GoldCard card) throws RemoteException;

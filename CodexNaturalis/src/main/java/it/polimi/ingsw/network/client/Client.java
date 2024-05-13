@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.TUI.ViewCLI;
 import it.polimi.ingsw.network.messages.GameEvent;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         return server;
     }
     */
-    public void setUsername(String username) {
+    public void setUsername(String username) throws IOException {
         this.username = username;
     }
 
@@ -180,7 +181,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
          this.gameBegin = false;
     }
 
-    public abstract boolean checkUsername(String username) throws RemoteException;
+    public abstract boolean checkUsername(String username) throws IOException, InterruptedException;
     public abstract PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException;
     public abstract PlayableCard getOtherSideCard(int gameId, PlayableCard playableCard) throws RemoteException;
     public abstract StarterCard getOtherSideCard(int gameId , StarterCard starterCard) throws RemoteException;

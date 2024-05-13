@@ -10,11 +10,10 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
-import it.polimi.ingsw.network.client.AbstractClientHandler;
+import it.polimi.ingsw.network.client.ClientHandlerInterface;
 import it.polimi.ingsw.network.observer.EventManager;
 import it.polimi.ingsw.network.observer.GameListener;
 import it.polimi.ingsw.network.rmi.ClientRMIInterface;
-import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.network.messages.GameEvent;
 
 import java.io.IOException;
@@ -28,7 +27,7 @@ public class GameHandler {
     private Game game;
     private Controller controller;
     private int readyPlayers = 0;
-    private List<AbstractClientHandler> clients; //list of the clients related to this game
+    private List<ClientHandlerInterface> clients; //list of the clients related to this game
     private final EventManager eventManager;
     private final Server server;
     private final BlockingQueue<Boolean> threadUpdates = new LinkedBlockingQueue<>();
@@ -69,12 +68,12 @@ public class GameHandler {
         return game;
     }
 
-    public void addClient(ClientRMIInterface client) throws RemoteException {
+    public void addClient(ClientHandlerInterface client) throws RemoteException {
         clients.add(client);
     }
 
     public void notifyUpdate(GameEvent event, Game game){
-        for(AbstractClientHandler client : clients){
+        for(ClientHandlerInterface client : clients){
             try {
                 client.update(event, game);
             } catch (RemoteException | InterruptedException e) {
@@ -85,7 +84,7 @@ public class GameHandler {
         }
     }
 
-    public int setReady() throws RemoteException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
+    public int setReady() throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
         readyPlayers++;
         if(readyPlayers == this.game.getNumberOfPlayers()){
 
@@ -108,12 +107,12 @@ public class GameHandler {
             for(Player player : game.getListOfPlayers())
             {
                 ArrayList<ObjectiveCard> objectiveCardsToChoose = controller.takeTwoObjectiveCards();
-                HashMap<AbstractClientHandler, String> usernames = new HashMap<>();
-                for(AbstractClientHandler client : clients)
+                HashMap<ClientHandlerInterface, String> usernames = new HashMap<>();
+                for(ClientHandlerInterface client : clients)
                 {
                     usernames.put(client, client.getUsername());
                 }
-                AbstractClientHandler client;
+                ClientHandlerInterface client;
                 client = usernames.entrySet().stream().filter(c -> Objects.equals(player.getUsername(), c.getValue())).map(Map.Entry::getKey).findFirst().orElse(null);
                 client.update(GameEvent.SECRET_OBJECTIVE_CHOICE_REQUEST, objectiveCardsToChoose);
             }
@@ -121,14 +120,14 @@ public class GameHandler {
         return readyPlayers;
     }
 
-    public void subscribe(ClientRMIInterface client, int gameId) throws RemoteException {
+    public void subscribe(ClientHandlerInterface client, int gameId) throws RemoteException {
         eventManager.subscribe(GameEvent.class, new GameListener(client, server));
     }
 
     public void playCard(Player player, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, RequirementsNotMetException, CardTypeMismatchException, AngleAlreadyLinkedException {
         controller.playCard(player, card ,otherCard, orientation);
     }
-    public List<AbstractClientHandler> getClients() {
+    public List<ClientHandlerInterface> getClients() {
         return clients;
     }
 
@@ -141,7 +140,7 @@ public class GameHandler {
     }
 
 
-    public void updateClient(ClientRMIInterface client, GameEvent event, Game game){
+    public void updateClient(ClientHandlerInterface client, GameEvent event, Game game){
         try {
             server.updateClient(client, event, game);
         } catch (RemoteException e) {

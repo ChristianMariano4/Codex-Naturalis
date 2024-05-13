@@ -5,7 +5,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.observer.EventManager;
-import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
+import it.polimi.ingsw.network.messages.clientMessages.UserMessageWrapper;
 import it.polimi.ingsw.network.server.GameHandler;
 import it.polimi.ingsw.network.server.Server;
 

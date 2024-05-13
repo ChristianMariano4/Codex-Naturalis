@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 import it.polimi.ingsw.view.TUI.ViewCLI;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -68,6 +69,8 @@ public class RMIClient extends Client {
         } catch (
         DeckIsEmptyException e) {
             throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
     public void run()
@@ -77,7 +80,6 @@ public class RMIClient extends Client {
             view = new ViewCLI(this);
             ViewCLI viewCLI = (ViewCLI) view;
             viewCLI.setUsername(); //set only once per client, outside of loop
-            //TODO: deal with back side of cards!
 
             while (true) {
                 if (!preGameStart(viewCLI))
@@ -95,9 +97,11 @@ public class RMIClient extends Client {
             throw new RuntimeException(e);
         } catch (NotExistingPlayerException e) {
             throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
-    public boolean checkUsername(String username) throws RemoteException {
+    public boolean checkUsername(String username) throws IOException {
         return serverRMIInterface.checkUsername(username);
     }
     public PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException {

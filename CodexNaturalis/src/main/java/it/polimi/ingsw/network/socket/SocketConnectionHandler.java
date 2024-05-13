@@ -24,7 +24,7 @@ public class SocketConnectionHandler implements Runnable{
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                SocketClientHandler socketClientHandler = new SocketClientHandler(socket);
+                SocketClientHandler socketClientHandler = new SocketClientHandler(socket, server);
                 server.connect(socketClientHandler);
                 executor.submit(socketClientHandler);
             } catch(IOException e) {
