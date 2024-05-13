@@ -396,10 +396,16 @@ public class ViewCLI implements View, Runnable {
         this.showAllPlayers();
         ui.playerFiledChoice();
         String username = scanner.nextLine();
-        Player p = game.getListOfPlayers().stream().filter(p1 -> p1.getUsername().equals(username)).findFirst().orElse(null);
-        if(p != null) {
-            ui.showPlayerField(createMatrixFromField(p.getPlayerField()));
-        }
+        Player player;
+        do {
+            player = game.getListOfPlayers().stream().filter(p1 -> p1.getUsername().equals(username)).findFirst().orElse(null);
+            if(!game.getListOfPlayers().contains(player)) {
+                ui.wrongUsername();
+            }
+        } while(!game.getListOfPlayers().contains(player));
+
+        assert player != null;
+        ui.showPlayerField(createMatrixFromField(player.getPlayerField()));
     }
     public void markerSelection()
     {
