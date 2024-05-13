@@ -288,15 +288,36 @@ public class ViewCLI implements View, Runnable {
     private void playCard() throws RemoteException, NotExistingPlayerException {
         showPlayerHand();
         showPlayerField();
-        ui.chooseCardToPlay();
         do {
             try {
+                ui.chooseCardToPlay();
                 int cardId = Integer.parseInt(scanner.nextLine());
                 PlayableCard card = game.getPlayer(client.getUsername()).getPlayerHand().getCardById(cardId);
+                ui.chooseSide();
+                int side = Integer.parseInt(scanner.nextLine());
+                switch(side)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        card = client.getOtherSideCard(game.getGameId(), card);
+                        break;
+                    default:
+                        throw new NumberFormatException();
+                }
                 ui.chooseWhereToPlay();
                 int cardIdOnBoard = Integer.parseInt(scanner.nextLine());
-                PlayableCard cardOnBoard = game.getPlayer(client.getUsername()).getPlayerField().getCardById(cardIdOnBoard);
-                ui.showCardInfo(cardOnBoard, client.getCardInfo(cardOnBoard, game.getGameId()));
+                PlayableCard cardOnBoard;
+                do {
+                    cardOnBoard = game.getPlayer(client.getUsername()).getPlayerField().getCardById(cardIdOnBoard);
+                    ui.showCardInfo(cardOnBoard, client.getCardInfo(cardOnBoard, game.getGameId()));
+                    ui.areYouSure();
+                    String newChoice = scanner.nextLine();
+                    if(newChoice.equals("y"))
+                        break;
+                    cardIdOnBoard = Integer.parseInt(newChoice);
+                }while(true);
+
                 ui.chooseAngle();
                 int choice = Integer.parseInt(scanner.nextLine());
                 AngleOrientation orientation = switch (choice) {
@@ -342,12 +363,14 @@ public class ViewCLI implements View, Runnable {
         ui.showSharedObjectiveCard(sharedObjectiveCards);
     }
     public void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose)
-    {       ui.chooseSecretObjectiveCard();
+    {
+            ui.secretObjectiveCardTitle();
             try {
                 ui.showCardInfo(objectiveCardsToChoose.get(0), client.getCardInfo(objectiveCardsToChoose.get(0), game.getGameId()));
                 ui.showCardInfo(objectiveCardsToChoose.get(1), client.getCardInfo(objectiveCardsToChoose.get(1), game.getGameId()));
                 do {
                     try {
+                        ui.chooseSecretObjectiveCard();
                         int choice = Integer.parseInt(scanner.nextLine());
                         ObjectiveCard chosenObjectiveCard = null;
                         switch (choice) {
@@ -378,11 +401,13 @@ public class ViewCLI implements View, Runnable {
     }
 
     public void showPlayerHand() throws RemoteException, NotExistingPlayerException {
-        HashMap<PlayableCard, CardInfo> cardsInHand = new HashMap<>();
+        LinkedHashMap<PlayableCard, CardInfo> cardsInHand = new LinkedHashMap<>();
 
         for(PlayableCard card: game.getPlayer(client.getUsername()).getPlayerHand().getCardsInHand()) {
             CardInfo cardInfo = client.getCardInfo(card, game.getGameId());
             cardsInHand.put(card, cardInfo);
+            PlayableCard otherSide = client.getOtherSideCard(game.getGameId(), card);
+            cardsInHand.put(otherSide, client.getCardInfo(otherSide, game.getGameId()));
         }
         ui.showPlayerHand(cardsInHand);
     }

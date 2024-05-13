@@ -39,7 +39,7 @@ public class TUI extends UI {
     }
 
     public void showTurnScreen(String playerPlaying, String client) {
-        this.clearScreen();
+        //this.clearScreen();
 
         if(playerPlaying.equals(client)) {
             new PrintStream(System.out, true, System.console() != null
@@ -126,7 +126,7 @@ public class TUI extends UI {
         System.out.println("Insert your username: ");
     }
 
-    public void showPlayerHand(HashMap<PlayableCard, CardInfo> playerHand) { //create a method in the view to get the playerHand
+    public void showPlayerHand(LinkedHashMap<PlayableCard, CardInfo> playerHand) { //create a method in the view to get the playerHand
         //this.clearScreen();
         int test = 0;
         new PrintStream(System.out, true, System.console() != null
@@ -168,7 +168,7 @@ public class TUI extends UI {
     }
 
     public void showPoints(Player player) {
-        System.out.println(player.getUsername() + "points: " + player.getPoints());
+        System.out.println(player.getUsername() + " points: " + player.getPoints());
     }
 
     public void scoreboardTitle() {
@@ -232,6 +232,10 @@ public class TUI extends UI {
             }
             System.out.print("\n");
         }
+    }
+    public void chooseSide()
+    {
+        System.out.println("Choose card side: 1 - FRONT, 2 - BACK");
     }
 
     public void showEndGameScreen(LinkedHashMap<String, Integer> playersPlacement) {
@@ -659,6 +663,10 @@ public class TUI extends UI {
     {
         System.out.println("Choose where to draw the card: 1 - Resource Card Deck, 2 - Gold Card Deck, 3 - Left Discovered Resource, 4 - Right Discovered Resource, 5 - Left Discovered Gold, 6 - Right Discovered Gold, 0 - cancel");
     }
+    public void areYouSure()
+    {
+        System.out.println("Are you sure? Type 'y' or insert Id of another card on the field.");
+    }
     public void waitingForOthers()
     {
         System.out.println("Waiting for other players to choose their marker");
@@ -695,9 +703,11 @@ public class TUI extends UI {
         System.out.println("All commands:\n" +
                 "   1. type showPlayers to see all players in the game\n" +
                 "   2. type myHand to see your hand\n" +
-                "   3. type showMyField to see your filed\n" +
+                "   3. type showMyField to see your field\n" +
                 "   4. type playTurn to play your turn\n" +
-                "   5. type showPoints to see your or other player points\n");
+                "   5. type scoreboard to see your or other player points\n" +
+                "   6. type showOtherField to show another player's field\n" +
+                "   7. type any card Id to see its information\n");
     }
     public void commandNotFound() {
         System.out.println(ansi().fg(RED).a("Invalid command"));
@@ -718,7 +728,7 @@ public class TUI extends UI {
     {
         System.out.println("Something went wrong.");
     }
-    public void chooseSecretObjectiveCard()
+    public void secretObjectiveCardTitle()
     {
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
@@ -726,6 +736,10 @@ public class TUI extends UI {
                 .println(ansi().fg(GREEN).a("\n" +
                         "█▀ █▀▀ █▀▀ █▀█ █▀▀ ▀█▀   █▀█ █▄▄ ░░█ █▀▀ █▀▀ ▀█▀ █ █░█ █▀▀   █▀▀ ▄▀█ █▀█ █▀▄\n" +
                         "▄█ ██▄ █▄▄ █▀▄ ██▄ ░█░   █▄█ █▄█ █▄█ ██▄ █▄▄ ░█░ █ ▀▄▀ ██▄   █▄▄ █▀█ █▀▄ █▄▀").reset());
+    }
+    public void chooseSecretObjectiveCard()
+    {
+
         System.out.println("Choose one of the two cards: 1 - first, 2 - second.");
     }
 
