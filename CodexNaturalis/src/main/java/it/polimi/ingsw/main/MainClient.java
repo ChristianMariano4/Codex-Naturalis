@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.network.client.RMIClient;
 import it.polimi.ingsw.network.client.SocketClient;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
+import it.polimi.ingsw.view.GUI.ClientApp;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -104,7 +105,7 @@ public class MainClient {
     }
     private static void RMIGUI()
     {
-        return;
+        ClientApp.launchGUI();
     }
 
 
