@@ -342,11 +342,10 @@ public class ViewCLI implements View, Runnable {
         ui.showSharedObjectiveCard(sharedObjectiveCards);
     }
     public void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose)
-    {
+    {       ui.chooseSecretObjectiveCard();
             try {
                 ui.showCardInfo(objectiveCardsToChoose.get(0), client.getCardInfo(objectiveCardsToChoose.get(0), game.getGameId()));
                 ui.showCardInfo(objectiveCardsToChoose.get(1), client.getCardInfo(objectiveCardsToChoose.get(1), game.getGameId()));
-                ui.chooseSecretObjectiveCard();
                 do {
                     try {
                         int choice = Integer.parseInt(scanner.nextLine());
