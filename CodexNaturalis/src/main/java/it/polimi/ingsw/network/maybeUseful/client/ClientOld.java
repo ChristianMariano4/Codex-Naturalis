@@ -2,7 +2,7 @@
 //
 //import it.polimi.ingsw.model.Game;
 //import it.polimi.ingsw.model.GameValues;
-//import it.polimi.ingsw.network.EventManager;
+//import it.polimi.ingsw.network.observer.EventManager;
 //import it.polimi.ingsw.network.messages.EventWrapper;
 //import it.polimi.ingsw.network.messages.GameEvent;
 //import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;

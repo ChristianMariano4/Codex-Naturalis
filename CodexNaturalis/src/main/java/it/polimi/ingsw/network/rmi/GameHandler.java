@@ -10,9 +10,9 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
-import it.polimi.ingsw.network.AbstractClientHandler;
-import it.polimi.ingsw.network.EventManager;
-import it.polimi.ingsw.network.GameListener;
+import it.polimi.ingsw.network.client.AbstractClientHandler;
+import it.polimi.ingsw.network.observer.EventManager;
+import it.polimi.ingsw.network.observer.GameListener;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.messages.GameEvent;
 

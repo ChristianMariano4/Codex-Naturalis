@@ -1,7 +1,7 @@
 //package it.polimi.ingsw.network.server;
 //
-//import it.polimi.ingsw.network.EventManager;
-//import it.polimi.ingsw.network.Listener;
+//import it.polimi.ingsw.network.observer.EventManager;
+//import it.polimi.ingsw.network.observer.Listener;
 //import it.polimi.ingsw.network.messages.GameEvent;
 //
 //import java.util.List;

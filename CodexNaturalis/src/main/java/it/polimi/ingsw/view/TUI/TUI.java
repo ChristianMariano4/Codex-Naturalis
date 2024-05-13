@@ -303,39 +303,39 @@ public class TUI extends UI {
         for(int i = 0; i < 7; i++) {
             switch (i) {
                 case 0:
-                    if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
+                    if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
                         output.append("┌──────┬");
                     } else {
                         output.append("┌┬──────");
                     }
                     output.append("───────────");
-                    if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
+                    if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
                         output.append("┬──────┐\n");
                     } else {
                         output.append("──────┬┐\n");
                     }
                     break;
                 case 1:
-                    if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
+                    if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
                         output.append("│┤►@@◄├│");
                     } else {
                         output.append("││      ");
                     }
                     output.append("           ");
-                    if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
+                    if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
                         output.append("│┤►@@◄├│\n");
                     } else {
                         output.append("      ││\n");
                     }
                     break;
                 case 2:
-                    if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
+                    if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
                         output.append("│┼─────┘");
                     } else {
                         output.append("││      ");
                     }
                     output.append("  ┌┬───┬┐  ");
-                    if(card.getAngle(AngleOrientation.TOPLEFT).isPlayable()) {
+                    if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
                         output.append("└─────┼│\n");
                     } else {
                         output.append("      ││\n");
@@ -349,39 +349,39 @@ public class TUI extends UI {
                     }
                     break;
                 case 4:
-                    if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
+                    if(card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
                         output.append("│┼─────┐");
                     } else {
                         output.append("││      ");
                     }
                     output.append("  └┴───┴┘  ");
-                    if(card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
+                    if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
                         output.append("┌─────┼│\n");
                     } else {
                         output.append("      ││\n");
                     }
                     break;
                 case 5:
-                    if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
+                    if(card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
                         output.append("│┤►@@◄├│");
                     } else {
                         output.append("││      ");
                     }
                     output.append("           ");
-                    if(card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
+                    if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
                         output.append("│┤►@@◄├│\n");
                     } else {
                         output.append("      ││\n");
                     }
                     break;
                 case 6:
-                    if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
+                    if(card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
                         output.append("└──────┴");
                     } else {
                         output.append("└┴──────");
                     }
                     output.append("───────────");
-                    if(/*card.getAngle(AngleOrientation.BOTTOMLEFT).getAngleStatus().equals(AngleStatus.UNLINKED)*/card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
+                    if(/*card.getAngle(AngleOrientation.BOTTOMLEFT).getAngleStatus().equals(AngleStatus.UNLINKED)*/card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
                         output.append("┴──────┘\n");
                     } else {
                         output.append("──────┴┘\n");

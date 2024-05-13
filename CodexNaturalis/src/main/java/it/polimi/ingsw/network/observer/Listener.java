@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.network.observer;
 
 import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
 

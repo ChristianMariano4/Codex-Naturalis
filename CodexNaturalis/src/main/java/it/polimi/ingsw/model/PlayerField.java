@@ -61,11 +61,14 @@ public class PlayerField implements Serializable {
                     int cardToAddY = j + angleOrientation.mapEnumToY();
                     if(matrixField[cardToAddX][cardToAddY] != null)
                         throw new InvalidCardPositionException();
-                    if(card.getAngle(angleOrientation).isPlayable() && card.getAngle(angleOrientation).getAngleStatus().equals(AngleStatus.UNLINKED))
+                    if(card.getAngle(angleOrientation).isPlayable() && card.getAngle(angleOrientation).getAngleStatus().equals(AngleStatus.UNLINKED) && cardToAdd.getAngle(angleOrientation.getOpposite()).isPlayable())
                     {
                         matrixField[cardToAddX][cardToAddY] = cardToAdd;
                         card.getAngle(angleOrientation).setLinkedAngle(cardToAdd.getAngle(angleOrientation.getOpposite()), AngleStatus.UNDER);
                         cardToAdd.getAngle(angleOrientation.getOpposite()).setLinkedAngle(card.getAngle(angleOrientation), AngleStatus.OVER);
+                    }
+                    else {
+                        throw new InvalidCardPositionException();
                     }
 
 

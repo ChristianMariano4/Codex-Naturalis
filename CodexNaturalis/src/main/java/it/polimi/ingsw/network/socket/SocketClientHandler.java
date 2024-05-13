@@ -1,15 +1,8 @@
 package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameValues;
-import it.polimi.ingsw.network.AbstractClientHandler;
-import it.polimi.ingsw.network.rmi.GameHandler;
-import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.network.client.AbstractClientHandler;
 import it.polimi.ingsw.network.messages.GameEvent;
-import it.polimi.ingsw.network.messages.userMessages.CreateGameMessage;
-import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
-import it.polimi.ingsw.network.rmi.ClientRMIInterface;
 
 import java.io.*;
 import java.net.Socket;

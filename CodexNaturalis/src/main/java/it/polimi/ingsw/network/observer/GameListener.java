@@ -1,8 +1,10 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.network.observer;
 
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.messages.GameEvent;
+import it.polimi.ingsw.network.observer.Listener;
 import it.polimi.ingsw.network.rmi.ClientRMIInterface;
 
 import java.rmi.RemoteException;

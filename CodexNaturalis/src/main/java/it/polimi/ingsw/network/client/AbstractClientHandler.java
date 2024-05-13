@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.network.messages.GameEvent;

@@ -8,7 +8,7 @@ import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.network.Client;
+import it.polimi.ingsw.network.client.Client;
 
 import java.io.IOException;
 import java.rmi.RemoteException;

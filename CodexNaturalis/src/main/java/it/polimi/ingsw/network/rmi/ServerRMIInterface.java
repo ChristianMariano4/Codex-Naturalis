@@ -5,7 +5,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
-import it.polimi.ingsw.network.AbstractClientHandler;
+import it.polimi.ingsw.network.client.AbstractClientHandler;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

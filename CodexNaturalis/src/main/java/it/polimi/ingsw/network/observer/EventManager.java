@@ -1,8 +1,7 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.network.observer;
 
 import it.polimi.ingsw.network.messages.GameEvent;
-import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
-import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
+import it.polimi.ingsw.network.observer.Listener;
 
 import java.util.ArrayList;
 import java.util.HashMap;

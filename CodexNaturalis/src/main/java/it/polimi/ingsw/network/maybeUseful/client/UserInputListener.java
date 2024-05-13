@@ -1,9 +1,9 @@
 //package it.polimi.ingsw.network.maybeUseful.client;
 //
-//import it.polimi.ingsw.network.Listener;
+//import it.polimi.ingsw.network.observer.Listener;
 //import it.polimi.ingsw.network.messages.userMessages.UserInputEvent;
 //import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
-//import it.polimi.ingsw.network.Client;
+//import it.polimi.ingsw.network.Client.Client;
 //
 //public class UserInputListener implements Listener<UserInputEvent> {
 //    private final Client client;
