@@ -13,7 +13,12 @@ import it.polimi.ingsw.network.messages.userMessages.UserMessageWrapper;
 import it.polimi.ingsw.network.rmi.ClientRMIInterface;
 import it.polimi.ingsw.network.rmi.GameHandler;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
+import it.polimi.ingsw.network.socket.SocketClientHandler;
+import it.polimi.ingsw.network.socket.SocketConnectionHandler;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -23,10 +28,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Server extends Thread implements ServerRMIInterface {
     private final Map<Integer, GameHandler> gameHandlerMap;
-    private final List<ClientRMIInterface> clients = new ArrayList<>(); //list of all client stubs+
+    private final List<AbstractClientHandler> clients = new ArrayList<>(); //list of all client stubs+
 
 //    queue used to pass data to another thread in a thread safe way
      //final BlockingQueue<EventWrapper> updates = new LinkedBlockingQueue<>();
@@ -58,7 +66,7 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public void connect(ClientRMIInterface client) throws RemoteException {
+    public void connect(AbstractClientHandler client) throws RemoteException {
         System.out.println("Connecting client to the server...");
         synchronized (this.clients) {
             this.clients.add(client);
@@ -130,7 +138,7 @@ public class Server extends Thread implements ServerRMIInterface {
         client.update(event, gameUpdate);
     }
     public boolean checkUsername(String username) throws RemoteException{
-        for(ClientRMIInterface client : clients)
+        for(AbstractClientHandler client : clients)
         {
             if(client.getUsername() == null)
                 continue;
@@ -165,8 +173,24 @@ public class Server extends Thread implements ServerRMIInterface {
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("RMI Server ready");
+    }
+    private void startSocketServer()
+    {
 
-        System.out.println("Server bound");
+        ServerSocket serverSocket;
+        try {
+            serverSocket = new ServerSocket(GameValues.SOCKET_SERVER_PORT);
+        } catch (IOException e) {
+            System.err.println(e.getMessage()); // porta non disponibile
+            return;
+        }
+        System.out.println("Socket server ready");
+
+        SocketConnectionHandler socketConnectionHandler = new SocketConnectionHandler(serverSocket,this);
+        Thread socketConnectionHandlerThread = new Thread(socketConnectionHandler);
+        socketConnectionHandlerThread.start();
+
     }
 
     public void update(ClientRMIInterface clientRMIInterface, UserMessageWrapper message) throws RemoteException {
@@ -279,7 +303,9 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     public void run(){
+        startSocketServer();
         startRMIServer();
+
         //broadcastUpdateThread.start();
     }
 

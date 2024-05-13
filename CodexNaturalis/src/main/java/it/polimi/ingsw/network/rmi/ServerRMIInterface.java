@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.network.AbstractClientHandler;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -14,7 +15,7 @@ import java.util.concurrent.BlockingQueue;
 //this is the skeleton (proxy of the server)
 public interface ServerRMIInterface extends Remote {
     //method used from client to tell the server how to contact it
-    void connect(ClientRMIInterface client) throws RemoteException;
+    void connect(AbstractClientHandler client) throws RemoteException;
     //expose methods that the client can call, i.e. those of the controller
     int createGame(ClientRMIInterface client) throws RemoteException;
     List<Integer> getAvailableGames() throws RemoteException;

@@ -7,10 +7,15 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.rmi.ClientRMIInterface;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
+import it.polimi.ingsw.network.socket.SocketConnectionHandler;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.TUI.ViewCLI;
 import it.polimi.ingsw.network.messages.GameEvent;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -20,6 +25,7 @@ public class Client extends UnicastRemoteObject implements ClientRMIInterface, R
     private String username = null;
     private boolean isRMI = false;
     private final ServerRMIInterface serverRMIInterface;
+    private final Socket serverSocket;
     private int gameId = -1; //invalid default value
     private View view;
     private boolean playing = false;
@@ -33,22 +39,29 @@ public class Client extends UnicastRemoteObject implements ClientRMIInterface, R
 
     /**
      * Socket Constructor
-     * @param isRMI
+
      * @throws RemoteException
      */
-    public Client(boolean isRMI) throws RemoteException{
+    public Client(Socket serverSocket) throws RemoteException{
+        this.serverSocket = serverSocket;
         this.serverRMIInterface = null;
+        this.isRMI = false;
     }
 
     /**
      * RMI constructor
      * @param serverRMIInterface
-     * @param isRMI
+
      * @throws RemoteException
      */
-    public Client(ServerRMIInterface serverRMIInterface, boolean isRMI) throws RemoteException{
+    public Client(ServerRMIInterface serverRMIInterface) throws RemoteException{
         this.serverRMIInterface = serverRMIInterface;
-        this.isRMI = isRMI;
+        this.serverSocket = null;
+        this.isRMI = true;
+    }
+    public boolean isRMI()
+    {
+        return this.isRMI;
     }
 
     public Game createGame(String username){
@@ -278,7 +291,18 @@ public class Client extends UnicastRemoteObject implements ClientRMIInterface, R
             }
         }
         else {
-            //socket logic
+            try {
+                ObjectInputStream objectInputStream = new ObjectInputStream(serverSocket.getInputStream());
+                while(true) {
+                    System.out.println(objectInputStream.readObject().toString());
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+
         }
     }
 

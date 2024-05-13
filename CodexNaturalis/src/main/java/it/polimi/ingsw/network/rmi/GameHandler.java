@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
+import it.polimi.ingsw.network.AbstractClientHandler;
 import it.polimi.ingsw.network.EventManager;
 import it.polimi.ingsw.network.GameListener;
 import it.polimi.ingsw.network.Server;
@@ -26,7 +27,7 @@ public class GameHandler {
     private Game game;
     private Controller controller;
     private int readyPlayers = 0;
-    private List<ClientRMIInterface> clients; //list of the clients related to this game
+    private List<AbstractClientHandler> clients; //list of the clients related to this game
     private final EventManager eventManager;
     private final Server server;
     private final BlockingQueue<Boolean> threadUpdates = new LinkedBlockingQueue<>();
@@ -72,7 +73,7 @@ public class GameHandler {
     }
 
     public void notifyUpdate(GameEvent event, Game game){
-        for(ClientRMIInterface client : clients){
+        for(AbstractClientHandler client : clients){
             try {
                 client.update(event, game);
             } catch (RemoteException | InterruptedException e) {
@@ -106,12 +107,12 @@ public class GameHandler {
             for(Player player : game.getListOfPlayers())
             {
                 ArrayList<ObjectiveCard> objectiveCardsToChoose = controller.takeTwoObjectiveCards();
-                HashMap<ClientRMIInterface, String> usernames = new HashMap<>();
-                for(ClientRMIInterface client : clients)
+                HashMap<AbstractClientHandler, String> usernames = new HashMap<>();
+                for(AbstractClientHandler client : clients)
                 {
                     usernames.put(client, client.getUsername());
                 }
-                ClientRMIInterface client;
+                AbstractClientHandler client;
                 client = usernames.entrySet().stream().filter(c -> Objects.equals(player.getUsername(), c.getValue())).map(Map.Entry::getKey).findFirst().orElse(null);
                 client.update(GameEvent.SECRET_OBJECTIVE_CHOICE_REQUEST, objectiveCardsToChoose);
             }
@@ -126,7 +127,7 @@ public class GameHandler {
     public void playCard(Player player, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, RequirementsNotMetException, CardTypeMismatchException, AngleAlreadyLinkedException {
         controller.playCard(player, card ,otherCard, orientation);
     }
-    public List<ClientRMIInterface> getClients() {
+    public List<AbstractClientHandler> getClients() {
         return clients;
     }
 

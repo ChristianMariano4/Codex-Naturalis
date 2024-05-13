@@ -1,10 +1,14 @@
 package it.polimi.ingsw.main;
 
+import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.view.TUI.ViewCLI;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -57,6 +61,20 @@ public class MainClient {
     }
     private static void SocketTUI()
     {
+        try {
+            Socket serverSocket = new Socket("127.0.0.1", GameValues.SOCKET_SERVER_PORT);
+            System.out.println("Connected to sever successfully");
+            Client client = new Client(serverSocket);
+            Thread clientThread = new Thread(client);
+            clientThread.start();
+            clientThread.join();
+
+        }
+        catch(IOException e) {
+            System.err.println("Not connected");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return;
     }
     private static void RMITUI()
@@ -65,9 +83,9 @@ public class MainClient {
         String serverName = "Server";
 
         try {
-            Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1234);
+            Registry registry = LocateRegistry.getRegistry("127.0.0.1",  GameValues.RMI_SERVER_PORT);
             ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);
-            Client client = new Client(server, true);
+            Client client = new Client(server);
             Thread clientThread = new Thread(client);
             clientThread.start();
             clientThread.join();
