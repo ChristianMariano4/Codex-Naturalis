@@ -28,6 +28,7 @@ public class SocketClientMessageHandler implements Runnable {
 
     public void sendMessage(ClientMessageType messageType, Object ... messageContent) throws IOException {
 
+        outputStream.reset();
         outputStream.writeObject(new ClientMessage(messageType, messageContent));
     }
     @Override

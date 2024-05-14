@@ -92,6 +92,7 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
     }
     public void sendMessage(ServerMessageType messageType, Object ... messageContent) throws IOException {
 
+        outputStream.reset();
         outputStream.writeObject(new ServerMessage(messageType, messageContent));
     }
 
