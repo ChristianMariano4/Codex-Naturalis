@@ -5,8 +5,11 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 import it.polimi.ingsw.network.socket.ErrorAwareQueue;
 import it.polimi.ingsw.network.socket.SocketClientMessageHandler;
+import it.polimi.ingsw.view.GUI.GUI;
+import it.polimi.ingsw.view.GUI.ViewGUI;
 import it.polimi.ingsw.view.TUI.ViewCLI;
 
 import java.io.IOException;
@@ -31,6 +34,13 @@ public class SocketClient extends Client {
         super(false);
         this.serverSocket = serverSocket;
 
+    }
+
+    public SocketClient(Socket serverSocket, GUI gui) throws RemoteException {
+        super(false);
+        this.serverSocket = serverSocket;
+        this.view = gui.getViewGUI();
+        this.isGUI = true;
     }
     @Override
     public void setUsername(String username) throws IOException, ServerDisconnectedException {
@@ -247,28 +257,27 @@ public class SocketClient extends Client {
         }
     }
 
+
+
     public void run()
     {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(serverSocket.getOutputStream()); //OutputStream must be created before InputStream otherwise it doesn't work
             ObjectInputStream inputStream = new ObjectInputStream(serverSocket.getInputStream());
-            SocketClientMessageHandler messageHandler = new SocketClientMessageHandler(this, inputStream , outputStream, messageHandlerQueue);
-
+            SocketClientMessageHandler messageHandler = new SocketClientMessageHandler(this, inputStream, outputStream, messageHandlerQueue);
             this.messageHandler = messageHandler;
             Thread messageHandlerThread = new Thread(messageHandler);
             this.messageHandlerThread = messageHandlerThread;
             messageHandlerThread.start();
-            view = new ViewCLI(this);
-            ViewCLI viewCLI = (ViewCLI) view;
-            viewCLI.setUsername();
-            while (true) {
-                if (!preGameStart(viewCLI))
-                    break;
-                this.viewThread = new Thread(viewCLI); //game loop actually begins here
-                this.viewThread.start();
-                this.viewThread.join();
-                resetClient(viewCLI); //resetting the client after end of game
-                //TODO: add server side reset
+
+
+            if(isGUI) {
+
+                runGUI();
+
+            } else {
+
+                runTUI();
             }
 
         } catch (IOException e) {
@@ -281,5 +290,8 @@ public class SocketClient extends Client {
             System.err.println("Disconnected from server");
             return;
         }
+
+
+
     }
 }

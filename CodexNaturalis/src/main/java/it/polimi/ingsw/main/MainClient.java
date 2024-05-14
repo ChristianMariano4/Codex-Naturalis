@@ -118,10 +118,12 @@ public class MainClient {
     }
     private static void SocketGUI()
     {
-        return;
+        GUI.setConnectionType(false);
+        GUI.launchGUI();
     }
     private static void RMIGUI()
     {
+        GUI.setConnectionType(true);
         GUI.launchGUI();
     }
 

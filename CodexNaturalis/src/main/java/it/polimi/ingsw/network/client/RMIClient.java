@@ -84,24 +84,11 @@ public class RMIClient extends Client {
             this.serverRMIInterface.connect(this); //connect to the server
 
             if(isGUI) {
-                ViewGUI viewGUI = (ViewGUI) view;
-                viewGUI.setClient(this);
+              runGUI();
 
             } else {
 
-                view = new ViewCLI(this);
-                ViewCLI viewCLI = (ViewCLI) view;
-                viewCLI.setUsername(); //set only once per client, outside of loop
-
-                while (true) {
-                    if (!preGameStart(viewCLI))
-                        break;
-                    this.viewThread = new Thread(viewCLI); //game loop actually begins here
-                    this.viewThread.start();
-                    this.viewThread.join();
-                    resetClient(viewCLI); //resetting the client after end of game
-                    //TODO: add server side reset
-                }
+            runTUI();
 
             }
         } catch (InterruptedException | NotExistingPlayerException | IOException e) {

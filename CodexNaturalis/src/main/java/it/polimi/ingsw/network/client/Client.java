@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.rmi.ClientRMIInterface;
+import it.polimi.ingsw.view.GUI.ViewGUI;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.TUI.ViewCLI;
 import it.polimi.ingsw.network.messages.GameEvent;
@@ -177,6 +178,26 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
          this.starterCardAssigned = false;
          this.objectiveCardsToChoose = null;
          this.gameBegin = false;
+    }
+    protected void runTUI() throws ServerDisconnectedException, IOException, InterruptedException, NotExistingPlayerException {
+        view = new ViewCLI(this);
+        ViewCLI viewCLI = (ViewCLI) view;
+        viewCLI.setUsername();
+        while (true) {
+            if (!preGameStart(viewCLI))
+                break;
+            this.viewThread = new Thread(viewCLI); //game loop actually begins here
+            this.viewThread.start();
+            this.viewThread.join();
+            resetClient(viewCLI); //resetting the client after end of game
+            //TODO: add server side reset
+        }
+    }
+
+    protected void runGUI()
+    {
+        ViewGUI viewGUI = (ViewGUI) view;
+        viewGUI.setClient(this);
     }
 
     public abstract boolean checkUsername(String username) throws IOException, InterruptedException, ServerDisconnectedException;
