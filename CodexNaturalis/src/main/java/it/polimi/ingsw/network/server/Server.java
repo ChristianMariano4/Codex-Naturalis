@@ -125,7 +125,7 @@ public class Server extends Thread implements ServerRMIInterface {
         return gameHandlerMap.get(gameId);
     }
 
-    public void updateClient(ClientHandlerInterface client, GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException {
+    public void updateClient(ClientHandlerInterface client, GameEvent event, Object gameUpdate) throws IOException, InterruptedException, NotExistingPlayerException {
         client.update(event, gameUpdate);
     }
     public boolean checkUsername(String username) throws IOException {

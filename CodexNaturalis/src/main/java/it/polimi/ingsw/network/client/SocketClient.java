@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.network.socket.ErrorAwareQueue;
 import it.polimi.ingsw.network.socket.SocketClientMessageHandler;
 import it.polimi.ingsw.view.TUI.ViewCLI;
 
@@ -24,7 +25,7 @@ public class SocketClient extends Client {
     private final Socket serverSocket;
     SocketClientMessageHandler messageHandler;
     Thread messageHandlerThread;
-    BlockingQueue<Object> messageHandlerQueue = new LinkedBlockingQueue<>();
+    ErrorAwareQueue messageHandlerQueue = new ErrorAwareQueue(new LinkedBlockingQueue<>());
 
     public SocketClient(Socket serverSocket) throws RemoteException {
         super(false);
@@ -42,40 +43,71 @@ public class SocketClient extends Client {
         try
         {
             messageHandler.sendMessage(ClientMessageType.CREATE_GAME, null);
+
             this.gameId = (int) messageHandlerQueue.take();
+
             messageHandler.sendMessage(ClientMessageType.SUBSCRIBE, this.gameId);
             messageHandler.sendMessage(ClientMessageType.ADD_PLAYER, this.gameId, this.username);
-            Game game = (Game) messageHandlerQueue.take();
-            return game;
-
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+            return (Game) messageHandlerQueue.take();
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public List<Integer> getAvailableGames() {
-        return null;
+    public List<Integer> getAvailableGames() throws IOException, InterruptedException {
+        messageHandler.sendMessage(ClientMessageType.AVAILABLE_GAMES_REQUEST, null);
+        try {
+            return (List<Integer>) messageHandlerQueue.take();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
     }
 
     @Override
     public Game joinGame(int gameId, String username) {
         this.gameId = gameId;
-        return null;
+        try {
+            messageHandler.sendMessage(ClientMessageType.SUBSCRIBE, this.gameId);
+            messageHandler.sendMessage(ClientMessageType.ADD_PLAYER, this.gameId, this.username);
+
+            return (Game) messageHandlerQueue.take();
+        } catch (Exception e) {
+            throw new RuntimeException();
+
+        }
+
     }
 
     @Override
-    public int setReady() throws NotEnoughPlayersException {
-        return 0;
+    public int setReady() throws NotEnoughPlayersException, IOException {
+        try {
+            messageHandler.sendMessage(ClientMessageType.SET_READY, this.gameId);
+            return (int) messageHandlerQueue.take();
+        }
+        catch(NotEnoughPlayersException e)
+        {
+            throw new NotEnoughPlayersException();
+        }
+         catch (Exception e){
+            throw new RuntimeException();
+        }
+
     }
 
     @Override
     public boolean checkUsername(String username) throws IOException, InterruptedException {
         messageHandler.sendMessage(ClientMessageType.CHECK_USERNAME, username);
-        return (boolean) messageHandlerQueue.take();
+        try {
+            return (boolean) messageHandlerQueue.take();
+        }
+        catch(Exception e)
+        {
+            throw new RuntimeException();
+        }
+
     }
 
     @Override

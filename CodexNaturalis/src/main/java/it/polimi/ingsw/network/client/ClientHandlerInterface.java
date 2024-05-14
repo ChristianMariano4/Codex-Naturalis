@@ -8,6 +8,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface ClientHandlerInterface extends Remote {
-    void update(GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException;
+    void update(GameEvent event, Object gameUpdate) throws IOException, InterruptedException, NotExistingPlayerException;
     String getUsername() throws IOException;
 }

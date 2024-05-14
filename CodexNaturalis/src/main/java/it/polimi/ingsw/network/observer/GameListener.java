@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.rmi.ClientRMIInterface;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class GameListener implements Listener<GameEvent> {
@@ -29,6 +30,8 @@ public class GameListener implements Listener<GameEvent> {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (NotExistingPlayerException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         System.out.println("We are in GameListener update method");

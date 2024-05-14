@@ -1,7 +1,9 @@
 package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.enumerations.ClientMessageType;
+import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.network.client.SocketClient;
+import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.messages.clientMessages.ClientMessage;
 import it.polimi.ingsw.network.messages.serverMessages.ServerMessage;
 
@@ -15,8 +17,8 @@ public class SocketClientMessageHandler implements Runnable {
     private SocketClient client;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
-    private BlockingQueue<Object> messageQueue;
-    public SocketClientMessageHandler(SocketClient client, ObjectInputStream inputStream, ObjectOutputStream outputStream, BlockingQueue<Object> messageQueue)
+    private ErrorAwareQueue messageQueue;
+    public SocketClientMessageHandler(SocketClient client, ObjectInputStream inputStream, ObjectOutputStream outputStream, ErrorAwareQueue messageQueue)
     {
         this.client = client;
         this.inputStream = inputStream;
@@ -37,18 +39,26 @@ public class SocketClientMessageHandler implements Runnable {
                 parseMessage(message);
 
 
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
+            } catch (IOException | ClassNotFoundException | InterruptedException | NotExistingPlayerException e) {
                 throw new RuntimeException(e);
             }
         }
     }
-    private void parseMessage(ServerMessage message) throws InterruptedException, IOException {
+    private void parseMessage(ServerMessage message) throws InterruptedException, IOException, NotExistingPlayerException {
         switch(message.getMessageType())
         {
+            case UPDATE ->
+            {
+                client.update((GameEvent) message.getMessageContent()[0], message.getMessageContent()[1]);
+            }
+            case SUCCESS ->
+            {
+                messageQueue.put(message.getMessageContent()[0]);
+            }
+            case ERROR ->
+            {
+                messageQueue.put(message.getMessageContent()[0]);
+            }
             case GAME_CREATED ->
             {
                 messageQueue.put(message.getMessageContent()[0]);
@@ -61,6 +71,10 @@ public class SocketClientMessageHandler implements Runnable {
             {
                 messageQueue.put(message.getMessageContent()[0]);
             }
+            case AVAILABLE_GAMES -> {
+                messageQueue.put(message.getMessageContent()[0]);
+            }
+
         }
     }
 }

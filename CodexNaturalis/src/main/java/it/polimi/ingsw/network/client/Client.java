@@ -48,7 +48,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     }
 
     public abstract Game createGame(String username);
-    public abstract List<Integer> getAvailableGames();
+    public abstract List<Integer> getAvailableGames() throws IOException, InterruptedException;
 
     public abstract Game joinGame(int gameId, String username);
 
@@ -64,7 +64,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         return this.username;
     }
 
-    public abstract int setReady() throws NotEnoughPlayersException;
+    public abstract int setReady() throws NotEnoughPlayersException, IOException;
     @Override
     @SuppressWarnings("unchecked")
     public void update(GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException {

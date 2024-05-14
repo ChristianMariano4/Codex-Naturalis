@@ -80,6 +80,8 @@ public class GameHandler {
                 throw new RuntimeException(e);
             } catch (NotExistingPlayerException e) {
                 throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -148,6 +150,8 @@ public class GameHandler {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (NotExistingPlayerException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

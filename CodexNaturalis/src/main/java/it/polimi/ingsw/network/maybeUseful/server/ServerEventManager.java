@@ -7,7 +7,7 @@
 //import java.util.List;
 //
 //public class ServerEventManager extends EventManager {
-//    public <E extends Enum<E>> void sendToClients(GameEvent event) {
+//    public <ErrorType extends Enum<ErrorType>> void sendToClients(GameEvent event) {
 //        List<Listener<?>> eventListeners = listeners.get(GameEvent.class);
 //        if(eventListeners != null) {
 //            for(Listener<?> listener : eventListeners) {
