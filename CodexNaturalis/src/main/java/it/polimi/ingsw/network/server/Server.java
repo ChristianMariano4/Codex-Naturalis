@@ -15,7 +15,9 @@ import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 import it.polimi.ingsw.network.socket.SocketConnectionHandler;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -25,32 +27,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class Server extends Thread implements ServerRMIInterface {
     private final Map<Integer, GameHandler> gameHandlerMap;
-    private final List<ClientHandlerInterface> clients = new ArrayList<>(); //list of all client stubs+
-
-//    queue used to pass data to another thread in a thread safe way
-     //final BlockingQueue<EventWrapper> updates = new LinkedBlockingQueue<>();
-//    TODO: fix thread to update clients
-//    Thread broadcastUpdateThread = new Thread(() -> {
-//        System.out.println("Broadcasting thread started");
-//        try{
-//            while(true){
-//                System.out.println("Waiting for updates");
-//                EventWrapper update = updates.take();
-//                System.out.println("We are after take method :)))))))");
-//                System.out.println();
-//                synchronized (this.clients) {
-//                    for (ClientRMIInterface client : this.clients) {
-//                        client.update(update.getType(), update.getMessage());
-//                    }
-//                }
-//            }
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        } catch (RemoteException e) {
-//            throw new RuntimeException(e);
-//        }
-//    });
-
+    private final List<ClientHandlerInterface> clients = new ArrayList<>(); //list of all client stubs
 
     public Server(Map<Integer, GameHandler> gameHandlerMap) {
         this.gameHandlerMap = gameHandlerMap;
@@ -72,17 +49,6 @@ public class Server extends Thread implements ServerRMIInterface {
         int id = GameValues.numberOfGames;
         GameValues.numberOfGames++;
         gameHandlerMap.put(id, new GameHandler(id, this));
-
-
-//        try {
-//            System.out.println("line 76) " + updates.size());
-//            updates.put(new EventWrapper(GameEvent.GAME_CREATED, gameHandlerMap.get(id).getGame()));
-//            System.out.println("line 78) " + updates.size());
-//        } catch (Exception e) {
-//            System.err.println("Error in adding game to the queue");
-//            throw new RuntimeException(e);
-//        }
-
         return id;
     }
 
@@ -90,7 +56,6 @@ public class Server extends Thread implements ServerRMIInterface {
     public List<Integer> getAvailableGames() throws RemoteException {
         return new ArrayList<>(gameHandlerMap.keySet());
     }
-
 
 
     @Override
@@ -296,6 +261,11 @@ public class Server extends Thread implements ServerRMIInterface {
     public void run(){
         startSocketServer();
         startRMIServer();
+        try {
+            System.out.println(InetAddress.getLocalHost().toString().split("/")[1]);
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
     /*    while(true)
         {
             try {

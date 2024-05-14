@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ClientApp extends Application {
+    private Stage primaryStage, popUpStage;
+    private
     Button loginButton = new Button("Login");
     Label loginLabel;
     Label label;

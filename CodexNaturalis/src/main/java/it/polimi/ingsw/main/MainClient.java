@@ -82,7 +82,10 @@ public class MainClient {
         String serverName = "Server";
 
         try {
-            Registry registry = LocateRegistry.getRegistry("127.0.0.1",  GameValues.RMI_SERVER_PORT);
+            System.out.println("Insert server IP address: ");
+            Scanner scanner = new Scanner(System.in);
+            String serverIP = scanner.nextLine();
+            Registry registry = LocateRegistry.getRegistry(serverIP,  GameValues.RMI_SERVER_PORT);
             ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);
             RMIClient client = new RMIClient(server);
             Thread clientThread = new Thread(client);
