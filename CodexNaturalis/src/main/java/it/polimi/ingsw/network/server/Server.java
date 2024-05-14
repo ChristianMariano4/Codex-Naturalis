@@ -15,9 +15,7 @@ import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 import it.polimi.ingsw.network.socket.SocketConnectionHandler;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -262,7 +260,7 @@ public class Server extends Thread implements ServerRMIInterface {
         startSocketServer();
         startRMIServer();
         try {
-            System.out.println(InetAddress.getLocalHost().toString().split("/")[1]);
+            System.out.println("Server started on " + InetAddress.getLocalHost().getHostAddress());
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }

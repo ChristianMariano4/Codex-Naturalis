@@ -20,14 +20,14 @@ public class RMIClient extends Client {
         this.serverRMIInterface = serverRMIInterface;
 
     }
+
     @Override
     public Game createGame(String username) {
         try {
             this.gameId = serverRMIInterface.createGame(this);
             serverRMIInterface.subscribe(this, this.gameId);
-            Game game = serverRMIInterface.addPlayerToGame(this.gameId, username, this);
             //server.initializePlayersHand(this.gameId, this.player);
-            return game;
+            return serverRMIInterface.addPlayerToGame(this.gameId, username, this);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (GameAlreadyStartedException e) {
@@ -49,8 +49,7 @@ public class RMIClient extends Client {
         this.gameId = gameId;
         try {
                 serverRMIInterface.subscribe(this, this.gameId);
-                Game game = serverRMIInterface.addPlayerToGame(this.gameId, username, this);
-                return game;
+            return serverRMIInterface.addPlayerToGame(this.gameId, username, this);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             } catch (GameAlreadyStartedException e) {
@@ -63,20 +62,11 @@ public class RMIClient extends Client {
         try
         {
             return serverRMIInterface.setReady(this.gameId);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (
-        NotExistingPlayerException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (
-        DeckIsEmptyException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (NotExistingPlayerException | DeckIsEmptyException | IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
+
     public void run()
     {
         try {
@@ -95,54 +85,51 @@ public class RMIClient extends Client {
                 //TODO: add server side reset
             }
 
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (NotExistingPlayerException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (InterruptedException | NotExistingPlayerException | IOException e) {
             throw new RuntimeException(e);
         }
     }
     public boolean checkUsername(String username) throws IOException {
         return serverRMIInterface.checkUsername(username);
     }
+
     public PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException {
         return serverRMIInterface.getPlayableCardById(gameId, cardId);
     }
+
     public PlayableCard getOtherSideCard(int gameId, PlayableCard playableCard) throws RemoteException {
         return serverRMIInterface.getOtherSideCard(gameId, playableCard);
     }
+
     public StarterCard getOtherSideCard(int gameId , StarterCard starterCard) throws RemoteException {
-
         return serverRMIInterface.getOtherSideCard(gameId, starterCard);
-
     }
+
     public CardInfo getCardInfo(Card card, int gameId) throws RemoteException {
         return serverRMIInterface.getCardInfo(card, gameId);
     }
+
     public void endTurn(int gameId, String username) throws NotExistingPlayerException, CardTypeMismatchException, RemoteException {
         serverRMIInterface.endTurn(gameId, username);
     }
+
     public void drawCard(int gameId, String username, CardType cardType, DrawPosition drawPosition) throws NotExistingPlayerException, NotTurnException, RemoteException, AlreadyThreeCardsInHandException, DeckIsEmptyException {
         serverRMIInterface.drawCard(gameId,username,cardType,drawPosition);
     }
-    public void playCard(int gameId,String username, PlayableCard cardOnBoard, PlayableCard card , AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, RemoteException, AngleAlreadyLinkedException {
 
+    public void playCard(int gameId,String username, PlayableCard cardOnBoard, PlayableCard card , AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, RemoteException, AngleAlreadyLinkedException {
         serverRMIInterface.playCard(gameId,username,cardOnBoard, card, orientation);
     }
-    public void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard chosenObjectiveCard) throws NotExistingPlayerException, RemoteException {
 
+    public void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard chosenObjectiveCard) throws NotExistingPlayerException, RemoteException {
         serverRMIInterface.setSecretObjectiveCard(gameId,player,chosenObjectiveCard);
     }
-    public void setMarker(Player player, int gameId, Marker chosenMarker) throws NotExistingPlayerException, RemoteException, NotAvailableMarkerException {
 
+    public void setMarker(Player player, int gameId, Marker chosenMarker) throws NotExistingPlayerException, RemoteException, NotAvailableMarkerException {
         serverRMIInterface.setMarker(player, gameId, chosenMarker);
     }
 
     public void setStarterCardSide(int gameId, Player player, StarterCard cardFront, Side side) throws NotExistingPlayerException, RemoteException {
-
         serverRMIInterface.setStarterCardSide(gameId, player, cardFront, side);
     }
 

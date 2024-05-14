@@ -108,7 +108,7 @@ public class ViewCLI implements View, Runnable {
 
     @Override
     public void boardUpdate(Game gameUpdated) {
-        //these three methods call ui methods and diplay things
+        //these three methods call ui methods and display things
     }
 
     @Override
