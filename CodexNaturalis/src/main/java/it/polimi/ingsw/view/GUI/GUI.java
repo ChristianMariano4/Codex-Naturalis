@@ -57,13 +57,15 @@ public class GUI extends Application {
     }
 
     public void serverInit() {
-        System.out.println("Connecting to RMI server...");
         String serverName = "Server";
 
         try {
-            System.out.println("Insert server IP address: ");
+            System.out.println("Insert server IP address, leave empty for localhost: ");
             Scanner scanner = new Scanner(System.in);
             String serverIP = scanner.nextLine();
+            if(serverIP.equals(""))
+                serverIP = "localhost";
+            System.out.println("Connecting to RMI server...");
             Registry registry = LocateRegistry.getRegistry(serverIP,  GameValues.RMI_SERVER_PORT);
             ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.main;
 
+import it.polimi.ingsw.exceptions.ServerDisconnectedException;
 import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.network.client.RMIClient;
 import it.polimi.ingsw.network.client.SocketClient;
@@ -49,6 +50,10 @@ public class MainClient {
             }
             break;
         }
+        catch (ServerDisconnectedException e)
+        {
+            continue;
+        }
         catch (Exception e)
         {
             System.out.println("Invalid input, try again");
@@ -59,10 +64,14 @@ public class MainClient {
 
 
     }
-    private static void SocketTUI()
-    {
+    private static void SocketTUI() throws ServerDisconnectedException {
         try {
-            Socket serverSocket = new Socket("127.0.0.1", GameValues.SOCKET_SERVER_PORT);
+            System.out.println("Insert server IP address, leave empty for localhost: ");
+            Scanner scanner = new Scanner(System.in);
+            String serverIP = scanner.nextLine();
+            if(serverIP.equals(""))
+                serverIP = "localhost";
+            Socket serverSocket = new Socket(serverIP, GameValues.SOCKET_SERVER_PORT);
             System.out.println("Connected to sever successfully");
             SocketClient client = new SocketClient(serverSocket);
             Thread clientThread = new Thread(client);
@@ -71,21 +80,24 @@ public class MainClient {
 
         }
         catch(IOException e) {
-            System.err.println("Not connected");
+            System.err.println("Couldn't connect to server");
+            throw new ServerDisconnectedException();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         return;
     }
-    private static void RMITUI()
-    {
-        System.out.println("Connecting to RMI server...");
+    private static void RMITUI() throws ServerDisconnectedException {
+
         String serverName = "Server";
 
         try {
-            System.out.println("Insert server IP address: ");
+            System.out.println("Insert server IP address, leave empty for localhost: ");
             Scanner scanner = new Scanner(System.in);
             String serverIP = scanner.nextLine();
+            if(serverIP.equals(""))
+                serverIP = "localhost";
+            System.out.println("Connecting to RMI server...");
             Registry registry = LocateRegistry.getRegistry(serverIP,  GameValues.RMI_SERVER_PORT);
             ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);
             RMIClient client = new RMIClient(server);
@@ -94,7 +106,8 @@ public class MainClient {
             clientThread.join();
             //System.exit(0);
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            System.err.println("Couldn't connect to server");
+            throw new ServerDisconnectedException();
         } catch (NotBoundException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
