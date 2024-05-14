@@ -8,9 +8,11 @@ public enum ServerMessageType implements Serializable {
     UPDATE,
     GAME_CREATED,
     PLAYER_ADDED,
-    USERNAME_REQUEST,
     USERNAME_CHECK_RESULT,
     AVAILABLE_GAMES,
     READY_PLAYERS,
+    OTHER_SIDE_PLAYABLE,
+    OTHER_SIDE_STARTER,
+    CARD_INFO,
 
 }

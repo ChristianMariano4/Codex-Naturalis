@@ -28,8 +28,11 @@ public class ErrorAwareQueue {
                     throw new NotTurnException();
                 case REQUIREMENTS_NOT_MET ->
                     throw new RequirementsNotMetException();
+                case UNSPECIFIED ->
+                    throw new RuntimeException();
                 default -> throw new RuntimeException();
-            }
+                }
+
         }
         return result;
     }

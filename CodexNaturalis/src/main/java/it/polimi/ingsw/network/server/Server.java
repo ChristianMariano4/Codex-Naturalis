@@ -74,7 +74,7 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public void subscribe(ClientHandlerInterface client, int gameId) throws RemoteException {
+    public void subscribe(ClientHandlerInterface client, int gameId) throws RemoteException, GameAlreadyStartedException {
         this.gameHandlerMap.get(gameId).subscribe(client, gameId);
     }
 

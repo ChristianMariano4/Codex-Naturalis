@@ -30,6 +30,8 @@ public class RMIClient extends Client {
             return game;
         } catch (RemoteException e) {
             throw new RuntimeException(e);
+        } catch (GameAlreadyStartedException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -51,7 +53,9 @@ public class RMIClient extends Client {
                 return game;
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
-            }
+            } catch (GameAlreadyStartedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

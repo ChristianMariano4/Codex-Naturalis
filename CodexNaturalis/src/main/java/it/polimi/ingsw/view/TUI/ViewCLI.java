@@ -222,10 +222,10 @@ public class ViewCLI implements View, Runnable {
     {
         ui.notYourTurn(game.getCurrentPlayer().getUsername());
     }
-    private void endTurn() throws NotExistingPlayerException, RemoteException, CardTypeMismatchException {
+    private void endTurn() throws NotExistingPlayerException, IOException, CardTypeMismatchException {
         client.endTurn(game.getGameId(), client.getUsername());
     }
-    private void drawCard() throws RemoteException {
+    private void drawCard() throws IOException {
         HashMap<DrawPosition, GoldCard> discoveredGoldCards =  game.getTableTop().getDrawingField().getDiscoveredGoldCards();
         HashMap<DrawPosition, ResourceCard> discoveredResourceCards =  game.getTableTop().getDrawingField().getDiscoveredResourceCards();
 
@@ -291,7 +291,7 @@ public class ViewCLI implements View, Runnable {
             }
         }while(true);
     }
-    private void playCard() throws RemoteException, NotExistingPlayerException {
+    private void playCard() throws IOException, NotExistingPlayerException {
         showPlayerHand();
         showPlayerField();
         do {
@@ -349,7 +349,7 @@ public class ViewCLI implements View, Runnable {
         } while(true);
 
     }
-    public void showSecretObjectiveCard() throws NotExistingPlayerException, RemoteException {
+    public void showSecretObjectiveCard() throws NotExistingPlayerException, IOException {
         ObjectiveCard card = game.getPlayer(client.getUsername()).getSecretObjective();
         ui.showCardInfo(card, client.getCardInfo(card, game.getGameId()));
     }
@@ -364,7 +364,7 @@ public class ViewCLI implements View, Runnable {
     {
         ui.twentyPoints(username);
     }
-    public void showSharedObjectiveCards() throws RemoteException {
+    public void showSharedObjectiveCards() throws IOException {
         HashMap<ObjectiveCard, CardInfo> sharedObjectiveCards = new HashMap<>();
         ArrayList<ObjectiveCard> objectiveCards = game.getTableTop().getSharedObjectiveCards();
         sharedObjectiveCards.put(objectiveCards.get(0), client.getCardInfo(objectiveCards.get(0), game.getGameId()));
@@ -410,7 +410,7 @@ public class ViewCLI implements View, Runnable {
         }
     }
 
-    public void showPlayerHand() throws RemoteException, NotExistingPlayerException {
+    public void showPlayerHand() throws IOException, NotExistingPlayerException {
         LinkedHashMap<PlayableCard, CardInfo> cardsInHand = new LinkedHashMap<>();
 
         for(PlayableCard card: game.getPlayer(client.getUsername()).getPlayerHand().getCardsInHand()) {
@@ -514,7 +514,7 @@ public class ViewCLI implements View, Runnable {
     {
         ui.waitingForGameBegin();
     }
-    public void chooseStarterCardSide() throws NotExistingPlayerException, RemoteException {
+    public void chooseStarterCardSide() throws NotExistingPlayerException, IOException {
         StarterCard cardFront = game.getPlayer(client.getUsername()).getStarterCard();
         StarterCard cardBack = client.getOtherSideCard(game.getGameId(), cardFront);
 

@@ -47,6 +47,7 @@ public class SocketClient extends Client {
             this.gameId = (int) messageHandlerQueue.take();
 
             messageHandler.sendMessage(ClientMessageType.SUBSCRIBE, this.gameId);
+            messageHandlerQueue.take(); //success message
             messageHandler.sendMessage(ClientMessageType.ADD_PLAYER, this.gameId, this.username);
             return (Game) messageHandlerQueue.take();
         } catch (Exception e) {
@@ -71,6 +72,7 @@ public class SocketClient extends Client {
         this.gameId = gameId;
         try {
             messageHandler.sendMessage(ClientMessageType.SUBSCRIBE, this.gameId);
+            messageHandlerQueue.take();
             messageHandler.sendMessage(ClientMessageType.ADD_PLAYER, this.gameId, this.username);
 
             return (Game) messageHandlerQueue.take();
@@ -116,48 +118,122 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public PlayableCard getOtherSideCard(int gameId, PlayableCard playableCard) throws RemoteException {
-        return null;
+    public PlayableCard getOtherSideCard(int gameId, PlayableCard playableCard) throws IOException {
+        messageHandler.sendMessage(ClientMessageType.OTHER_SIDE_PLAYABLE_CARD_REQUEST,gameId, playableCard);
+        try
+        {
+            return (PlayableCard) messageHandlerQueue.take();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
     }
 
     @Override
-    public StarterCard getOtherSideCard(int gameId, StarterCard starterCard) throws RemoteException {
-        return null;
-    }
-
-    @Override
-    public CardInfo getCardInfo(Card card, int gameId) throws RemoteException {
-        return null;
-    }
-
-    @Override
-    public void endTurn(int gameId, String username) throws NotExistingPlayerException, CardTypeMismatchException, RemoteException {
-
-    }
-
-    @Override
-    public void drawCard(int gameId, String username, CardType cardType, DrawPosition drawPosition) throws NotExistingPlayerException, NotTurnException, RemoteException, AlreadyThreeCardsInHandException, DeckIsEmptyException {
-
-    }
-
-    @Override
-    public void playCard(int gameId, String username, PlayableCard cardOnBoard, PlayableCard card, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, RemoteException, AngleAlreadyLinkedException {
-
-    }
-
-    @Override
-    public void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard chosenObjectiveCard) throws NotExistingPlayerException, RemoteException {
+    public StarterCard getOtherSideCard(int gameId, StarterCard starterCard) throws IOException {
+        messageHandler.sendMessage(ClientMessageType.OTHER_SIDE_STARTER_CARD_REQUEST,gameId, starterCard);
+        try
+        {
+            return (StarterCard) messageHandlerQueue.take();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
 
     }
 
     @Override
-    public void setMarker(Player player, int gameId, Marker chosenMarker) throws NotExistingPlayerException, RemoteException, NotAvailableMarkerException {
-
+    public CardInfo getCardInfo(Card card, int gameId) throws IOException {
+        messageHandler.sendMessage(ClientMessageType.CARD_INFO_REQUEST, card, gameId);
+        try
+        {
+            return (CardInfo) messageHandlerQueue.take();
+        }
+        catch(Exception e)
+        {
+            throw new RuntimeException();
+        }
     }
 
     @Override
-    public void setStarterCardSide(int gameId, Player player, StarterCard cardFront, Side side) throws NotExistingPlayerException, RemoteException {
+    public void endTurn(int gameId, String username) throws NotExistingPlayerException, CardTypeMismatchException, IOException {
+        messageHandler.sendMessage(ClientMessageType.END_TURN, gameId, username);
+        try
+        {
+            messageHandlerQueue.take();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
 
+    @Override
+    public void drawCard(int gameId, String username, CardType cardType, DrawPosition drawPosition) throws NotExistingPlayerException, NotTurnException, IOException, AlreadyThreeCardsInHandException, DeckIsEmptyException {
+        messageHandler.sendMessage(ClientMessageType.DRAW_CARD, gameId, username, cardType, drawPosition);
+        try
+        {
+            messageHandlerQueue.take();
+        }
+        catch(Exception e)
+        {
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public void playCard(int gameId, String username, PlayableCard cardOnBoard, PlayableCard card, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, IOException, AngleAlreadyLinkedException {
+        messageHandler.sendMessage(ClientMessageType.PLAY_CARD,gameId, username, cardOnBoard, card, orientation);
+        try
+        {
+            messageHandlerQueue.take();
+        }
+        catch(Exception e)
+        {
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard chosenObjectiveCard) throws NotExistingPlayerException, IOException {
+        messageHandler.sendMessage(ClientMessageType.SET_SECRET_OBJECTIVE_CARD, gameId, player, chosenObjectiveCard);
+        try
+        {
+            messageHandlerQueue.take();
+        }
+        catch(Exception e)
+        {
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public void setMarker(Player player, int gameId, Marker chosenMarker) throws NotExistingPlayerException, IOException, NotAvailableMarkerException {
+        messageHandler.sendMessage(ClientMessageType.SET_MARKER, player, gameId, chosenMarker);
+        try
+        {
+            messageHandlerQueue.take();
+        }
+        catch(Exception e)
+        {
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public void setStarterCardSide(int gameId, Player player, StarterCard cardFront, Side side) throws NotExistingPlayerException, IOException {
+        messageHandler.sendMessage(ClientMessageType.SET_STARTER_CARD_SIDE ,gameId, player, cardFront, side);
+        try
+        {
+            messageHandlerQueue.take();
+        }
+        catch(Exception e)
+        {
+            throw new RuntimeException();
+        }
     }
 
     public void run()

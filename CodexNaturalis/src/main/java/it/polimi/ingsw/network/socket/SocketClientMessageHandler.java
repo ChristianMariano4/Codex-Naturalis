@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.enumerations.ClientMessageType;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
+import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.client.SocketClient;
 import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.messages.clientMessages.ClientMessage;
@@ -75,7 +76,20 @@ public class SocketClientMessageHandler implements Runnable {
             case AVAILABLE_GAMES -> {
                 messageQueue.put(message.getMessageContent()[0]);
             }
+            case CARD_INFO ->
+            {
+                messageQueue.put(message.getMessageContent()[0]);
+            }
+            case OTHER_SIDE_STARTER ->
+            {
+                messageQueue.put(message.getMessageContent()[0]);
+            }
+            case OTHER_SIDE_PLAYABLE ->
+            {
+                messageQueue.put(message.getMessageContent()[0]);
+            }
 
         }
     }
+
 }

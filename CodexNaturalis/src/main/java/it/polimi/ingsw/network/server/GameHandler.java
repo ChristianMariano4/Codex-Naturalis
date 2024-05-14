@@ -31,6 +31,7 @@ public class GameHandler {
     private final EventManager eventManager;
     private final Server server;
     private final BlockingQueue<Boolean> threadUpdates = new LinkedBlockingQueue<>();
+    private boolean isOpen = true;
     private boolean twentPointsReached = false;
     private boolean finalRound = false;
 
@@ -47,6 +48,10 @@ public class GameHandler {
         }
         this.clients = new ArrayList<>();
 
+    }
+    public boolean getIsOpen()
+    {
+        return this.isOpen;
     }
 
     public Game getGame() {
@@ -105,6 +110,7 @@ public class GameHandler {
         }
 
         if(readyPlayers >= this.game.getNumberOfPlayers()){
+            this.isOpen = false;
             eventManager.notify(GameEvent.GAME_INITIALIZED, this.game);
             for(Player player : game.getListOfPlayers())
             {
@@ -122,8 +128,11 @@ public class GameHandler {
         return readyPlayers;
     }
 
-    public void subscribe(ClientHandlerInterface client, int gameId) throws RemoteException {
-        eventManager.subscribe(GameEvent.class, new GameListener(client, server));
+    public void subscribe(ClientHandlerInterface client, int gameId) throws RemoteException, GameAlreadyStartedException {
+        if(isOpen)
+            eventManager.subscribe(GameEvent.class, new GameListener(client, server));
+        else
+            throw new GameAlreadyStartedException();
     }
 
     public void playCard(Player player, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, RequirementsNotMetException, CardTypeMismatchException, AngleAlreadyLinkedException {
