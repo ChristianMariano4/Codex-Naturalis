@@ -173,6 +173,12 @@ public class ViewCLI implements View, Runnable {
                             case "scoreboard":
                                 showScoreboard();
                                 break;
+                            case "showSharedObjectiveCards":
+                                showSharedObjectiveCards();
+                                break;
+                            case "showSecretObjectiveCard":
+                                showSecretObjectiveCard();
+                                break;
                             case "playTurn":
                                 if (isTurn) {
                                     playCard();
@@ -342,6 +348,10 @@ public class ViewCLI implements View, Runnable {
             }
         } while(true);
 
+    }
+    public void showSecretObjectiveCard() throws NotExistingPlayerException, RemoteException {
+        ObjectiveCard card = game.getPlayer(client.getUsername()).getSecretObjective();
+        ui.showCardInfo(card, client.getCardInfo(card, game.getGameId()));
     }
     private void showAllPlayers()
     {

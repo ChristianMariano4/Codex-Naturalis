@@ -707,7 +707,9 @@ public class TUI extends UI {
                 "   4. type playTurn to play your turn\n" +
                 "   5. type scoreboard to see your or other player points\n" +
                 "   6. type showOtherField to show another player's field\n" +
-                "   7. type any card Id to see its information\n");
+                "   7. type any card Id to see its information\n" +
+                "   8. type showSecretObjectiveCard to see your secret objective card" +
+                "   9. type showSharedObjectiveCards to see the shared objective cards");
     }
     public void commandNotFound() {
         System.out.println(ansi().fg(RED).a("Invalid command"));
