@@ -159,16 +159,13 @@ public class SocketClient extends Client {
 
     @Override
     public void endTurn(int gameId, String username) throws NotExistingPlayerException, CardTypeMismatchException, IOException {
-        messageHandler.sendMessage(ClientMessageType.END_TURN, gameId, username);
-        try
-        {
-            messageHandlerQueue.take();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
+
+            messageHandler.sendMessage(ClientMessageType.END_TURN, gameId, username);
+            try {
+                messageHandlerQueue.take();
+            } catch (Exception e) {
+                throw new RuntimeException();
+            }
     }
 
     @Override

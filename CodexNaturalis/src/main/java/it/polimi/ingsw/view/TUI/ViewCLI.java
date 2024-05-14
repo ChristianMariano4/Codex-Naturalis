@@ -181,9 +181,9 @@ public class ViewCLI implements View, Runnable {
                                 break;
                             case "playTurn":
                                 if (isTurn) {
-                                    playCard();
-                                    drawCard();
-                                    endTurn();
+                                        playCard();
+                                        drawCard();
+                                        endTurn();
                                 } else
                                     notYourTurn();
                                 break;

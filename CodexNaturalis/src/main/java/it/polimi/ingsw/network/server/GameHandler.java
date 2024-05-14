@@ -197,20 +197,7 @@ public class GameHandler {
 
         }
         eventManager.notify(GameEvent.MARKER_DONE, game);
-        assignStarterCards(); //this assigns starter cards to all players in order right after they are done with choosing their marker
 
-    }
-    private void assignStarterCards()
-    {
-        for(Player p : game.getListOfPlayers())
-        {
-            try {
-                controller.giveStarterCard(p);
-            } catch (DeckIsEmptyException | NotExistingPlayerException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        eventManager.notify(GameEvent.ASSIGNED_STARTER_CARDS, game);
     }
 
     public void turnEvent(String username) throws NotExistingPlayerException, CardTypeMismatchException {

@@ -53,6 +53,7 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
     }
     private void parseMessage(ClientMessage message) throws IOException {
         ClientMessageType messageType = message.getMessageType();
+        synchronized (this) {
             try {
                 switch (messageType) {
                     case SET_USERNAME -> {
@@ -78,36 +79,29 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                     case SET_READY -> {
                         sendMessage(ServerMessageType.SUCCESS, server.setReady((Integer) message.getMessageContent()[0]));
                     }
-                    case CARD_INFO_REQUEST ->
-                    {
+                    case CARD_INFO_REQUEST -> {
                         System.out.println("Sent Card Info");
                         sendMessage(ServerMessageType.CARD_INFO, server.getCardInfo((Card) message.getMessageContent()[0], (int) message.getMessageContent()[1]));
                     }
-                    case SET_MARKER ->
-                    {
+                    case SET_MARKER -> {
                         server.setMarker((Player) message.getMessageContent()[0], (Integer) message.getMessageContent()[1], (Marker) message.getMessageContent()[2]);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
-                    case OTHER_SIDE_STARTER_CARD_REQUEST ->
-                    {
+                    case OTHER_SIDE_STARTER_CARD_REQUEST -> {
                         sendMessage(ServerMessageType.OTHER_SIDE_STARTER, server.getOtherSideCard((int) message.getMessageContent()[0], (StarterCard) message.getMessageContent()[1]));
                     }
-                    case OTHER_SIDE_PLAYABLE_CARD_REQUEST ->
-                    {
+                    case OTHER_SIDE_PLAYABLE_CARD_REQUEST -> {
                         sendMessage(ServerMessageType.OTHER_SIDE_PLAYABLE, server.getOtherSideCard((int) message.getMessageContent()[0], (PlayableCard) message.getMessageContent()[1]));
                     }
-                    case SET_STARTER_CARD_SIDE ->
-                    {
+                    case SET_STARTER_CARD_SIDE -> {
                         server.setStarterCardSide((int) message.getMessageContent()[0], (Player) message.getMessageContent()[1], (StarterCard) message.getMessageContent()[2], (Side) message.getMessageContent()[3]);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
-                    case SET_SECRET_OBJECTIVE_CARD ->
-                    {
+                    case SET_SECRET_OBJECTIVE_CARD -> {
                         server.setSecretObjectiveCard((int) message.getMessageContent()[0], (Player) message.getMessageContent()[1], (ObjectiveCard) message.getMessageContent()[2]);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
-                    case PLAY_CARD ->
-                    {
+                    case PLAY_CARD -> {
                         server.playCard((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], (PlayableCard) message.getMessageContent()[2], (PlayableCard) message.getMessageContent()[3], (AngleOrientation) message.getMessageContent()[4]);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
@@ -115,35 +109,32 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         server.drawCard((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], (CardType) message.getMessageContent()[2], (DrawPosition) message.getMessageContent()[3]);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
-                    case END_TURN ->
-                    {
+                    case END_TURN -> {
+
                         server.endTurn((int) message.getMessageContent()[0], (String) message.getMessageContent()[1]);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
 
                 }
-            }
-            catch (NotEnoughPlayersException e)
-            {
+            } catch (NotEnoughPlayersException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.NOT_ENOUGH_PLAYERS);
-            }
-            catch (NotExistingPlayerException e) {
+            } catch (NotExistingPlayerException e) {
                 throw new RuntimeException(e);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } catch (DeckIsEmptyException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.DECK_IS_EMPTY);
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.UNSPECIFIED);
             }
+        }
 
     }
     public void sendMessage(ServerMessageType messageType, Object ... messageContent) throws IOException {
-
-        outputStream.reset();
-        outputStream.writeObject(new ServerMessage(messageType, messageContent));
+        synchronized (this) {
+            outputStream.reset();
+            outputStream.writeObject(new ServerMessage(messageType, messageContent));
+        }
     }
 
 

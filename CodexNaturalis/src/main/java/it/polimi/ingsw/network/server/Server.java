@@ -89,7 +89,20 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     public void updateClient(ClientHandlerInterface client, GameEvent event, Object gameUpdate) throws IOException, InterruptedException, NotExistingPlayerException {
-        client.update(event, gameUpdate);
+        Runnable updaterThread = () ->
+                {
+                    try {
+                        client.update(event, gameUpdate);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    } catch (NotExistingPlayerException e) {
+                        throw new RuntimeException(e);
+                    }
+                };
+        new Thread(updaterThread).start();
+
     }
     public boolean checkUsername(String username) throws IOException {
         for(ClientHandlerInterface client : clients)

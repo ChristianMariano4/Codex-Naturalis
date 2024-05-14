@@ -112,6 +112,11 @@ public class Controller {
         for(Player player: gameHandler.getGame().getListOfPlayers())
         {
             this.initializePlayerHand(player);
+            try {
+                this.giveStarterCard(player);
+            } catch (DeckIsEmptyException | NotExistingPlayerException e) {
+                throw new RuntimeException(e);
+            }
 
           //  this.initializePlayerMatrix(player, );
         }

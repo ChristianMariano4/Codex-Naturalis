@@ -156,9 +156,6 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
             Thread.sleep(10);
         }
         viewCLI.showSharedObjectiveCards();
-        while (!this.starterCardAssigned) {
-            Thread.sleep(10);
-        }
         viewCLI.chooseStarterCardSide();
         while (this.objectiveCardsToChoose == null) {
             Thread.sleep(10);
