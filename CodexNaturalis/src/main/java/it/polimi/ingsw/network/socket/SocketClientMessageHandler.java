@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.ClientMessageType;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.ServerMessageType;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
+import it.polimi.ingsw.exceptions.ServerDisconnectedException;
 import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.client.SocketClient;
 import it.polimi.ingsw.network.messages.GameEvent;
@@ -29,10 +30,17 @@ public class SocketClientMessageHandler implements Runnable {
         this.messageQueue = messageQueue;
     }
 
-    public void sendMessage(ClientMessageType messageType, Object ... messageContent) throws IOException {
-
+    public void sendMessage(ClientMessageType messageType, Object ... messageContent) throws IOException, ServerDisconnectedException {
+        try
+        {
         outputStream.reset();
         outputStream.writeObject(new ClientMessage(messageType, messageContent));
+        }
+        catch (Exception e)
+        {
+            throw new ServerDisconnectedException();
+        }
+
     }
     @Override
     public void run() {
@@ -44,7 +52,13 @@ public class SocketClientMessageHandler implements Runnable {
 
 
             } catch (IOException | ClassNotFoundException | InterruptedException | NotExistingPlayerException e) {
-                throw new RuntimeException(e);
+                try {
+                    inputStream.close();
+                    outputStream.close();
+                } catch (IOException ex) {
+                    break;
+                }
+                break;
             }
         }
     }

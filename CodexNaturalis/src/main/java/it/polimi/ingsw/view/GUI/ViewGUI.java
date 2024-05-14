@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
+import it.polimi.ingsw.exceptions.ServerDisconnectedException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.network.client.Client;
@@ -26,7 +27,7 @@ public class ViewGUI implements View, Runnable {
     }
 
     @FXML
-    public void setUsername(String username) throws IOException, InterruptedException {
+    public void setUsername(String username) throws IOException, InterruptedException, ServerDisconnectedException {
         if(client.checkUsername(username)) {
             System.out.println("sessopazzo");
         }

@@ -48,16 +48,16 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         return this.isRMI;
     }
 
-    public abstract Game createGame(String username);
-    public abstract List<Integer> getAvailableGames() throws IOException, InterruptedException;
+    public abstract Game createGame(String username) throws ServerDisconnectedException;
+    public abstract List<Integer> getAvailableGames() throws IOException, InterruptedException, ServerDisconnectedException;
 
-    public abstract Game joinGame(int gameId, String username);
+    public abstract Game joinGame(int gameId, String username) throws ServerDisconnectedException;
 
    /* public ServerRMIInterface getServer() {
         return server;
     }
     */
-    public void setUsername(String username) throws IOException {
+    public void setUsername(String username) throws IOException, ServerDisconnectedException {
         this.username = username;
     }
 
@@ -65,7 +65,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         return this.username;
     }
 
-    public abstract int setReady() throws NotEnoughPlayersException, IOException;
+    public abstract int setReady() throws NotEnoughPlayersException, IOException, ServerDisconnectedException;
     @Override
     @SuppressWarnings("unchecked")
     public void update(GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException {
@@ -139,7 +139,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         }
     }
 
-    boolean preGameStart(ViewCLI viewCLI) throws InterruptedException, NotExistingPlayerException, IOException {
+    boolean preGameStart(ViewCLI viewCLI) throws InterruptedException, NotExistingPlayerException, IOException, ServerDisconnectedException {
         if (!viewCLI.setChoiceGame())
             return false;
         viewCLI.setReady();
@@ -179,17 +179,17 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
          this.gameBegin = false;
     }
 
-    public abstract boolean checkUsername(String username) throws IOException, InterruptedException;
-    public abstract PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException;
-    public abstract PlayableCard getOtherSideCard(int gameId, PlayableCard playableCard) throws IOException;
-    public abstract StarterCard getOtherSideCard(int gameId , StarterCard starterCard) throws IOException;
-    public abstract CardInfo getCardInfo(Card card, int gameId) throws IOException;
-    public abstract void endTurn(int gameId, String username) throws NotExistingPlayerException, CardTypeMismatchException, IOException;
-    public abstract void drawCard(int gameId, String username, CardType cardType, DrawPosition drawPosition) throws NotExistingPlayerException, NotTurnException, IOException, AlreadyThreeCardsInHandException, DeckIsEmptyException;
-    public abstract void playCard(int gameId,String username, PlayableCard cardOnBoard, PlayableCard card , AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, IOException, AngleAlreadyLinkedException;
-    public abstract void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard chosenObjectiveCard) throws NotExistingPlayerException, IOException;
-    public abstract void setMarker(Player player, int gameId, Marker chosenMarker) throws NotExistingPlayerException, IOException, NotAvailableMarkerException;
-    public abstract void setStarterCardSide(int gameId, Player player, StarterCard cardFront, Side side) throws NotExistingPlayerException, IOException;
+    public abstract boolean checkUsername(String username) throws IOException, InterruptedException, ServerDisconnectedException;
+    public abstract PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException, ServerDisconnectedException;
+    public abstract PlayableCard getOtherSideCard(int gameId, PlayableCard playableCard) throws IOException, ServerDisconnectedException;
+    public abstract StarterCard getOtherSideCard(int gameId , StarterCard starterCard) throws IOException, ServerDisconnectedException;
+    public abstract CardInfo getCardInfo(Card card, int gameId) throws IOException, ServerDisconnectedException;
+    public abstract void endTurn(int gameId, String username) throws NotExistingPlayerException, CardTypeMismatchException, IOException, ServerDisconnectedException;
+    public abstract void drawCard(int gameId, String username, CardType cardType, DrawPosition drawPosition) throws NotExistingPlayerException, NotTurnException, IOException, AlreadyThreeCardsInHandException, DeckIsEmptyException, ServerDisconnectedException;
+    public abstract void playCard(int gameId,String username, PlayableCard cardOnBoard, PlayableCard card , AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, IOException, AngleAlreadyLinkedException, ServerDisconnectedException;
+    public abstract void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard chosenObjectiveCard) throws NotExistingPlayerException, IOException, ServerDisconnectedException;
+    public abstract void setMarker(Player player, int gameId, Marker chosenMarker) throws NotExistingPlayerException, IOException, NotAvailableMarkerException, ServerDisconnectedException;
+    public abstract void setStarterCardSide(int gameId, Player player, StarterCard cardFront, Side side) throws NotExistingPlayerException, IOException, ServerDisconnectedException;
 
 
 }

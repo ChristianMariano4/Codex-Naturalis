@@ -33,13 +33,13 @@ public class SocketClient extends Client {
 
     }
     @Override
-    public void setUsername(String username) throws IOException {
+    public void setUsername(String username) throws IOException, ServerDisconnectedException {
         this.username = username;
         messageHandler.sendMessage(ClientMessageType.SET_USERNAME, this.username);
     }
 
     @Override
-    public Game createGame(String username) {
+    public Game createGame(String username) throws ServerDisconnectedException {
         try
         {
             messageHandler.sendMessage(ClientMessageType.CREATE_GAME, null);
@@ -50,13 +50,18 @@ public class SocketClient extends Client {
             messageHandlerQueue.take(); //success message
             messageHandler.sendMessage(ClientMessageType.ADD_PLAYER, this.gameId, this.username);
             return (Game) messageHandlerQueue.take();
-        } catch (Exception e) {
+        }
+        catch (ServerDisconnectedException e)
+        {
+            throw e;
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public List<Integer> getAvailableGames() throws IOException, InterruptedException {
+    public List<Integer> getAvailableGames() throws IOException, InterruptedException, ServerDisconnectedException {
         messageHandler.sendMessage(ClientMessageType.AVAILABLE_GAMES_REQUEST, null);
         try {
             return (List<Integer>) messageHandlerQueue.take();
@@ -68,7 +73,7 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public Game joinGame(int gameId, String username) {
+    public Game joinGame(int gameId, String username) throws ServerDisconnectedException {
         this.gameId = gameId;
         try {
             messageHandler.sendMessage(ClientMessageType.SUBSCRIBE, this.gameId);
@@ -76,18 +81,27 @@ public class SocketClient extends Client {
             messageHandler.sendMessage(ClientMessageType.ADD_PLAYER, this.gameId, this.username);
 
             return (Game) messageHandlerQueue.take();
-        } catch (Exception e) {
-            throw new RuntimeException();
 
         }
+        catch (ServerDisconnectedException e)
+        {
+            throw e;
+        }catch (Exception e) {
+            throw new RuntimeException();
+        }
+
 
     }
 
     @Override
-    public int setReady() throws NotEnoughPlayersException, IOException {
+    public int setReady() throws NotEnoughPlayersException, IOException, ServerDisconnectedException {
         try {
             messageHandler.sendMessage(ClientMessageType.SET_READY, this.gameId);
             return (int) messageHandlerQueue.take();
+        }
+        catch(ServerDisconnectedException se)
+        {
+            throw se;
         }
         catch(NotEnoughPlayersException e)
         {
@@ -100,7 +114,7 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public boolean checkUsername(String username) throws IOException, InterruptedException {
+    public boolean checkUsername(String username) throws IOException, InterruptedException, ServerDisconnectedException {
         messageHandler.sendMessage(ClientMessageType.CHECK_USERNAME, username);
         try {
             return (boolean) messageHandlerQueue.take();
@@ -118,7 +132,7 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public PlayableCard getOtherSideCard(int gameId, PlayableCard playableCard) throws IOException {
+    public PlayableCard getOtherSideCard(int gameId, PlayableCard playableCard) throws IOException, ServerDisconnectedException {
         messageHandler.sendMessage(ClientMessageType.OTHER_SIDE_PLAYABLE_CARD_REQUEST,gameId, playableCard);
         try
         {
@@ -131,7 +145,7 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public StarterCard getOtherSideCard(int gameId, StarterCard starterCard) throws IOException {
+    public StarterCard getOtherSideCard(int gameId, StarterCard starterCard) throws IOException, ServerDisconnectedException {
         messageHandler.sendMessage(ClientMessageType.OTHER_SIDE_STARTER_CARD_REQUEST,gameId, starterCard);
         try
         {
@@ -145,7 +159,7 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public CardInfo getCardInfo(Card card, int gameId) throws IOException {
+    public CardInfo getCardInfo(Card card, int gameId) throws IOException, ServerDisconnectedException {
         messageHandler.sendMessage(ClientMessageType.CARD_INFO_REQUEST, card, gameId);
         try
         {
@@ -158,7 +172,7 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public void endTurn(int gameId, String username) throws NotExistingPlayerException, CardTypeMismatchException, IOException {
+    public void endTurn(int gameId, String username) throws NotExistingPlayerException, CardTypeMismatchException, IOException, ServerDisconnectedException {
 
             messageHandler.sendMessage(ClientMessageType.END_TURN, gameId, username);
             try {
@@ -169,7 +183,7 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public void drawCard(int gameId, String username, CardType cardType, DrawPosition drawPosition) throws NotExistingPlayerException, NotTurnException, IOException, AlreadyThreeCardsInHandException, DeckIsEmptyException {
+    public void drawCard(int gameId, String username, CardType cardType, DrawPosition drawPosition) throws NotExistingPlayerException, NotTurnException, IOException, AlreadyThreeCardsInHandException, DeckIsEmptyException, ServerDisconnectedException {
         messageHandler.sendMessage(ClientMessageType.DRAW_CARD, gameId, username, cardType, drawPosition);
         try
         {
@@ -182,7 +196,7 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public void playCard(int gameId, String username, PlayableCard cardOnBoard, PlayableCard card, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, IOException, AngleAlreadyLinkedException {
+    public void playCard(int gameId, String username, PlayableCard cardOnBoard, PlayableCard card, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, IOException, AngleAlreadyLinkedException, ServerDisconnectedException {
         messageHandler.sendMessage(ClientMessageType.PLAY_CARD,gameId, username, cardOnBoard, card, orientation);
         try
         {
@@ -195,7 +209,7 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard chosenObjectiveCard) throws NotExistingPlayerException, IOException {
+    public void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard chosenObjectiveCard) throws NotExistingPlayerException, IOException, ServerDisconnectedException {
         messageHandler.sendMessage(ClientMessageType.SET_SECRET_OBJECTIVE_CARD, gameId, player, chosenObjectiveCard);
         try
         {
@@ -208,7 +222,7 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public void setMarker(Player player, int gameId, Marker chosenMarker) throws NotExistingPlayerException, IOException, NotAvailableMarkerException {
+    public void setMarker(Player player, int gameId, Marker chosenMarker) throws NotExistingPlayerException, IOException, NotAvailableMarkerException, ServerDisconnectedException {
         messageHandler.sendMessage(ClientMessageType.SET_MARKER, player, gameId, chosenMarker);
         try
         {
@@ -221,7 +235,7 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public void setStarterCardSide(int gameId, Player player, StarterCard cardFront, Side side) throws NotExistingPlayerException, IOException {
+    public void setStarterCardSide(int gameId, Player player, StarterCard cardFront, Side side) throws NotExistingPlayerException, IOException, ServerDisconnectedException {
         messageHandler.sendMessage(ClientMessageType.SET_STARTER_CARD_SIDE ,gameId, player, cardFront, side);
         try
         {
@@ -263,6 +277,9 @@ public class SocketClient extends Client {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        } catch (ServerDisconnectedException e) {
+            System.err.println("Disconnected from server");
+            return;
         }
     }
 }
