@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.enumerations.ClientMessageType;
+import it.polimi.ingsw.enumerations.Marker;
+import it.polimi.ingsw.enumerations.ServerMessageType;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.client.SocketClient;
@@ -38,6 +40,11 @@ public class SocketClientMessageHandler implements Runnable {
         {
             try {
                 ServerMessage message = (ServerMessage) this.inputStream.readObject();
+                System.out.println(message.getMessageType());
+                if(message.getMessageType().equals(ServerMessageType.UPDATE))
+                {
+                    System.out.println((GameEvent) message.getMessageContent()[0]);
+                }
                 parseMessage(message);
 
 

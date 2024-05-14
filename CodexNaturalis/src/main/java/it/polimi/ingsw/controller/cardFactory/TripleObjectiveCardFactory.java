@@ -5,7 +5,6 @@ import it.polimi.ingsw.exceptions.CardNotImportedException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.TripleObjectiveCard;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -16,7 +15,7 @@ public class TripleObjectiveCardFactory extends CardFactory<ObjectiveCard> {
     public ArrayList<ObjectiveCard> createCardList() throws CardNotImportedException {
         TripleObjectiveCard[] tripleObjectiveCardArray;
         Gson gson = new Gson();
-        try(Reader reader = new InputStreamReader(getClass().getResourceAsStream("/tripleObjectiveCard.json"))) {
+        try(Reader reader = new InputStreamReader(getClass().getResourceAsStream("/cardJson/tripleObjectiveCard.json"))) {
             tripleObjectiveCardArray = gson.fromJson(reader, TripleObjectiveCard[].class);
         } catch (IOException e) {
             throw new CardNotImportedException();

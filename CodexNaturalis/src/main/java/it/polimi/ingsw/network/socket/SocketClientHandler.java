@@ -80,6 +80,7 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                     }
                     case CARD_INFO_REQUEST ->
                     {
+                        System.out.println("Sent Card Info");
                         sendMessage(ServerMessageType.CARD_INFO, server.getCardInfo((Card) message.getMessageContent()[0], (int) message.getMessageContent()[1]));
                     }
                     case SET_MARKER ->
