@@ -57,6 +57,7 @@ public class GUI extends Application {
             root = loader.load();
             controller = loader.getController();
             controller.setView(viewGUI);
+            controller.setGUI(this);
         } catch (EventException e) {
             System.out.println("nope");
         }
@@ -118,6 +119,11 @@ public class GUI extends Application {
                 throw new ServerDisconnectedException();
             }
         }
+    }
+    public void displayErrorMessage()
+    {
+        System.out.println("Wrong input");
+        //TODO: add error gui message
     }
 
     /*

@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.exceptions.ServerDisconnectedException;
+import it.polimi.ingsw.exceptions.WrongInputException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.network.client.Client;
@@ -11,6 +12,7 @@ import it.polimi.ingsw.view.View;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
+import java.io.WriteAbortedException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -27,12 +29,19 @@ public class ViewGUI implements View, Runnable {
     }
 
     @FXML
-    public void setUsername(String username) throws IOException, InterruptedException, ServerDisconnectedException {
+    public void setUsername(String username) throws IOException, InterruptedException, ServerDisconnectedException, WrongInputException {
+
         if(client.checkUsername(username)) {
+            client.setUsername(username);
             System.out.println("sessopazzo");
+            System.out.println("dsjkfdsjkf:" + username);
         }
-        client.setUsername(username);
-        System.out.println("dsjkfdsjkf:" + username);
+        else {
+            System.out.println("dsjkfdsjkf:" + username);
+            throw new WrongInputException();
+
+        }
+
     }
 
     public void setClient(Client client) {
