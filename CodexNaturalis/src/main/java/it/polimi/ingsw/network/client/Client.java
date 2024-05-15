@@ -18,6 +18,7 @@ import java.util.List;
 
 public abstract class Client extends UnicastRemoteObject implements ClientRMIInterface, Runnable {
     protected String username = null;
+    protected boolean isGUI;
     private boolean isRMI = false;
 
     protected int gameId = -1; //invalid default value

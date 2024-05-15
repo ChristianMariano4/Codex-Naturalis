@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
+import it.polimi.ingsw.view.GUI.GUI;
+import it.polimi.ingsw.view.GUI.ViewGUI;
 import it.polimi.ingsw.view.TUI.ViewCLI;
 
 import java.io.IOException;
@@ -18,7 +20,14 @@ public class RMIClient extends Client {
     public RMIClient(ServerRMIInterface serverRMIInterface) throws RemoteException {
         super(true);
         this.serverRMIInterface = serverRMIInterface;
+        this.isGUI = false;
+    }
 
+    public RMIClient(ServerRMIInterface serverRMIInterface, GUI gui) throws RemoteException {
+        super(true);
+        this.serverRMIInterface = serverRMIInterface;
+        this.view = gui.getViewGUI();
+        this.isGUI = true;
     }
 
     @Override
@@ -71,20 +80,27 @@ public class RMIClient extends Client {
     {
         try {
             this.serverRMIInterface.connect(this); //connect to the server
-            view = new ViewCLI(this);
-            ViewCLI viewCLI = (ViewCLI) view;
-            viewCLI.setUsername(); //set only once per client, outside of loop
 
-            while (true) {
-                if (!preGameStart(viewCLI))
-                    break;
-                this.viewThread = new Thread(viewCLI); //game loop actually begins here
-                this.viewThread.start();
-                this.viewThread.join();
-                resetClient(viewCLI); //resetting the client after end of game
-                //TODO: add server side reset
+            if(isGUI) {
+                ViewGUI viewGUI = (ViewGUI) view;
+
+            } else {
+
+                view = new ViewCLI(this);
+                ViewCLI viewCLI = (ViewCLI) view;
+                viewCLI.setUsername(); //set only once per client, outside of loop
+
+                while (true) {
+                    if (!preGameStart(viewCLI))
+                        break;
+                    this.viewThread = new Thread(viewCLI); //game loop actually begins here
+                    this.viewThread.start();
+                    this.viewThread.join();
+                    resetClient(viewCLI); //resetting the client after end of game
+                    //TODO: add server side reset
+                }
+
             }
-
         } catch (InterruptedException | NotExistingPlayerException | IOException e) {
             throw new RuntimeException(e);
         }

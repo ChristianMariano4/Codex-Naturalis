@@ -4,7 +4,8 @@ import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.network.client.RMIClient;
 import it.polimi.ingsw.network.client.SocketClient;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
-import it.polimi.ingsw.view.GUI.ClientApp;
+import it.polimi.ingsw.view.GUI.GUI;
+import it.polimi.ingsw.view.GUI.ViewGUI;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -108,7 +109,30 @@ public class MainClient {
     }
     private static void RMIGUI()
     {
-        ClientApp.launchGUI();
+        System.out.println("Connecting to RMI server...");
+        String serverName = "Server";
+
+        try {
+            System.out.println("Insert server IP address: ");
+            Scanner scanner = new Scanner(System.in);
+            String serverIP = scanner.nextLine();
+            Registry registry = LocateRegistry.getRegistry(serverIP,  GameValues.RMI_SERVER_PORT);
+            ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);
+            //System.exit(0);
+            GUI gui = new GUI();
+            gui.launchGUI();
+
+            RMIClient client = new RMIClient(server, gui);
+            Thread clientThread = new Thread(client);
+            clientThread.start();
+            clientThread.join();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        } catch (NotBoundException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
