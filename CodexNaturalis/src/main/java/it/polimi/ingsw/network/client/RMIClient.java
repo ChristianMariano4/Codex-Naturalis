@@ -83,6 +83,7 @@ public class RMIClient extends Client {
 
             if(isGUI) {
                 ViewGUI viewGUI = (ViewGUI) view;
+                viewGUI.setClient(this);
 
             } else {
 

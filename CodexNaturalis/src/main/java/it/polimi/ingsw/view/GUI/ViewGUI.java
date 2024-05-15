@@ -26,8 +26,16 @@ public class ViewGUI implements View, Runnable {
     }
 
     @FXML
-    public void setUsername() {
-        System.out.println("nickname!!!!");
+    public void setUsername(String username) throws IOException, InterruptedException {
+        if(client.checkUsername(username)) {
+            System.out.println("sessopazzo");
+        }
+        client.setUsername(username);
+        System.out.println("dsjkfdsjkf:" + username);
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     @Override

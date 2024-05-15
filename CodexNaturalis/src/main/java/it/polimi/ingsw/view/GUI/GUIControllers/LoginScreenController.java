@@ -4,10 +4,15 @@ import it.polimi.ingsw.view.GUI.ViewGUI;
 import it.polimi.ingsw.view.View;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+
+import java.io.IOException;
 
 public class LoginScreenController extends GUIController {
+    public TextField username;
+
     @FXML
-    public void actionEnter(ActionEvent event) {
-        viewGUI.setUsername();
+    public void actionEnter(ActionEvent event) throws IOException, InterruptedException {
+        viewGUI.setUsername(username.getText());
     }
 }

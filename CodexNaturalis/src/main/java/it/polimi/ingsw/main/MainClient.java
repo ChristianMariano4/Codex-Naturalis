@@ -109,30 +109,7 @@ public class MainClient {
     }
     private static void RMIGUI()
     {
-        System.out.println("Connecting to RMI server...");
-        String serverName = "Server";
-
-        try {
-            System.out.println("Insert server IP address: ");
-            Scanner scanner = new Scanner(System.in);
-            String serverIP = scanner.nextLine();
-            Registry registry = LocateRegistry.getRegistry(serverIP,  GameValues.RMI_SERVER_PORT);
-            ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);
-            //System.exit(0);
-            GUI gui = new GUI();
-            gui.launchGUI();
-
-            RMIClient client = new RMIClient(server, gui);
-            Thread clientThread = new Thread(client);
-            clientThread.start();
-            clientThread.join();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (NotBoundException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        GUI.launchGUI();
     }
 
 
