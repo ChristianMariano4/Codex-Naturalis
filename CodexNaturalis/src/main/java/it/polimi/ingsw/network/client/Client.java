@@ -196,6 +196,8 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
 
     protected void runGUI()
     {
+
+
         ViewGUI viewGUI = (ViewGUI) view;
         viewGUI.setClient(this);
     }
