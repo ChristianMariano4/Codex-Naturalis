@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.GUI;
 
+import it.polimi.ingsw.enumerations.GUIScene;
 import it.polimi.ingsw.exceptions.ServerDisconnectedException;
 import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.network.client.RMIClient;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 import it.polimi.ingsw.view.GUI.GUIControllers.GUIController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -21,6 +23,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class GUI extends Application {
@@ -30,14 +34,16 @@ public class GUI extends Application {
     Stage primaryStage;
     ViewGUI viewGUI;
     private static boolean isRMI;
+    HashMap<GUIScene, SceneData> scenes;
 
     public ViewGUI getViewGUI() {
         return viewGUI;
     }
     @Override
     public void start(Stage stage) throws IOException {
-
         this.viewGUI = new ViewGUI(this);
+        loadAllScenes();
+
         do {
 
 
@@ -51,22 +57,41 @@ public class GUI extends Application {
         }
     }while(true);
 
-        root = new Pane();
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoginScreen.fxml"));
-            root = loader.load();
-            controller = loader.getController();
-            controller.setView(viewGUI);
-            controller.setGUI(this);
-        } catch (EventException e) {
-            System.out.println("nope");
-        }
-        Scene scene = new Scene(root);
+
 
         primaryStage = new Stage();
-        primaryStage.setScene(scene);
+        primaryStage.setScene(scenes.get(GUIScene.NICKNAME).getScene());
         primaryStage.show();
     }
+    private void loadAllScenes()
+    {
+        this.scenes = new HashMap<>();
+        Parent root;
+        GUIController controller;
+        for(GUIScene scene : GUIScene.values())
+        {
+            try { //TODO: magari farlo con delle strutture dati migliori
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(scene.getPath()));
+                root = loader.load();
+                controller = loader.getController();
+                controller.setView(viewGUI);
+                controller.setGUI(this);
+                scenes.put(scene, new SceneData(new Scene(root), controller));
+            } catch (IOException e) {
+                System.out.println("Not loaded");
+                throw new RuntimeException(e);
+            }
+
+        }
+
+
+    }
+    public void switchScene(GUIScene scene)
+    {
+        primaryStage.setScene(scenes.get(scene).getScene());
+        primaryStage.show();
+    }
+
     public static void setConnectionType(boolean isRMI)
     {
         GUI.isRMI = isRMI;
@@ -120,17 +145,6 @@ public class GUI extends Application {
             }
         }
     }
-    public void displayErrorMessage()
-    {
-        System.out.println("Wrong input");
-        //TODO: add error gui message
-    }
 
-    /*
-    private void setupLoginHandlers() {
-        loginButton.setOnMouseClicked(e -> {
-            System.out.println("Login button clicked");
-            //TODO: send login request to server
-        });
-    }*/
+
 }

@@ -60,8 +60,9 @@ public class ViewGUI implements View, Runnable {
 
     @Override
     public void update(Game gameUpdated) {
-
+        this.game = gameUpdated;
     }
+
 
     @Override
     public void gameLoop() throws IOException, NotExistingPlayerException, InterruptedException, CardTypeMismatchException {
@@ -86,5 +87,11 @@ public class ViewGUI implements View, Runnable {
     @Override
     public void run() {
         gui.launchGUI();
+    }
+
+    public void createGame() throws ServerDisconnectedException {
+        this.game = client.createGame(this.client.getUsername());
+
+
     }
 }

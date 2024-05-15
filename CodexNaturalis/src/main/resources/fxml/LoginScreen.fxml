@@ -16,6 +16,7 @@
       </ImageView>
       <Label layoutX="241.0" layoutY="252.0" text="Insert your username:" />
       <TextField fx:id="username" layoutX="220.0" layoutY="269.0" />
-      <Button layoutX="272.0" layoutY="307.0" mnemonicParsing="false" onAction="#actionEnter" text="Button" />
+      <Button layoutX="264.0" layoutY="315.0" mnemonicParsing="false" onAction="#actionEnter" text="Connect" />
+      <Label fx:id="error_message" layoutX="209.0" layoutY="294.0" text="Username already in use, try again" textFill="#f41d1d" visible="false" />
    </children>
 </Pane>
