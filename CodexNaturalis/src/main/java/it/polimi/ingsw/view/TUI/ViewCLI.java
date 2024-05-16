@@ -366,6 +366,9 @@ public class ViewCLI implements View, Runnable {
             {
                 throw se;
             }
+            catch (RequirementsNotMetException e) {
+                ui.requirementsNotMet();
+            }
             catch(Exception e)
             {
                 ui.invalidInput();

@@ -722,6 +722,9 @@ public class TUI extends UI {
     {
         System.out.println("Invalid input, try again");
     }
+    public void requirementsNotMet() {
+        System.out.println("The requirements of the selected gold card are not met, try again");
+    }
     public void twentyPoints(String username)
     {
         System.out.println("Player " + username+ "has reached twenty points!");
