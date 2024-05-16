@@ -52,12 +52,12 @@ public class Server extends Thread implements ServerRMIInterface {
 
     @Override
     public List<Integer> getAvailableGames() throws RemoteException {
-        return new ArrayList<>(gameHandlerMap.keySet());
+        return new ArrayList<>(gameHandlerMap.keySet().stream().filter(g -> gameHandlerMap.get(g).getIsOpen()).toList());
     }
 
 
     @Override
-    public Game addPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException {
+    public Game addPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException, GameAlreadyStartedException {
         try {
             addClientToGameHandler(gameId, client);
         } catch (RemoteException e) {
