@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -29,7 +30,7 @@ import java.util.Scanner;
 
 public class GUI extends Application {
 
-    Pane root;
+    //BorderPane root;
     GUIController controller;
     Stage primaryStage;
     ViewGUI viewGUI;

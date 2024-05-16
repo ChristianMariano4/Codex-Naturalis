@@ -7,16 +7,16 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.GUIControllers.LoginScreenController">
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.GUIControllers.LoginScreenController">
    <children>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="200.0" layoutY="52.0">
+      <ImageView fitHeight="518.0" fitWidth="920.0">
          <image>
-            <Image url="@../images/CODEX_Rulebook_IT/01.png" />
+            <Image url="@../images/Backgounds/loginBackground.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="241.0" layoutY="252.0" text="Insert your username:" />
-      <TextField fx:id="username" layoutX="220.0" layoutY="269.0" />
-      <Button layoutX="264.0" layoutY="315.0" mnemonicParsing="false" onAction="#actionEnter" text="Connect" />
-      <Label fx:id="error_message" layoutX="209.0" layoutY="294.0" text="Username already in use, try again" textFill="#f41d1d" visible="false" />
+      <TextField fx:id="username" layoutX="393.0" layoutY="371.0" prefHeight="26.0" prefWidth="133.0" promptText="Insert your username" />
+      <Button layoutX="425.0" layoutY="402.0" mnemonicParsing="false" onAction="#actionEnter" text="Connect" />
+      <Label fx:id="error_message" layoutX="367.0" layoutY="350.0" text="Username already in use, try again" textFill="#f41d1d" visible="false" />
    </children>
 </Pane>
