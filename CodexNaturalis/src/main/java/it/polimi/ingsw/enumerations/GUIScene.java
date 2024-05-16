@@ -16,7 +16,7 @@ public enum GUIScene {
                 return "/fxml/Lobby.fxml";
             }
             case JOINGAME -> {
-                return "/fxml/joinGameScreen.fxml";
+                return "/fxml/JoinGameScreen.fxml";
             }
 
         }

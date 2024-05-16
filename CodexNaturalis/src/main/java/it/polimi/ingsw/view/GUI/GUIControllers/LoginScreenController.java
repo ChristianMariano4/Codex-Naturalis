@@ -8,15 +8,17 @@ import it.polimi.ingsw.view.GUI.ViewGUI;
 import it.polimi.ingsw.view.View;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class LoginScreenController extends GUIController {
     public TextField username;
     public Label error_message;
-
 
     @FXML
     public void actionEnter(ActionEvent event) throws IOException, InterruptedException, ServerDisconnectedException {

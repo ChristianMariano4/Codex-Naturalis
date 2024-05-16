@@ -89,6 +89,7 @@ public class GUI extends Application {
     }
     public void switchScene(GUIScene scene)
     {
+        scenes.get(scene).getController().sceneInitializer();
         primaryStage.setScene(scenes.get(scene).getScene());
         primaryStage.show();
     }

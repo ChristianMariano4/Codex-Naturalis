@@ -18,4 +18,7 @@ public class GUIController {
     public void setGUI(GUI gui) {
         this.gui = gui;
     }
+    public void sceneInitializer() {
+
+    }
 }

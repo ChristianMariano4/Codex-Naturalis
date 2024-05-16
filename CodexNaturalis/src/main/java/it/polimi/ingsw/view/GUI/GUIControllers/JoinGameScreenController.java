@@ -3,11 +3,14 @@ package it.polimi.ingsw.view.GUI.GUIControllers;
 import it.polimi.ingsw.enumerations.GUIScene;
 import it.polimi.ingsw.exceptions.ServerDisconnectedException;
 import it.polimi.ingsw.model.Game;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
 import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
@@ -20,36 +23,20 @@ public class JoinGameScreenController extends GUIController {
 
     public String gameOnTextFlow;
     public TextFlow textFlow;
-    public Button join;
+    public Button joinButton;
+
+    public ListView<String> gameList2;
+    ObservableList<String> items = FXCollections.observableArrayList();
     @FXML
     public void back() {
         gui.switchScene(GUIScene.LOBBY);
     }
 
     @FXML
-    public void allGames() {
-        try {
-            gameList.getItems().clear();
-            ArrayList<Integer> games = (ArrayList<Integer>) viewGUI.showAvailableGames();
-            for(int i : games)
-            {
-                gameList.getItems().add("Game id: " + i);
-            }
-            gameList.setDisable(false);
-            gameList.getSelectionModel().selectFirst();
-            gameList.setVisible(true);
-/*            if(gameList.getSelectionModel().getSelectedItem() != null) {
-                join.setDisable(false);
-                join.setVisible(true);
-            }*/
-
-
-        } catch (ServerDisconnectedException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    public void joinButton() {
+        if(gameList2.getSelectionModel().getSelectedItem() != null) {
+            joinButton.setDisable(false);
+            joinButton.setVisible(true);
         }
     }
     @FXML
@@ -83,5 +70,26 @@ public class JoinGameScreenController extends GUIController {
         choice = choice.replace("Game id: ", "");
 
         //textFlow
+    }
+    @Override
+    public void sceneInitializer() {
+
+        joinButton.setDisable(true);
+        joinButton.setVisible(false);
+
+        gameList2.getItems().clear();
+        gameList2.setItems(items);
+        try {
+            ArrayList<Integer> games = (ArrayList<Integer>) viewGUI.showAvailableGames();
+            for(int i: games) {
+                items.add("GameId: " + i);
+            }
+        } catch (ServerDisconnectedException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
