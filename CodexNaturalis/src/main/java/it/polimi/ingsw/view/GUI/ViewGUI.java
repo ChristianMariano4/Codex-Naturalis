@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import java.io.IOException;
 import java.io.WriteAbortedException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ViewGUI implements View, Runnable {
@@ -64,10 +65,6 @@ public class ViewGUI implements View, Runnable {
     }
 
 
-    @Override
-    public void gameLoop() throws IOException, NotExistingPlayerException, InterruptedException, CardTypeMismatchException {
-
-    }
 
     @Override
     public void twentyPoints(String username) {
@@ -83,6 +80,13 @@ public class ViewGUI implements View, Runnable {
     public void finalRound() {
 
     }
+    public List<Integer> showAvailableGames() throws ServerDisconnectedException, IOException, InterruptedException {
+        return client.getAvailableGames();
+    }
+
+    public void joinGame(int gameId) throws ServerDisconnectedException {
+        client.joinGame(gameId, client.getUsername());
+    }
 
     @Override
     public void run() {
@@ -91,7 +95,5 @@ public class ViewGUI implements View, Runnable {
 
     public void createGame() throws ServerDisconnectedException {
         this.game = client.createGame(this.client.getUsername());
-
-
     }
 }

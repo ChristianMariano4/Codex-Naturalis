@@ -133,7 +133,6 @@ public class ViewCLI implements View, Runnable {
         this.game = gameUpdated;
     }
 
-    @Override
     public void gameLoop() throws IOException, NotExistingPlayerException, InterruptedException, CardTypeMismatchException, ServerDisconnectedException {
         boolean inGame = true;
         ui.showMainScreen();

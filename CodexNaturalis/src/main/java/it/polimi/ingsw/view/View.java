@@ -16,7 +16,6 @@ public interface View  {
     void boardUpdate(Game gameUpdated);
     void newPlayer(Game gameUpdated);
     void update(Game gameUpdated);
-    void gameLoop() throws IOException, NotExistingPlayerException, InterruptedException, CardTypeMismatchException, ServerDisconnectedException;
     void twentyPoints(String username);
     void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose) throws ServerDisconnectedException;
     void finalRound();
