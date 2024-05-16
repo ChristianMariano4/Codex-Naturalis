@@ -43,7 +43,7 @@ public class JoinGameScreenController extends GUIController {
     public void join(ActionEvent event)
     {
         int gameId;
-        String choice = gameList.getSelectionModel().getSelectedItem();
+        String choice = gameList2.getSelectionModel().getSelectedItem();
         choice = choice.replace("Game id: ", "");
         gameId = Integer.parseInt(choice);
         try
@@ -61,7 +61,7 @@ public class JoinGameScreenController extends GUIController {
         if(!choice.equals(gameOnTextFlow)) {
             //print all informations
             gameOnTextFlow = choice;
-            System.out.println("GameId:" + choice);
+            System.out.println("GameId: " + choice);
             //TODO: get game by id?
             gameId = Integer.parseInt(choice);
             //Game game = viewGUI.getGameById(gameId);
@@ -82,7 +82,7 @@ public class JoinGameScreenController extends GUIController {
         try {
             ArrayList<Integer> games = (ArrayList<Integer>) viewGUI.showAvailableGames();
             for(int i: games) {
-                items.add("GameId: " + i);
+                items.add("Game id: " + i);
             }
         } catch (ServerDisconnectedException e) {
             throw new RuntimeException(e);

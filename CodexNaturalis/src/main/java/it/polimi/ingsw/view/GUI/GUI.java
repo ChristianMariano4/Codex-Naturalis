@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -61,6 +62,11 @@ public class GUI extends Application {
 
 
         primaryStage = new Stage();
+        Image icon = new Image(getClass().getResourceAsStream("/images/CODEX_Rulebook_IT/01.png"));
+        primaryStage.getIcons().add(icon);
+        primaryStage.setTitle("Codex Naturalis");
+
+
         primaryStage.setScene(scenes.get(GUIScene.NICKNAME).getScene());
         primaryStage.show();
     }
