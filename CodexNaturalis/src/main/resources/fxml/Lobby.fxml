@@ -12,8 +12,8 @@
             <Image url="@../images/Backgounds/gameCreationBackground.jpg" />
          </image>
       </ImageView>
-      <Button layoutX="415.0" layoutY="197.0" mnemonicParsing="false" onAction="#createGame" text="Create Game" />
-      <Button layoutX="422.0" layoutY="251.0" mnemonicParsing="false" onAction="#joinGame" text="Join Game" />
-      <Button layoutX="440.0" layoutY="305.0" mnemonicParsing="false" onAction="#quit" text="Quit" />
+      <Button layoutX="384.0" layoutY="178.0" mnemonicParsing="false" onAction="#createGame" styleClass="test" stylesheets="@style.css" text="Create Game" />
+      <Button layoutX="396.0" layoutY="238.0" mnemonicParsing="false" onAction="#joinGame" styleClass="test" stylesheets="@style.css" text="Join Game" />
+      <Button layoutX="426.0" layoutY="295.0" mnemonicParsing="false" onAction="#quit" styleClass="test" stylesheets="@style.css" text="Quit" />
    </children>
 </Pane>

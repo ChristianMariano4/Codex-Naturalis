@@ -1,0 +1,11 @@
+.test {
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #746216 0%, #746216 100%),
+            #746216,
+            #746216,
+            radial-gradient(center 50% 50%, radius 100%, #c1aa50, #746218);
+    -fx-effect: dropshadow( gaussian , rgba(0, 0, 0, 0.75), 4,0,0,1 );
+    -fx-font-size:22;
+    -fx-font-family: serif;
+    -fx-background-radius: 5em;
+}
