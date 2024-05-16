@@ -27,7 +27,8 @@ public class LoginScreenController extends GUIController {
         }
         catch (WrongInputException e)
         {
-            error_message.setVisible(true);
+            username.setPromptText("Username already in use, try again");
+            username.setStyle("-fx-prompt-text-fill: red");
              //send feedback to GUI by calling gui method
         }
 

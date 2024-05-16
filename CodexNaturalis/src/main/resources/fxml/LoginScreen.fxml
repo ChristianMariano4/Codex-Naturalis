@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
-
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.GUIControllers.LoginScreenController">
    <children>
@@ -15,8 +13,7 @@
             <Image url="@../images/Backgounds/loginBackground.jpg" />
          </image>
       </ImageView>
-      <TextField fx:id="username" layoutX="393.0" layoutY="371.0" prefHeight="26.0" prefWidth="133.0" promptText="Insert your username" />
-      <Button layoutX="425.0" layoutY="402.0" mnemonicParsing="false" onAction="#actionEnter" text="Connect" />
-      <Label fx:id="error_message" layoutX="367.0" layoutY="350.0" text="Username already in use, try again" textFill="#f41d1d" visible="false" />
+      <TextField id="username" fx:id="username" layoutX="379.0" layoutY="346.0" opacity="0.53" prefHeight="26.0" prefWidth="161.0" promptText="Insert your username" />
+      <Button layoutX="408.0" layoutY="380.0" mnemonicParsing="false" onAction="#actionEnter" styleClass="test" stylesheets="@style.css" text="Connect" />
    </children>
 </Pane>
