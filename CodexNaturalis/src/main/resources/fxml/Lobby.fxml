@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -16,7 +15,5 @@
       <Button layoutX="415.0" layoutY="197.0" mnemonicParsing="false" onAction="#createGame" text="Create Game" />
       <Button layoutX="422.0" layoutY="251.0" mnemonicParsing="false" onAction="#joinGame" text="Join Game" />
       <Button layoutX="440.0" layoutY="305.0" mnemonicParsing="false" onAction="#quit" text="Quit" />
-      <ChoiceBox fx:id="gameList" disable="true" layoutX="233.0" layoutY="264.0" prefWidth="150.0" visible="false" />
-      <Button fx:id="join" disable="true" layoutX="282.0" layoutY="305.0" mnemonicParsing="false" onAction="#join" text="join" visible="false" />
    </children>
 </Pane>

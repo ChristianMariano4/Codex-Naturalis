@@ -207,5 +207,4 @@ public class RMIClient extends Client {
         throw new ServerDisconnectedException();
         }
     }
-
 }

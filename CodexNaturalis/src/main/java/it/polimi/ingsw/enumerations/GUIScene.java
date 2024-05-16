@@ -2,7 +2,8 @@ package it.polimi.ingsw.enumerations;
 
 public enum GUIScene {
     NICKNAME,
-    LOBBY;
+    LOBBY,
+    JOINGAME;
 
 
     public String getPath()
@@ -13,6 +14,9 @@ public enum GUIScene {
             }
             case LOBBY -> {
                 return "/fxml/Lobby.fxml";
+            }
+            case JOINGAME -> {
+                return "/fxml/joinGameScreen.fxml";
             }
 
         }
