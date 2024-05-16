@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.enumerations.AngleOrientation;
 import it.polimi.ingsw.enumerations.Marker;
@@ -16,24 +17,27 @@ import it.polimi.ingsw.network.observer.GameListener;
 import it.polimi.ingsw.network.rmi.ClientRMIInterface;
 import it.polimi.ingsw.network.messages.GameEvent;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class GameHandler {
+public class GameHandler implements Serializable {
     //TODO: check se il client ha i permessi giusti
     private Game game;
-    private Controller controller;
+    private final Controller controller;
     private int readyPlayers = 0;
-    private List<ClientHandlerInterface> clients; //list of the clients related to this game
+    private final List<ClientHandlerInterface> clients; //list of the clients related to this game
     private final EventManager eventManager;
     private final Server server;
     private final BlockingQueue<Boolean> threadUpdates = new LinkedBlockingQueue<>();
     private boolean isOpen = true;
-    private boolean twentPointsReached = false;
+    private boolean twentyPointsReached = false;
     private boolean finalRound = false;
+    private final String file_path;
 
 
     public GameHandler(int gameId, Server server){
@@ -47,7 +51,8 @@ public class GameHandler {
             throw new RuntimeException(e);
         }
         this.clients = new ArrayList<>();
-
+        file_path = "CodexNaturalis/src/main/resources/savedGames/game" + gameId + ".json";
+        saveGameState();
     }
     public boolean getIsOpen()
     {
@@ -235,12 +240,12 @@ public class GameHandler {
             }
             controller.nextTurn(game.getPlayer(username));
             for (Player p : game.getListOfPlayers()) {
-                if (p.getPoints() >= 20 && !twentPointsReached) {
-                    this.twentPointsReached = true;
+                if (p.getPoints() >= 20 && !twentyPointsReached) {
+                    this.twentyPointsReached = true;
                     eventManager.notify(GameEvent.TWENTY_POINTS, p.getUsername());
                 }
             }
-            if (twentPointsReached && game.getCurrentPlayer().equals(game.getListOfPlayers().getFirst())) //final round begins when first player is playing and a player has reached 20 points
+            if (twentyPointsReached && game.getCurrentPlayer().equals(game.getListOfPlayers().getFirst())) //final round begins when first player is playing and a player has reached 20 points
             {
                 this.finalRound = true;
                 eventManager.notify(GameEvent.FINAL_ROUND, null);
@@ -269,6 +274,16 @@ public class GameHandler {
                     return;
             }
             eventManager.notify(GameEvent.GAME_BEGIN, game);
+        }
+    }
+
+    private void saveGameState() {
+        Gson gson = new Gson();
+        try(FileWriter writer = new FileWriter(file_path)) {
+            gson.toJson(game, writer);
+        } catch (IOException e) {
+            System.err.println("Couldn't save game state");
+            throw new RuntimeException(e);
         }
     }
 }
