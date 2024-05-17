@@ -20,10 +20,14 @@ public class LoginScreenController extends GUIController {
     public TextField username;
     public Label error_message;
 
+    public SoundController soundController;
+
     @FXML
     public void actionEnter(ActionEvent event) throws IOException, InterruptedException, ServerDisconnectedException {
         try
         {
+            soundController = new SoundController();
+            soundController.buttonClick();
             viewGUI.setUsername(username.getText());
             gui.switchScene(GUIScene.LOBBY);
         }
