@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.exceptions.ServerDisconnectedException;
 import it.polimi.ingsw.exceptions.WrongInputException;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.view.TUI.TUI;
@@ -14,6 +15,7 @@ import javafx.fxml.FXML;
 import java.io.IOException;
 import java.io.WriteAbortedException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -95,5 +97,10 @@ public class ViewGUI implements View, Runnable {
 
     public void createGame() throws ServerDisconnectedException {
         this.game = client.createGame(this.client.getUsername());
+    }
+
+    public HashMap<String, Integer> showScoreboard() {
+        HashMap<String, Integer> scoreboard = new HashMap<>();
+        return scoreboard;
     }
 }

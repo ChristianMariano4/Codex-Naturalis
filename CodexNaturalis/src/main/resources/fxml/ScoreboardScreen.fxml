@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.TextFlow?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="518.0" fitWidth="920.0">
@@ -13,7 +12,7 @@
             <Image url="@../images/Backgounds/gameCreationBackground.jpg" />
          </image>
       </ImageView>
-      <TextFlow layoutX="382.0" layoutY="211.0" prefHeight="169.0" prefWidth="156.0" />
+      <TextFlow layoutX="382.0" layoutY="188.0" prefHeight="192.0" prefWidth="156.0" />
       <ImageView fitHeight="42.0" fitWidth="200.0" layoutX="360.0" layoutY="140.0">
          <image>
             <Image url="@../images/scoreboard.png" />
