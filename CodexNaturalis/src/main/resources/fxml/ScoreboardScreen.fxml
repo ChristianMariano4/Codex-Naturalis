@@ -18,5 +18,10 @@
             <Image url="@../images/scoreboard.png" />
          </image>
       </ImageView>
+      <ImageView fitHeight="42.0" fitWidth="200.0">
+         <image>
+            <Image url="@../images/scoreboard.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
