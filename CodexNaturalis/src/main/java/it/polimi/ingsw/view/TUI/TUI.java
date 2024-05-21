@@ -12,10 +12,7 @@ import javax.swing.text.html.StyleSheet;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 import static org.fusesource.jansi.Ansi.Color.*;
@@ -250,17 +247,9 @@ public class TUI extends UI {
                         ███████  ██████  ██████  ██   ██ ███████ ██████   ██████  ██   ██ ██   ██ ██████ \s
                                                                                                          \s
                 """).reset());
-        for(String username: playersPlacement.keySet()) {
-            int check = 0;
-            for(String temp: playersPlacement.keySet()) {
-                if(playersPlacement.get(username) < playersPlacement.get(temp)) {
-                    check++;
-                }
-            }
-            if(check == 0) {
-                System.out.println("            " + username + "-->" + playersPlacement.get(username));
-                playersPlacement.remove(username);
-            }
+        for(String player : playersPlacement.keySet())
+        {
+            System.out.println("            " + player + "-->" + playersPlacement.get(player));
         }
     }
     public void showCardInfo(PlayableCard card, CardInfo cardInfo) {
