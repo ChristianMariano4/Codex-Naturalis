@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.GUIControllers.LobbyController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.GUIControllers.LobbyController">
    <children>
-      <ImageView fitHeight="518.0" fitWidth="920.0">
-         <image>
-            <Image url="@../images/Backgounds/gameCreationBackground.jpg" />
-         </image>
-      </ImageView>
-      <Button layoutX="384.0" layoutY="178.0" mnemonicParsing="false" onAction="#createGame" styleClass="test" stylesheets="@style.css" text="Create Game" />
-      <Button layoutX="396.0" layoutY="238.0" mnemonicParsing="false" onAction="#joinGame" styleClass="test" stylesheets="@style.css" text="Join Game" />
-      <Button layoutX="426.0" layoutY="295.0" mnemonicParsing="false" onAction="#quit" styleClass="test" stylesheets="@style.css" text="Quit" />
+      <Pane fx:id="scalable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" styleClass="lobbyScreen" stylesheets="@../style.css">
+         <children>
+            <Button layoutX="384.0" layoutY="178.0" mnemonicParsing="false" onAction="#createGame" styleClass="test" stylesheets="@../style.css" text="Create Game" />
+            <Button layoutX="396.0" layoutY="238.0" mnemonicParsing="false" onAction="#joinGame" styleClass="test" stylesheets="@../style.css" text="Join Game" />
+            <Button layoutX="426.0" layoutY="295.0" mnemonicParsing="false" onAction="#quit" styleClass="test" stylesheets="@../style.css" text="Quit" />
+         </children>
+      </Pane>
    </children>
-</Pane>
+</AnchorPane>

@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import org.w3c.dom.events.EventException;
 
@@ -37,6 +38,9 @@ public class GUI extends Application {
     ViewGUI viewGUI;
     private static boolean isRMI;
     HashMap<GUIScene, SceneData> scenes;
+    private double widthOld;
+    private double heightOld;
+    boolean rescalable;
 
     public ViewGUI getViewGUI() {
         return viewGUI;
@@ -66,9 +70,7 @@ public class GUI extends Application {
         primaryStage.getIcons().add(icon);
         primaryStage.setTitle("Codex Naturalis");
 
-
-        primaryStage.setScene(scenes.get(GUIScene.NICKNAME).getScene());
-        primaryStage.show();
+        switchScene(GUIScene.NICKNAME);
     }
     private void loadAllScenes()
     {
@@ -95,9 +97,37 @@ public class GUI extends Application {
     }
     public void switchScene(GUIScene scene)
     {
+        rescalable = false;
+
         scenes.get(scene).getController().sceneInitializer();
         primaryStage.setScene(scenes.get(scene).getScene());
+/*
+        primaryStage.setWidth(widthOld);
+        primaryStage.setHeight(heightOld);
+
+        double widthTemp = widthOld;
+        double heightTemp = heightOld;
+
+
+        //rescale(widthTemp, heightTemp); */
         primaryStage.show();
+
+        widthOld = primaryStage.getScene().getWidth();
+        heightOld = primaryStage.getScene().getHeight();
+
+        this.primaryStage.widthProperty().addListener(
+                (obs, oldVal, newVal) -> {
+                    rescale((double) newVal, heightOld); // - 16
+                }
+        );
+        this.primaryStage.heightProperty().addListener(
+                (obs, oldVal, newVal) -> {
+                    rescale(widthOld, (double) newVal); // -39
+                }
+        );
+
+        rescalable = true;
+
     }
 
     public static void setConnectionType(boolean isRMI)
@@ -151,6 +181,17 @@ public class GUI extends Application {
                 System.err.println("Couldn't connect to server");
                 throw new ServerDisconnectedException();
             }
+        }
+    }
+    public  void rescale(double width, double height) {
+        if(rescalable) {
+            double w = width / widthOld;
+            double h = height / heightOld;
+
+            widthOld = width;
+            heightOld = height;
+            Scale scale = new Scale(w, h, 0, 0);
+            primaryStage.getScene().lookup("#scalable").getTransforms().add(scale);
         }
     }
 }

@@ -13,10 +13,10 @@ public class ScoreboardScreenController extends GUIController {
 
     @Override
     public void sceneInitializer() {
-
         HashMap<String, Integer> playersPoints = viewGUI.showScoreboard();
-
-        Text player = new Text("dhfjks");
-        textFlow.getChildren().add(player);
+        for(String player: playersPoints.keySet()) {
+            Text string = new Text(player + " --> " + playersPoints.get(player));
+            textFlow.getChildren().add(string);
+        }
     }
 }

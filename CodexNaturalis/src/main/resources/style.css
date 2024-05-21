@@ -9,3 +9,13 @@
     -fx-font-family: serif;
     -fx-background-radius: 5em;
 }
+.loginScreen {
+    -fx-background-image: url("images/Backgounds/loginBackground.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.lobbyScreen {
+    -fx-background-image: url("images/Backgounds/gameCreationBackground.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}

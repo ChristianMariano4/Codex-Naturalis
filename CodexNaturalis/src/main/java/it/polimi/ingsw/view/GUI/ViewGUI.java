@@ -14,10 +14,7 @@ import javafx.fxml.FXML;
 
 import java.io.IOException;
 import java.io.WriteAbortedException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ViewGUI implements View, Runnable {
 
@@ -97,7 +94,18 @@ public class ViewGUI implements View, Runnable {
     }
 
     public HashMap<String, Integer> showScoreboard() {
-        HashMap<String, Integer> scoreboard = new HashMap<>();
-        return scoreboard;
+        LinkedHashMap<String, Integer> playersPlacement = new LinkedHashMap<>();
+        ArrayList<Player> sortedPlayers = new ArrayList<>();
+        List<Integer> points = game.getListOfPlayers().stream().map(e -> e.getPoints()).toList();
+        Collections.sort(points);
+        Collections.reverse(points);
+        for(Integer point: points)
+        {
+            sortedPlayers.addAll(game.getListOfPlayers().stream().filter(e -> (e.getPoints() == point)).toList());
+        }
+        for(Player p : sortedPlayers) {
+            playersPlacement.put(p.getUsername(), p.getPoints());
+        }
+        return playersPlacement;
     }
 }
