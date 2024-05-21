@@ -283,7 +283,8 @@ public class GameHandler implements Serializable {
             gson.toJson(game, writer);
         } catch (IOException e) {
             System.err.println("Couldn't save game state");
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            //throw new RuntimeException(e);
         }
     }
 }

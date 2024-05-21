@@ -89,7 +89,7 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     public void updateClient(ClientHandlerInterface client, GameEvent event, Object gameUpdate) throws IOException, InterruptedException, NotExistingPlayerException {
-        Runnable updaterThread = () ->
+        Runnable updaterThread = () -> //this is needed for socket synchronization
                 {
                     try {
                         client.update(event, gameUpdate);

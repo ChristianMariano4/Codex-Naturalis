@@ -36,11 +36,8 @@ public class ViewGUI implements View, Runnable {
 
         if(client.checkUsername(username)) {
             client.setUsername(username);
-            System.out.println("sessopazzo");
-            System.out.println("dsjkfdsjkf:" + username);
         }
         else {
-            System.out.println("dsjkfdsjkf:" + username);
             throw new WrongInputException();
 
         }

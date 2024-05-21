@@ -77,7 +77,7 @@ public class GUI extends Application {
         GUIController controller;
         for(GUIScene scene : GUIScene.values())
         {
-            try { //TODO: magari farlo con delle strutture dati migliori
+            try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(scene.getPath()));
                 root = loader.load();
                 controller = loader.getController();
