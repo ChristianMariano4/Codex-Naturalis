@@ -24,7 +24,7 @@ public class ViewCLI implements View, Runnable {
 
 
     public void setUsername() throws IOException, InterruptedException, ServerDisconnectedException {
-
+        //TODO: remove println from view methods
         ui.setUsername();
         String username = null;
         do {
@@ -46,7 +46,22 @@ public class ViewCLI implements View, Runnable {
                 ui.createOrJoinAGame();
                 int choice = Integer.parseInt(scanner.nextLine());
                 if (choice == 1) {
-                    this.game = client.createGame(this.client.getUsername());
+                    int numberOfPlayers;
+                    do{
+                        try {
+                            ui.selectNumberOfPlayers();
+                            numberOfPlayers = Integer.parseInt(scanner.nextLine());
+                            if(numberOfPlayers >= 2 && numberOfPlayers <= 4){
+                                break;
+                            }else {
+                                ui.invalidInput();
+                            }
+                        }catch(Exception e)
+                        {
+                            ui.invalidInput();
+                        }
+                    }while(true);
+                    this.game = client.createGame(this.client.getUsername(), numberOfPlayers);
                     System.out.println("Game created.");
                     break;
                 }
@@ -77,19 +92,18 @@ public class ViewCLI implements View, Runnable {
     }
 
     public void setReady() throws ServerDisconnectedException{
+        ArrayList<Integer> playersInfo = null;
         do{
-            //TODO: remove println from view methods
             try {
-                System.out.println("Press 1 when you are ready to start the game.");
+                ui.setReady();
                 int choice = Integer.parseInt(scanner.nextLine());
                 if(choice == 1) {
                     try {
-                        client.setReady();
+                        playersInfo = client.setReady();
+                        ui.printReadyPlayersStatus(playersInfo);
                         break;
-
                     }
-                    catch(ServerDisconnectedException se)
-                    {
+                    catch(ServerDisconnectedException se) {
                         throw se;
                     }
                     catch (NotEnoughPlayersException e) {
@@ -109,8 +123,9 @@ public class ViewCLI implements View, Runnable {
                 ui.invalidInput();
             }
         }while(true);
-
-        System.out.println("You are ready to start the game. Waiting for other players to be ready...");
+        if(!Objects.equals(playersInfo.getFirst(), playersInfo.get(1))){
+            ui.readyConfirmation();
+        }
     }
 
     public ViewCLI(Client client) {

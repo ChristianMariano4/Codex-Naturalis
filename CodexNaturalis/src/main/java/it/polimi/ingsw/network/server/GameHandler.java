@@ -38,9 +38,10 @@ public class GameHandler implements Serializable {
     private boolean twentyPointsReached = false;
     private boolean finalRound = false;
     private final String file_path;
+    private final int numberOfPlayers;
 
 
-    public GameHandler(int gameId, Server server){
+    public GameHandler(int gameId, Server server, int numberOfPlayers){
         this.server = server;
         this.eventManager = new EventManager();
         this.controller = new Controller(eventManager, this);
@@ -50,6 +51,7 @@ public class GameHandler implements Serializable {
                  DeckIsEmptyException e) {
             throw new RuntimeException(e);
         }
+        this.numberOfPlayers = numberOfPlayers;
         this.clients = new ArrayList<>();
         file_path = "CodexNaturalis/src/main/resources/savedGames/game" + gameId + ".json";
         saveGameState();
@@ -96,26 +98,16 @@ public class GameHandler implements Serializable {
         for(ClientHandlerInterface client : clients){
             try {
                 client.update(event, game);
-            } catch (RemoteException | InterruptedException e) {
-                throw new RuntimeException(e);
-            } catch (NotExistingPlayerException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
+            } catch (InterruptedException | NotExistingPlayerException | IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public int setReady() throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
+    public ArrayList<Integer> setReady() throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
         synchronized (this) {
             readyPlayers++;
-            if (readyPlayers == this.game.getNumberOfPlayers()) {
-
-                if (readyPlayers < 2) {
-                    if (readyPlayers == 1)
-                        readyPlayers--;
-                    throw new NotEnoughPlayersException();
-                }
+            if (readyPlayers == numberOfPlayers) {
                 try {
                     this.game = controller.initializeGame();
                 } catch (CardTypeMismatchException | InvalidConstructorDataException | CardNotImportedException |
@@ -124,10 +116,6 @@ public class GameHandler implements Serializable {
                          UnlinkedCardException | AlreadyThreeCardsInHandException e) {
                     throw new RuntimeException(e);
                 }
-
-            }
-
-            if (readyPlayers >= this.game.getNumberOfPlayers()) {
                 this.isOpen = false;
                 eventManager.notify(GameEvent.GAME_INITIALIZED, this.game);
                 for (Player player : game.getListOfPlayers()) {
@@ -141,7 +129,10 @@ public class GameHandler implements Serializable {
                     client.update(GameEvent.SECRET_OBJECTIVE_CHOICE_REQUEST, objectiveCardsToChoose);
                 }
             }
-            return readyPlayers;
+            ArrayList<Integer> playersInfo = new ArrayList<>();
+            playersInfo.add(numberOfPlayers);
+            playersInfo.add(readyPlayers);
+            return playersInfo;
         }
     }
 

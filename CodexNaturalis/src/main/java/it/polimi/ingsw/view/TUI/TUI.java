@@ -745,4 +745,20 @@ public class TUI extends UI {
     public void wrongUsername() {
         System.out.println("Wrong username, try again!");
     }
+
+    public void selectNumberOfPlayers() {
+        System.out.println("Select the number of players: 2, 3 or 4");
+    }
+
+    public void setReady() {
+        System.out.println("Press 1 when you are ready to start the game.");
+    }
+
+    public void readyConfirmation() {
+        System.out.println("Waiting for other players to be ready...");
+    }
+
+    public void printReadyPlayersStatus(ArrayList<Integer> playersInfo) {
+        System.out.println("You are ready to start the game. Players ready to start the game: " + playersInfo.get(1) + "/" + playersInfo.getFirst());
+    }
 }

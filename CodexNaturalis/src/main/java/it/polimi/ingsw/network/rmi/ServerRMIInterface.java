@@ -10,6 +10,7 @@ import it.polimi.ingsw.network.client.ClientHandlerInterface;
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
@@ -18,10 +19,10 @@ public interface ServerRMIInterface extends Remote {
     //method used from client to tell the server how to contact it
     void connect(ClientHandlerInterface client) throws RemoteException;
     //expose methods that the client can call, i.e. those of the controller
-    int createGame(ClientHandlerInterface client) throws RemoteException;
+    int createGame(ClientHandlerInterface client, int numberOfPlayers) throws RemoteException;
     List<Integer> getAvailableGames() throws RemoteException;
     Game addPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException, GameAlreadyStartedException;
-    int setReady(int gameId) throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException;
+    ArrayList<Integer> setReady(int gameId) throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException;
     void subscribe(ClientHandlerInterface client, int gameId) throws RemoteException, GameAlreadyStartedException;
     BlockingQueue<Boolean> getQueue(int gameId) throws RemoteException;
     CardInfo getCardInfo(Card card, int gameId) throws RemoteException;

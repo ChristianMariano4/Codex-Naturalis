@@ -41,12 +41,12 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public int createGame(ClientHandlerInterface client) {
+    public int createGame(ClientHandlerInterface client, int numberOfPlayers) {
         System.out.println("createGame request received");
         //sequential game id starting from 0
         int id = GameValues.numberOfGames;
         GameValues.numberOfGames++;
-        gameHandlerMap.put(id, new GameHandler(id, this));
+        gameHandlerMap.put(id, new GameHandler(id, this, numberOfPlayers));
         return id;
     }
 
@@ -67,7 +67,7 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public int setReady(int gameId) throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
+    public ArrayList<Integer> setReady(int gameId) throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
         return this.gameHandlerMap.get(gameId).setReady();
     }
 

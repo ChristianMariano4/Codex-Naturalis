@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.GUI.GUI;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RMIClient extends Client {
@@ -29,9 +30,9 @@ public class RMIClient extends Client {
     }
 
     @Override
-    public Game createGame(String username) throws ServerDisconnectedException {
+    public Game createGame(String username, int numberOfPlayers) throws ServerDisconnectedException {
         try {
-            this.gameId = serverRMIInterface.createGame(this);
+            this.gameId = serverRMIInterface.createGame(this, numberOfPlayers);
             serverRMIInterface.subscribe(this, this.gameId);
             //server.initializePlayersHand(this.gameId, this.player);
             return serverRMIInterface.addPlayerToGame(this.gameId, username, this);
@@ -65,7 +66,7 @@ public class RMIClient extends Client {
     }
 
     @Override
-    public int setReady() throws NotEnoughPlayersException, ServerDisconnectedException {
+    public ArrayList<Integer> setReady() throws NotEnoughPlayersException, ServerDisconnectedException {
         try
         {
             return serverRMIInterface.setReady(this.gameId);

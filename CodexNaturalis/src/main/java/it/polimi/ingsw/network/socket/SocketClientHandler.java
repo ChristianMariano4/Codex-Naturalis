@@ -60,7 +60,7 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         this.username = (String) message.getMessageContent()[0];
                     }
                     case CREATE_GAME -> {
-                        sendMessage(ServerMessageType.GAME_CREATED, server.createGame(this));
+                        sendMessage(ServerMessageType.GAME_CREATED, server.createGame(this, (int) message.getMessageContent()[0]));
                     }
                     case SUBSCRIBE -> {
                         server.subscribe(this, (int) message.getMessageContent()[0]);
@@ -74,7 +74,6 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                     }
                     case AVAILABLE_GAMES_REQUEST -> {
                         sendMessage(ServerMessageType.AVAILABLE_GAMES, server.getAvailableGames());
-
                     }
                     case SET_READY -> {
                         sendMessage(ServerMessageType.SUCCESS, server.setReady((Integer) message.getMessageContent()[0]));

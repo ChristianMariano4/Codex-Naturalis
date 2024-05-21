@@ -17,6 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SimpleTimeZone;
 import java.util.concurrent.BlockingDeque;
@@ -49,10 +50,10 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public Game createGame(String username) throws ServerDisconnectedException {
+    public Game createGame(String username, int numberOfPlayers) throws ServerDisconnectedException {
         try
         {
-            messageHandler.sendMessage(ClientMessageType.CREATE_GAME, null);
+            messageHandler.sendMessage(ClientMessageType.CREATE_GAME, numberOfPlayers);
 
             this.gameId = (int) messageHandlerQueue.take();
 
@@ -104,10 +105,10 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public int setReady() throws NotEnoughPlayersException, IOException, ServerDisconnectedException {
+    public ArrayList<Integer> setReady() throws NotEnoughPlayersException, IOException, ServerDisconnectedException {
         try {
             messageHandler.sendMessage(ClientMessageType.SET_READY, this.gameId);
-            return (int) messageHandlerQueue.take();
+            return (ArrayList<Integer>) messageHandlerQueue.take();
         }
         catch(ServerDisconnectedException se)
         {

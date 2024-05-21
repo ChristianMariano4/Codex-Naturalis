@@ -49,7 +49,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         return this.isRMI;
     }
 
-    public abstract Game createGame(String username) throws ServerDisconnectedException;
+    public abstract Game createGame(String username, int numberOfPlayers) throws ServerDisconnectedException;
     public abstract List<Integer> getAvailableGames() throws IOException, InterruptedException, ServerDisconnectedException;
 
     public abstract Game joinGame(int gameId, String username) throws ServerDisconnectedException;
@@ -66,7 +66,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         return this.username;
     }
 
-    public abstract int setReady() throws NotEnoughPlayersException, IOException, ServerDisconnectedException;
+    public abstract ArrayList<Integer> setReady() throws NotEnoughPlayersException, IOException, ServerDisconnectedException;
     @Override
     @SuppressWarnings("unchecked")
     public void update(GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException {
