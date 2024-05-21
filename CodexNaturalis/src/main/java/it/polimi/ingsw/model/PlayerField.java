@@ -5,7 +5,6 @@ import it.polimi.ingsw.enumerations.AngleStatus;
 import it.polimi.ingsw.exceptions.AngleAlreadyLinkedException;
 import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.InvalidCardPositionException;
-import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 

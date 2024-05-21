@@ -21,7 +21,7 @@ import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
  * The game is responsible for adding players to the game and managing the table.
  */
 public class Game implements Serializable {
-    private boolean isGameStarted;
+    private final boolean isGameStarted;
     private final int gameId;
     private int numberOfPlayers;
     private final ArrayList<Player> listOfPlayers;

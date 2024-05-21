@@ -7,8 +7,6 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 import it.polimi.ingsw.view.GUI.GUI;
-import it.polimi.ingsw.view.GUI.ViewGUI;
-import it.polimi.ingsw.view.TUI.ViewCLI;
 
 import java.io.IOException;
 import java.rmi.RemoteException;

@@ -4,11 +4,9 @@ import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHandException;
 import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.InvalidCardPositionException;
 import it.polimi.ingsw.model.cards.PlayableCard;
-import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import static it.polimi.ingsw.model.GameValues.MAX_CARD_IN_HAND;
 

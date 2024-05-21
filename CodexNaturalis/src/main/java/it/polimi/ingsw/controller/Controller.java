@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.observer.EventManager;
 import it.polimi.ingsw.network.messages.clientMessages.UserMessageWrapper;
 import it.polimi.ingsw.network.server.GameHandler;
-import it.polimi.ingsw.network.server.Server;
 
 import java.io.IOException;
 import java.util.*;
@@ -18,14 +17,11 @@ import java.util.*;
 public class Controller {
     //TODO: metodi per giocare le carte e per pescare le carte
     public String testUsername;
-    private CardHandler cardHandler;
-    private Server server;
-    private GameHandler gameHandler;
-    private final EventManager eventManager;
+    private final CardHandler cardHandler;
+    private final GameHandler gameHandler;
 
     public Controller(EventManager eventManager, GameHandler gameHandler){
         this.cardHandler = new CardHandler();
-        this.eventManager = eventManager;
         this.gameHandler = gameHandler;
     }
 
@@ -117,10 +113,7 @@ public class Controller {
             } catch (DeckIsEmptyException | NotExistingPlayerException e) {
                 throw new RuntimeException(e);
             }
-
-          //  this.initializePlayerMatrix(player, );
         }
-
         return gameHandler.getGame();
     }
 

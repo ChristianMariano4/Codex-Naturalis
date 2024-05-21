@@ -245,7 +245,6 @@ public class CardHandler {
      * Get the other side of the selected PlayableCard
      * @param card is the selected PlayableCard
      * @return the other side of the selected PlayableCard
-     * @throws CardNotFoundException if the card selected doesn't exist
      */
     public PlayableCard getOtherSideCard(PlayableCard card) {
 

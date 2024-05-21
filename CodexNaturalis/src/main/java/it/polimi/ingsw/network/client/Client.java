@@ -183,9 +183,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         view = new ViewCLI(this);
         ViewCLI viewCLI = (ViewCLI) view;
         viewCLI.setUsername();
-        while (true) {
-            if (!preGameStart(viewCLI))
-                break;
+        while (preGameStart(viewCLI)) {
             this.viewThread = new Thread(viewCLI); //game loop actually begins here
             this.viewThread.start();
             this.viewThread.join();
