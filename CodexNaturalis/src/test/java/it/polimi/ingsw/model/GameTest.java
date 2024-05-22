@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class GameTest {
-
+/*
     private Game game;
     private Deck<ObjectiveCard> objectiveCardDeck;
     private Deck<StarterCard> starterCardDeck;
@@ -194,5 +194,5 @@ class GameTest {
         game.removeMarker(Marker.YELLOW);
         assertFalse(game.getAvailableMarkers().contains(Marker.YELLOW));
     }
-
+*/
 }

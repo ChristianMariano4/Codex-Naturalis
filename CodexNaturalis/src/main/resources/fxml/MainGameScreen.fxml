@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane prefHeight="518.0" prefWidth="920.0" styleClass="gameBackground">
+         <children>
+            <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="rulebookButton" />
+               </children>
+            </Pane>
+            <Pane layoutX="697.0" layoutY="98.0" prefHeight="322.0" prefWidth="161.0" styleClass="gameScoreboard" />
+            <Pane layoutX="288.0" layoutY="60.0" opacity="0.9" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: white; -fx-background-radius: 30;" />
+            <Pane layoutX="30.0" layoutY="276.0" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Pane layoutX="5.0" layoutY="5.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="5.0" layoutY="75.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="5.0" layoutY="145.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="105.0" layoutY="75.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="105.0" layoutY="145.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="105.0" layoutY="5.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+               </children>
+            </Pane>
+            <Pane layoutX="314.0" layoutY="425.0" prefHeight="60.0" prefWidth="290.0">
+               <children>
+                  <Pane prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="100.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="200.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+               </children>
+            </Pane>
+            <Pane layoutX="30.0" layoutY="50.0" prefHeight="135.0" prefWidth="200.0">
+               <children>
+                  <Pane layoutX="5.0" layoutY="5.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="105.0" layoutY="5.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="55.0" layoutY="75.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+               </children>
+            </Pane>
+            <Pane layoutX="865.0" layoutY="456.0" prefHeight="41.0" prefWidth="41.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="exitButton" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
