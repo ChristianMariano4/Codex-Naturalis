@@ -22,6 +22,7 @@ public class LobbyController extends GUIController{
         {
             //TODO: server disconnected GUI screen
         }
+        gui.switchScene(GUIScene.GAMELOBBY);
     }
     @FXML
     public void joinGame(ActionEvent event)

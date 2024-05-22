@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.GUIControllers.GameLobbyController">
+   <children>
+      <Pane prefHeight="518.0" prefWidth="920.0" styleClass="codexBackground" stylesheets="@../style.css">
+         <children>
+            <TabPane fx:id="rulebookTabPane" disable="true" layoutX="249.0" layoutY="26.0" prefHeight="465.0" prefWidth="432.0" stylesheets="@../style.css" tabClosingPolicy="UNAVAILABLE" visible="false">
+              <tabs>
+                <Tab text="Page 1">
+                     <content>
+                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage1" />
+                     </content>
+                  </Tab>
+                <Tab text="Page 2">
+                     <content>
+                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage2" />
+                     </content>
+                  </Tab>
+                  <Tab text="Page 3">
+                     <content>
+                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage3" />
+                     </content>
+                  </Tab>
+                  <Tab text="Page 4">
+                     <content>
+                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage4" />
+                     </content>
+                  </Tab>
+                  <Tab text="Page 5">
+                     <content>
+                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage5" />
+                     </content>
+                  </Tab>
+                  <Tab text="Page 6">
+                     <content>
+                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage6" />
+                     </content>
+                  </Tab>
+                  <Tab text="Page 7">
+                     <content>
+                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage7" />
+                     </content>
+                  </Tab>
+                  <Tab text="Page 8">
+                     <content>
+                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage8" />
+                     </content>
+                  </Tab>
+                  <Tab text="Page 9">
+                     <content>
+                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage9" />
+                     </content>
+                  </Tab>
+                  <Tab text="Page 10">
+                     <content>
+                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage10" />
+                     </content>
+                  </Tab>
+                  <Tab text="Page 11">
+                     <content>
+                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage11" />
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+            <Pane layoutX="864.0" layoutY="9.0" prefHeight="41.0" prefWidth="41.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="rulebookButton" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+      <Pane prefHeight="200.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>

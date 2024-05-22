@@ -19,3 +19,65 @@
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
+.codexBackground {
+    -fx-background-image: url("images/Backgounds/Slider-Codex-2-1920x1080.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.rulebookButton {
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #746216 0%, #746216 100%),
+            #746216,
+            #746216,
+            radial-gradient(center 50% 50%, radius 100%, #c1aa50, #746218);
+    -fx-effect: dropshadow( gaussian , rgba(0, 0, 0, 0.75), 4,0,0,1 );
+    -fx-background-radius: 5em;
+    -fx-background-image: url("images/Icons/rulebookIcon2.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 80%;
+    -fx-background-position: center;
+}
+.rulebookPage1 {
+    -fx-background-image: url("images/CODEX_Rulebook_IT/02.png");
+    -fx-background-size: cover;
+}
+.rulebookPage2 {
+    -fx-background-image: url("images/CODEX_Rulebook_IT/03.png");
+    -fx-background-size: cover;
+}
+.rulebookPage3 {
+    -fx-background-image: url("images/CODEX_Rulebook_IT/04.png");
+    -fx-background-size: cover;
+}
+.rulebookPage4 {
+    -fx-background-image: url("images/CODEX_Rulebook_IT/05.png");
+    -fx-background-size: cover;
+}
+.rulebookPage5 {
+    -fx-background-image: url("images/CODEX_Rulebook_IT/06.png");
+    -fx-background-size: cover;
+}
+.rulebookPage6 {
+    -fx-background-image: url("images/CODEX_Rulebook_IT/07.png");
+    -fx-background-size: cover;
+}
+.rulebookPage7 {
+    -fx-background-image: url("images/CODEX_Rulebook_IT/08.png");
+    -fx-background-size: cover;
+}
+.rulebookPage8 {
+    -fx-background-image: url("images/CODEX_Rulebook_IT/09.png");
+    -fx-background-size: cover;
+}
+.rulebookPage9 {
+    -fx-background-image: url("images/CODEX_Rulebook_IT/10.png");
+    -fx-background-size: cover;
+}
+.rulebookPage10 {
+    -fx-background-image: url("images/CODEX_Rulebook_IT/11.png");
+    -fx-background-size: cover;
+}
+.rulebookPage11 {
+    -fx-background-image: url("images/CODEX_Rulebook_IT/12.png");
+    -fx-background-size: cover;
+}
