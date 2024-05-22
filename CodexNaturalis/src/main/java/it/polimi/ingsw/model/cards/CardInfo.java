@@ -15,7 +15,7 @@ public class CardInfo implements Serializable {
     private final AngleOrientation orientation;
     private final PositionalType positionalType;
     private final Resource cardResource;
-
+    private final int points;
 
     /**
      * GoldCard CardInfo constructor
@@ -28,6 +28,20 @@ public class CardInfo implements Serializable {
         this.cardType = cardType;
         this.requirements = requirements;
         this.goldPointCondition = goldPointCondition;
+
+        switch (goldPointCondition)
+        {
+            case ANGLE -> this.points = 2;
+            case QUILL, INKWELL, MANUSCRIPT -> this.points = 1;
+            default -> {
+                if(requirements.size() == 3)
+                    this.points = 3;
+                else if(requirements.size() == 5)
+                    this.points = 5;
+                else
+                    this.points = 0;
+            }
+        }
 
         this.cardColor = Resource.NONE;
         this.orientation = AngleOrientation.NONE;
@@ -50,6 +64,13 @@ public class CardInfo implements Serializable {
         this.orientation = AngleOrientation.NONE;
         this.positionalType = PositionalType.NONE;
         this.cardResource = Resource.NONE;
+
+        switch (cardType)
+        {
+            case RESOURCE -> this.points = 2;
+            case TRIPLEOBJECTIVE -> this.points = 3;
+            default -> this.points = 0;
+        }
     }
 
     /**
@@ -61,6 +82,7 @@ public class CardInfo implements Serializable {
     {
         this.cardType = cardType;
         this.cardResource = cardResource;
+        this.points = 2;
 
         this.requirements = new ArrayList<>();
         this.goldPointCondition = GoldPointCondition.NONE;
@@ -87,6 +109,13 @@ public class CardInfo implements Serializable {
         this.requirements = new ArrayList<>();
         this.goldPointCondition = GoldPointCondition.NONE;
         this.cardResource = Resource.NONE;
+
+        switch (positionalType)
+        {
+            case LSHAPED -> this.points = 3;
+            case DIAGONAL -> this.points = 2;
+            default -> this.points = 0;
+        }
     }
 
     /**
@@ -145,6 +174,12 @@ public class CardInfo implements Serializable {
         return this.cardResource;
     }
 
-
+    /**
+     *
+     * @return the points
+     */
+    public int getPoints() {
+        return this.points;
+    }
 
 }

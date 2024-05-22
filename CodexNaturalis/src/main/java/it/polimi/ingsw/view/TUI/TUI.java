@@ -534,7 +534,11 @@ public class TUI extends UI {
 
     public void showCardInfo(ObjectiveCard card, CardInfo cardInfo) {
         //TODO: custom graphic for objective cards
-
+        if(cardInfo.getCardType().equals(CardType.GOLD) || cardInfo.getCardType().equals(CardType.RESOURCE)) {
+            System.out.println("CardType: " + cardInfo.getCardType());
+            System.out.println("Resource type: " + cardInfo.getCardColor());
+//          System.out.println("Positional condition: " + cardInfo.getPositionalType());
+        }
         if(card.getCurrentSide().equals(Side.FRONT)) {
             String cardImage = "";
             Ansi.Color color = WHITE;
@@ -542,43 +546,47 @@ public class TUI extends UI {
                 if(cardInfo.getPositionalType().equals(PositionalType.DIAGONAL)) {
                     color = switch (cardInfo.getCardColor()) {
                         case Resource.FUNGI -> {
-                            cardImage = "┌┬───────┬───────┬───────┬┐\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "││       │    FUN│       ││\n" +
-                                    "││       │  FUN  │       ││\n" +
-                                    "││       │FUN    │       ││\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "└┴───────┴───────┴───────┴┘";
+                            cardImage = "┌┬─────────────────────────┬┐\n" +
+                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
+                                    "││        ┌───────┐        ││\n" +
+                                    "││        │    FUN│        ││\n" +
+                                    "││        │  FUN  │        ││\n" +
+                                    "││        │FUN    │        ││\n" +
+                                    "││        └───────┘        ││\n" +
+                                    "└┴─────────────────────────┴┘";
                             yield RED;
                         }
                         case Resource.PLANT -> {
-                            cardImage = "┌┬───────┬───────┬───────┬┐\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "││       │PLA    │       ││\n" +
-                                    "││       │  PLA  │       ││\n" +
-                                    "││       │    PLA│       ││\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "└┴───────┴───────┴───────┴┘";
+                            cardImage = "┌┬─────────────────────────┬┐\n" +
+                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
+                                    "││        ┌───────┐        ││\n" +
+                                    "││        │PLA    │        ││\n" +
+                                    "││        │  PLA  │        ││\n" +
+                                    "││        │    PLA│        ││\n" +
+                                    "││        └───────┘        ││\n" +
+                                    "└┴─────────────────────────┴┘";
                             yield GREEN;
                         }
                         case Resource.ANIMAL -> {
-                            cardImage = "┌┬───────┬───────┬───────┬┐\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "││       │    ANI│       ││\n" +
-                                    "││       │  ANI  │       ││\n" +
-                                    "││       │ANI    │       ││\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "└┴───────┴───────┴───────┴┘";
+                            cardImage = "┌┬─────────────────────────┬┐\n" +
+                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
+                                    "││        ┌───────┐        ││\n" +
+                                    "││        │    ANI│        ││\n" +
+                                    "││        │  ANI  │        ││\n" +
+                                    "││        │ANI    │        ││\n" +
+                                    "││        └───────┘        ││\n" +
+                                    "└┴─────────────────────────┴┘";
                             yield CYAN;
                         }
                         case Resource.INSECT -> {
-                            cardImage = "┌┬───────┬───────┬───────┬┐\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "││       │INS    │       ││\n" +
-                                    "││       │  INS  │       ││\n" +
-                                    "││       │    INS│       ││\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "└┴───────┴───────┴───────┴┘";
+                            cardImage = "┌┬─────────────────────────┬┐\n" +
+                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
+                                    "││        ┌───────┐        ││\n" +
+                                    "││        │INS    │        ││\n" +
+                                    "││        │  INS  │        ││\n" +
+                                    "││        │    INS│        ││\n" +
+                                    "││        └───────┘        ││\n" +
+                                    "└┴─────────────────────────┴┘";
                             yield MAGENTA;
                         }
                         default -> color;
@@ -586,43 +594,47 @@ public class TUI extends UI {
                 } else {
                     color = switch (cardInfo.getCardColor()) {
                         case Resource.FUNGI -> {
-                            cardImage = "┌┬───────┬───────┬───────┬┐\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "││       │  FUN  │       ││\n" +
-                                    "││       │  FUN  │       ││\n" +
-                                    "││       │    PLA│       ││\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "└┴───────┴───────┴───────┴┘";
+                            cardImage = "┌┬─────────────────────────┬┐\n" +
+                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
+                                    "││        ┌───────┐        ││\n" +
+                                    "││        │  FUN  │        ││\n" +
+                                    "││        │  FUN  │        ││\n" +
+                                    "││        │    PLA│        ││\n" +
+                                    "││        └───────┘        ││\n" +
+                                    "└┴─────────────────────────┴┘";
                             yield RED;
                         }
                         case Resource.PLANT -> {
-                            cardImage = "┌┬───────┬───────┬───────┬┐\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "││       │  PLA  │       ││\n" +
-                                    "││       │  PLA  │       ││\n" +
-                                    "││       │INS    │       ││\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "└┴───────┴───────┴───────┴┘";
+                            cardImage = "┌┬─────────────────────────┬┐\n" +
+                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
+                                    "││        ┌───────┐        ││\n" +
+                                    "││        │  PLA  │        ││\n" +
+                                    "││        │  PLA  │        ││\n" +
+                                    "││        │INS    │        ││\n" +
+                                    "││        └───────┘        ││\n" +
+                                    "└┴─────────────────────────┴┘";
                             yield GREEN;
                         }
                         case Resource.ANIMAL -> {
-                            cardImage = "┌┬───────┬───────┬───────┬┐\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "││       │    FUN│       ││\n" +
-                                    "││       │  ANI  │       ││\n" +
-                                    "││       │  ANI  │       ││\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "└┴───────┴───────┴───────┴┘";
+                            cardImage = "┌┬─────────────────────────┬┐\n" +
+                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
+                                    "││        ┌───────┐        ││\n" +
+                                    "││        │    FUN│        ││\n" +
+                                    "││        │  ANI  │        ││\n" +
+                                    "││        │  ANI  │        ││\n" +
+                                    "││        └───────┘        ││\n" +
+                                    "└┴─────────────────────────┴┘";
                             yield CYAN;
                         }
                         case Resource.INSECT -> {
-                            cardImage = "┌┬───────┬───────┬───────┬┐\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "││       │ANI    │       ││\n" +
-                                    "││       │  INS  │       ││\n" +
-                                    "││       │  INS  │       ││\n" +
-                                    "││       ├───────┤       ││\n" +
-                                    "└┴───────┴───────┴───────┴┘";
+                            cardImage = "┌┬─────────────────────────┬┐\n" +
+                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
+                                    "││        ┌───────┐        ││\n" +
+                                    "││        │ANI    │        ││\n" +
+                                    "││        │  INS  │        ││\n" +
+                                    "││        │  INS  │        ││\n" +
+                                    "││        └───────┘        ││\n" +
+                                    "└┴─────────────────────────┴┘";
                             yield MAGENTA;
                         }
                         default -> color;
@@ -630,40 +642,39 @@ public class TUI extends UI {
                 }
             } else if(cardInfo.getCardType().equals(CardType.RESOURCEOBJECTIVE)) {
                 if (cardInfo.getCardResource().equals(Resource.MANUSCRIPT) || cardInfo.getCardResource().equals(Resource.INKWELL) || cardInfo.getCardResource().equals(Resource.QUILL)) {
-                    cardImage = "┌┬───────────────────────┬┐\n" +
-                            "││                       ││\n" +
-                            "││    ┌───┐     ┌───┐    ││\n" +
-                            "││    │" + cardInfo.getCardResource().printResourceInfo() + "│     │" + cardInfo.getCardResource().printResourceInfo() + "│    ││\n" +
-                            "││    └───┘     └───┘    ││\n" +
-                            "││                       ││\n" +
-                            "└┴───────────────────────┴┘";
+                    cardImage = "┌┬─────────────────────────┬┐\n" +
+                            "││        Points: "+cardInfo.getPoints()+"        ││\n" +
+                            "││                         ││\n" +
+                            "││     ┌───┐     ┌───┐     ││\n" +
+                            "││     │" + cardInfo.getCardResource().printResourceInfo() + "│     │" + cardInfo.getCardResource().printResourceInfo() + "│     ││\n" +
+                            "││     └───┘     └───┘     ││\n" +
+                            "││                         ││\n" +
+                            "└┴─────────────────────────┴┘";
                 } else {
-                    cardImage = "┌┬───────────────────────┬┐\n" +
-                            "││         ┌───┐         ││\n" +
-                            "││         │" + cardInfo.getCardResource().printResourceInfo() + "│         ││\n" +
-                            "││    ┌───┬┴───┴┬───┐    ││\n" +
-                            "││    │" + cardInfo.getCardResource().printResourceInfo() + "│     │" + cardInfo.getCardResource().printResourceInfo() + "│    ││\n" +
-                            "││    └───┘     └───┘    ││\n" +
-                            "└┴───────────────────────┴┘";
+                    cardImage = "┌┬─────────────────────────┬┐\n" +
+                            "││        Points: "+cardInfo.getPoints()+"        ││\n" +
+                            "││          ┌───┐          ││\n" +
+                            "││          │" + cardInfo.getCardResource().printResourceInfo() + "│          ││\n" +
+                            "││     ┌───┬┴───┴┬───┐     ││\n" +
+                            "││     │" + cardInfo.getCardResource().printResourceInfo() + "│     │" + cardInfo.getCardResource().printResourceInfo() + "│     ││\n" +
+                            "││     └───┘     └───┘     ││\n" +
+                            "└┴─────────────────────────┴┘";
                 }
             } else if(cardInfo.getCardType().equals(CardType.TRIPLEOBJECTIVE)) {
-                cardImage = "┌┬───────────────────────┬┐\n" +
-                        "││                       ││\n" +
-                        "││    ┌───┬┬───┬┬───┐    ││\n" +
-                        "││    │QUI││INK││MAN│    ││\n" +
-                        "││    └───┴┴───┴┴───┘    ││\n" +
-                        "││                       ││\n" +
-                        "└┴───────────────────────┴┘";
+                cardImage = "┌┬─────────────────────────┬┐\n" +
+                        "││        Points: "+cardInfo.getPoints()+"        ││\n" +
+                        "││                         ││\n" +
+                        "││     ┌───┬┬───┬┬───┐     ││\n" +
+                        "││     │QUI││INK││MAN│     ││\n" +
+                        "││     └───┴┴───┴┴───┘     ││\n" +
+                        "││                         ││\n" +
+                        "└┴─────────────────────────┴┘";
             }
             new PrintStream(System.out, true, System.console() != null
                     ? System.console().charset()
                     : Charset.defaultCharset())
                     .println(ansi().fg(color).a(cardImage).reset());
         }
-
-        System.out.println("CardType: " + cardInfo.getCardType());
-        System.out.println("Resource type: " + cardInfo.getCardColor());
-        System.out.println("Positional condition: " + cardInfo.getPositionalType());
     }
     public void chooseCardToPlay()
     {
