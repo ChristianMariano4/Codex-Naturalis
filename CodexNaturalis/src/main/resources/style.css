@@ -81,3 +81,25 @@
     -fx-background-image: url("images/CODEX_Rulebook_IT/12.png");
     -fx-background-size: cover;
 }
+.p1image {
+    -fx-background-radius: 20;
+    -fx-background-image: url("images/ProfileImages/animal.png");
+    -fx-background-size: cover;
+}
+.p2image {
+    -fx-background-image: url("images/ProfileImages/fungi.png");
+    -fx-background-size: cover;
+}
+.p3image {
+    -fx-background-image: url("images/ProfileImages/insect.png");
+    -fx-border-radius: 30px;
+    -fx-background-size: cover;
+}
+.p4image {
+    -fx-background-image: url("images/ProfileImages/plant.png");
+    -fx-background-size: cover;
+}
+.gameLobbyBackground {
+    -fx-background-radius: 20px;
+    -fx-background-color: black;
+}
