@@ -76,9 +76,9 @@ public class Controller {
      * @throws AlreadyExistingPlayerException when the player we want to add already exists in the game
      * @throws AlreadyFourPlayersException when the game already contains the maximum amount of players
      */
-    public synchronized Game addPlayerToGame(String username) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+    public synchronized Game addPlayerToGame(String username, int desiredNumberOfPlayers) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
         try {
-            this.gameHandler.getGame().addPlayer(new Player(username));
+            this.gameHandler.getGame().addPlayer(new Player(username), desiredNumberOfPlayers);
         } catch (InvalidConstructorDataException e) {
             throw new RuntimeException(e);
         }

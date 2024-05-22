@@ -14,7 +14,6 @@ import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.client.ClientHandlerInterface;
 import it.polimi.ingsw.network.observer.EventManager;
 import it.polimi.ingsw.network.observer.GameListener;
-import it.polimi.ingsw.network.rmi.ClientRMIInterface;
 import it.polimi.ingsw.network.messages.GameEvent;
 
 import java.io.FileWriter;
@@ -38,10 +37,10 @@ public class GameHandler implements Serializable {
     private boolean twentyPointsReached = false;
     private boolean finalRound = false;
     private final String file_path;
-    private final int numberOfPlayers;
+    private final int desiredNumberOfPlayers;
 
 
-    public GameHandler(int gameId, Server server, int numberOfPlayers){
+    public GameHandler(int gameId, Server server, int desiredNumberOfPlayers){
         this.server = server;
         this.eventManager = new EventManager();
         this.controller = new Controller(eventManager, this);
@@ -51,7 +50,7 @@ public class GameHandler implements Serializable {
                  DeckIsEmptyException e) {
             throw new RuntimeException(e);
         }
-        this.numberOfPlayers = numberOfPlayers;
+        this.desiredNumberOfPlayers = desiredNumberOfPlayers;
         this.clients = new ArrayList<>();
         file_path = "CodexNaturalis/src/main/resources/savedGames/game" + gameId + ".json";
         saveGameState();
@@ -76,7 +75,7 @@ public class GameHandler implements Serializable {
             if (!isOpen)
                 throw new GameAlreadyStartedException();
             try {
-                game = this.controller.addPlayerToGame(username);
+                game = this.controller.addPlayerToGame(username, desiredNumberOfPlayers);
             } catch (AlreadyExistingPlayerException e) {
                 throw new RuntimeException(e);
             } catch (AlreadyFourPlayersException e) {
@@ -107,7 +106,7 @@ public class GameHandler implements Serializable {
     public ArrayList<Integer> setReady() throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
         synchronized (this) {
             readyPlayers++;
-            if (readyPlayers == numberOfPlayers) {
+            if (readyPlayers == desiredNumberOfPlayers) {
                 try {
                     this.game = controller.initializeGame();
                 } catch (CardTypeMismatchException | InvalidConstructorDataException | CardNotImportedException |
@@ -130,7 +129,7 @@ public class GameHandler implements Serializable {
                 }
             }
             ArrayList<Integer> playersInfo = new ArrayList<>();
-            playersInfo.add(numberOfPlayers);
+            playersInfo.add(desiredNumberOfPlayers);
             playersInfo.add(readyPlayers);
             return playersInfo;
         }

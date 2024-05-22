@@ -73,9 +73,9 @@ public class Game implements Serializable {
      * @throws AlreadyExistingPlayerException when the player we want to add already exists in the game
      * @throws AlreadyFourPlayersException when the game already contains the maximum amount of players
      */
-    public void addPlayer(Player player) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+    public void addPlayer(Player player, int desiredNumberOfPlayers) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
         if(!(listOfPlayers.contains(player))) {
-            if(numberOfPlayers < MAX_PLAYER_NUMBER) {
+            if(numberOfPlayers < desiredNumberOfPlayers) {
                 this.listOfPlayers.add(player);
                 numberOfPlayers++;
                 tableTop.addPlayerField(player);
