@@ -27,4 +27,17 @@ public enum Resource {
             default -> NONE;
         };
     }
+
+    public String printResourceInfo(){
+        return switch (this) {
+            case FUNGI ->"FUN";
+            case ANIMAL -> "ANI";
+            case PLANT -> "PLA";
+            case INSECT -> "INS";
+            case QUILL -> "QUI";
+            case INKWELL -> "INK";
+            case MANUSCRIPT -> "MAN";
+            case NONE -> "   ";
+        };
+    }
 }
