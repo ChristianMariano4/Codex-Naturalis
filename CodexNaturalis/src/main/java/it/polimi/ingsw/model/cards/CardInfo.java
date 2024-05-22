@@ -128,6 +128,14 @@ public class CardInfo implements Serializable {
 
     /**
      *
+     * @return the cardType as a string
+     */
+    public String getCardTypeString() {
+        return this.cardType.toString();
+    }
+
+    /**
+     *
      * @return the requirements
      */
     public ArrayList<Resource> getRequirements() {

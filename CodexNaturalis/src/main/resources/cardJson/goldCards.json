@@ -2305,7 +2305,7 @@
       "TOPRIGHT": {
         "playable": true,
         "angleStatus": "UNLINKED",
-        "resource": "MANUSCRIPTs"
+        "resource": "MANUSCRIPT"
       },
       "TOPLEFT": {
         "playable": true,

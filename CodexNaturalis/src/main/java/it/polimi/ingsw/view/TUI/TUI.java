@@ -253,19 +253,44 @@ public class TUI extends UI {
         }
     }
     public void showCardInfo(PlayableCard card, CardInfo cardInfo) {
-        System.out.println("Id: " +card.getCardId());
-        //System.out.println("CardType: "+ cardInfo.getCardType());
+        System.out.println("CardType: "+ cardInfo.getCardTypeString());
 
-        if(cardInfo.getCardType().equals(CardType.GOLD)) {
-            System.out.println("Requirements:");
-            for(Resource rs: cardInfo.getRequirements()) {
-                System.out.println("    " + rs.toString());
+        if(cardInfo.getCardType().equals(CardType.GOLD) && card.getCurrentSide().equals(Side.FRONT)) {
+            System.out.print("Requirements: ");
+            for(int i = 0; i < cardInfo.getRequirements().size(); i++) {
+                if(i == cardInfo.getRequirements().size()-1) {
+                    System.out.println(cardInfo.getRequirements().get(i));
+                } else {
+                    System.out.print(cardInfo.getRequirements().get(i) + ", ");
+                }
             }
             System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
-            System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
+            System.out.print("Points: ");
+            switch (cardInfo.getGoldPointCondition()) {
+                case NONE: {
+                    System.out.println(cardInfo.getPoints());
+                    break;
+                }
+                case ANGLE: {
+                    System.out.println(cardInfo.getPoints() + " for each angle covered");
+                    break;
+                }
+                case QUILL: {
+                    System.out.println(cardInfo.getPoints() + " for each quill");
+                    break;
+                }
+                case INKWELL: {
+                    System.out.println(cardInfo.getPoints() + " for each inkwell");
+                    break;
+                }
+                case MANUSCRIPT: {
+                    System.out.println(cardInfo.getPoints() + " for each manuscript");
+                    break;
+                }
+            }
         }
+        System.out.println("Id: " +card.getCardId());
         this.asciiCardCreator(card, cardInfo.getCardType().equals(CardType.STARTER));
-
 
 //        if(cardInfo.getCardType().equals(CardType.STARTER)) {
 //            if(card.getCurrentSide().equals(Side.FRONT)) {
@@ -404,7 +429,7 @@ public class TUI extends UI {
                             break;
                     }
                 }
-            } else {
+            } else { //non starter
                 for(int i = 0; i < 7; i++) {
                     switch (i) {
                         case 0:
@@ -441,7 +466,7 @@ public class TUI extends UI {
                             } else {
                                 output.append("││       ");
                             }
-                            output.append("  ┌┬───┬┐  ");
+                            output.append("           ");
                             if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
                                 output.append("└──────┼│\n");
                             } else {
@@ -449,19 +474,21 @@ public class TUI extends UI {
                             }
                             break;
                         case 3:
-                            if(card.getCardId() > 9) {
-                                output.append("││         ││ ").append(card.getCardId()).append(" ││         ││\n");
-                            } else {
-                                output.append("││         ││").append(card.getCardId()).append(" ││         ││\n");
-                            }
+//                            if(card.getCardId() > 9) {
+//                                output.append("││            ").append("             ││\n");
+//                            } else {
+//                                output.append("││         ││").append(" ││         ││\n");
+//                            }
+                            output.append("││                         ││\n");
                             break;
+
                         case 4:
                             if(card.getAngle(AngleOrientation.BOTTOMLEFT).isPlayable()) {
                                 output.append("│┼──────┐");
                             } else {
                                 output.append("││       ");
                             }
-                            output.append("  └┴───┴┘  ");
+                            output.append("           ");
                             if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
                                 output.append("┌──────┼│\n");
                             } else {
@@ -497,13 +524,13 @@ public class TUI extends UI {
                             }
                             break;
                     }
-                } //non starter
+                }
             }
             new PrintStream(System.out, true, System.console() != null
                     ? System.console().charset()
                     : Charset.defaultCharset())
                     .println(ansi().fg(color).a(output.toString()).reset());
-        } else {
+        } else { //back
             System.out.println(card.getCurrentSide());
                 if (card.getCentralResources().isEmpty()){
                     new PrintStream(System.out, true, System.console() != null

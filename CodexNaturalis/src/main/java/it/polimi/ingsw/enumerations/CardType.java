@@ -6,6 +6,18 @@ public enum CardType {
     STARTER,
     TRIPLEOBJECTIVE,
     RESOURCEOBJECTIVE,
-    POSITIONALOBJECTIVE
+    POSITIONALOBJECTIVE;
 
+    public String toString() {
+        return switch (this) {
+            case RESOURCE -> "Resource";
+            case GOLD -> "Gold";
+            case STARTER -> "Starter";
+            case TRIPLEOBJECTIVE -> "Objective";
+            case RESOURCEOBJECTIVE -> "Objective";
+            case POSITIONALOBJECTIVE -> "Objective";
+        };
+    }
 }
+
+
