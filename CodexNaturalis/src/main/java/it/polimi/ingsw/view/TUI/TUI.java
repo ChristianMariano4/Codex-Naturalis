@@ -253,9 +253,8 @@ public class TUI extends UI {
         }
     }
     public void showCardInfo(PlayableCard card, CardInfo cardInfo) {
-        this.asciiCardCreator(card, cardInfo.getCardType().equals(CardType.STARTER));
         System.out.println("Id: " +card.getCardId());
-        System.out.println("CardType: "+ cardInfo.getCardType());
+        //System.out.println("CardType: "+ cardInfo.getCardType());
 
         if(cardInfo.getCardType().equals(CardType.GOLD)) {
             System.out.println("Requirements:");
@@ -265,22 +264,24 @@ public class TUI extends UI {
             System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
             System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
         }
+        this.asciiCardCreator(card, cardInfo.getCardType().equals(CardType.STARTER));
 
-        if(cardInfo.getCardType().equals(CardType.STARTER)) {
-            if(card.getCurrentSide().equals(Side.FRONT)) {
-                System.out.println("Central Resources");
-                for(Resource resource: card.getCentralResources()) {
-                    System.out.println(resource);
-                }
-            } else {
-                System.out.println("Angle resources:");
-                for(AngleOrientation angleOrientation : AngleOrientation.values()) {
-                    if(!angleOrientation.equals(AngleOrientation.NONE)) {
-                        System.out.println(angleOrientation + "-->" + card.getAngle(angleOrientation).getResource());
-                    }
-                }
-            }
-        }
+
+//        if(cardInfo.getCardType().equals(CardType.STARTER)) {
+//            if(card.getCurrentSide().equals(Side.FRONT)) {
+//                System.out.println("Central Resources");
+//                for(Resource resource: card.getCentralResources()) {
+//                    System.out.println(resource);
+//                }
+//            } else {
+//                System.out.println("Angle resources:");
+//                for(AngleOrientation angleOrientation : AngleOrientation.values()) {
+//                    if(!angleOrientation.equals(AngleOrientation.NONE)) {
+//                        System.out.println(angleOrientation + "-->" + card.getAngle(angleOrientation).getResource());
+//                    }
+//                }
+//            }
+//        }
     }
     private void asciiCardCreator(PlayableCard card, Boolean isStarter) {
     //TODO: extends the method for all unlinked angles during the game
@@ -295,7 +296,7 @@ public class TUI extends UI {
 
         if(card.getCurrentSide().equals(Side.FRONT)) {
             StringBuilder output = new StringBuilder();
-            System.out.println(card.getCurrentSide() + ":");
+            System.out.println(card.getCurrentSide());
             if(isStarter) {
                 for(int i = 0; i < 7; i++) { //starter
                     switch (i) {
@@ -503,7 +504,7 @@ public class TUI extends UI {
                     : Charset.defaultCharset())
                     .println(ansi().fg(color).a(output.toString()).reset());
         } else {
-            System.out.println(card.getCurrentSide() + ":");
+            System.out.println(card.getCurrentSide());
                 if (card.getCentralResources().isEmpty()){
                     new PrintStream(System.out, true, System.console() != null
                             ? System.console().charset()
@@ -539,6 +540,11 @@ public class TUI extends UI {
             System.out.println("Resource type: " + cardInfo.getCardColor());
 //          System.out.println("Positional condition: " + cardInfo.getPositionalType());
         }
+        if(cardInfo.getCardType().equals(CardType.POSITIONALOBJECTIVE)
+                || cardInfo.getCardType().equals(CardType.RESOURCEOBJECTIVE)
+                || cardInfo.getCardType().equals(CardType.TRIPLEOBJECTIVE)) {
+            System.out.println("Points per pattern: " + cardInfo.getPoints());
+        }
         if(card.getCurrentSide().equals(Side.FRONT)) {
             String cardImage = "";
             Ansi.Color color = WHITE;
@@ -547,7 +553,6 @@ public class TUI extends UI {
                     color = switch (cardInfo.getCardColor()) {
                         case Resource.FUNGI -> {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
-                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │    FUN│        ││\n" +
                                     "││        │  FUN  │        ││\n" +
@@ -558,7 +563,6 @@ public class TUI extends UI {
                         }
                         case Resource.PLANT -> {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
-                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │PLA    │        ││\n" +
                                     "││        │  PLA  │        ││\n" +
@@ -569,7 +573,6 @@ public class TUI extends UI {
                         }
                         case Resource.ANIMAL -> {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
-                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │    ANI│        ││\n" +
                                     "││        │  ANI  │        ││\n" +
@@ -580,7 +583,6 @@ public class TUI extends UI {
                         }
                         case Resource.INSECT -> {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
-                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │INS    │        ││\n" +
                                     "││        │  INS  │        ││\n" +
@@ -595,7 +597,6 @@ public class TUI extends UI {
                     color = switch (cardInfo.getCardColor()) {
                         case Resource.FUNGI -> {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
-                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │  FUN  │        ││\n" +
                                     "││        │  FUN  │        ││\n" +
@@ -606,7 +607,6 @@ public class TUI extends UI {
                         }
                         case Resource.PLANT -> {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
-                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │  PLA  │        ││\n" +
                                     "││        │  PLA  │        ││\n" +
@@ -617,7 +617,6 @@ public class TUI extends UI {
                         }
                         case Resource.ANIMAL -> {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
-                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │    FUN│        ││\n" +
                                     "││        │  ANI  │        ││\n" +
@@ -628,7 +627,6 @@ public class TUI extends UI {
                         }
                         case Resource.INSECT -> {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
-                                    "││        Points: "+cardInfo.getPoints()+"        ││\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │ANI    │        ││\n" +
                                     "││        │  INS  │        ││\n" +
@@ -643,7 +641,6 @@ public class TUI extends UI {
             } else if(cardInfo.getCardType().equals(CardType.RESOURCEOBJECTIVE)) {
                 if (cardInfo.getCardResource().equals(Resource.MANUSCRIPT) || cardInfo.getCardResource().equals(Resource.INKWELL) || cardInfo.getCardResource().equals(Resource.QUILL)) {
                     cardImage = "┌┬─────────────────────────┬┐\n" +
-                            "││        Points: "+cardInfo.getPoints()+"        ││\n" +
                             "││                         ││\n" +
                             "││     ┌───┐     ┌───┐     ││\n" +
                             "││     │" + cardInfo.getCardResource().printResourceInfo() + "│     │" + cardInfo.getCardResource().printResourceInfo() + "│     ││\n" +
@@ -652,7 +649,6 @@ public class TUI extends UI {
                             "└┴─────────────────────────┴┘";
                 } else {
                     cardImage = "┌┬─────────────────────────┬┐\n" +
-                            "││        Points: "+cardInfo.getPoints()+"        ││\n" +
                             "││          ┌───┐          ││\n" +
                             "││          │" + cardInfo.getCardResource().printResourceInfo() + "│          ││\n" +
                             "││     ┌───┬┴───┴┬───┐     ││\n" +
@@ -662,7 +658,6 @@ public class TUI extends UI {
                 }
             } else if(cardInfo.getCardType().equals(CardType.TRIPLEOBJECTIVE)) {
                 cardImage = "┌┬─────────────────────────┬┐\n" +
-                        "││        Points: "+cardInfo.getPoints()+"        ││\n" +
                         "││                         ││\n" +
                         "││     ┌───┬┬───┬┬───┐     ││\n" +
                         "││     │QUI││INK││MAN│     ││\n" +
