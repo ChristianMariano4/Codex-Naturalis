@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
-import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
+import it.polimi.ingsw.exceptions.AlreadyMaxNumberOfPlayersException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 
@@ -57,13 +57,13 @@ public class TableTop implements Serializable {
      * Adds a player to the game
      * @param player is the reference to the player
      * @throws AlreadyExistingPlayerException when the player is already in the HashMap
-     * @throws AlreadyFourPlayersException when the number of players is already four
+     * @throws AlreadyMaxNumberOfPlayersException when the number of players is already four
      */
-    public void addPlayerField(Player player) throws AlreadyExistingPlayerException, AlreadyFourPlayersException
+    public void addPlayerField(Player player) throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException
     {
         if(playerFieldHashMap.entrySet().size() >= MAX_PLAYER_NUMBER)
         {
-            throw new AlreadyFourPlayersException();
+            throw new AlreadyMaxNumberOfPlayersException();
         }
         if(playerFieldHashMap.containsKey(player))
         {

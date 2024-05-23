@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.enumerations.DrawPosition;
 import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
-import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
+import it.polimi.ingsw.exceptions.AlreadyMaxNumberOfPlayersException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
@@ -38,7 +37,7 @@ class GameTest {
     }
 
     @Test
-    void shouldAddPlayer() throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+    void shouldAddPlayer() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
         game.addPlayer(player);
         assertEquals(1, game.getNumberOfPlayers());
     }
@@ -53,7 +52,7 @@ class GameTest {
 
     @Test
     void shouldThrowExceptionWhenAddingMoreThanFourPlayers() {
-        assertThrows(AlreadyFourPlayersException.class, () -> {
+        assertThrows(AlreadyMaxNumberOfPlayersException.class, () -> {
             for(int i = 0; i < 5; i++) {
                 Player player = mock(Player.class);
                 game.addPlayer(player);
@@ -77,7 +76,7 @@ class GameTest {
     }
 
     @Test
-    void shouldReturnListOfPlayers() throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+    void shouldReturnListOfPlayers() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
         Player player2 = mock(Player.class);
         game.addPlayer(player);
         game.addPlayer(player2);
@@ -123,7 +122,7 @@ class GameTest {
     }
 
     @Test
-    void shouldShufflePlayers() throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+    void shouldShufflePlayers() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
         Player player1 = mock(Player.class);
         Player player2 = mock(Player.class);
         Player player3 = mock(Player.class);
@@ -171,7 +170,7 @@ class GameTest {
     }
 
     @Test
-    void shouldReturnPlayerWhenPlayerExists() throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+    void shouldReturnPlayerWhenPlayerExists() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
         when(player.getUsername()).thenReturn("existing");
         game.addPlayer(player);
         assertDoesNotThrow(() -> {
@@ -181,7 +180,7 @@ class GameTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenPlayerNotExists() throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+    void shouldThrowExceptionWhenPlayerNotExists() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
         when(player.getUsername()).thenReturn("existing");
         game.addPlayer(player);
         assertThrows(NotExistingPlayerException.class,() -> {

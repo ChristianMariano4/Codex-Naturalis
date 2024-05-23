@@ -78,7 +78,7 @@ public class GameHandler implements Serializable {
                 game = this.controller.addPlayerToGame(username, desiredNumberOfPlayers);
             } catch (AlreadyExistingPlayerException e) {
                 throw new RuntimeException(e);
-            } catch (AlreadyFourPlayersException e) {
+            } catch (AlreadyMaxNumberOfPlayersException e) {
                 //TODO: avvisare il client che non può entrare in questo game
                 throw new RuntimeException(e);
             }
@@ -110,7 +110,7 @@ public class GameHandler implements Serializable {
                 try {
                     this.game = controller.initializeGame();
                 } catch (CardTypeMismatchException | InvalidConstructorDataException | CardNotImportedException |
-                         DeckIsEmptyException | AlreadyExistingPlayerException | AlreadyFourPlayersException |
+                         DeckIsEmptyException | AlreadyExistingPlayerException | AlreadyMaxNumberOfPlayersException |
                          IOException |
                          UnlinkedCardException | AlreadyThreeCardsInHandException e) {
                     throw new RuntimeException(e);

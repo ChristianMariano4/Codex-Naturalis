@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
-import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
+import it.polimi.ingsw.exceptions.AlreadyMaxNumberOfPlayersException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -36,7 +35,7 @@ class TableTopTest {
     }
 
     @Test
-    void shouldReturnPlayerFieldHashMap() throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+    void shouldReturnPlayerFieldHashMap() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
         HashMap<Player, PlayerField> expectedPlayerFieldHashMap = new HashMap<>();
         Player player = mock(Player.class);
         PlayerField playerField = mock(PlayerField.class);
@@ -53,7 +52,7 @@ class TableTopTest {
         Player player3 = mock(Player.class);
         Player player4 = mock(Player.class);
         Player player5 = mock(Player.class);
-        assertThrows(AlreadyFourPlayersException.class, () -> {
+        assertThrows(AlreadyMaxNumberOfPlayersException.class, () -> {
             tableTop.addPlayerField(player1);
             tableTop.addPlayerField(player2);
             tableTop.addPlayerField(player3);
@@ -63,7 +62,7 @@ class TableTopTest {
     }
 
     @Test
-    void shouldThrowAlreadyExistingPlayerException() throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+    void shouldThrowAlreadyExistingPlayerException() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
         Player player = mock(Player.class);
         tableTop.addPlayerField(player);
         assertThrows(AlreadyExistingPlayerException.class, () -> {

@@ -74,9 +74,9 @@ public class Controller {
      * Adds a player to the game specified by gameId
      * @param username username of the player to be added
      * @throws AlreadyExistingPlayerException when the player we want to add already exists in the game
-     * @throws AlreadyFourPlayersException when the game already contains the maximum amount of players
+     * @throws AlreadyMaxNumberOfPlayersException when the game already contains the maximum amount of players
      */
-    public synchronized Game addPlayerToGame(String username, int desiredNumberOfPlayers) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+    public synchronized Game addPlayerToGame(String username, int desiredNumberOfPlayers) throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
         try {
             this.gameHandler.getGame().addPlayer(new Player(username), desiredNumberOfPlayers);
         } catch (InvalidConstructorDataException e) {
@@ -93,11 +93,11 @@ public class Controller {
      * @throws CardNotImportedException
      * @throws DeckIsEmptyException
      * @throws AlreadyExistingPlayerException
-     * @throws AlreadyFourPlayersException
+     * @throws AlreadyMaxNumberOfPlayersException
      * @throws IOException
      * @throws UnlinkedCardException
      */
-    public synchronized Game initializeGame() throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyFourPlayersException, IOException, UnlinkedCardException, AlreadyThreeCardsInHandException {
+    public synchronized Game initializeGame() throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException, IOException, UnlinkedCardException, AlreadyThreeCardsInHandException {
         //shuffle the list of player to determine the order of play
         gameHandler.getGame().shufflePlayers();
         //set the first player

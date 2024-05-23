@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
-import it.polimi.ingsw.exceptions.AlreadyFourPlayersException;
+import it.polimi.ingsw.exceptions.AlreadyMaxNumberOfPlayersException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
@@ -13,8 +13,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-
-import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
 
 /**
  * This class represents the game. It contains the list of players and the table.
@@ -71,9 +69,9 @@ public class Game implements Serializable {
      *  Adds a player to the game
      * @param player the player you want to add
      * @throws AlreadyExistingPlayerException when the player we want to add already exists in the game
-     * @throws AlreadyFourPlayersException when the game already contains the maximum amount of players
+     * @throws AlreadyMaxNumberOfPlayersException when the game already contains the maximum amount of players
      */
-    public void addPlayer(Player player, int desiredNumberOfPlayers) throws AlreadyExistingPlayerException, AlreadyFourPlayersException {
+    public void addPlayer(Player player, int desiredNumberOfPlayers) throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
         if(!(listOfPlayers.contains(player))) {
             if(numberOfPlayers < desiredNumberOfPlayers) {
                 this.listOfPlayers.add(player);
@@ -81,7 +79,7 @@ public class Game implements Serializable {
                 tableTop.addPlayerField(player);
                 player.setGame(this);
             } else {
-                throw new AlreadyFourPlayersException();
+                throw new AlreadyMaxNumberOfPlayersException();
             }
         } else {
             throw new AlreadyExistingPlayerException();
