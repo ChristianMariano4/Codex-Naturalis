@@ -19,6 +19,7 @@ public class GoldCard extends PlayableCard implements Visitable, Serializable {
 
     private final ArrayList<Resource> requirements;
     private final GoldPointCondition goldPointCondition;
+    private final HashMap<Resource, Integer> requirementsMap;
 
     //if the card has no requirements, controller has to pass requirements with NONE value
 
@@ -38,6 +39,7 @@ public class GoldCard extends PlayableCard implements Visitable, Serializable {
         super(cardId, currentSide, centralResource, angles, cardColor, points);
         try {
             this.requirements = new ArrayList<>(requirements);
+            this.requirementsMap = requirementsArrayToMap();
             this.goldPointCondition = goldPointCondition;
         }
         catch(Exception e)
@@ -66,6 +68,18 @@ public class GoldCard extends PlayableCard implements Visitable, Serializable {
     public GoldPointCondition getGoldPointCondition()
     {
         return goldPointCondition;
+    }
+
+    private HashMap<Resource, Integer> requirementsArrayToMap(){
+        HashMap<Resource, Integer> requirementsMap = new HashMap<>();
+        for(Resource resource : requirements){
+            if(requirementsMap.containsKey(resource)){
+                requirementsMap.put(resource, requirementsMap.get(resource) + 1);
+            } else {
+                requirementsMap.put(resource, 1);
+            }
+        }
+        return requirementsMap;
     }
 
 }
