@@ -125,3 +125,16 @@
     -fx-background-size: 50%;
     -fx-background-position: center;
 }
+.closeButton {
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #746216 0%, #746216 100%),
+            #746216,
+            #746216,
+            radial-gradient(center 50% 50%, radius 100%, #c1aa50, #746218);
+    -fx-effect: dropshadow( gaussian , rgba(0, 0, 0, 0.75), 4,0,0,1 );
+    -fx-background-radius: 5em;
+    -fx-background-image: url("images/Icons/x-close.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 45%;
+    -fx-background-position: center;
+}

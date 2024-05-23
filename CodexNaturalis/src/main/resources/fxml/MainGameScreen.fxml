@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -13,35 +14,116 @@
                   <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="rulebookButton" />
                </children>
             </Pane>
-            <Pane layoutX="697.0" layoutY="98.0" prefHeight="322.0" prefWidth="161.0" styleClass="gameScoreboard" />
-            <Pane layoutX="288.0" layoutY="60.0" opacity="0.9" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: white; -fx-background-radius: 30;" />
-            <Pane layoutX="30.0" layoutY="276.0" prefHeight="200.0" prefWidth="200.0">
+            <Pane layoutX="697.0" layoutY="98.0" prefHeight="322.0" prefWidth="161.0" styleClass="gameScoreboard">
                <children>
-                  <Pane layoutX="5.0" layoutY="5.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
-                  <Pane layoutX="5.0" layoutY="75.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
-                  <Pane layoutX="5.0" layoutY="145.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
-                  <Pane layoutX="105.0" layoutY="75.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
-                  <Pane layoutX="105.0" layoutY="145.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
-                  <Pane layoutX="105.0" layoutY="5.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane fx:id="plat0" layoutX="27.5" layoutY="284.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat1" layoutX="65.5" layoutY="284.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat2" layoutX="103.5" layoutY="284.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat3" layoutX="122.5" layoutY="250.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat4" layoutX="84.5" layoutY="250.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat5" layoutX="46.5" layoutY="250.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat6" layoutX="8.5" layoutY="250.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat7" layoutX="8.5" layoutY="215.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat8" layoutX="46.5" layoutY="215.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat9" layoutX="84.5" layoutY="215.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat10" layoutX="122.5" layoutY="215.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat11" layoutX="122.5" layoutY="180.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat12" layoutX="84.5" layoutY="180.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat13" layoutX="46.5" layoutY="180.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat14" layoutX="8.5" layoutY="180.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat15" layoutX="8.5" layoutY="146.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat16" layoutX="46.5" layoutY="146.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat17" layoutX="84.5" layoutY="146.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat18" layoutX="122.5" layoutY="146.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat19" layoutX="122.5" layoutY="111.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat21" layoutX="8.5" layoutY="111.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat20" layoutX="65.5" layoutY="94.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat22" layoutX="8.5" layoutY="76.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat28" layoutX="122.5" layoutY="76.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat23" layoutX="8.5" layoutY="42.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat27" layoutX="122.5" layoutY="42.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat29" layoutX="65.5" layoutY="49.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat24" layoutX="30.5" layoutY="13.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat26" layoutX="100.5" layoutY="13.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                  <Pane fx:id="plat25" layoutX="65.5" layoutY="7.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+               </children></Pane>
+            <Pane layoutX="288.0" layoutY="60.0" opacity="0.9" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: white; -fx-background-radius: 30;" />
+            <Pane layoutX="30.0" layoutY="256.0" prefHeight="230.0" prefWidth="200.0">
+               <children>
+                  <Pane layoutX="-3.0" layoutY="-5.0" opacity="0.4" prefHeight="243.0" prefWidth="206.0" style="-fx-background-color: black; -fx-background-radius: 20;" />
+                  <Pane layoutX="5.0" layoutY="25.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="5.0" layoutY="95.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="5.0" layoutY="165.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="105.0" layoutY="95.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="105.0" layoutY="165.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="105.0" layoutY="25.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Text fill="WHITE" layoutX="63.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Drawing filed" />
                </children>
             </Pane>
-            <Pane layoutX="314.0" layoutY="425.0" prefHeight="60.0" prefWidth="290.0">
+            <Pane layoutX="318.0" layoutY="436.0" prefHeight="60.0" prefWidth="290.0">
                <children>
-                  <Pane prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="-10.0" layoutY="-7.0" opacity="0.4" prefHeight="75.0" prefWidth="310.0" style="-fx-background-color: black; -fx-background-radius: 10;" />
+                  <Pane disable="true" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
                   <Pane layoutX="100.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
                   <Pane layoutX="200.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
                </children>
             </Pane>
-            <Pane layoutX="30.0" layoutY="50.0" prefHeight="135.0" prefWidth="200.0">
+            <Pane layoutX="30.0" layoutY="38.0" prefHeight="175.0" prefWidth="200.0">
                <children>
-                  <Pane layoutX="5.0" layoutY="5.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
-                  <Pane layoutX="105.0" layoutY="5.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
-                  <Pane layoutX="55.0" layoutY="75.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="-3.0" layoutY="-6.0" opacity="0.4" prefHeight="185.0" prefWidth="206.0" style="-fx-background-color: black; -fx-background-radius: 20;" />
+                  <Pane layoutX="5.0" layoutY="20.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="105.0" layoutY="20.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="55.0" layoutY="105.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Text fill="WHITE" layoutX="41.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shared objective cards" />
+                  <Text fill="WHITE" layoutX="43.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Secret objective card" />
                </children>
             </Pane>
             <Pane layoutX="865.0" layoutY="456.0" prefHeight="41.0" prefWidth="41.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="exitButton" />
+               </children>
+            </Pane>
+            <Pane fx:id="CardsInHandInspector" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
+               <children>
+                  <Pane opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
+                  <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="42.0" styleClass="closeButton" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="251.0" layoutY="81.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="395.0" layoutY="408.0" prefHeight="50.0" prefWidth="130.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Play the card" />
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane fx:id="ObjectiveCardsInspector" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
+               <children>
+                  <Pane opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
+                  <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="42.0" styleClass="closeButton" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="251.0" layoutY="120.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;" />
+               </children>
+            </Pane>
+            <Pane fx:id="DrawingCardsInspector" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
+               <children>
+                  <Pane opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
+                  <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="42.0" styleClass="closeButton" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="251.0" layoutY="81.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;" />
+                  <Pane layoutX="395.0" layoutY="408.0" prefHeight="50.0" prefWidth="130.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Drow Card" />
+                     </children>
+                  </Pane>
                </children>
             </Pane>
          </children>
