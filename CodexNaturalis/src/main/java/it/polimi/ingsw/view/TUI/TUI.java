@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.TUI;
 
 import it.polimi.ingsw.enumerations.*;
+import it.polimi.ingsw.model.CardVisitorImpl;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
@@ -429,7 +430,7 @@ public class TUI extends UI {
                             break;
                     }
                 }
-            } else { //non starter
+            } else {
                 for(int i = 0; i < 7; i++) {
                     switch (i) {
                         case 0:
@@ -452,7 +453,17 @@ public class TUI extends UI {
                             } else {
                                 output.append("││       ");
                             }
-                            output.append("           ");
+                            if(card.getCardId() > 40 && card.getCardId() < 81){
+                                if(((GoldCard)card).getGoldPointCondition().equals(GoldPointCondition.NONE)){
+                                    output.append("   ").append(card.getPoints()).append(" PTS   ");
+                                } else if (((GoldCard)card).getGoldPointCondition().equals(GoldPointCondition.ANGLE)) {
+                                    output.append(" 2pt x ANG ");
+                                } else {
+                                    output.append(" 1pt x ").append(((GoldCard) card).getGoldPointCondition().printResource()).append(" ");
+                                }
+                            } else {
+                                output.append("           ");
+                            }
                             if(card.getAngle(AngleOrientation.TOPRIGHT).isPlayable()) {
                                 res = card.getAngle(AngleOrientation.TOPRIGHT).getResource().printResourceInfo();
                                 output.append("│┤►").append(res).append("◄├│\n");
@@ -474,12 +485,15 @@ public class TUI extends UI {
                             }
                             break;
                         case 3:
-//                            if(card.getCardId() > 9) {
-//                                output.append("││            ").append("             ││\n");
-//                            } else {
-//                                output.append("││         ││").append(" ││         ││\n");
-//                            }
-                            output.append("││                         ││\n");
+                            if(card.getCardId() > 40 && card.getCardId() < 81){
+                                if(((GoldCard)card).getRequirementsPairList().size() == 2){
+                                    output.append("││           REQ           ││\n");
+                                } else {
+                                    output.append("││                         ││\n");
+                                }
+                            } else {
+                                output.append("││                         ││\n");
+                            }
                             break;
 
                         case 4:
@@ -488,7 +502,15 @@ public class TUI extends UI {
                             } else {
                                 output.append("││       ");
                             }
-                            output.append("           ");
+                            if(card.getCardId() > 40 && card.getCardId() < 81){
+                                if(((GoldCard)card).getRequirementsPairList().size() == 2){
+                                    output.append("  ").append(((GoldCard) card).getRequirementsPairList().get(1).getValue()).append(" x ").append(((GoldCard) card).getRequirementsPairList().get(1).getKey().printResourceInfo()).append("  ");
+                                } else {
+                                    output.append("    REQ    ");
+                                }
+                            } else {
+                                output.append("           ");
+                            }
                             if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
                                 output.append("┌──────┼│\n");
                             } else {
@@ -502,7 +524,12 @@ public class TUI extends UI {
                             } else {
                                 output.append("││       ");
                             }
-                            output.append("           ");
+                            if(card.getCardId() > 40 && card.getCardId() < 81){
+                                output.append("  ").append(((GoldCard) card).getRequirementsPairList().getFirst().getValue()).append(" x ").append(((GoldCard) card).getRequirementsPairList().getFirst().getKey().printResourceInfo()).append("  ");
+
+                            } else {
+                                output.append("           ");
+                            }
                             if(card.getAngle(AngleOrientation.BOTTOMRIGHT).isPlayable()) {
                                 res = card.getAngle(AngleOrientation.BOTTOMRIGHT).getResource().printResourceInfo();
                                 output.append("│┤►").append(res).append("◄├│\n");
@@ -582,7 +609,7 @@ public class TUI extends UI {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │    FUN│        ││\n" +
-                                    "││        │  FUN  │        ││\n" +
+                                    "││ 2 PTS  │  FUN  │        ││\n" +
                                     "││        │FUN    │        ││\n" +
                                     "││        └───────┘        ││\n" +
                                     "└┴─────────────────────────┴┘";
@@ -592,7 +619,7 @@ public class TUI extends UI {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │PLA    │        ││\n" +
-                                    "││        │  PLA  │        ││\n" +
+                                    "││ 2 PTS  │  PLA  │        ││\n" +
                                     "││        │    PLA│        ││\n" +
                                     "││        └───────┘        ││\n" +
                                     "└┴─────────────────────────┴┘";
@@ -602,7 +629,7 @@ public class TUI extends UI {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │    ANI│        ││\n" +
-                                    "││        │  ANI  │        ││\n" +
+                                    "││ 2 PTS  │  ANI  │        ││\n" +
                                     "││        │ANI    │        ││\n" +
                                     "││        └───────┘        ││\n" +
                                     "└┴─────────────────────────┴┘";
@@ -612,7 +639,7 @@ public class TUI extends UI {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │INS    │        ││\n" +
-                                    "││        │  INS  │        ││\n" +
+                                    "││ 2 PTS  │  INS  │        ││\n" +
                                     "││        │    INS│        ││\n" +
                                     "││        └───────┘        ││\n" +
                                     "└┴─────────────────────────┴┘";
@@ -626,7 +653,7 @@ public class TUI extends UI {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │  FUN  │        ││\n" +
-                                    "││        │  FUN  │        ││\n" +
+                                    "││ 3 PTS  │  FUN  │        ││\n" +
                                     "││        │    PLA│        ││\n" +
                                     "││        └───────┘        ││\n" +
                                     "└┴─────────────────────────┴┘";
@@ -636,7 +663,7 @@ public class TUI extends UI {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │  PLA  │        ││\n" +
-                                    "││        │  PLA  │        ││\n" +
+                                    "││ 3 PTS  │  PLA  │        ││\n" +
                                     "││        │INS    │        ││\n" +
                                     "││        └───────┘        ││\n" +
                                     "└┴─────────────────────────┴┘";
@@ -646,7 +673,7 @@ public class TUI extends UI {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │    FUN│        ││\n" +
-                                    "││        │  ANI  │        ││\n" +
+                                    "││ 3 PTS  │  ANI  │        ││\n" +
                                     "││        │  ANI  │        ││\n" +
                                     "││        └───────┘        ││\n" +
                                     "└┴─────────────────────────┴┘";
@@ -656,7 +683,7 @@ public class TUI extends UI {
                             cardImage = "┌┬─────────────────────────┬┐\n" +
                                     "││        ┌───────┐        ││\n" +
                                     "││        │ANI    │        ││\n" +
-                                    "││        │  INS  │        ││\n" +
+                                    "││ 3 PTS  │  INS  │        ││\n" +
                                     "││        │  INS  │        ││\n" +
                                     "││        └───────┘        ││\n" +
                                     "└┴─────────────────────────┴┘";
@@ -668,7 +695,7 @@ public class TUI extends UI {
             } else if(cardInfo.getCardType().equals(CardType.RESOURCEOBJECTIVE)) {
                 if (cardInfo.getCardResource().equals(Resource.MANUSCRIPT) || cardInfo.getCardResource().equals(Resource.INKWELL) || cardInfo.getCardResource().equals(Resource.QUILL)) {
                     cardImage = "┌┬─────────────────────────┬┐\n" +
-                            "││                         ││\n" +
+                            "││          2 PTS          ││\n" +
                             "││     ┌───┐     ┌───┐     ││\n" +
                             "││     │" + cardInfo.getCardResource().printResourceInfo() + "│     │" + cardInfo.getCardResource().printResourceInfo() + "│     ││\n" +
                             "││     └───┘     └───┘     ││\n" +
@@ -676,16 +703,16 @@ public class TUI extends UI {
                             "└┴─────────────────────────┴┘";
                 } else {
                     cardImage = "┌┬─────────────────────────┬┐\n" +
-                            "││          ┌───┐          ││\n" +
-                            "││          │" + cardInfo.getCardResource().printResourceInfo() + "│          ││\n" +
-                            "││     ┌───┬┴───┴┬───┐     ││\n" +
-                            "││     │" + cardInfo.getCardResource().printResourceInfo() + "│     │" + cardInfo.getCardResource().printResourceInfo() + "│     ││\n" +
-                            "││     └───┘     └───┘     ││\n" +
+                            "││          2 PTS          ││\n" +
+                            "││     ┌───┬┬───┬┬───┐     ││\n" +
+                            "││     │" + cardInfo.getCardResource().printResourceInfo() + "││"+ cardInfo.getCardResource().printResourceInfo() +"││" + cardInfo.getCardResource().printResourceInfo() + "│     ││\n" +
+                            "││     └───┴┴───┴┴───┘     ││\n" +
+                            "││                         ││\n" +
                             "└┴─────────────────────────┴┘";
                 }
             } else if(cardInfo.getCardType().equals(CardType.TRIPLEOBJECTIVE)) {
                 cardImage = "┌┬─────────────────────────┬┐\n" +
-                        "││                         ││\n" +
+                        "││          3 PTS          ││\n" +
                         "││     ┌───┬┬───┬┬───┐     ││\n" +
                         "││     │QUI││INK││MAN│     ││\n" +
                         "││     └───┴┴───┴┴───┘     ││\n" +
@@ -716,7 +743,7 @@ public class TUI extends UI {
     }
     public void drawCard()
     {
-        System.out.println("Choose where to draw the card: 1 - Resource Card Deck, 2 - Gold Card Deck, 3 - Left Discovered Resource, 4 - Right Discovered Resource, 5 - Left Discovered Gold, 6 - Right Discovered Gold, 0 - cancel");
+        System.out.println("Choose where to draw the card: 1 - Resource Card Deck, 2 - Gold Card Deck, 3 - Left Discovered Resource, 4 - Right Discovered Resource, 5 - Left Discovered Gold, 6 - Right Discovered Gold");
     }
     public void areYouSure()
     {
@@ -800,7 +827,7 @@ public class TUI extends UI {
     public void chooseSecretObjectiveCard()
     {
 
-        System.out.println("Choose one of the two cards: 1 - first, 2 - second.");
+        System.out.println("Choose one of the two cards: 1 - FIRST, 2 - SECOND.");
     }
 
     public void playerFiledChoice() {

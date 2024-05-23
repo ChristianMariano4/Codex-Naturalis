@@ -5,5 +5,15 @@ public enum GoldPointCondition {
     ANGLE,
     QUILL,
     INKWELL,
-    MANUSCRIPT
+    MANUSCRIPT;
+
+    public String printResource() {
+        return switch (this){
+            case NONE -> "  ";
+            case ANGLE -> "   ";
+            case QUILL -> "QUI";
+            case INKWELL -> "INK";
+            case MANUSCRIPT -> "MAN";
+        };
+    }
 }
