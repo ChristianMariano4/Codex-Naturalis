@@ -7,6 +7,7 @@ import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.CardVisitor;
+import javafx.util.Pair;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class GoldCard extends PlayableCard implements Visitable, Serializable {
 
     private final ArrayList<Resource> requirements;
     private final GoldPointCondition goldPointCondition;
-    private final HashMap<Resource, Integer> requirementsMap;
+    private final ArrayList<Pair<Resource, Integer>> requirementsPairList;
 
     //if the card has no requirements, controller has to pass requirements with NONE value
 
@@ -39,7 +40,8 @@ public class GoldCard extends PlayableCard implements Visitable, Serializable {
         super(cardId, currentSide, centralResource, angles, cardColor, points);
         try {
             this.requirements = new ArrayList<>(requirements);
-            this.requirementsMap = requirementsArrayToMap();
+            this.requirementsPairList = new ArrayList<>();
+            createRequirementsPairList();
             this.goldPointCondition = goldPointCondition;
         }
         catch(Exception e)
@@ -70,16 +72,26 @@ public class GoldCard extends PlayableCard implements Visitable, Serializable {
         return goldPointCondition;
     }
 
-    private HashMap<Resource, Integer> requirementsArrayToMap(){
-        HashMap<Resource, Integer> requirementsMap = new HashMap<>();
+    private void createRequirementsPairList(){
+        int counter1 = 0;
+        int counter2 = 0;
+        Resource res1 = requirements.getFirst();
+        Resource res2 = null;
         for(Resource resource : requirements){
-            if(requirementsMap.containsKey(resource)){
-                requirementsMap.put(resource, requirementsMap.get(resource) + 1);
+            if(resource == res1) {
+                counter1++;
             } else {
-                requirementsMap.put(resource, 1);
+                requirementsPairList.add(new Pair<>(res1, counter1));
+                res2 = resource;
+                counter2++;
             }
         }
-        return requirementsMap;
+        if(counter2 != 0) {
+            requirementsPairList.add(new Pair<>(res2, counter2));
+        }
     }
 
+    public ArrayList<Pair<Resource, Integer>> getRequirementsPairList() {
+        return new ArrayList<>(requirementsPairList);
+    }
 }
