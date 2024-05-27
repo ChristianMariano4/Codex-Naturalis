@@ -138,3 +138,37 @@
     -fx-background-size: 45%;
     -fx-background-position: center;
 }
+.tabPane {
+    .tab-pane {
+        -fx-tab-max-height: 0 ;
+    }
+    .tab-pane .tab-header-area {
+        visibility: hidden ;
+    }
+}
+.nextArrowButton {
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #746216 0%, #746216 100%),
+            #746216,
+            #746216,
+            radial-gradient(center 50% 50%, radius 100%, #c1aa50, #746218);
+    -fx-effect: dropshadow( gaussian , rgba(0, 0, 0, 0.75), 4,0,0,1 );
+    -fx-background-radius: 5em;
+    -fx-background-image: url("images/Icons/nextArrow.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 70%;
+    -fx-background-position: center;
+}
+.backArrowButton {
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #746216 0%, #746216 100%),
+            #746216,
+            #746216,
+            radial-gradient(center 50% 50%, radius 100%, #c1aa50, #746218);
+    -fx-effect: dropshadow( gaussian , rgba(0, 0, 0, 0.75), 4,0,0,1 );
+    -fx-background-radius: 5em;
+    -fx-background-image: url("images/Icons/backArrow.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 70%;
+    -fx-background-position: center;
+}

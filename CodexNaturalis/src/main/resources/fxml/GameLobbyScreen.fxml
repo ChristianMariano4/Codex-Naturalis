@@ -11,65 +11,79 @@
    <children>
       <Pane fx:id="scalable" prefHeight="518.0" prefWidth="920.0" styleClass="codexBackground" stylesheets="@../style.css">
          <children>
-            <TabPane fx:id="rulebookTabPane" disable="true" layoutX="249.0" layoutY="26.0" prefHeight="465.0" prefWidth="432.0" stylesheets="@../style.css" tabClosingPolicy="UNAVAILABLE" visible="false">
-              <tabs>
-                <Tab text="Page 1">
-                     <content>
-                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage1" />
-                     </content>
-                  </Tab>
-                <Tab text="Page 2">
-                     <content>
-                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage2" />
-                     </content>
-                  </Tab>
-                  <Tab text="Page 3">
-                     <content>
-                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage3" />
-                     </content>
-                  </Tab>
-                  <Tab text="Page 4">
-                     <content>
-                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage4" />
-                     </content>
-                  </Tab>
-                  <Tab text="Page 5">
-                     <content>
-                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage5" />
-                     </content>
-                  </Tab>
-                  <Tab text="Page 6">
-                     <content>
-                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage6" />
-                     </content>
-                  </Tab>
-                  <Tab text="Page 7">
-                     <content>
-                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage7" />
-                     </content>
-                  </Tab>
-                  <Tab text="Page 8">
-                     <content>
-                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage8" />
-                     </content>
-                  </Tab>
-                  <Tab text="Page 9">
-                     <content>
-                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage9" />
-                     </content>
-                  </Tab>
-                  <Tab text="Page 10">
-                     <content>
-                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage10" />
-                     </content>
-                  </Tab>
-                  <Tab text="Page 11">
-                     <content>
-                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage11" />
-                     </content>
-                  </Tab>
-              </tabs>
-            </TabPane>
+            <Pane fx:id="rulebookPane" disable="true" layoutX="5.0" prefHeight="518.0" prefWidth="920.0" visible="false">
+               <children>
+                  <TabPane fx:id="rulebookTabPane" layoutX="240.0" layoutY="8.0" prefHeight="465.0" prefWidth="432.0" styleClass="tabPane" stylesheets="@../style.css" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Page 1">
+                           <content>
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage1" />
+                           </content>
+                        </Tab>
+                      <Tab text="Page 2">
+                           <content>
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage2" />
+                           </content>
+                        </Tab>
+                        <Tab text="Page 3">
+                           <content>
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage3" />
+                           </content>
+                        </Tab>
+                        <Tab text="Page 4">
+                           <content>
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage4" />
+                           </content>
+                        </Tab>
+                        <Tab text="Page 5">
+                           <content>
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage5" />
+                           </content>
+                        </Tab>
+                        <Tab text="Page 6">
+                           <content>
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage6" />
+                           </content>
+                        </Tab>
+                        <Tab text="Page 7">
+                           <content>
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage7" />
+                           </content>
+                        </Tab>
+                        <Tab text="Page 8">
+                           <content>
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage8" />
+                           </content>
+                        </Tab>
+                        <Tab text="Page 9">
+                           <content>
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage9" />
+                           </content>
+                        </Tab>
+                        <Tab text="Page 10">
+                           <content>
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage10" />
+                           </content>
+                        </Tab>
+                        <Tab text="Page 11">
+                           <content>
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="rulebookPage11" />
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+                  <Pane layoutX="120.0" layoutY="240.0" prefHeight="41.0" prefWidth="41.0">
+                     <children>
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#previousRulebookSlide" prefHeight="41.0" prefWidth="42.0" styleClass="backArrowButton" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="750.0" layoutY="240.0" prefHeight="41.0" prefWidth="41.0">
+                     <children>
+                        <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextRulebookSlide" prefHeight="41.0" prefWidth="42.0" styleClass="nextArrowButton" />
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
             <Pane layoutX="864.0" layoutY="9.0" prefHeight="41.0" prefWidth="41.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="rulebookButton" />
@@ -78,32 +92,37 @@
             <Pane fx:id="playersPane" layoutX="81.0" layoutY="43.0" opacity="0.75" prefHeight="432.0" prefWidth="768.0" styleClass="gameLobbyBackground" />
             <Pane fx:id="playersPane1" layoutX="81.0" layoutY="43.0" prefHeight="432.0" prefWidth="768.0">
                <children>
-                  <Pane prefHeight="432.0" prefWidth="192.0">
+                  <Pane fx:id="p1" disable="true" prefHeight="432.0" prefWidth="192.0" visible="false">
                      <children>
                         <Pane layoutX="14.0" layoutY="134.0" prefHeight="170.0" prefWidth="170.0" styleClass="p1image" />
-                        <Text fx:id="p1name1" layoutX="86.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text fx:id="p1name" layoutX="86.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                         <Text fx:id="p1ReadyStatus" layoutX="84.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                      </children>
                   </Pane>
-                  <Pane layoutX="192.0" prefHeight="432.0" prefWidth="192.0">
+                  <Pane fx:id="p2" disable="true" layoutX="192.0" prefHeight="432.0" prefWidth="192.0" visible="false">
                      <children>
-                        <Text fx:id="p2name1" layoutX="82.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text fx:id="p2name" layoutX="83.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                         <Pane fx:id="p2image1" layoutX="10.0" layoutY="134.0" prefHeight="170.0" prefWidth="170.0" styleClass="p2image" />
                         <Text fx:id="p2ReadyStatus" layoutX="84.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                      </children>
                   </Pane>
-                  <Pane layoutX="384.0" prefHeight="432.0" prefWidth="192.0">
+                  <Pane fx:id="p3" disable="true" layoutX="384.0" prefHeight="432.0" prefWidth="192.0" visible="false">
                      <children>
-                        <Text fx:id="p3name1" layoutX="83.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text fx:id="p3name" layoutX="81.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                         <Pane fx:id="p3image1" layoutX="8.0" layoutY="131.0" prefHeight="170.0" prefWidth="170.0" styleClass="p3image" />
                         <Text fx:id="p3ReadyStatus" layoutX="81.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                      </children>
                   </Pane>
-                  <Pane layoutX="576.0" prefHeight="432.0" prefWidth="192.0">
+                  <Pane fx:id="p4" disable="true" layoutX="576.0" prefHeight="432.0" prefWidth="192.0" visible="false">
                      <children>
-                        <Text fx:id="p4name1" layoutX="83.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text fx:id="p4name" layoutX="83.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                         <Pane fx:id="p4image1" layoutX="11.0" layoutY="131.0" prefHeight="170.0" prefWidth="170.0" styleClass="p4image" />
                         <Text fx:id="p4ReadyStatus" layoutX="83.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="337.0" layoutY="349.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#setReadyButton" styleClass="test" text="Ready" />
                      </children>
                   </Pane>
                </children>
