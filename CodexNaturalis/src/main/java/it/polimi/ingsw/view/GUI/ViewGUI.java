@@ -25,6 +25,10 @@ public class ViewGUI implements View, Runnable {
     public ViewGUI(GUI gui) {
         this.gui = gui;
     }
+    public String getUsername()
+    {
+        return client.getUsername();
+    }
 
     @FXML
     public void setUsername(String username) throws IOException, InterruptedException, ServerDisconnectedException, WrongInputException {

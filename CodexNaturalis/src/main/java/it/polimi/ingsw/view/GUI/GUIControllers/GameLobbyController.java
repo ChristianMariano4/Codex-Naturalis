@@ -39,7 +39,7 @@ public class GameLobbyController extends GUIController {
     public Button setReadyButton;
     private Integer playerNum = 1;
 
-
+    @FXML
     public void rulebookButton() {
         if(isInRulebook) {
             rulebookPane.setDisable(false);
