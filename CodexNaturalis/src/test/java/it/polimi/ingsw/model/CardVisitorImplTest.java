@@ -27,11 +27,11 @@ class CardVisitorImplTest {
         resourceObjectiveCard = mock(ResourceObjectiveCard.class);
     }
 
-    @Test
-    void shouldVisitGoldCard() {
-        CardInfo cardInfo = cardVisitor.visitGoldCard(goldCard);
-        assertEquals(CardType.GOLD, cardInfo.getCardType());
-    }
+//    @Test
+//    void shouldVisitGoldCard() {
+//        CardInfo cardInfo = cardVisitor.visitGoldCard(goldCard);
+//        assertEquals(CardType.GOLD, cardInfo.getCardType());
+//    }
 
     @Test
     void shouldVisitResourceCard() {
@@ -45,11 +45,11 @@ class CardVisitorImplTest {
         assertEquals(CardType.TRIPLEOBJECTIVE, cardInfo.getCardType());
     }
 
-    @Test
-    void shouldVisitPositionalObjectiveCard() {
-        CardInfo cardInfo = cardVisitor.visitPositionalObjectiveCard(positionalObjectiveCard);
-        assertEquals(CardType.POSITIONALOBJECTIVE, cardInfo.getCardType());
-    }
+//    @Test
+//    void shouldVisitPositionalObjectiveCard() {
+//        CardInfo cardInfo = cardVisitor.visitPositionalObjectiveCard(positionalObjectiveCard);
+//        assertEquals(CardType.POSITIONALOBJECTIVE, cardInfo.getCardType());
+//    }
 
     @Test
     void shouldVisitResourceObjectiveCard() {

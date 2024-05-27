@@ -26,9 +26,11 @@ import java.util.concurrent.BlockingQueue;
 public class Server extends Thread implements ServerRMIInterface {
     private final Map<Integer, GameHandler> gameHandlerMap;
     private final List<ClientHandlerInterface> clients = new ArrayList<>(); //list of all client stubs
+    private final GameSerializer gameSerializer;
 
     public Server(Map<Integer, GameHandler> gameHandlerMap) {
         this.gameHandlerMap = gameHandlerMap;
+        this.gameSerializer = new GameSerializer();
     }
 
     @Override
@@ -47,6 +49,8 @@ public class Server extends Thread implements ServerRMIInterface {
         int id = GameValues.numberOfGames;
         GameValues.numberOfGames++;
         gameHandlerMap.put(id, new GameHandler(id, this, numberOfPlayers));
+
+        subscribe(gameSerializer, id); //subscribe game serializer to game events to handle game state saving
         return id;
     }
 
@@ -74,6 +78,10 @@ public class Server extends Thread implements ServerRMIInterface {
     @Override
     public void subscribe(ClientHandlerInterface client, int gameId) throws RemoteException, GameAlreadyStartedException {
         this.gameHandlerMap.get(gameId).subscribe(client, gameId);
+    }
+
+    private void subscribe(GameSerializer gameSerializer, int gameId) {
+        this.gameHandlerMap.get(gameId).subscribe(gameSerializer);
     }
 
 

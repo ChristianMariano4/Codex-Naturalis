@@ -36,7 +36,6 @@ public class GameHandler implements Serializable {
     private boolean isOpen = true;
     private boolean twentyPointsReached = false;
     private boolean finalRound = false;
-    private final String file_path;
     private final int desiredNumberOfPlayers;
 
 
@@ -52,8 +51,7 @@ public class GameHandler implements Serializable {
         }
         this.desiredNumberOfPlayers = desiredNumberOfPlayers;
         this.clients = new ArrayList<>();
-        file_path = "CodexNaturalis/src/main/resources/savedGames/game" + gameId + ".json";
-        saveGameState();
+
     }
     public boolean getIsOpen()
     {
@@ -141,6 +139,12 @@ public class GameHandler implements Serializable {
                 eventManager.subscribe(GameEvent.class, new GameListener(client, server));
             else
                 throw new GameAlreadyStartedException();
+        }
+    }
+
+    public void subscribe(GameSerializer gameSerializer) {
+        synchronized (this) {
+            eventManager.subscribe(GameEvent.class, gameSerializer);
         }
     }
 
@@ -267,14 +271,5 @@ public class GameHandler implements Serializable {
         }
     }
 
-    private void saveGameState() {
-        Gson gson = new Gson();
-        try(FileWriter writer = new FileWriter(file_path)) {
-            gson.toJson(game, writer);
-        } catch (IOException e) {
-            System.err.println("Couldn't save game state");
-            e.printStackTrace();
-            //throw new RuntimeException(e);
-        }
-    }
+
 }
