@@ -1,7 +1,11 @@
 package it.polimi.ingsw.view.GUI.GUIControllers;
 
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.Pane;
@@ -16,14 +20,16 @@ public class GameLobbyController extends GUIController {
     public Pane playersPane;
     public Pane playersPane1;
     private boolean isInRulebook = true;
-    public Text p1name;
-    public Text p2name;
-    public Text p3name;
-    public Text p4name;
+    public Label p1name;
+    public Label p2name;
+    public Label p3name;
+    public Label p4name;
+    private ArrayList<Label> names = new ArrayList<>();
     public Pane p1;
     public Pane p2;
     public Pane p3;
     public Pane p4;
+    private ArrayList<Pane> playerPanes = new ArrayList<>();
     public Button nextButton;
     public Button backButton;
     private Integer playerNum = 1;
@@ -61,33 +67,52 @@ public class GameLobbyController extends GUIController {
         rulebookTabPane.getSelectionModel().select(rulebookTabPane.getSelectionModel().getSelectedIndex()-1);
         backButton.disableProperty().bind(rulebookTabPane.getSelectionModel().selectedIndexProperty().lessThanOrEqualTo(0));
     }
-    public void showPlayerPane() {
-        switch (playerNum) {
-            case 1:
-                p1.setDisable(false);
-                p1.setVisible(true);
-                p1name.setText("fdhsfhskdj");
-                break;
-            case 2:
-                p2.setDisable(false);
-                p2.setVisible(true);
-                p2name.setText("fdhsfhskdj");
-                break;
-            case 3:
-                p3.setDisable(false);
-                p3.setVisible(true);
-                p3name.setText("fdhsfhskdj");
-                break;
-            case 4:
-                p4.setDisable(false);
-                p4.setVisible(true);
-                p4name.setText("fdhsfhskdj");
-                break;
+    public void update(Object update) {
+        if(!(update instanceof Game))
+            return;
+        Game game = (Game) update;
+        for(int i = 0; i< 4; i++)
+        {
+            try {
+                Label label = names.get(i);
+                String username = game.getListOfPlayers().get(i).getUsername();
+                Platform.runLater(new Runnable() {
+                    @Override public void run() {
+                        label.setText(username);
+                    }
+                });        //multithreading javafx
+                names.get(i).setDisable(false);
+                names.get(i).setVisible(true);
+                playerPanes.get(i).setDisable(false);
+                playerPanes.get(i).setVisible(true);
+            }
+            catch (IndexOutOfBoundsException e)
+            {
+                names.get(i).setDisable(true);
+                names.get(i).setVisible(false);
+                playerPanes.get(i).setDisable(true);
+                playerPanes.get(i).setVisible(false);
+            }
         }
-        playerNum++;
     }
     @FXML
     public void setReadyButton() {
 
+    }
+
+    @Override
+    public void sceneInitializer() {
+        this.names.add(p1name);
+        this.names.add(p2name);
+        this.names.add(p3name);
+        this.names.add(p4name);
+
+        this.playerPanes.add(p1);
+        this.playerPanes.add(p2);
+        this.playerPanes.add(p3);
+        this.playerPanes.add(p4);
+
+        Game game = viewGUI.getGame();
+        update(game);
     }
 }

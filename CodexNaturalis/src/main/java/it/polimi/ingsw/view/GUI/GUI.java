@@ -101,6 +101,7 @@ public class GUI extends Application {
 
         scenes.get(scene).getController().sceneInitializer();
         primaryStage.setScene(scenes.get(scene).getScene());
+        this.controller = scenes.get(scene).getController();
 /*
         primaryStage.setWidth(widthOld);
         primaryStage.setHeight(heightOld);
@@ -193,5 +194,9 @@ public class GUI extends Application {
             Scale scale = new Scale(w, h, 0, 0);
             primaryStage.getScene().lookup("#scalable").getTransforms().add(scale);
         }
+    }
+    public void update(Object update)
+    {
+        controller.update(update);
     }
 }

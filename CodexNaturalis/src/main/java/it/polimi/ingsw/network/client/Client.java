@@ -77,6 +77,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                 view.boardUpdate((Game) gameUpdate);
             }
             case NEW_PLAYER -> {
+                view.update((Game) gameUpdate);
                 view.newPlayer((Game) gameUpdate);
             }
             case GAME_INITIALIZED -> {

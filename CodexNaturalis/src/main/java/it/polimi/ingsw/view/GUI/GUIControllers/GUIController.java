@@ -21,4 +21,5 @@ public class GUIController {
     public void sceneInitializer() {
 
     }
+    public void update(Object update){}
 }

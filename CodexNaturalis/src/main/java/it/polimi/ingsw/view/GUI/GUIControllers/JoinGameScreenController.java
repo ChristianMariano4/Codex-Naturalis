@@ -49,6 +49,7 @@ public class JoinGameScreenController extends GUIController {
         try
         {
             viewGUI.joinGame(gameId);
+            gui.switchScene(GUIScene.GAMELOBBY);
         } catch (ServerDisconnectedException e) {
             throw new RuntimeException(e);
         }

@@ -52,7 +52,7 @@ public class ViewGUI implements View, Runnable {
 
     @Override
     public void newPlayer(Game gameUpdated) {
-
+        gui.update(gameUpdated);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class ViewGUI implements View, Runnable {
     }
 
     public void joinGame(int gameId) throws ServerDisconnectedException {
-        client.joinGame(gameId, client.getUsername());
+        this.game = client.joinGame(gameId, client.getUsername());
     }
 
     @Override
@@ -107,5 +107,9 @@ public class ViewGUI implements View, Runnable {
             playersPlacement.put(p.getUsername(), p.getPoints());
         }
         return playersPlacement;
+    }
+    public Game getGame()
+    {
+        return this.game;
     }
 }
