@@ -97,9 +97,11 @@ public class RMIClient extends Client {
             return;
         }
     }
-    public boolean checkUsername(String username) throws IOException, ServerDisconnectedException {
+    @Override
+    public void setUsername(String username) throws IOException, ServerDisconnectedException, InvalidUsernameException {
         try {
-            return serverRMIInterface.checkUsername(username);
+            serverRMIInterface.setUsername(username);
+            this.username = username;
         }
         catch (IOException e)
         {

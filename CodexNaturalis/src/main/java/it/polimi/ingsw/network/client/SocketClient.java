@@ -44,9 +44,25 @@ public class SocketClient extends Client {
         this.isGUI = true;
     }
     @Override
-    public void setUsername(String username) throws IOException, ServerDisconnectedException {
+    public void setUsername(String username) throws IOException, ServerDisconnectedException, InvalidUsernameException {
+        try
+        {
+            messageHandler.sendMessage(ClientMessageType.SET_USERNAME, username);
+            messageHandlerQueue.take();
+        }
+        catch (InvalidUsernameException e)
+        {
+            throw e;
+        }
+        catch (ServerDisconnectedException e)
+        {
+            throw e;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
         this.username = username;
-        messageHandler.sendMessage(ClientMessageType.SET_USERNAME, this.username);
     }
 
     @Override
@@ -124,18 +140,6 @@ public class SocketClient extends Client {
 
     }
 
-    @Override
-    public boolean checkUsername(String username) throws IOException, InterruptedException, ServerDisconnectedException {
-        messageHandler.sendMessage(ClientMessageType.CHECK_USERNAME, username);
-        try {
-            return (boolean) messageHandlerQueue.take();
-        }
-        catch(Exception e)
-        {
-            throw new RuntimeException();
-        }
-
-    }
 
     @Override
     public PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException {

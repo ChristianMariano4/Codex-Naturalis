@@ -112,7 +112,15 @@ public class Server extends Thread implements ServerRMIInterface {
         new Thread(updaterThread).start();
 
     }
+    public void setUsername(String username) throws IOException, InvalidUsernameException {
+        if(checkUsername(username))
+            return;
+        throw new InvalidUsernameException();
+
+    }
     public boolean checkUsername(String username) throws IOException {
+        if (username.equals(""))
+            return false;
         for(ClientHandlerInterface client : clients)
         {
             if(client.getUsername() == null)

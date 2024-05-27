@@ -30,12 +30,18 @@ public class ViewCLI implements View, Runnable {
         do {
             username = scanner.nextLine();
 
-            if(client.checkUsername(username))
+          /*  if(client.checkUsername(username))
                 break;
-            else
+            else*/
+            try
+            {
+                client.setUsername(username);
+                break;
+            }
+            catch (InvalidUsernameException e) {
                 System.out.println("Username already in use, try again: ");
+            }
         }while(true);
-        client.setUsername(username);
         playerId = username;
 
     }

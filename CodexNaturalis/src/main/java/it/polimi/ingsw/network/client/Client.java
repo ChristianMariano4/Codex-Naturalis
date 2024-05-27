@@ -59,9 +59,6 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         return server;
     }
     */
-    public void setUsername(String username) throws IOException, ServerDisconnectedException {
-        this.username = username;
-    }
 
     public String getUsername() {
         return this.username;
@@ -205,7 +202,9 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
             viewGUI.setClient(this);
     }
 
-    public abstract boolean checkUsername(String username) throws IOException, InterruptedException, ServerDisconnectedException;
+
+
+    public abstract void setUsername(String username) throws IOException, ServerDisconnectedException, InvalidUsernameException;
     public abstract PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException, ServerDisconnectedException;
     public abstract PlayableCard getOtherSideCard(int gameId, PlayableCard playableCard) throws IOException, ServerDisconnectedException;
     public abstract StarterCard getOtherSideCard(int gameId , StarterCard starterCard) throws IOException, ServerDisconnectedException;

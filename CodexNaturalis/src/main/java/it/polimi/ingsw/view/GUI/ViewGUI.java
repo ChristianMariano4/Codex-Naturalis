@@ -33,10 +33,10 @@ public class ViewGUI implements View, Runnable {
     @FXML
     public void setUsername(String username) throws IOException, InterruptedException, ServerDisconnectedException, WrongInputException {
 
-        if(client.checkUsername(username)) {
+        try{
             client.setUsername(username);
         }
-        else {
+        catch(InvalidUsernameException e) {
             throw new WrongInputException();
 
         }

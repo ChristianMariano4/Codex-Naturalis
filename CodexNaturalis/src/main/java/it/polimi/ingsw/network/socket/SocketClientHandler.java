@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
+import com.sun.net.httpserver.Authenticator;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Player;
@@ -57,7 +58,9 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
             try {
                 switch (messageType) {
                     case SET_USERNAME -> {
+                        server.setUsername((String) message.getMessageContent()[0]);
                         this.username = (String) message.getMessageContent()[0];
+                        sendMessage(ServerMessageType.SUCCESS, true);
                     }
                     case CREATE_GAME -> {
                         sendMessage(ServerMessageType.GAME_CREATED, server.createGame(this, (int) message.getMessageContent()[0]));
@@ -123,9 +126,16 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                 throw new RuntimeException(e);
             } catch (DeckIsEmptyException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.DECK_IS_EMPTY);
-            } catch (Exception e) {
+
+            }
+            catch (InvalidUsernameException e)
+            {
+                sendMessage(ServerMessageType.ERROR, ErrorType.INVALID_USERNAME);
+            }
+            catch (Exception e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.UNSPECIFIED);
             }
+
         }
 
     }

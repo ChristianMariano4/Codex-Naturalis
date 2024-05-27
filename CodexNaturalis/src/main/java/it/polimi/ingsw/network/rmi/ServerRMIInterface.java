@@ -34,7 +34,7 @@ public interface ServerRMIInterface extends Remote {
     void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard objectiveCard) throws RemoteException, NotExistingPlayerException;
     public void drawCard(int gameId, String username, CardType cardType, DrawPosition drawPosition) throws RemoteException, NotTurnException, NotExistingPlayerException, AlreadyThreeCardsInHandException, DeckIsEmptyException;
     public void endTurn(int gameId, String username) throws RemoteException, NotExistingPlayerException, CardTypeMismatchException;
-    public boolean checkUsername(String username) throws IOException;
+    public void setUsername(String username) throws IOException, InvalidUsernameException, RemoteException;
 
     public PlayableCard getOtherSideCard(int gameId, PlayableCard card) throws RemoteException;
     public GoldCard getOtherSideCard(int gameId, GoldCard card) throws RemoteException;
