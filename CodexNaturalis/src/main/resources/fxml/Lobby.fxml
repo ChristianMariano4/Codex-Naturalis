@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.GUIControllers.LobbyController">
    <children>
       <Pane fx:id="scalable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" styleClass="lobbyScreen" stylesheets="@../style.css">
          <children>
-            <Button layoutX="384.0" layoutY="178.0" mnemonicParsing="false" onAction="#createGame" styleClass="test" stylesheets="@../style.css" text="Create Game" />
-            <Button layoutX="396.0" layoutY="238.0" mnemonicParsing="false" onAction="#joinGame" styleClass="test" stylesheets="@../style.css" text="Join Game" />
+            <Button fx:id="createGame" layoutX="384.0" layoutY="178.0" mnemonicParsing="false" onAction="#createGame" styleClass="test" stylesheets="@../style.css" text="Create Game" />
+            <Button fx:id="joinGame" layoutX="396.0" layoutY="238.0" mnemonicParsing="false" onAction="#joinGame" styleClass="test" stylesheets="@../style.css" text="Join Game" />
             <Button layoutX="426.0" layoutY="295.0" mnemonicParsing="false" onAction="#quit" styleClass="test" stylesheets="@../style.css" text="Quit" />
+            <Pane fx:id="numChoice" disable="true" layoutX="339.0" layoutY="206.0" prefHeight="186.0" prefWidth="243.0" visible="false">
+               <children>
+                  <Button layoutY="30.0" mnemonicParsing="false" onAction="#twoPlayers" styleClass="test" text="2" />
+                  <Button layoutX="100.0" layoutY="30.0" mnemonicParsing="false" onAction="#threePlayer" styleClass="test" text="3" />
+                  <Button layoutX="200.0" layoutY="30.0" mnemonicParsing="false" onAction="#fourPlayers" styleClass="test" text="4" />
+                  <Label text="Choose max number of players">
+                     <font>
+                        <Font name="Serif Regular" size="20.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="102.0" layoutY="152.0" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="40.0" styleClass="backButton" />
+               </children>
+            </Pane>
          </children>
       </Pane>
    </children>

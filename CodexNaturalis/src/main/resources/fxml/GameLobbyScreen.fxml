@@ -122,7 +122,7 @@
                         <Button mnemonicParsing="false" onAction="#setReadyButton" styleClass="test" text="Ready" />
                      </children>
                   </Pane>
-                  <Label fx:id="notEnoughPlayers" layoutX="296.0" layoutY="399.0" text="Not all players are ready!!" textFill="RED" visible="false">
+                  <Label fx:id="readyPLayers" layoutX="320.0" layoutY="399.0" prefWidth="120.0" textAlignment="CENTER" textFill="RED" visible="false">
                      <font>
                         <Font name="Serif Regular" size="16.0" />
                      </font>
