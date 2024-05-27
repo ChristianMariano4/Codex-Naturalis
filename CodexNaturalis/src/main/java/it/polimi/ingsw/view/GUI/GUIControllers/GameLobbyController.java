@@ -13,6 +13,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
+import javax.lang.model.util.TypeKindVisitor14;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,9 @@ public class GameLobbyController extends GUIController {
     public Button nextButton;
     public Button backButton;
     public Label readyPlayers;
+    public Button setReadyButton;
     private Integer playerNum = 1;
+
 
     public void rulebookButton() {
         if(isInRulebook) {
@@ -70,6 +73,7 @@ public class GameLobbyController extends GUIController {
         rulebookTabPane.getSelectionModel().select(rulebookTabPane.getSelectionModel().getSelectedIndex()-1);
         backButton.disableProperty().bind(rulebookTabPane.getSelectionModel().selectedIndexProperty().lessThanOrEqualTo(0));
     }
+
     public void update(Object update) {
         if(!(update instanceof Game))
             return;
@@ -88,6 +92,27 @@ public class GameLobbyController extends GUIController {
                 names.get(i).setVisible(true);
                 playerPanes.get(i).setDisable(false);
                 playerPanes.get(i).setVisible(true);
+                new Thread()
+                {
+                    public void run()
+                    {
+                        try {
+                            while (!viewGUI.getPlaying()) {
+                                Thread.sleep(1);
+                            }
+                            Platform.runLater(new Runnable() {
+
+                                public void run() {
+                                    gui.switchScene(GUIScene.GAME);
+                                }
+                            });
+                        }
+                        catch (Exception e)
+                        {
+
+                        }
+                    }
+                }.start(); //waiting for game to begin
             }
             catch (IndexOutOfBoundsException e)
             {
@@ -107,6 +132,8 @@ public class GameLobbyController extends GUIController {
                     readyPlayers.setText("Ready players: " + playersInfo.get(1) + "/" + playersInfo.get(0));
                     readyPlayers.setDisable(false);
                     readyPlayers.setVisible(true);
+                    setReadyButton.setDisable(true);
+
                 }
             });
         }
