@@ -94,26 +94,26 @@
                <children>
                   <Pane fx:id="p1" disable="true" prefHeight="432.0" prefWidth="192.0" visible="false">
                      <children>
-                        <Pane layoutX="14.0" layoutY="134.0" prefHeight="170.0" prefWidth="170.0" styleClass="p1image" />
-                        <Label fx:id="p1name" alignment="CENTER" contentDisplay="CENTER" layoutY="125.0" prefWidth="192.0" text="Label" />
+                        <Pane fx:id="p1image1" layoutX="14.0" layoutY="134.0" prefHeight="170.0" prefWidth="170.0" styleClass="p1image" />
+                        <Label fx:id="p1name" alignment="CENTER" contentDisplay="CENTER" layoutY="110.0" prefWidth="192.0" text="Label" textAlignment="CENTER" textFill="WHITE" />
                      </children>
                   </Pane>
                   <Pane fx:id="p2" disable="true" layoutX="192.0" prefHeight="432.0" prefWidth="192.0" visible="false">
                      <children>
-                        <Pane fx:id="p2image1" layoutX="10.0" layoutY="134.0" prefHeight="170.0" prefWidth="170.0" styleClass="p2image" visible="false" />
-                        <Label fx:id="p2name" alignment="CENTER" contentDisplay="CENTER" layoutY="125.0" prefWidth="192.0" text="Label" />
+                        <Pane fx:id="p2image1" layoutX="10.0" layoutY="134.0" prefHeight="170.0" prefWidth="170.0" styleClass="p2image" />
+                        <Label fx:id="p2name" alignment="CENTER" contentDisplay="CENTER" layoutY="110.0" prefWidth="192.0" text="Label" textAlignment="CENTER" textFill="WHITE" />
                      </children>
                   </Pane>
                   <Pane fx:id="p3" disable="true" layoutX="384.0" prefHeight="432.0" prefWidth="192.0" visible="false">
                      <children>
                         <Pane fx:id="p3image1" layoutX="8.0" layoutY="131.0" prefHeight="170.0" prefWidth="170.0" styleClass="p3image" />
-                        <Label fx:id="p3name" alignment="CENTER" contentDisplay="CENTER" layoutY="125.0" prefWidth="192.0" text="Label" />
+                        <Label fx:id="p3name" alignment="CENTER" contentDisplay="CENTER" layoutY="110.0" prefWidth="192.0" text="Label" textAlignment="CENTER" textFill="WHITE" />
                      </children>
                   </Pane>
                   <Pane fx:id="p4" disable="true" layoutX="576.0" prefHeight="432.0" prefWidth="192.0" visible="false">
                      <children>
                         <Pane fx:id="p4image1" layoutX="11.0" layoutY="131.0" prefHeight="170.0" prefWidth="170.0" styleClass="p4image" />
-                        <Label fx:id="p4name" alignment="CENTER" contentDisplay="CENTER" layoutY="125.0" prefWidth="192.0" text="Label" />
+                        <Label fx:id="p4name" alignment="CENTER" contentDisplay="CENTER" layoutY="110.0" prefWidth="192.0" text="Label" textAlignment="CENTER" textFill="WHITE" />
                      </children>
                   </Pane>
                   <Pane layoutX="337.0" layoutY="349.0">
