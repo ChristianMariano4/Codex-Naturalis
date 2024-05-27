@@ -4,7 +4,7 @@ public enum GUIScene {
     NICKNAME,
     LOBBY,
     JOINGAME,
-    GAMELOBBY;
+    GAMELOBBY, GAME;
 
 
     public String getPath()
@@ -21,6 +21,9 @@ public enum GUIScene {
             }
             case GAMELOBBY -> {
                 return "/fxml/GameLobbyScreen.fxml";
+            }
+            case GAME -> {
+                return "/fxml/MainGameScreen.fxml";
             }
 
         }

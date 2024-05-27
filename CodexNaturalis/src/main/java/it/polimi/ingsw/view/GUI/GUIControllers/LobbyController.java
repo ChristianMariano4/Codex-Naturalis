@@ -6,23 +6,85 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.Pane;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class LobbyController extends GUIController{
+    public Button createGame;
+    public Button joinGame;
+    public Pane numChoice;
+
+
     @FXML
     public void createGame(ActionEvent event)
     {
+        createGame.setDisable(true);
+        createGame.setVisible(false);
+
+        joinGame.setDisable(true);
+        joinGame.setVisible(false);
+
+        numChoice.setDisable(false);
+        numChoice.setVisible(true);
+
+    }
+
+    @FXML
+    public void back(ActionEvent event)
+    {
+        createGame.setDisable(false);
+        createGame.setVisible(true);
+
+        joinGame.setDisable(false);
+        joinGame.setVisible(true);
+
+        numChoice.setDisable(true);
+        numChoice.setVisible(false);
+
+    }
+    @FXML
+    public void twoPlayers(ActionEvent event)
+    {
         try {
-            viewGUI.createGame();
+            viewGUI.createGame(2);
         }
         catch(ServerDisconnectedException e)
         {
             //TODO: server disconnected GUI screen
         }
         gui.switchScene(GUIScene.GAMELOBBY);
+    }
+
+    @FXML
+    public void threePlayers(ActionEvent event)
+    {
+        try {
+            viewGUI.createGame(3);
+        }
+        catch(ServerDisconnectedException e)
+        {
+            //TODO: server disconnected GUI screen
+        }
+        gui.switchScene(GUIScene.GAMELOBBY);
+
+
+    }
+
+    @FXML
+    public void fourPlayers(ActionEvent event)
+    {
+        try {
+            viewGUI.createGame(4);
+        }
+        catch(ServerDisconnectedException e)
+        {
+            //TODO: server disconnected GUI screen
+        }
+        gui.switchScene(GUIScene.GAMELOBBY);
+
     }
     @FXML
     public void joinGame(ActionEvent event)

@@ -1,9 +1,7 @@
 package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.exceptions.CardTypeMismatchException;
-import it.polimi.ingsw.exceptions.NotExistingPlayerException;
-import it.polimi.ingsw.exceptions.ServerDisconnectedException;
-import it.polimi.ingsw.exceptions.WrongInputException;
+import it.polimi.ingsw.enumerations.GUIScene;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
@@ -58,6 +56,7 @@ public class ViewGUI implements View, Runnable {
     @Override
     public void update(Game gameUpdated) {
         this.game = gameUpdated;
+        gui.update(gameUpdated);
     }
 
 
@@ -89,7 +88,7 @@ public class ViewGUI implements View, Runnable {
         gui.launchGUI();
     }
 
-    public void createGame() throws ServerDisconnectedException {
+    public void createGame(int numberOfPlayers) throws ServerDisconnectedException {
         this.game = client.createGame(this.client.getUsername(), 2);
     }
 
@@ -111,5 +110,16 @@ public class ViewGUI implements View, Runnable {
     public Game getGame()
     {
         return this.game;
+    }
+    public ArrayList<Integer> setReady() throws ServerDisconnectedException, IOException, NotEnoughPlayersException {
+        return client.setReady();
+    }
+    public void changeScene(GUIScene scene)
+    {
+        gui.switchScene(scene);
+    }
+    public boolean getPlaying()
+    {
+        return client.getPlaying();
     }
 }

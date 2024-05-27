@@ -10,6 +10,7 @@ import it.polimi.ingsw.view.GUI.ViewGUI;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.TUI.ViewCLI;
 import it.polimi.ingsw.network.messages.GameEvent;
+import javafx.scene.Scene;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -193,12 +194,15 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         }
     }
 
+    public boolean getPlaying()
+    {
+        return this.playing;
+    }
+
     protected void runGUI()
     {
-
-
-        ViewGUI viewGUI = (ViewGUI) view;
-        viewGUI.setClient(this);
+            ViewGUI viewGUI = (ViewGUI) view;
+            viewGUI.setClient(this);
     }
 
     public abstract boolean checkUsername(String username) throws IOException, InterruptedException, ServerDisconnectedException;

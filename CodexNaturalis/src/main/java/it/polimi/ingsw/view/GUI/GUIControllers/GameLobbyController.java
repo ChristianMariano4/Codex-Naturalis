@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.GUI.GUIControllers;
 
+import it.polimi.ingsw.enumerations.GUIScene;
+import it.polimi.ingsw.exceptions.NotEnoughPlayersException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import javafx.application.Platform;
@@ -32,6 +34,7 @@ public class GameLobbyController extends GUIController {
     private ArrayList<Pane> playerPanes = new ArrayList<>();
     public Button nextButton;
     public Button backButton;
+    public Label readyPlayers;
     private Integer playerNum = 1;
 
     public void rulebookButton() {
@@ -97,6 +100,21 @@ public class GameLobbyController extends GUIController {
     }
     @FXML
     public void setReadyButton() {
+        try {
+            ArrayList<Integer> playersInfo = viewGUI.setReady();
+            Platform.runLater(new Runnable() {
+                @Override public void run() {
+                    readyPlayers.setText("Ready players: " + playersInfo.get(1) + "/" + playersInfo.get(0));
+                    readyPlayers.setDisable(false);
+                    readyPlayers.setVisible(true);
+                }
+            });
+        }
+        catch (Exception e)
+        {
+            System.exit(-1); //server crashed
+            //TODO: handle server disconnection
+        }
 
     }
 
