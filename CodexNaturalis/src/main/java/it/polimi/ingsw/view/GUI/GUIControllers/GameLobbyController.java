@@ -90,5 +90,4 @@ public class GameLobbyController extends GUIController {
     public void setReadyButton() {
 
     }
-
 }
