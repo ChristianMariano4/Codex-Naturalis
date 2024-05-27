@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.enumerations.GUIScene;
+import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -42,6 +43,7 @@ public class ViewGUI implements View, Runnable {
         }
 
     }
+
 
     public void setClient(Client client) {
         this.client = client;
@@ -126,4 +128,22 @@ public class ViewGUI implements View, Runnable {
     {
         return client.getPlaying();
     }
+    public boolean getMarkerTurn()
+    {
+        if(game.getCurrentPlayer().getUsername().equals(client.getUsername()))
+            client.serNarkerTurn(true);
+        return client.getMarkerTurn();
+    }
+    public void setMarker(Marker marker) throws NotExistingPlayerException, ServerDisconnectedException, IOException, NotAvailableMarkerException {
+        client.setMarker(game.getPlayer(client.getUsername()), game.getGameId(), marker);
+
+    }
+    public ArrayList<ObjectiveCard> getObjectiveCardsToChoose()
+    {
+        return client.getObjectiveCardsToChoose();
+    }
+    public void setSecretObjective(ObjectiveCard card) throws NotExistingPlayerException, ServerDisconnectedException, IOException {
+        client.setSecretObjectiveCard(game.getGameId(), game.getPlayer(client.getUsername()), card);
+    }
+
 }

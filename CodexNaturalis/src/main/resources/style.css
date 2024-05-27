@@ -185,3 +185,6 @@
     -fx-background-size: 50%;
     -fx-background-position: center;
 }
+.markerButton{
+    -fx-background-size: 100%;
+}

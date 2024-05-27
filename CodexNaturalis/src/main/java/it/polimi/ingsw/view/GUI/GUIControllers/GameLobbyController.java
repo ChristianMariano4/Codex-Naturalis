@@ -109,7 +109,7 @@ public class GameLobbyController extends GUIController {
                         }
                         catch (Exception e)
                         {
-
+                            throw new RuntimeException();
                         }
                     }
                 }.start(); //waiting for game to begin

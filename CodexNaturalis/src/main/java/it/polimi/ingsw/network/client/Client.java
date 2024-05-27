@@ -190,6 +190,15 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
             //TODO: add server side reset
         }
     }
+    public void serNarkerTurn(boolean turn)
+    {
+        this.markerTurn = turn;
+    }
+    public boolean getMarkerTurn()
+    {
+
+        return this.markerTurn;
+    }
 
     public boolean getPlaying()
     {
@@ -200,6 +209,11 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     {
             ViewGUI viewGUI = (ViewGUI) view;
             viewGUI.setClient(this);
+    }
+
+    public ArrayList<ObjectiveCard> getObjectiveCardsToChoose()
+    {
+        return this.objectiveCardsToChoose;
     }
 
 
