@@ -256,40 +256,40 @@ public class TUI extends UI {
     public void showCardInfo(PlayableCard card, CardInfo cardInfo) {
         System.out.println("CardType: "+ cardInfo.getCardTypeString());
 
-        if(cardInfo.getCardType().equals(CardType.GOLD) && card.getCurrentSide().equals(Side.FRONT)) {
-            System.out.print("Requirements: ");
-            for(int i = 0; i < cardInfo.getRequirements().size(); i++) {
-                if(i == cardInfo.getRequirements().size()-1) {
-                    System.out.println(cardInfo.getRequirements().get(i));
-                } else {
-                    System.out.print(cardInfo.getRequirements().get(i) + ", ");
-                }
-            }
-            System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
-            System.out.print("Points: ");
-            switch (cardInfo.getGoldPointCondition()) {
-                case NONE: {
-                    System.out.println(cardInfo.getPoints());
-                    break;
-                }
-                case ANGLE: {
-                    System.out.println(cardInfo.getPoints() + " for each angle covered");
-                    break;
-                }
-                case QUILL: {
-                    System.out.println(cardInfo.getPoints() + " for each quill");
-                    break;
-                }
-                case INKWELL: {
-                    System.out.println(cardInfo.getPoints() + " for each inkwell");
-                    break;
-                }
-                case MANUSCRIPT: {
-                    System.out.println(cardInfo.getPoints() + " for each manuscript");
-                    break;
-                }
-            }
-        }
+//        if(cardInfo.getCardType().equals(CardType.GOLD) && card.getCurrentSide().equals(Side.FRONT)) {
+//            System.out.print("Requirements: ");
+//            for(int i = 0; i < cardInfo.getRequirements().size(); i++) {
+//                if(i == cardInfo.getRequirements().size()-1) {
+//                    System.out.println(cardInfo.getRequirements().get(i));
+//                } else {
+//                    System.out.print(cardInfo.getRequirements().get(i) + ", ");
+//                }
+//            }
+//            System.out.println("GoldPointCondition: "+ cardInfo.getGoldPointCondition());
+//            System.out.print("Points: ");
+//            switch (cardInfo.getGoldPointCondition()) {
+//                case NONE: {
+//                    System.out.println(cardInfo.getPoints());
+//                    break;
+//                }
+//                case ANGLE: {
+//                    System.out.println(cardInfo.getPoints() + " for each angle covered");
+//                    break;
+//                }
+//                case QUILL: {
+//                    System.out.println(cardInfo.getPoints() + " for each quill");
+//                    break;
+//                }
+//                case INKWELL: {
+//                    System.out.println(cardInfo.getPoints() + " for each inkwell");
+//                    break;
+//                }
+//                case MANUSCRIPT: {
+//                    System.out.println(cardInfo.getPoints() + " for each manuscript");
+//                    break;
+//                }
+//            }
+//        }
         System.out.println("Id: " +card.getCardId());
         this.asciiCardCreator(card, cardInfo.getCardType().equals(CardType.STARTER));
 
@@ -597,7 +597,6 @@ public class TUI extends UI {
         if(cardInfo.getCardType().equals(CardType.POSITIONALOBJECTIVE)
                 || cardInfo.getCardType().equals(CardType.RESOURCEOBJECTIVE)
                 || cardInfo.getCardType().equals(CardType.TRIPLEOBJECTIVE)) {
-            System.out.println("Points per pattern: " + cardInfo.getPoints());
         }
         if(card.getCurrentSide().equals(Side.FRONT)) {
             String cardImage = "";
