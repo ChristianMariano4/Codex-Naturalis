@@ -18,8 +18,6 @@ public class MainGameScreenController extends GUIController{
 
     public TabPane rulebookTabPane;
     public Pane rulebookPane;
-    public Pane playersPane;
-    public Pane playersPane1;
     private boolean isInRulebook = true;
     public Button nextButton;
     public Button backButton;
@@ -27,29 +25,18 @@ public class MainGameScreenController extends GUIController{
     public Pane card1;
     public Pane card2;
     public Pane card3;
-    private ArrayList<Pane> playerHand = new ArrayList<>();
+    public Pane playerHand;
+    private ArrayList<Pane> playerHandPanes = new ArrayList<>();
 
     @FXML
     public void rulebookButton(ActionEvent actionEvent) {
         if(isInRulebook) {
             rulebookPane.setDisable(false);
             rulebookPane.setVisible(true);
-
-            playersPane.setDisable(true);
-            playersPane.setVisible(false);
-            playersPane1.setDisable(true);
-            playersPane1.setVisible(false);
-
             isInRulebook = false;
         } else  {
             rulebookPane.setDisable(true);
             rulebookPane.setVisible(false);
-
-            playersPane.setDisable(false);
-            playersPane.setVisible(true);
-            playersPane1.setDisable(false);
-            playersPane1.setVisible(true);
-
             isInRulebook = true;
         }
     }
@@ -70,9 +57,11 @@ public class MainGameScreenController extends GUIController{
     }
     public void sceneInitializer() {
 
-        playerHand.add(card1);
-        playerHand.add(card2);
-        playerHand.add(card3);
+
+
+        playerHandPanes.add(card1);
+        playerHandPanes.add(card2);
+        playerHandPanes.add(card3);
 
 
         try {
@@ -83,8 +72,10 @@ public class MainGameScreenController extends GUIController{
             for(int i = 0; i<3 ; i++)
             {
                 PlayableCard card = hand.getCardsInHand().get(i);
-                playerHand.get(i).setStyle(getStyle(getCardUrl(card)));
+                playerHandPanes.get(i).setStyle(getStyle(getCardUrl(card)));
             }
+            playerHand.setDisable(false);
+            playerHand.setVisible(true);
         }
         catch (Exception e)
         {
