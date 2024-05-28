@@ -57,6 +57,10 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
         synchronized (this) {
             try {
                 switch (messageType) {
+                    case HEARTBEAT -> {
+                        server.sendHeartbeat((long) message.getMessageContent()[0], this);
+                        sendMessage(ServerMessageType.HEARTBEAT, System.currentTimeMillis());
+                    }
                     case SET_USERNAME -> {
                         server.setUsername((String) message.getMessageContent()[0]);
                         this.username = (String) message.getMessageContent()[0];

@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
@@ -20,10 +21,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SimpleTimeZone;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.*;
 
 public class SocketClient extends Client {
     private final Socket serverSocket;
@@ -274,6 +272,19 @@ public class SocketClient extends Client {
             Thread messageHandlerThread = new Thread(messageHandler);
             this.messageHandlerThread = messageHandlerThread;
             messageHandlerThread.start();
+
+            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+            scheduler.scheduleAtFixedRate(() -> {
+                try {
+                    messageHandler.sendMessage(ClientMessageType.HEARTBEAT, System.currentTimeMillis());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                } catch (ServerDisconnectedException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException(e);
+                }
+            }, 0, GameValues.HEARTBEAT_INTERVAL, TimeUnit.MILLISECONDS);
 
 
             if(isGUI) {

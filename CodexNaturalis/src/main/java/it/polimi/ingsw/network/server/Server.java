@@ -332,14 +332,14 @@ public class Server extends Thread implements ServerRMIInterface {
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }
-        if(recoverGames == 1){
-            List<Game> games = gameSerializer.loadGamesState();
-            for(Game game : games)
-            {
-                gameHandlerMap.put(game.getGameId(), new GameHandler(game.getGameId(), this, game.getListOfPlayers().size()));
-
-            }
-        }
+//        if(recoverGames == 1){
+//            List<Game> games = gameSerializer.loadGamesState();
+//            for(Game game : games)
+//            {
+//                gameHandlerMap.put(game.getGameId(), new GameHandler(game.getGameId(), this, game.getListOfPlayers().size()));
+//
+//            }
+//        }
 
     /*    while(true)
         {

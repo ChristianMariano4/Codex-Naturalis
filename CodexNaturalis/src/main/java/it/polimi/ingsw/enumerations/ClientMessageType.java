@@ -4,6 +4,7 @@ package it.polimi.ingsw.enumerations;
 import java.io.Serializable;
 
 public enum ClientMessageType implements Serializable {
+    HEARTBEAT,
     CREATE_GAME,
     JOIN_GAME,
     PLAY_CARD,

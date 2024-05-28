@@ -3,6 +3,7 @@ package it.polimi.ingsw.enumerations;
 import java.io.Serializable;
 
 public enum ServerMessageType implements Serializable {
+    HEARTBEAT,
     SUCCESS,
     ERROR,
     UPDATE,
