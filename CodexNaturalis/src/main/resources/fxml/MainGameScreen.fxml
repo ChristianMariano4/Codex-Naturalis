@@ -203,7 +203,61 @@
                   </Pane>
                </children>
             </Pane>
-            <Pane fx:id="rulebookPane" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
+            <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="rulebookButton" />
+               </children>
+            </Pane>
+            <Pane layoutX="865.0" layoutY="456.0" prefHeight="41.0" prefWidth="41.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="exitButton" />
+               </children>
+            </Pane>
+            <Pane fx:id="starterCardSide" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
+               <children>
+                  <Pane layoutX="81.0" layoutY="43.0" opacity="0.6" prefHeight="432.0" prefWidth="768.0" styleClass="gameLobbyBackground" />
+                  <Pane layoutX="81.0" layoutY="43.0" prefHeight="432.0" prefWidth="768.0">
+                     <children>
+                        <Pane fx:id="starterFront" layoutX="50.0" layoutY="113.0" prefHeight="206.0" prefWidth="309.0" style="-fx-background-color: white;">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#starterFrontButton" opacity="0.0" prefHeight="206.0" prefWidth="309.0" text="Button" />
+                           </children>
+                        </Pane>
+                        <Pane fx:id="starterBack" layoutX="409.0" layoutY="113.0" prefHeight="206.0" prefWidth="309.0" style="-fx-background-color: white;">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#starterBackButton" opacity="0.0" prefHeight="206.0" prefWidth="309.0" text="Button" />
+                           </children>
+                        </Pane>
+                        <Label layoutX="232.0" layoutY="45.0" text="Choose Starter Card Side" textFill="WHITE">
+                           <font>
+                              <Font name="Serif Regular" size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane fx:id="waitForBegin" prefHeight="518.0" prefWidth="920.0">
+               <children>
+                  <Pane disable="true" layoutX="81.0" layoutY="43.0" opacity="0.6" prefHeight="432.0" prefWidth="768.0" style="-fx-background-color: black; -fx-background-radius: 20;" visible="false" />
+                  <Label layoutX="293.0" layoutY="242.0" text="Wait for the game to begin..." textFill="WHITE">
+                     <font>
+                        <Font name="Serif Regular" size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+      <Pane fx:id="rulebookPane" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
+         <children>
+            <Pane opacity="0.6" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
+            <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="rulebookButton" />
+               </children>
+            </Pane>
+            <Pane disable="true" prefHeight="518.0" prefWidth="920.0">
                <children>
                   <TabPane fx:id="rulebookTabPane" layoutX="240.0" layoutY="8.0" prefHeight="465.0" prefWidth="432.0" styleClass="tabPane" stylesheets="@../style.css" tabClosingPolicy="UNAVAILABLE">
                      <tabs>
@@ -272,40 +326,6 @@
                   <Pane layoutX="750.0" layoutY="240.0" prefHeight="41.0" prefWidth="41.0">
                      <children>
                         <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextRulebookSlide" prefHeight="41.0" prefWidth="42.0" styleClass="nextArrowButton" />
-                     </children>
-                  </Pane>
-               </children>
-            </Pane>
-            <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="rulebookButton" />
-               </children>
-            </Pane>
-            <Pane layoutX="865.0" layoutY="456.0" prefHeight="41.0" prefWidth="41.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="exitButton" />
-               </children>
-            </Pane>
-            <Pane fx:id="starterCardSide" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
-               <children>
-                  <Pane layoutX="81.0" layoutY="43.0" opacity="0.6" prefHeight="432.0" prefWidth="768.0" styleClass="gameLobbyBackground" />
-                  <Pane layoutX="81.0" layoutY="43.0" prefHeight="432.0" prefWidth="768.0">
-                     <children>
-                        <Pane fx:id="starterFront" layoutX="50.0" layoutY="113.0" prefHeight="206.0" prefWidth="309.0" style="-fx-background-color: white;">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#starterFrontButton" opacity="0.0" prefHeight="206.0" prefWidth="309.0" text="Button" />
-                           </children>
-                        </Pane>
-                        <Pane fx:id="starterBack" layoutX="409.0" layoutY="113.0" prefHeight="206.0" prefWidth="309.0" style="-fx-background-color: white;">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#starterBackButton" opacity="0.0" prefHeight="206.0" prefWidth="309.0" text="Button" />
-                           </children>
-                        </Pane>
-                        <Label layoutX="232.0" layoutY="45.0" text="Choose Starter Card Side" textFill="WHITE">
-                           <font>
-                              <Font name="Serif Regular" size="30.0" />
-                           </font>
-                        </Label>
                      </children>
                   </Pane>
                </children>
