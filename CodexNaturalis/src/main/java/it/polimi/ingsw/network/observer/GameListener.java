@@ -36,4 +36,8 @@ public class GameListener implements Listener<GameEvent> {
         }
         System.out.println("We are in GameListener update method");
     }
+
+    public ClientHandlerInterface getClient() {
+        return client;
+    }
 }

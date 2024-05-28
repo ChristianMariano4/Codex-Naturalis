@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.client.ClientHandlerInterface;
+import it.polimi.ingsw.network.client.ClientInfo;
 import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.messages.clientMessages.UserInputEvent;
 import it.polimi.ingsw.network.messages.clientMessages.UserMessage;
@@ -25,7 +26,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class Server extends Thread implements ServerRMIInterface {
     private final Map<Integer, GameHandler> gameHandlerMap;
-    private final Map<ClientHandlerInterface, Long> clients = new HashMap(); //list of all client stubs with their last heartbeat
+    private final Map<ClientHandlerInterface, ClientInfo> clients = new HashMap(); //list of all client stubs with their last heartbeat and gameId
     private final GameSerializer gameSerializer;
     private final int recoverGames;
 
@@ -40,7 +41,7 @@ public class Server extends Thread implements ServerRMIInterface {
     public void connect(ClientHandlerInterface client) throws RemoteException {
         System.out.println("Connecting client to the server...");
         synchronized (this.clients) {
-            this.clients.put(client, System.currentTimeMillis());
+            this.clients.put(client, new ClientInfo(System.currentTimeMillis()));
         }
         System.out.println("Client connected to the server successfully");
 
@@ -48,11 +49,9 @@ public class Server extends Thread implements ServerRMIInterface {
             while(true) {
                 try {
                     Thread.sleep(GameValues.HEARTBEAT_INTERVAL);
-                    if(System.currentTimeMillis() - clients.get(client) > GameValues.HEARTBEAT_TIMEOUT) {
-                        synchronized (this.clients) {
-                            this.clients.remove(client);
-                        }
-                        System.out.println("Client disconnected");
+                    if(System.currentTimeMillis() - clients.get(client).getLastHeartbeat() > GameValues.HEARTBEAT_TIMEOUT) {
+                        disconnect(client);
+                        System.out.println("Client disconnected successfully");
                         break;
                     }
                 } catch (InterruptedException e) {
@@ -62,9 +61,24 @@ public class Server extends Thread implements ServerRMIInterface {
         }).start();
     }
 
+    public void disconnect(ClientHandlerInterface client) {
+        if(gameHandlerMap.get(clients.get(client).getGameId()) != null) { //if the client is in a game
+            gameHandlerMap.get(clients.get(client).getGameId()).unsubscribe(client);
+
+        }
+        System.out.println("Client not yet disconnected. Clients size: "+ clients.size()); //debugging
+        synchronized (this.clients) {
+            this.clients.remove(client);
+        }
+        System.out.println("Client disconnected. Clients size: "+ clients.size()); //debugging
+
+    }
+
     @Override
     public void sendHeartbeat(long time, ClientHandlerInterface client) throws RemoteException {
-        clients.put(client, time);
+        synchronized (this.clients){
+            clients.get(client).setLastHeartbeat(time);
+        }
     }
 
     @Override

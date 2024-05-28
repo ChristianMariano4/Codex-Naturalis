@@ -271,5 +271,19 @@ public class GameHandler implements Serializable {
         }
     }
 
+    public void unsubscribe(ClientHandlerInterface client) {
+        GameListener gameListener = (GameListener) eventManager.getListener(GameEvent.class, (l) -> {
+            GameListener gl = (GameListener) l;
+            try {
+                return gl.getClient().getUsername().equals(client.getUsername());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        synchronized (this) {
+            eventManager.unsubscribe(GameEvent.class, gameListener);
+        }
+    }
+
 
 }

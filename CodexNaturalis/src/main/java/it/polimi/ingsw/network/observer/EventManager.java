@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public class EventManager {
     public Map<Class<?>, List<Listener<? extends Enum<?>>>> listeners = new HashMap<>();
@@ -41,5 +42,18 @@ public class EventManager {
             System.out.println("EventListeners is null");
         }
         System.out.println("Event: " + event + " - Args: " + args);
+    }
+
+    public Listener<? extends Enum<?>> getListener(Class<? extends Enum<?>> classToListen, Function<Listener<? extends Enum<?>>, Boolean> func) {
+        List<Listener<? extends Enum<?>>> listened = listeners.get(classToListen);
+        if (listened == null) {
+            return null;
+        }
+        for (Listener<? extends Enum<?>> l: listened) {
+            if (func.apply(l)) {
+                return l;
+            }
+        }
+        return null;
     }
 }
