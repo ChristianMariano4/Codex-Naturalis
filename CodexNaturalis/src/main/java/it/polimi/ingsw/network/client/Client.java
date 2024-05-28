@@ -191,7 +191,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
             //TODO: add server side reset
         }
     }
-    public void serNarkerTurn(boolean turn)
+    public void serMarkerTurn(boolean turn)
     {
         this.markerTurn = turn;
     }

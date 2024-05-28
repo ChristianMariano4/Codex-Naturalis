@@ -131,7 +131,7 @@ public class ViewGUI implements View, Runnable {
     public boolean getMarkerTurn()
     {
         if(game.getCurrentPlayer().getUsername().equals(client.getUsername()))
-            client.serNarkerTurn(true);
+            client.serMarkerTurn(true);
         return client.getMarkerTurn();
     }
     public void setMarker(Marker marker) throws NotExistingPlayerException, ServerDisconnectedException, IOException, NotAvailableMarkerException {

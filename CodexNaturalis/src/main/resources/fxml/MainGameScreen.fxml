@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.GUIControllers.MainGameScreenController">
@@ -76,11 +77,6 @@
                   <Text fill="WHITE" layoutX="43.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Secret objective card" />
                </children>
             </Pane>
-            <Pane layoutX="865.0" layoutY="456.0" prefHeight="41.0" prefWidth="41.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="exitButton" />
-               </children>
-            </Pane>
             <Pane fx:id="CardsInHandInspector" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
                <children>
                   <Pane opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
@@ -97,7 +93,7 @@
                   </Pane>
                </children>
             </Pane>
-            <Pane fx:id="ObjectiveCardsInspector" disable="true" prefHeight="518.0" prefWidth="920.0">
+            <Pane fx:id="ObjectiveCardsInspector" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
                <children>
                   <Pane opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
                   <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
@@ -126,49 +122,66 @@
             </Pane>
             <Pane fx:id="markerSelection" prefHeight="518.0" prefWidth="920.0">
                <children>
-                  <Pane disable="true" layoutX="1.0" opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
-                  <Pane layoutX="251.0" layoutY="120.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;">
+                  <Pane disable="true" layoutX="81.0" layoutY="43.0" opacity="0.6" prefHeight="432.0" prefWidth="768.0" styleClass="gameLobbyBackground" />
+                  <Pane layoutX="81.0" layoutY="43.0" prefHeight="432.0" prefWidth="768.0">
                      <children>
-                        <Pane fx:id="marker1" disable="true" prefHeight="161.0" prefWidth="206.0" visible="false">
+                        <Pane fx:id="MPane" disable="true" layoutX="30.0" prefHeight="432.0" prefWidth="708.0" visible="false">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#markerOne" opacity="0.0" prefHeight="168.0" prefWidth="206.0" styleClass="markerButton" />
+                              <Pane fx:id="marker1" disable="true" layoutY="138.75" prefHeight="154.5" prefWidth="154.5">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#markerOne" opacity="0.0" prefHeight="154.5" prefWidth="154.5" styleClass="markerButton" />
+                                 </children>
+                              </Pane>
+                              <Pane fx:id="marker2" disable="true" layoutX="184.5" layoutY="138.75" prefHeight="154.5" prefWidth="154.5">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#markerTwo" opacity="0.0" prefHeight="154.5" prefWidth="154.5" styleClass="markerButton" />
+                                 </children>
+                              </Pane>
+                              <Pane fx:id="marker3" disable="true" layoutX="369.0" layoutY="138.75" prefHeight="154.5" prefWidth="154.5">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#markerThree" opacity="0.0" prefHeight="154.5" prefWidth="154.5" styleClass="markerButton" />
+                                 </children>
+                              </Pane>
+                              <Pane fx:id="marker4" disable="true" layoutX="553.5" layoutY="138.75" prefHeight="154.5" prefWidth="154.5">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#markerFour" opacity="0.0" prefHeight="154.5" prefWidth="154.5" styleClass="markerButton" />
+                                 </children>
+                              </Pane>
+                              <Label layoutX="242.0" layoutY="82.0" prefHeight="33.0" prefWidth="255.0" text="Choose your Marker!" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="Serif Regular" size="29.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </Pane>
-                        <Pane fx:id="marker2" disable="true" layoutX="222.0" layoutY="10.0" prefHeight="168.0" prefWidth="185.0" visible="false">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#markerTwo" opacity="0.0" prefHeight="168.0" prefWidth="185.0" styleClass="markerButton" />
-                           </children>
-                        </Pane>
-                        <Pane fx:id="marker3" disable="true" layoutX="20.0" layoutY="163.0" prefHeight="112.0" prefWidth="185.0" visible="false">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#markerThree" opacity="0.0" prefHeight="112.0" prefWidth="185.0" styleClass="markerButton" />
-                           </children>
-                        </Pane>
-                        <Pane fx:id="marker4" disable="true" layoutX="225.0" layoutY="161.0" prefHeight="112.0" prefWidth="185.0" visible="false">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#markerFour" opacity="0.0" prefHeight="112.0" prefWidth="185.0" styleClass="markerButton" />
-                           </children>
-                        </Pane>
-                        <Label fx:id="waitTurn" alignment="CENTER" contentDisplay="CENTER" layoutX="133.0" layoutY="61.0" prefWidth="192.0" text="Wait for your turn to select the marker" textAlignment="CENTER" />
+                        <Label fx:id="waitTurn" alignment="CENTER" contentDisplay="CENTER" layoutY="200.0" prefHeight="29.0" prefWidth="768.0" text="Wait for your turn to select the marker" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Serif Regular" size="27.0" />
+                           </font></Label>
                      </children>
                   </Pane>
                </children>
             </Pane>
-            <Pane fx:id="secretObjective" disable="true" layoutX="10.0" layoutY="10.0" prefHeight="518.0" prefWidth="920.0" visible="false">
+            <Pane fx:id="secretObjective" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
                <children>
-                  <Pane disable="true" layoutX="1.0" opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
-                  <Pane layoutX="251.0" layoutY="120.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;">
+                  <Pane disable="true" layoutX="81.0" layoutY="43.0" opacity="0.6" prefHeight="432.0" prefWidth="768.0" styleClass="gameLobbyBackground" />
+                  <Pane layoutX="81.0" layoutY="43.0" prefHeight="432.0" prefWidth="768.0">
                      <children>
-                        <Pane fx:id="secret1" prefHeight="271.0" prefWidth="200.0">
+                        <Pane fx:id="secret1" layoutX="50.0" layoutY="113.0" prefHeight="206.0" prefWidth="309.0" style="-fx-background-color: white; -fx-background-radius: 10;">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#secretOne" opacity="0.0" prefHeight="271.0" prefWidth="206.0" styleClass="markerButton" />
+                              <Button mnemonicParsing="false" onAction="#secretOne" opacity="0.0" prefHeight="206.0" prefWidth="309.0" styleClass="markerButton" />
                            </children>
                         </Pane>
-                        <Pane fx:id="secret2" layoutX="226.0" layoutY="10.0" prefHeight="260.0" prefWidth="185.0">
+                        <Pane fx:id="secret2" layoutX="409.0" layoutY="113.0" prefHeight="206.0" prefWidth="309.0" style="-fx-background-color: white; -fx-background-radius: 10;">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#secretTwo" opacity="0.0" prefHeight="260.0" prefWidth="206.0" styleClass="markerButton" />
+                              <Button mnemonicParsing="false" onAction="#secretTwo" opacity="0.0" prefHeight="206.0" prefWidth="309.0" styleClass="markerButton" />
                            </children>
                         </Pane>
+                        <Label layoutX="174.0" layoutY="56.0" prefHeight="33.0" prefWidth="420.0" text="Choose your secret objective card!!" textFill="WHITE">
+                           <font>
+                              <Font name="Serif Regular" size="29.0" />
+                           </font>
+                        </Label>
                      </children>
                   </Pane>
                </children>
@@ -249,6 +262,11 @@
             <Pane disable="true" layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="rulebookButton" />
+               </children>
+            </Pane>
+            <Pane layoutX="865.0" layoutY="456.0" prefHeight="41.0" prefWidth="41.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="exitButton" />
                </children>
             </Pane>
          </children>

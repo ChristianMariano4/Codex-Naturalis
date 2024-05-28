@@ -19,8 +19,6 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
 public class MainGameScreenController extends GUIController{
-
-
     public TabPane rulebookTabPane;
     public Pane rulebookPane;
     private boolean isInRulebook = true;
@@ -39,6 +37,7 @@ public class MainGameScreenController extends GUIController{
     public Pane marker2;
     public Pane marker3;
     public Pane marker4;
+    public Pane MPane;
     private ArrayList<Pane> markerPanes = new ArrayList<>();
 
     public Pane secretObjective;
@@ -68,13 +67,11 @@ public class MainGameScreenController extends GUIController{
         rulebookTabPane.getSelectionModel().select(rulebookTabPane.getSelectionModel().getSelectedIndex()-1);
         backButton.disableProperty().bind(rulebookTabPane.getSelectionModel().selectedIndexProperty().lessThanOrEqualTo(0));
     }
-
     public void update(Object update)
     {
 
     }
     public void sceneInitializer() {
-
 
         markerPanes.add(marker1);
         markerPanes.add(marker2);
@@ -124,7 +121,6 @@ public class MainGameScreenController extends GUIController{
         style = style + " -fx-background-size: cover;";
         return style;
     }
-
     Runnable markerThread = () -> {
         try {
             while (!viewGUI.getMarkerTurn()) {
@@ -135,6 +131,9 @@ public class MainGameScreenController extends GUIController{
                 public void run() {
                     waitTurn.setDisable(true);
                     waitTurn.setVisible(false);
+                    MPane.setDisable(false);
+                    MPane.setVisible(true);
+
                     int i = 0;
                     for(Marker marker: viewGUI.getGame().getAvailableMarkers())
                     {
@@ -153,14 +152,10 @@ public class MainGameScreenController extends GUIController{
             throw new RuntimeException();
         }
     };
-
-
-
     private void preGame()
     {
         new Thread(markerThread).start();
     }
-
     @FXML
     private void markerOne()
     {
@@ -258,5 +253,4 @@ public class MainGameScreenController extends GUIController{
         secretObjective.setDisable(true);
         secretObjective.setVisible(false);
     }
-
 }
