@@ -168,16 +168,8 @@
                   <Pane disable="true" layoutX="490.0" layoutY="43.0" opacity="0.6" prefHeight="432.0" prefWidth="359.0" styleClass="gameLobbyBackground" />
                   <Pane layoutX="81.0" layoutY="43.0" prefHeight="432.0" prefWidth="359.0">
                      <children>
-                        <Pane fx:id="shared1" layoutX="77.5" layoutY="100.0" prefHeight="136.0" prefWidth="204.0" style="-fx-background-color: white; -fx-background-radius: 10;">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#secretOne" opacity="0.0" prefHeight="136.0" prefWidth="204.0" styleClass="markerButton" />
-                           </children>
-                        </Pane>
-                        <Pane fx:id="shared2" layoutX="77.5" layoutY="266.0" prefHeight="136.0" prefWidth="204.0" style="-fx-background-color: white; -fx-background-radius: 10;">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#secretTwo" opacity="0.0" prefHeight="136.0" prefWidth="204.0" styleClass="markerButton" />
-                           </children>
-                        </Pane>
+                        <Pane fx:id="shared1" layoutX="77.5" layoutY="100.0" prefHeight="136.0" prefWidth="204.0" style="-fx-background-color: white; -fx-background-radius: 10;" />
+                        <Pane fx:id="shared2" layoutX="77.5" layoutY="266.0" prefHeight="136.0" prefWidth="204.0" style="-fx-background-color: white; -fx-background-radius: 10;" />
                         <Label layoutX="48.0" layoutY="30.0" prefHeight="33.0" prefWidth="263.0" text="Shared Objective Cards" textFill="WHITE">
                            <font>
                               <Font name="Serif Regular" size="27.0" />
@@ -202,7 +194,7 @@
                               <Font name="Serif Regular" size="27.0" />
                            </font>
                         </Label>
-                        <Label layoutX="55.0" layoutY="47.0" text="secret objective card!!" textFill="WHITE">
+                        <Label layoutX="55.0" layoutY="47.0" text="secret objective card" textFill="WHITE">
                            <font>
                               <Font name="Serif Regular" size="27.0" />
                            </font>
@@ -284,7 +276,7 @@
                   </Pane>
                </children>
             </Pane>
-            <Pane disable="true" layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
+            <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="rulebookButton" />
                </children>

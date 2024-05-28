@@ -2,10 +2,12 @@ package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.enumerations.GUIScene;
 import it.polimi.ingsw.enumerations.Marker;
+import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.view.TUI.TUI;
 import it.polimi.ingsw.view.View;
@@ -144,6 +146,18 @@ public class ViewGUI implements View, Runnable {
     }
     public void setSecretObjective(ObjectiveCard card) throws NotExistingPlayerException, ServerDisconnectedException, IOException {
         client.setSecretObjectiveCard(game.getGameId(), game.getPlayer(client.getUsername()), card);
+    }
+
+    public StarterCard getStarterCard() throws NotExistingPlayerException, ServerDisconnectedException, IOException {
+        StarterCard starterCard = game.getPlayer(client.getUsername()).getStarterCard();
+        return starterCard;
+    }
+    public void setStarterCardSide(StarterCard card, Side side) throws NotExistingPlayerException, ServerDisconnectedException, IOException {
+        client.setStarterCardSide(game.getGameId(), game.getPlayer(client.getUsername()), card, side);
+    }
+    public ArrayList<ObjectiveCard> getSharedObjectiveCards()
+    {
+        return game.getTableTop().getSharedObjectiveCards();
     }
 
 }

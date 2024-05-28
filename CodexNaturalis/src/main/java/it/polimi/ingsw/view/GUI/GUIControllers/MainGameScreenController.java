@@ -2,12 +2,14 @@ package it.polimi.ingsw.view.GUI.GUIControllers;
 
 import it.polimi.ingsw.enumerations.GUIScene;
 import it.polimi.ingsw.enumerations.Marker;
+import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
+import it.polimi.ingsw.model.cards.StarterCard;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,9 +42,15 @@ public class MainGameScreenController extends GUIController{
     public Pane MPane;
     private ArrayList<Pane> markerPanes = new ArrayList<>();
 
+    public Pane starterCardSide;
+    public Pane starterFront;
+    public Pane starterBack;
+
     public Pane secretObjective;
     public Pane secret1;
     public Pane secret2;
+    public Pane shared1;
+    public Pane shared2;
 
 
     @FXML
@@ -92,7 +100,7 @@ public class MainGameScreenController extends GUIController{
             for(int i = 0; i<3 ; i++)
             {
                 PlayableCard card = hand.getCardsInHand().get(i);
-                playerHandPanes.get(i).setStyle(getStyle(getCardUrl(card)));
+                playerHandPanes.get(i).setStyle(getStyle(getCardUrl(card, Side.FRONT)));
             }
            // playerHand.setDisable(false);
           //  playerHand.setVisible(true);
@@ -103,9 +111,13 @@ public class MainGameScreenController extends GUIController{
         }
 
     }
-    private String  getCardUrl(Card card)
+    private String  getCardUrl(Card card, Side side)
     {
-        String url = "images/cardsFront/";
+        String url;
+        if(side.equals(Side.FRONT))
+            url = "images/cardsFront/";
+        else
+            url = "images/cardsBack/";
         if(card.getCardId() < 100)
             url = url + "0";
         if(card.getCardId() < 10)
@@ -169,7 +181,7 @@ public class MainGameScreenController extends GUIController{
         }
         markerSelection.setDisable(true);
         markerSelection.setVisible(false);
-        chooseSecretObjective();
+        chooseStarterCardSide();
     }
     @FXML
     private void markerTwo()
@@ -184,7 +196,7 @@ public class MainGameScreenController extends GUIController{
         }
         markerSelection.setDisable(true);
         markerSelection.setVisible(false);
-        chooseSecretObjective();
+        chooseStarterCardSide();
     }
     @FXML
     private void markerThree()
@@ -199,7 +211,7 @@ public class MainGameScreenController extends GUIController{
         }
         markerSelection.setDisable(true);
         markerSelection.setVisible(false);
-        chooseSecretObjective();
+        chooseStarterCardSide();
     }
     @FXML
     private void markerFour()
@@ -214,14 +226,18 @@ public class MainGameScreenController extends GUIController{
         }
         markerSelection.setDisable(true);
         markerSelection.setVisible(false);
-        chooseSecretObjective();
+        chooseStarterCardSide();
     }
 
     private void chooseSecretObjective()
     {
         ArrayList<ObjectiveCard> cards = viewGUI.getObjectiveCardsToChoose();
-        secret1.setStyle(getStyle(getCardUrl(cards.get(0))));
-        secret2.setStyle(getStyle(getCardUrl(cards.get(1))));
+        secret1.setStyle(getStyle(getCardUrl(cards.get(0), Side.FRONT)));
+        secret2.setStyle(getStyle(getCardUrl(cards.get(1), Side.FRONT)));
+
+        ArrayList<ObjectiveCard> sharedObjectiveCards = viewGUI.getSharedObjectiveCards();
+        shared1.setStyle(getStyle(getCardUrl(sharedObjectiveCards.get(0), Side.FRONT)));
+        shared2.setStyle(getStyle(getCardUrl(sharedObjectiveCards.get(1), Side.FRONT)));
 
         secretObjective.setDisable(false);
         secretObjective.setVisible(true);
@@ -252,5 +268,52 @@ public class MainGameScreenController extends GUIController{
         }
         secretObjective.setDisable(true);
         secretObjective.setVisible(false);
+    }
+
+
+    private void chooseStarterCardSide()
+    {
+        try {
+            StarterCard starterCard = viewGUI.getStarterCard();
+            starterFront.setStyle(getStyle(getCardUrl(starterCard, Side.FRONT)));
+            starterBack.setStyle(getStyle(getCardUrl(starterCard, Side.BACK)));
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
+        starterCardSide.setDisable(false);
+        starterCardSide.setVisible(true);
+
+
+    }
+    @FXML
+    public void starterFrontButton()
+    {
+        try {
+            viewGUI.setStarterCardSide(viewGUI.getStarterCard(), Side.FRONT);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
+        starterCardSide.setDisable(true);
+        starterCardSide.setVisible(false);
+        chooseSecretObjective();
+    }
+
+    @FXML
+    public void starterBackButton()
+    {
+        try {
+            viewGUI.setStarterCardSide(viewGUI.getStarterCard(), Side.BACK);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
+        starterCardSide.setDisable(true);
+        starterCardSide.setVisible(false);
+        chooseSecretObjective();
     }
 }
