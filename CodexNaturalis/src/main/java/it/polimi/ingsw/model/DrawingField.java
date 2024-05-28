@@ -92,6 +92,25 @@ public class DrawingField implements Serializable {
 
     /**
      *
+     * @return The top card of the resource card deck
+     * @throws DeckIsEmptyException
+     */
+    public ResourceCard seeTopResourceCard() throws DeckIsEmptyException {
+        return resourceCardDeck.seeTopCard();
+    }
+
+    /**
+     *
+     * @return The top card of the gold card deck
+     * @throws DeckIsEmptyException
+     */
+    public GoldCard seeTopGoldCard() throws DeckIsEmptyException {
+        return goldCardDeck.seeTopCard();
+    }
+
+
+    /**
+     *
      * @throws DeckIsEmptyException if the deck is empty
      */
     public void setDiscoveredCards() throws DeckIsEmptyException {

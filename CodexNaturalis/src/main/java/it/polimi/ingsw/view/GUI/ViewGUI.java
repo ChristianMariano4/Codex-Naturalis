@@ -1,12 +1,16 @@
 package it.polimi.ingsw.view.GUI;
 
+import it.polimi.ingsw.enumerations.DrawPosition;
 import it.polimi.ingsw.enumerations.GUIScene;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.DrawingField;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.model.cards.ResourceCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.view.TUI.TUI;
@@ -165,6 +169,20 @@ public class ViewGUI implements View, Runnable {
     }
     public ObjectiveCard getSecretObjectiveCard() throws NotExistingPlayerException {
         return game.getPlayer(client.getUsername()).getSecretObjective();
+    }
+    public ResourceCard getTopResourceCard() throws DeckIsEmptyException {
+        return game.getTableTop().getDrawingField().seeTopResourceCard();
+    }
+    public GoldCard getTopGoldCard() throws DeckIsEmptyException {
+        return game.getTableTop().getDrawingField().seeTopGoldCard();
+    }
+    public HashMap<DrawPosition,ResourceCard> getDiscoveredResourceCards()
+    {
+        return game.getTableTop().getDrawingField().getDiscoveredResourceCards();
+    }
+    public HashMap<DrawPosition,GoldCard> getDiscoveredGoldCards()
+    {
+        return game.getTableTop().getDrawingField().getDiscoveredGoldCards();
     }
 
 }

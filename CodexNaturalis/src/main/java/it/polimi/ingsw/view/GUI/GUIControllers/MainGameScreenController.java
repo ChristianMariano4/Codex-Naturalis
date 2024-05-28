@@ -1,15 +1,13 @@
 package it.polimi.ingsw.view.GUI.GUIControllers;
 
+import it.polimi.ingsw.enumerations.DrawPosition;
 import it.polimi.ingsw.enumerations.GUIScene;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerHand;
-import it.polimi.ingsw.model.cards.Card;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
-import it.polimi.ingsw.model.cards.StarterCard;
+import it.polimi.ingsw.model.cards.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +17,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainGameScreenController extends GUIController{
     public TabPane rulebookTabPane;
@@ -91,6 +90,14 @@ public class MainGameScreenController extends GUIController{
     public Pane sharedLeft;
     public Pane sharedRight;
     public Pane secret;
+
+    public Pane drawingField;
+    public Pane resourceDeck;
+    public Pane goldDeck;
+    public Pane topDiscoveredR;
+    public Pane bottomDiscoveredR;
+    public Pane topDiscoveredG;
+    public Pane bottomDiscoveredG;
 
 
 
@@ -370,6 +377,7 @@ public class MainGameScreenController extends GUIController{
        initializePlayerHand();
        initializeScoreboard();
        initializeObjectiveCards();
+       initializeDrawingField();
 
 
     }
@@ -453,4 +461,30 @@ public class MainGameScreenController extends GUIController{
         objectiveCards.setDisable(false);
         objectiveCards.setVisible(true);
     }
+
+    private void initializeDrawingField()
+    {
+        try
+        {
+            resourceDeck.setStyle(getStyle(getCardUrl(viewGUI.getTopResourceCard(),Side.BACK)));
+            goldDeck.setStyle(getStyle(getCardUrl(viewGUI.getTopGoldCard(),Side.BACK)));
+
+            HashMap<DrawPosition,ResourceCard> discoveredResourceCards = viewGUI.getDiscoveredResourceCards();
+            HashMap<DrawPosition,GoldCard> discoveredGoldCards = viewGUI.getDiscoveredGoldCards();
+
+            topDiscoveredR.setStyle(getStyle(getCardUrl(discoveredResourceCards.get(DrawPosition.LEFT),Side.FRONT)));
+            bottomDiscoveredR.setStyle(getStyle(getCardUrl(discoveredResourceCards.get(DrawPosition.RIGHT),Side.FRONT)));
+
+            topDiscoveredG.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.LEFT),Side.FRONT)));
+            bottomDiscoveredG.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.RIGHT),Side.FRONT)));
+
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
+        drawingField.setDisable(false);
+        drawingField.setVisible(true);
+    }
+
 }

@@ -84,4 +84,19 @@ public class Deck<T extends Card> implements Serializable{
         deck.push(card);
     }
 
+    /**
+     * Returns the top card from the deck without removing it from the deck.
+     *
+     * @return the top card
+     * @throws DeckIsEmptyException if the deck is empty
+     */
+    public T seeTopCard() throws DeckIsEmptyException
+    {
+        if(deck.isEmpty())
+        {
+            throw new DeckIsEmptyException();
+        }
+        return deck.peek();
+    }
+
 }
