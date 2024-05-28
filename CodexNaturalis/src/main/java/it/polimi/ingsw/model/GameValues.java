@@ -5,10 +5,12 @@ package it.polimi.ingsw.model;
  */
 public class GameValues {
 
-    public static int MAX_PLAYER_NUMBER = 4;
-    public static int MAX_CARD_IN_HAND = 3;
-    public static int DEFAULT_MATRIX_SIZE = 81;
-    public static int RMI_SERVER_PORT = 1234;
-    public static int SOCKET_SERVER_PORT = 4567;
+    public static final int MAX_PLAYER_NUMBER = 4;
+    public static final int MAX_CARD_IN_HAND = 3;
+    public static final int DEFAULT_MATRIX_SIZE = 81;
+    public static final int RMI_SERVER_PORT = 1234;
+    public static final int SOCKET_SERVER_PORT = 4567;
     public static int numberOfGames = 0;
+    public static final int HEARTBEAT_INTERVAL = 5000;
+    public static final int HEARTBEAT_TIMEOUT = 10000;
 }

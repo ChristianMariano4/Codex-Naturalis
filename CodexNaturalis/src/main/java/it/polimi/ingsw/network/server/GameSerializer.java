@@ -1,10 +1,12 @@
 package it.polimi.ingsw.network.server;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.observer.Listener;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class GameSerializer implements Listener<GameEvent> {
     private static GameSerializer instance;
@@ -37,6 +39,30 @@ public class GameSerializer implements Listener<GameEvent> {
         {
             throw new RuntimeException("Couldn't save game state");
         }
+    }
+
+    public static ArrayList<Game> loadGamesState(){
+        String dir = getJarDir();
+        ArrayList<Game> games = new ArrayList<>();
+        if(dir!=null) {
+            File folder = new File(dir + File.separator + "savedGames");
+            File[] listOfFiles = folder.listFiles();
+            if(listOfFiles != null) {
+                for (File file : listOfFiles) {
+                    if (file.isFile()) {
+                        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+                            games.add((Game) in.readObject());
+                        } catch (IOException | ClassNotFoundException e) {
+                            System.err.println("Couldn't load game state");
+                        }
+                    }
+                }
+            }
+        } else
+        {
+            throw new RuntimeException("Couldn't load game state");
+        }
+        return games;
     }
 
     @Override

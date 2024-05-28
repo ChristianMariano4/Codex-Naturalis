@@ -32,6 +32,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     protected boolean starterCardAssigned = false;
     protected ArrayList<ObjectiveCard> objectiveCardsToChoose = null;
     protected boolean gameBegin = false;
+    public long lastHeartbeat = System.currentTimeMillis();
 
 
     /**

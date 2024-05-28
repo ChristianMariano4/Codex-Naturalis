@@ -157,4 +157,14 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
     public String getUsername() throws IOException {
         return this.username;
     }
+
+    @Override
+    public void setLastHeatbeat(long time) throws RemoteException {
+
+    }
+
+    @Override
+    public long getLastHeartbeat() throws RemoteException {
+        return 0;
+    }
 }

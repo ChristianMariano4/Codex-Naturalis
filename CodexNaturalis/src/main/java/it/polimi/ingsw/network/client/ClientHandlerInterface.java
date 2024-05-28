@@ -10,4 +10,6 @@ import java.rmi.RemoteException;
 public interface ClientHandlerInterface extends Remote {
     void update(GameEvent event, Object gameUpdate) throws IOException, InterruptedException, NotExistingPlayerException;
     String getUsername() throws IOException;
+    void setLastHeatbeat(long time) throws RemoteException;
+    long getLastHeartbeat() throws RemoteException;
 }

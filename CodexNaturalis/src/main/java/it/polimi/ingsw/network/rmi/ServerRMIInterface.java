@@ -45,16 +45,7 @@ public interface ServerRMIInterface extends Remote {
 
     public ObjectiveCard getOtherSideCard(int gameId, ObjectiveCard card) throws RemoteException;
 
+    void sendHeartbeat(long time, ClientHandlerInterface client) throws RemoteException;
 
-    }
 
-//TODO: game setup
-//1 - create game
-//2 - initialize game
-//3 - each player receives a random starter card and choose the side to play
-//4 - each player draws 2 resources card and 1 gold card --> DONE
-//5 - discover 2 shared objective cards
-//6 - each player chooses 1 secret objective card among 2
-//7 - the game starts and the player order is shown -> black marker is assigned to first player
-
-//TODO: game begins -> rounds
+}

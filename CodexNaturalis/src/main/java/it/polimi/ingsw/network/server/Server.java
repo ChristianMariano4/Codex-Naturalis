@@ -25,21 +25,54 @@ import java.util.concurrent.BlockingQueue;
 
 public class Server extends Thread implements ServerRMIInterface {
     private final Map<Integer, GameHandler> gameHandlerMap;
-    private final List<ClientHandlerInterface> clients = new ArrayList<>(); //list of all client stubs
+    private final Map<ClientHandlerInterface, Long> clients = new HashMap(); //list of all client stubs with their last heartbeat
     private final GameSerializer gameSerializer;
+    private final int recoverGames;
+
 
     public Server(Map<Integer, GameHandler> gameHandlerMap) {
         this.gameHandlerMap = gameHandlerMap;
         this.gameSerializer = new GameSerializer();
+        this.recoverGames = 0;
     }
+
+    public Server(Map<Integer, GameHandler> gameHandlerMap, int recoverGames) {
+        this.gameHandlerMap = gameHandlerMap;
+        this.gameSerializer = new GameSerializer();
+        this.recoverGames = recoverGames;
+    }
+
+
 
     @Override
     public void connect(ClientHandlerInterface client) throws RemoteException {
         System.out.println("Connecting client to the server...");
         synchronized (this.clients) {
-            this.clients.add(client);
+            this.clients.put(client, System.currentTimeMillis());
         }
         System.out.println("Client connected to the server successfully");
+
+        new Thread(() -> {
+            while(true) {
+                try {
+                    Thread.sleep(GameValues.HEARTBEAT_INTERVAL);
+                    if(System.currentTimeMillis() - clients.get(client) > GameValues.HEARTBEAT_TIMEOUT) {
+                        synchronized (this.clients) {
+                            this.clients.remove(client);
+                        }
+                        System.out.println("Client disconnected");
+                        break;
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
+    }
+
+    @Override
+    public void sendHeartbeat(long time, ClientHandlerInterface client) throws RemoteException {
+        clients.put(client, time);
     }
 
     @Override
@@ -121,7 +154,7 @@ public class Server extends Thread implements ServerRMIInterface {
     public boolean checkUsername(String username) throws IOException {
         if (username.equals(""))
             return false;
-        for(ClientHandlerInterface client : clients)
+        for(ClientHandlerInterface client : clients.keySet())
         {
             if(client.getUsername() == null)
                 continue;
@@ -293,6 +326,15 @@ public class Server extends Thread implements ServerRMIInterface {
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }
+        if(recoverGames == 1){
+            List<Game> games = gameSerializer.loadGamesState();
+            for(Game game : games)
+            {
+                gameHandlerMap.put(game.getGameId(), new GameHandler(game.getGameId(), this, game.getListOfPlayers().size()));
+
+            }
+        }
+
     /*    while(true)
         {
             try {

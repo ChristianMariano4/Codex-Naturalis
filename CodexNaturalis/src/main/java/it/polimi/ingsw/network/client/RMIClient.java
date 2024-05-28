@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
@@ -12,6 +13,9 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class RMIClient extends Client {
     private final ServerRMIInterface serverRMIInterface;
@@ -82,6 +86,15 @@ public class RMIClient extends Client {
         try {
             this.serverRMIInterface.connect(this); //connect to the server
 
+            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+            scheduler.scheduleAtFixedRate(() -> {
+                try {
+                    serverRMIInterface.sendHeartbeat(System.currentTimeMillis(), this);
+                } catch (RemoteException e) {
+                    System.err.println("Failed to send heartbeat to server");
+                    throw new RuntimeException(e);
+                }
+            }, 0, GameValues.HEARTBEAT_INTERVAL, TimeUnit.MILLISECONDS);
             if(isGUI) {
               runGUI();
 
@@ -207,5 +220,15 @@ public class RMIClient extends Client {
         {
         throw new ServerDisconnectedException();
         }
+    }
+
+    @Override
+    public void setLastHeatbeat(long time) throws RemoteException {
+        this.lastHeartbeat = time;
+    }
+
+    @Override
+    public long getLastHeartbeat() throws RemoteException {
+        return this.lastHeartbeat;
     }
 }
