@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.TextFlow?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.GUIControllers.JoinGameScreenController">
    <children>
       <Pane fx:id="scalable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" styleClass="lobbyScreen" stylesheets="@../style.css">
@@ -14,7 +13,7 @@
             <Button fx:id="joinButton" disable="true" layoutX="428.0" layoutY="372.0" mnemonicParsing="false" onAction="#join" styleClass="test" stylesheets="@../style.css" text="Join" visible="false" />
             <Button layoutX="498.0" layoutY="307.0" mnemonicParsing="false" styleClass="test" stylesheets="@../style.css" text="Quit" />
             <Button layoutX="353.0" layoutY="307.0" mnemonicParsing="false" onAction="#back" styleClass="test" stylesheets="@../style.css" text="Back" />
-            <TextFlow layoutX="381.0" layoutY="134.0" prefHeight="147.0" prefWidth="159.0">
+            <TextFlow layoutX="381.0" layoutY="134.0" prefHeight="147.0" prefWidth="159.0" styleClass="listViw" stylesheets="@../style.css">
                <children>
                   <ListView fx:id="gameList2" onMouseClicked="#joinButton" prefHeight="147.0" prefWidth="159.0" />
                </children>

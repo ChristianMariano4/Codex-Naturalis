@@ -185,6 +185,24 @@
     -fx-background-size: 50%;
     -fx-background-position: center;
 }
-.markerButton{
+.markerButton {
     -fx-background-size: 100%;
 }
+.listViw {
+    .list-cell:filled:selected:focused, .list-cell:filled:selected {
+        -fx-background-color: linear-gradient(#f0ebbe 0%, #e3dab3 25%, #c1a94f 75%, #736211 100%);
+        -fx-text-fill: #e3dab3;
+    }
+
+    .list-cell:odd {
+        -fx-cell-hover-color: #736211;
+        -fx-background-color: #e3dab3;
+    }
+
+    .list-cell:filled:hover {
+        -fx-cell-hover-color: #736211;
+        -fx-text-fill: #e3dab3;
+    }
+}
+
+
