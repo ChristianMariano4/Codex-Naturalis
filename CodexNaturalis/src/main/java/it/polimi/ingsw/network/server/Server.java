@@ -36,14 +36,6 @@ public class Server extends Thread implements ServerRMIInterface {
         this.recoverGames = 0;
     }
 
-    public Server(Map<Integer, GameHandler> gameHandlerMap, int recoverGames) {
-        this.gameHandlerMap = gameHandlerMap;
-        this.gameSerializer = new GameSerializer();
-        this.recoverGames = recoverGames;
-    }
-
-
-
     @Override
     public void connect(ClientHandlerInterface client) throws RemoteException {
         System.out.println("Connecting client to the server...");
