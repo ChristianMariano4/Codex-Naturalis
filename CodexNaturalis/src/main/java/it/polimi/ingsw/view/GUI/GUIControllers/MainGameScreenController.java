@@ -6,20 +6,29 @@ import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerField;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
+
 public class MainGameScreenController extends GUIController{
+
+    public Pane scalable;
+
     public TabPane rulebookTabPane;
     public Pane rulebookPane;
     private boolean isInRulebook = true;
@@ -98,6 +107,12 @@ public class MainGameScreenController extends GUIController{
     public Pane bottomDiscoveredR;
     public Pane topDiscoveredG;
     public Pane bottomDiscoveredG;
+
+    public Pane playerField;
+    public Pane starterCard;
+    public Pane movingField;
+    private ArrayList<Pane> fieldPanes = new ArrayList<>();
+
 
 
 
@@ -378,6 +393,7 @@ public class MainGameScreenController extends GUIController{
        initializeScoreboard();
        initializeObjectiveCards();
        initializeDrawingField();
+       initializePlayerField();
 
 
     }
@@ -486,5 +502,75 @@ public class MainGameScreenController extends GUIController{
         drawingField.setDisable(false);
         drawingField.setVisible(true);
     }
+    private double startDragX;
+    private double startDragY;
+    public void initializePlayerField()
+    {
+        Rectangle fieldCut = new Rectangle();
+        fieldCut.setLayoutX(298.0f);
+        fieldCut.setLayoutY(70.0f);
+        fieldCut.setWidth(350.0f);
+        fieldCut.setHeight(350.0f);
+        movingField.setOnMousePressed(e -> {
+
+            startDragX = e.getSceneX() - movingField.getTranslateX();
+            startDragY = e.getSceneY() - movingField.getTranslateY();
+        });
+
+        movingField.setOnMouseDragged(e -> {
+         /*   double starterRight = starterCard.getLayoutX() + starterCard.getWidth();
+            double starterLeft = starterCard.getLayoutX();
+            double starterUp = starterCard.getLayoutY();
+            double starterDown = starterCard.getLayoutY() + starterCard.getHeight();
+
+            double maxRight = starterRight;
+            double maxLeft = starterLeft;
+            double maxUp = starterUp;
+            double maxDown = starterDown;
+
+
+            for(Pane p : fieldPanes)
+            {
+                System.out.println(p.getLayoutX());
+                System.out.println(p.getLayoutY());
+
+            }
+            System.out.println(movingField.getTranslateX());
+            System.out.println(movingField.getTranslateY()+"\n");
+            */
+
+            movingField.setTranslateX(e.getSceneX() - startDragX);
+            movingField.setTranslateY(e.getSceneY() - startDragY);
+        });
+
+        movingField.setOnScroll(e -> {
+            double scaleFactor = e.getDeltaY() > 0 ? 1.1 : 1/1.1;
+            if((movingField.getScaleX() <= 2 && e.getDeltaY() > 0) || (movingField.getScaleX()>= 0.75  && e.getDeltaY() < 0))
+            {
+                movingField.setScaleX(movingField.getScaleX() * scaleFactor);
+                movingField.setScaleY(movingField.getScaleY() * scaleFactor);
+            }
+        });
+
+
+        playerField.setClip(fieldCut);
+        playerField.setStyle(getStyle("images/Backgounds/yellow.jpg"));
+        playerField.setDisable(false);
+        playerField.setVisible(true);
+        //scalable.setStyle(getStyle("images/Backgounds/woodCut.png"));
+
+        try {
+            PlayableCard card = viewGUI.getPlayerField().getMatrixField()[DEFAULT_MATRIX_SIZE/2][DEFAULT_MATRIX_SIZE/2];
+            starterCard.setStyle(getStyle(getCardUrl(card ,card.getCurrentSide())));
+            fieldPanes.add(starterCard);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
+
+    }
+
+
 
 }

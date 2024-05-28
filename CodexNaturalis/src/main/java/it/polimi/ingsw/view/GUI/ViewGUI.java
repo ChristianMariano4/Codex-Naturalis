@@ -8,6 +8,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.DrawingField;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerField;
 import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
@@ -183,6 +184,9 @@ public class ViewGUI implements View, Runnable {
     public HashMap<DrawPosition,GoldCard> getDiscoveredGoldCards()
     {
         return game.getTableTop().getDrawingField().getDiscoveredGoldCards();
+    }
+    public PlayerField getPlayerField() throws NotExistingPlayerException {
+        return game.getPlayer(client.getUsername()).getPlayerField();
     }
 
 }
