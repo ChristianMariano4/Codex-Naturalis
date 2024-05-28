@@ -159,5 +159,12 @@ public class ViewGUI implements View, Runnable {
     {
         return game.getTableTop().getSharedObjectiveCards();
     }
+    public boolean getGameBegin()
+    {
+        return client.getGameBegin();
+    }
+    public ObjectiveCard getSecretObjectiveCard() throws NotExistingPlayerException {
+        return game.getPlayer(client.getUsername()).getSecretObjective();
+    }
 
 }

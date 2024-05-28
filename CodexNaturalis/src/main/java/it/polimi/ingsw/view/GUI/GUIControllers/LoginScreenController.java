@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,12 +19,12 @@ import java.util.ResourceBundle;
 
 public class LoginScreenController extends GUIController {
     public TextField username;
-    public Label error_message;
+    public Label errorMessage;
 
     public SoundController soundController;
 
     @FXML
-    public void actionEnter(ActionEvent event) throws IOException, InterruptedException, ServerDisconnectedException {
+    public void connectButton(ActionEvent event) throws IOException, InterruptedException, ServerDisconnectedException {
         try
         {
             soundController = new SoundController();
@@ -33,8 +34,8 @@ public class LoginScreenController extends GUIController {
         }
         catch (WrongInputException e)
         {
-            username.setPromptText("Username already in use, try again");
-            username.setStyle("-fx-prompt-text-fill: red");
+            errorMessage.setDisable(false);
+            errorMessage.setVisible(true);
              //send feedback to GUI by calling gui method
         }
 

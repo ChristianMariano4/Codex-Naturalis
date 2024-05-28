@@ -207,6 +207,10 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         return this.playing;
     }
 
+    public boolean getGameBegin()
+    {
+        return this.gameBegin;
+    }
     protected void runGUI()
     {
             ViewGUI viewGUI = (ViewGUI) view;

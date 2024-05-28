@@ -14,7 +14,7 @@
                <children>
                   <TextField id="username" fx:id="username" layoutX="375.0" layoutY="349.0" opacity="0.53" prefHeight="26.0" prefWidth="161.0" promptText="Insert your username" />
                   <Button layoutX="409.0" layoutY="379.0" mnemonicParsing="false" onAction="#connectButton" styleClass="test" stylesheets="@../style.css" text="Connect" />
-                  <Label fx:id="errorMessage" layoutX="367.0" layoutY="332.0" text="Username already in use, try again" textFill="#f51717" />
+                  <Label fx:id="errorMessage" disable="true" layoutX="367.0" layoutY="332.0" text="Username already in use, try again" textFill="#f51717" visible="false" />
                </children>
             </Pane>
          </children>

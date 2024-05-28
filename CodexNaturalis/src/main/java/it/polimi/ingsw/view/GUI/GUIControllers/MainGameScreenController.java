@@ -52,6 +52,47 @@ public class MainGameScreenController extends GUIController{
     public Pane shared1;
     public Pane shared2;
 
+    public Pane waitForBegin;
+
+    public Pane scoreBoard;
+    public Pane plat0;
+    public Pane plat1;
+    public Pane plat2;
+    public Pane plat3;
+    public Pane plat4;
+    public Pane plat5;
+    public Pane plat6;
+    public Pane plat7;
+    public Pane plat8;
+    public Pane plat9;
+    public Pane plat10;
+    public Pane plat11;
+    public Pane plat12;
+    public Pane plat13;
+    public Pane plat14;
+    public Pane plat15;
+    public Pane plat16;
+    public Pane plat17;
+    public Pane plat18;
+    public Pane plat19;
+    public Pane plat20;
+    public Pane plat21;
+    public Pane plat22;
+    public Pane plat23;
+    public Pane plat24;
+    public Pane plat25;
+    public Pane plat26;
+    public Pane plat27;
+    public Pane plat28;
+    public Pane plat29;
+    private ArrayList<Pane> platPanes = new ArrayList<>();
+
+    public Pane objectiveCards;
+    public Pane sharedLeft;
+    public Pane sharedRight;
+    public Pane secret;
+
+
 
     @FXML
     public void rulebookButton(ActionEvent actionEvent) {
@@ -85,30 +126,7 @@ public class MainGameScreenController extends GUIController{
         markerPanes.add(marker2);
         markerPanes.add(marker3);
         markerPanes.add(marker4);
-
         preGame();
-
-        playerHandPanes.add(card1);
-        playerHandPanes.add(card2);
-        playerHandPanes.add(card3);
-
-
-        try {
-
-            Game game = viewGUI.getGame();
-            PlayerHand hand = game.getPlayer(viewGUI.getUsername()).getPlayerHand();
-            for(int i = 0; i<3 ; i++)
-            {
-                PlayableCard card = hand.getCardsInHand().get(i);
-                playerHandPanes.get(i).setStyle(getStyle(getCardUrl(card, Side.FRONT)));
-            }
-           // playerHand.setDisable(false);
-          //  playerHand.setVisible(true);
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException();
-        }
 
     }
     private String  getCardUrl(Card card, Side side)
@@ -255,6 +273,7 @@ public class MainGameScreenController extends GUIController{
         }
         secretObjective.setDisable(true);
         secretObjective.setVisible(false);
+        waitForGameBegin();
     }
     @FXML
     public void secretTwo()
@@ -268,6 +287,35 @@ public class MainGameScreenController extends GUIController{
         }
         secretObjective.setDisable(true);
         secretObjective.setVisible(false);
+        waitForGameBegin();
+    }
+    Runnable waitGameBeginThread = () -> {
+        try {
+            while (!viewGUI.getGameBegin()) {
+                Thread.sleep(1);
+            }
+            Platform.runLater(new Runnable() {
+
+                public void run() {
+                    waitForBegin.setDisable(true);
+                    waitForBegin.setVisible(false);
+                    tabletopSetup();
+
+                }
+            });
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
+    };
+
+    public void waitForGameBegin()
+    {
+        waitForBegin.setDisable(false);
+        waitForBegin.setVisible(true);
+        new Thread(waitGameBeginThread).start();
+
     }
 
 
@@ -315,5 +363,94 @@ public class MainGameScreenController extends GUIController{
         starterCardSide.setDisable(true);
         starterCardSide.setVisible(false);
         chooseSecretObjective();
+    }
+
+    public void tabletopSetup()
+    {
+       initializePlayerHand();
+       initializeScoreboard();
+       initializeObjectiveCards();
+
+
+    }
+
+    private void initializePlayerHand()
+    {
+        Game game = viewGUI.getGame();
+        playerHandPanes.add(card1);
+        playerHandPanes.add(card2);
+        playerHandPanes.add(card3);
+        try {
+            PlayerHand hand = game.getPlayer(viewGUI.getUsername()).getPlayerHand();
+            for(int i = 0; i<3 ; i++)
+            {
+                PlayableCard card = hand.getCardsInHand().get(i);
+                playerHandPanes.get(i).setStyle(getStyle(getCardUrl(card, Side.FRONT)));
+            }
+            playerHand.setDisable(false);
+            playerHand.setVisible(true);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
+    }
+    private void initializeScoreboard()
+    {
+        platPanes.add(plat0);
+        platPanes.add(plat1);
+        platPanes.add(plat2);
+        platPanes.add(plat3);
+        platPanes.add(plat4);
+        platPanes.add(plat5);
+        platPanes.add(plat6);
+        platPanes.add(plat7);
+        platPanes.add(plat8);
+        platPanes.add(plat9);
+        platPanes.add(plat10);
+        platPanes.add(plat11);
+        platPanes.add(plat12);
+        platPanes.add(plat13);
+        platPanes.add(plat14);
+        platPanes.add(plat15);
+        platPanes.add(plat16);
+        platPanes.add(plat17);
+        platPanes.add(plat18);
+        platPanes.add(plat19);
+        platPanes.add(plat20);
+        platPanes.add(plat21);
+        platPanes.add(plat22);
+        platPanes.add(plat23);
+        platPanes.add(plat24);
+        platPanes.add(plat25);
+        platPanes.add(plat26);
+        platPanes.add(plat27);
+        platPanes.add(plat28);
+        platPanes.add(plat29);
+        for(Pane pane : platPanes)
+        {
+            pane.setDisable(true);
+            pane.setVisible(false);
+        }
+        scoreBoard.setDisable(false);
+        scoreBoard.setVisible(true);
+    }
+
+    private void initializeObjectiveCards()
+    {
+        try{
+            ArrayList<ObjectiveCard> sharedObjectiveCards = viewGUI.getSharedObjectiveCards();
+            sharedLeft.setStyle(getStyle(getCardUrl(sharedObjectiveCards.get(0),Side.FRONT)));
+            sharedRight.setStyle(getStyle(getCardUrl(sharedObjectiveCards.get(1),Side.FRONT)));
+
+            secret.setStyle(getStyle(getCardUrl(viewGUI.getSecretObjectiveCard(),Side.FRONT)));
+
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
+        objectiveCards.setDisable(false);
+        objectiveCards.setVisible(true);
     }
 }
