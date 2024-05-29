@@ -23,6 +23,9 @@ public class MainGameScreenController extends GUIController{
 
     public Pane scalable;
 
+    public Pane tableTop;
+
+
     public TabPane rulebookTabPane;
     public Pane rulebookPane;
     private boolean isInRulebook = true;
@@ -480,10 +483,10 @@ public class MainGameScreenController extends GUIController{
     @FXML
     public void showOtherSharedObjCardSide() {
         if(frontSide) {
-            showSharedObjCard(sharedObjChoice, Side.FRONT);
+            showSharedObjCard(sharedObjChoice, Side.BACK);
             frontSide = false;
         } else {
-            showSharedObjCard(sharedObjChoice, Side.BACK);
+            showSharedObjCard(sharedObjChoice, Side.FRONT);
             frontSide = true;
         }
     }
@@ -525,10 +528,10 @@ public class MainGameScreenController extends GUIController{
     @FXML
     public void showOtherSecretObjCardSide() {
         if(frontSide) {
-            showSecretObjCard(Side.FRONT);
+            showSecretObjCard(Side.BACK);
             frontSide = false;
         } else {
-            showSecretObjCard(Side.BACK);
+            showSecretObjCard(Side.FRONT);
             frontSide = true;
         }
     }
@@ -560,10 +563,10 @@ public class MainGameScreenController extends GUIController{
     @FXML
     public void showOtherDrawingCardSide() { //TODO: other side card only for discovered cards
         if(frontSide) {
-            showSharedObjCard(sharedObjChoice, Side.FRONT);
+            showSharedObjCard(sharedObjChoice, Side.BACK);
             frontSide = false;
         } else {
-            showSharedObjCard(sharedObjChoice, Side.BACK);
+            showSharedObjCard(sharedObjChoice, Side.FRONT);
             frontSide = true;
         }
     }
@@ -577,19 +580,19 @@ public class MainGameScreenController extends GUIController{
     }
     @FXML
     public void rightTopDrawingButton() {
-        showDrawingFieldCard(Side.FRONT, CardType.GOLD, false, DrawPosition.RIGHT);
-    }
-    @FXML
-    public void leftTopDrawingButton() {
-        showDrawingFieldCard(Side.FRONT, CardType.RESOURCE, false, DrawPosition.RIGHT);
-    }
-    @FXML
-    public void rightBottomDrawingButton() {
         showDrawingFieldCard(Side.FRONT, CardType.GOLD, false, DrawPosition.LEFT);
     }
     @FXML
-    public void leftBottomDrawingButton() {
+    public void leftTopDrawingButton() {
         showDrawingFieldCard(Side.FRONT, CardType.RESOURCE, false, DrawPosition.LEFT);
+    }
+    @FXML
+    public void rightBottomDrawingButton() {
+        showDrawingFieldCard(Side.FRONT, CardType.GOLD, false, DrawPosition.RIGHT);
+    }
+    @FXML
+    public void leftBottomDrawingButton() {
+        showDrawingFieldCard(Side.FRONT, CardType.RESOURCE, false, DrawPosition.RIGHT);
     }
 
     private void showDrawingFieldCard(Side side, CardType cardType, boolean fromDeck, DrawPosition drawPosition) {
@@ -609,9 +612,9 @@ public class MainGameScreenController extends GUIController{
                 if(cardType.equals(CardType.GOLD)) {
                     HashMap<DrawPosition,GoldCard> discoveredGoldCards = viewGUI.getDiscoveredGoldCards();
                     if(drawPosition.equals(DrawPosition.RIGHT)) {
-                        bottomDiscoveredG.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.RIGHT),side)));
+                       DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.RIGHT),side)));
                     } else {
-                        topDiscoveredG.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.LEFT),side)));
+                        DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.LEFT),side)));
                     }
                 } else if(cardType.equals(CardType.RESOURCE)) {
                     HashMap<DrawPosition,ResourceCard> discoveredResourceCards = viewGUI.getDiscoveredResourceCards();
@@ -755,6 +758,7 @@ public class MainGameScreenController extends GUIController{
             System.out.println(movingField.getTranslateX());
             System.out.println(movingField.getTranslateY()+"\n");
             */
+            //System.out.println(scalable.get);
 
             movingField.setTranslateX(e.getSceneX() - startDragX);
             movingField.setTranslateY(e.getSceneY() - startDragY);

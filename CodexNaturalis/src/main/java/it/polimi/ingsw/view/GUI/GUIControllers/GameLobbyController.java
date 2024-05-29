@@ -81,17 +81,21 @@ public class GameLobbyController extends GUIController {
         for(int i = 0; i< 4; i++)
         {
             try {
-                Label label = names.get(i);
-                String username = game.getListOfPlayers().get(i).getUsername();
-                Platform.runLater(new Runnable() {
-                    @Override public void run() {
-                        label.setText(username);
-                    }
-                });        //multithreading javafx
-                names.get(i).setDisable(false);
-                names.get(i).setVisible(true);
-                playerPanes.get(i).setDisable(false);
-                playerPanes.get(i).setVisible(true);
+                synchronized (this) {
+                    Label label = names.get(i);
+                    String username = game.getListOfPlayers().get(i).getUsername();
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            label.setText(username);
+
+                        }
+                    });//multithreading javafx
+                    names.get(i).setDisable(false);
+                    names.get(i).setVisible(true);
+                    playerPanes.get(i).setDisable(false);
+                    playerPanes.get(i).setVisible(true);
+                }
                 new Thread()
                 {
                     public void run()

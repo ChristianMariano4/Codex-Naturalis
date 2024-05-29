@@ -48,6 +48,7 @@ public class GUI extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         this.viewGUI = new ViewGUI(this);
+        primaryStage = new Stage();
         loadAllScenes();
 
         do {
@@ -65,7 +66,7 @@ public class GUI extends Application {
 
 
 
-        primaryStage = new Stage();
+
         Image icon = new Image(getClass().getResourceAsStream("/images/CODEX_Rulebook_IT/01.png"));
         primaryStage.getIcons().add(icon);
         primaryStage.setTitle("Codex Naturalis");
@@ -85,6 +86,7 @@ public class GUI extends Application {
                 controller = loader.getController();
                 controller.setView(viewGUI);
                 controller.setGUI(this);
+                controller.setStage(primaryStage);
                 scenes.put(scene, new SceneData(new Scene(root), controller));
             } catch (IOException e) {
                 System.out.println("Not loaded");
@@ -101,16 +103,10 @@ public class GUI extends Application {
 
         scenes.get(scene).getController().sceneInitializer();
         primaryStage.setScene(scenes.get(scene).getScene());
+
+
         this.controller = scenes.get(scene).getController();
-/*
-        primaryStage.setWidth(widthOld);
-        primaryStage.setHeight(heightOld);
 
-        double widthTemp = widthOld;
-        double heightTemp = heightOld;
-
-
-        //rescale(widthTemp, heightTemp); */
         primaryStage.show();
 
         widthOld = primaryStage.getScene().getWidth();
@@ -118,16 +114,21 @@ public class GUI extends Application {
 
         this.primaryStage.widthProperty().addListener(
                 (obs, oldVal, newVal) -> {
-                    rescale((double) newVal, heightOld); // - 16
+                    rescale((double) newVal - 16, heightOld); // - 16
                 }
         );
         this.primaryStage.heightProperty().addListener(
                 (obs, oldVal, newVal) -> {
-                    rescale(widthOld, (double) newVal); // -39
+                    rescale(widthOld, (double) newVal - 39); // -39
                 }
         );
-
         rescalable = true;
+
+       // primaryStage.setHeight(heightOld + 39);
+      //  primaryStage.setWidth(widthOld);
+
+
+
 
     }
 
