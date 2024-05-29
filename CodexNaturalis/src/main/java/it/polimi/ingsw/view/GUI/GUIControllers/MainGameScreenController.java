@@ -36,6 +36,13 @@ public class MainGameScreenController extends GUIController{
     public Pane cardsInHandInspector;
     public Pane handCardInspector;
 
+    private int sharedObjChoice = 2;
+    public Pane objectiveCardsInspector;
+    public Pane showObjCard;
+
+    public Pane secretObjCardsInspector;
+    public Pane showSObjCard;
+
     public Pane card1;
     public Pane card2;
     public Pane card3;
@@ -460,12 +467,93 @@ public class MainGameScreenController extends GUIController{
         }
     }
     @FXML
-    public void exitButtonAction() {
+    public void exitHandButton() {
         cardsInHandInspector.setDisable(true);
         cardsInHandInspector.setVisible(false);
         playerField.setDisable(false);
         playerField.setVisible(true);
         cardInHandSelected = 3;
+        frontSide = true;
+    }
+    //SHOW SHARED OBJECTIVE CARDS
+    @FXML
+    public void showOtherSharedObjCardSide() {
+        if(frontSide) {
+            showSharedObjCard(sharedObjChoice, Side.FRONT);
+            frontSide = false;
+        } else {
+            showSharedObjCard(sharedObjChoice, Side.BACK);
+            frontSide = true;
+        }
+    }
+    @FXML
+    public void sharedObjCardButtonOne() {
+        sharedObjChoice = 0;
+        showSharedObjCard(0, Side.FRONT);
+    }
+    @FXML
+    public void sharedObjCardButtonTwo() {
+        sharedObjChoice = 1;
+        showSharedObjCard(1, Side.FRONT);
+    }
+    private void showSharedObjCard(Integer i, Side side) {
+        Game game = viewGUI.getGame();
+
+        objectiveCardsInspector.setDisable(false);
+        objectiveCardsInspector.setVisible(true);
+        playerField.setDisable(true);
+        playerField.setVisible(false);
+
+        try {
+            ArrayList<ObjectiveCard> sharedObjectiveCards = viewGUI.getSharedObjectiveCards();
+            showObjCard.setStyle(getStyle(getCardUrl(sharedObjectiveCards.get(i), side)));
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+    @FXML
+    public void exitObjectiveButton() {
+        objectiveCardsInspector.setDisable(true);
+        objectiveCardsInspector.setVisible(false);
+        playerField.setDisable(false);
+        playerField.setVisible(true);
+        sharedObjChoice = 2;
+        frontSide = true;
+    }
+    //SHOW SECRET OBJECTIVE CARD
+    @FXML
+    public void showOtherSecretObjCardSide() {
+        if(frontSide) {
+            showSecretObjCard(Side.FRONT);
+            frontSide = false;
+        } else {
+            showSecretObjCard(Side.BACK);
+            frontSide = true;
+        }
+    }
+    @FXML
+    public void secretObjCardButton() {
+        showSecretObjCard(Side.FRONT);
+    }
+    private void showSecretObjCard(Side side) {
+        secretObjCardsInspector.setDisable(false);
+        secretObjCardsInspector.setVisible(true);
+        playerField.setDisable(true);
+        playerField.setVisible(false);
+
+        try {
+            showSObjCard.setStyle(getStyle(getCardUrl(viewGUI.getSecretObjectiveCard(), side)));
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+    @FXML
+    public void exitObjectiveSecretButton() {
+        secretObjCardsInspector.setDisable(true);
+        secretObjCardsInspector.setVisible(false);
+        playerField.setDisable(false);
+        playerField.setVisible(true);
+        frontSide = true;
     }
 
     private void initializeScoreboard()
