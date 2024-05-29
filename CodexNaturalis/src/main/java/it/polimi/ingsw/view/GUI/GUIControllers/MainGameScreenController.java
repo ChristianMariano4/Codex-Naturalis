@@ -507,10 +507,11 @@ public class MainGameScreenController extends GUIController{
     public void initializePlayerField()
     {
         Rectangle fieldCut = new Rectangle();
-        fieldCut.setLayoutX(298.0f);
-        fieldCut.setLayoutY(70.0f);
+        fieldCut.setLayoutX(288.0f); //298.0f
+        fieldCut.setLayoutY(60.0f); //70.0f
         fieldCut.setWidth(350.0f);
         fieldCut.setHeight(350.0f);
+        fieldCut.setStyle("-fx-border-radius: 20px"); //TODO: rounded border doesn't works
         movingField.setOnMousePressed(e -> {
 
             startDragX = e.getSceneX() - movingField.getTranslateX();
