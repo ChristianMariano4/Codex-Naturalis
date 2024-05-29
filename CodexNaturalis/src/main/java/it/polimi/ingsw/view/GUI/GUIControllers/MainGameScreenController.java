@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view.GUI.GUIControllers;
 
-import it.polimi.ingsw.enumerations.DrawPosition;
-import it.polimi.ingsw.enumerations.Marker;
-import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.*;
@@ -42,6 +40,9 @@ public class MainGameScreenController extends GUIController{
 
     public Pane secretObjCardsInspector;
     public Pane showSObjCard;
+
+    public Pane DrawingCardsInspector;
+    public Pane DrawingCardPane;
 
     public Pane card1;
     public Pane card2;
@@ -551,6 +552,84 @@ public class MainGameScreenController extends GUIController{
     public void exitObjectiveSecretButton() {
         secretObjCardsInspector.setDisable(true);
         secretObjCardsInspector.setVisible(false);
+        playerField.setDisable(false);
+        playerField.setVisible(true);
+        frontSide = true;
+    }
+    //SHOW DRAWING FIELD CARD
+    @FXML
+    public void showOtherDrawingCardSide() { //TODO: other side card only for discovered cards
+        if(frontSide) {
+            showSharedObjCard(sharedObjChoice, Side.FRONT);
+            frontSide = false;
+        } else {
+            showSharedObjCard(sharedObjChoice, Side.BACK);
+            frontSide = true;
+        }
+    }
+    @FXML
+    public void leftDeckButton() {
+        showDrawingFieldCard(Side.BACK, CardType.RESOURCE, true, DrawPosition.LEFT);
+    }
+    @FXML
+    public void rightDeckButton() {
+        showDrawingFieldCard(Side.BACK, CardType.GOLD, true, DrawPosition.RIGHT);
+    }
+    @FXML
+    public void rightTopDrawingButton() {
+        showDrawingFieldCard(Side.FRONT, CardType.GOLD, false, DrawPosition.RIGHT);
+    }
+    @FXML
+    public void leftTopDrawingButton() {
+        showDrawingFieldCard(Side.FRONT, CardType.RESOURCE, false, DrawPosition.RIGHT);
+    }
+    @FXML
+    public void rightBottomDrawingButton() {
+        showDrawingFieldCard(Side.FRONT, CardType.GOLD, false, DrawPosition.LEFT);
+    }
+    @FXML
+    public void leftBottomDrawingButton() {
+        showDrawingFieldCard(Side.FRONT, CardType.RESOURCE, false, DrawPosition.LEFT);
+    }
+
+    private void showDrawingFieldCard(Side side, CardType cardType, boolean fromDeck, DrawPosition drawPosition) {
+        DrawingCardsInspector.setDisable(false);
+        DrawingCardsInspector.setVisible(true);
+        playerField.setDisable(true);
+        playerField.setVisible(false);
+
+        try {
+            if(fromDeck) {
+                if(cardType.equals(CardType.GOLD)) {
+                    DrawingCardPane.setStyle(getStyle(getCardUrl(viewGUI.getTopGoldCard(),Side.BACK)));
+                } else if(cardType.equals(CardType.RESOURCE)) {
+                    DrawingCardPane.setStyle(getStyle(getCardUrl(viewGUI.getTopResourceCard(),Side.BACK)));
+                }
+            } else {
+                if(cardType.equals(CardType.GOLD)) {
+                    HashMap<DrawPosition,GoldCard> discoveredGoldCards = viewGUI.getDiscoveredGoldCards();
+                    if(drawPosition.equals(DrawPosition.RIGHT)) {
+                        bottomDiscoveredG.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.RIGHT),side)));
+                    } else {
+                        topDiscoveredG.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.LEFT),side)));
+                    }
+                } else if(cardType.equals(CardType.RESOURCE)) {
+                    HashMap<DrawPosition,ResourceCard> discoveredResourceCards = viewGUI.getDiscoveredResourceCards();
+                    if(drawPosition.equals(DrawPosition.RIGHT)) {
+                        DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredResourceCards.get(DrawPosition.RIGHT),side)));
+                    } else {
+                        DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredResourceCards.get(DrawPosition.LEFT),side)));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+    @FXML
+    public void exitDrawingFieldButton() {
+        DrawingCardsInspector.setDisable(true);
+        DrawingCardsInspector.setVisible(false);
         playerField.setDisable(false);
         playerField.setVisible(true);
         frontSide = true;
