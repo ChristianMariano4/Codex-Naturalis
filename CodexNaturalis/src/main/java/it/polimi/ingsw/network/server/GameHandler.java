@@ -286,4 +286,13 @@ public class GameHandler implements Serializable {
     }
 
 
+    public void setPlayerDisconnected(String username) {
+        synchronized (this) {
+            try {
+                controller.setPlayerDisconnected(username);
+            } catch (NotExistingPlayerException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }

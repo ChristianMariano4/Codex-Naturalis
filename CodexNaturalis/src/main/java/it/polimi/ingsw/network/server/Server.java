@@ -38,7 +38,7 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public void connect(ClientHandlerInterface client) throws RemoteException {
+    public void connect(ClientHandlerInterface client) throws IOException {
         System.out.println("Connecting client to the server...");
         synchronized (this.clients) {
             this.clients.put(client, new ClientInfo(System.currentTimeMillis()));
@@ -54,17 +54,17 @@ public class Server extends Thread implements ServerRMIInterface {
                         System.out.println("Client disconnected successfully");
                         break;
                     }
-                } catch (InterruptedException e) {
+                } catch (InterruptedException | IOException e) {
                     throw new RuntimeException(e);
                 }
             }
         }).start();
     }
 
-    public void disconnect(ClientHandlerInterface client) {
-        if(gameHandlerMap.get(clients.get(client).getGameId()) != null) { //if the client is in a game
-            gameHandlerMap.get(clients.get(client).getGameId()).unsubscribe(client);
-
+    public void disconnect(ClientHandlerInterface client) throws IOException {
+        if(clients.get(client).getGameId() != -1) { //if the client is in a game
+            gameHandlerMap.get(clients.get(client).getGameId()).setPlayerDisconnected(clients.get(client).getUsername());
+        //    gameHandlerMap.get(clients.get(client).getGameId()).unsubscribe(client);
         }
         System.out.println("Client not yet disconnected. Clients size: "+ clients.size()); //debugging
         synchronized (this.clients) {
@@ -88,7 +88,6 @@ public class Server extends Thread implements ServerRMIInterface {
         int id = GameValues.numberOfGames;
         GameValues.numberOfGames++;
         gameHandlerMap.put(id, new GameHandler(id, this, numberOfPlayers));
-
         subscribe(gameSerializer, id); //subscribe game serializer to game events to handle game state saving
         return id;
     }
@@ -103,6 +102,8 @@ public class Server extends Thread implements ServerRMIInterface {
     public Game addPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException, GameAlreadyStartedException {
         try {
             addClientToGameHandler(gameId, client);
+            clients.get(client).setGameId(gameId);
+            clients.get(client).setUsername(username);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

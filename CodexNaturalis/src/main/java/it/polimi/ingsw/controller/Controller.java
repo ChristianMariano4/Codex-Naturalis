@@ -251,6 +251,7 @@ public class Controller {
     public CardHandler getCardHandler() {
         return cardHandler;
     }
+
     public void nextTurn(Player player) throws NotExistingPlayerException {
         Player playerObj = gameHandler.getPlayer(player.getUsername());
         playerObj.setIsTurn(false);
@@ -258,9 +259,17 @@ public class Controller {
         int nextIndex = index + 1;
         if(nextIndex>= gameHandler.getGame().getListOfPlayers().size())
             nextIndex = 0;
+        while(gameHandler.getGame().getListOfPlayers().get(nextIndex).getConnectionStatus()) {
+            nextIndex++;
+            if(nextIndex>= gameHandler.getGame().getListOfPlayers().size())
+                nextIndex = 0;
+        }
         gameHandler.getGame().getListOfPlayers().get(nextIndex).setIsTurn(true);
         gameHandler.getGame().setCurrentPlayer(gameHandler.getGame().getListOfPlayers().get(nextIndex));
 
     }
 
+    public void setPlayerDisconnected(String username) throws NotExistingPlayerException {
+        gameHandler.getGame().getPlayer(username).setDisconnected();
+    }
 }

@@ -17,7 +17,7 @@ import java.util.concurrent.BlockingQueue;
 //this is the skeleton (proxy of the server)
 public interface ServerRMIInterface extends Remote {
     //method used from client to tell the server how to contact it
-    void connect(ClientHandlerInterface client) throws RemoteException;
+    void connect(ClientHandlerInterface client) throws IOException;
     //expose methods that the client can call, i.e. those of the controller
     int createGame(ClientHandlerInterface client, int numberOfPlayers) throws RemoteException;
     List<Integer> getAvailableGames() throws RemoteException;
