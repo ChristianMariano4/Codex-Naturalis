@@ -7,6 +7,7 @@ import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
@@ -37,7 +38,6 @@ public class GameHandler implements Serializable {
     private boolean twentyPointsReached = false;
     private boolean finalRound = false;
     private final int desiredNumberOfPlayers;
-
 
     public GameHandler(int gameId, Server server, int desiredNumberOfPlayers){
         this.server = server;
@@ -88,6 +88,33 @@ public class GameHandler implements Serializable {
     public void addClient(ClientHandlerInterface client) throws RemoteException {
         synchronized (this) {
             clients.add(client);
+
+        }
+    }
+
+    public void removeClient(ClientHandlerInterface client) throws RemoteException {
+        synchronized (this) {
+            clients.remove(client);
+        }
+        if(clients.size() == 1) {
+            new Thread(() -> {
+                boolean isReconnected = false;
+                    try {
+                        for (int i = 0; i < 5; i++) {
+                            Thread.sleep(GameValues.GAME_END_TIMEOUT/6);
+                            if (clients.size() > 1){
+                                isReconnected = true;
+                                break;
+                            }
+                        }
+                        if (!isReconnected) {
+                            game.setIsGameEnded(true);
+                            //TODO: handle game ending
+                        }
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+            }).start();
         }
     }
 

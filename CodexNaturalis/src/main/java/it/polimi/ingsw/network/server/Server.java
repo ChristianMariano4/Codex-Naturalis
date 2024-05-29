@@ -64,10 +64,10 @@ public class Server extends Thread implements ServerRMIInterface {
     public void disconnect(ClientHandlerInterface client) throws IOException {
         if(clients.get(client).getGameId() != -1) { //if the client is in a game
             gameHandlerMap.get(clients.get(client).getGameId()).setPlayerDisconnected(clients.get(client).getUsername());
-        //    gameHandlerMap.get(clients.get(client).getGameId()).unsubscribe(client);
+//            gameHandlerMap.get(clients.get(client).getGameId()).unsubscribe(client);
         }
-        System.out.println("Client not yet disconnected. Clients size: "+ clients.size()); //debugging
         synchronized (this.clients) {
+            gameHandlerMap.get(clients.get(client).getGameId()).removeClient(client);
             this.clients.remove(client);
         }
         System.out.println("Client disconnected. Clients size: "+ clients.size()); //debugging

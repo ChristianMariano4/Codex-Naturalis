@@ -560,7 +560,7 @@ public class ViewCLI implements View, Runnable {
     public void showEndGameScreen() {
         LinkedHashMap<String, Integer> playersPlacement = new LinkedHashMap<>();
         ArrayList<Player> sortedPlayers = new ArrayList<>();
-        List<Integer> points = game.getListOfPlayers().stream().map(e -> e.getPoints()).toList();
+        List<Integer> points = new ArrayList<>(game.getListOfPlayers().stream().map(e -> e.getPoints()).toList());
         Collections.sort(points);
         Collections.reverse(points);
         for(Integer point: points)

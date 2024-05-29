@@ -13,4 +13,5 @@ public class GameValues {
     public static int numberOfGames = 0;
     public static final int HEARTBEAT_INTERVAL = 5000;
     public static final int HEARTBEAT_TIMEOUT = 10000;
+    public static final int GAME_END_TIMEOUT = 30000;
 }
