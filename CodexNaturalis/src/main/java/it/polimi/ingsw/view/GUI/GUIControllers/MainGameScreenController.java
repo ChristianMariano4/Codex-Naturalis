@@ -11,11 +11,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 
@@ -123,7 +127,7 @@ public class MainGameScreenController extends GUIController{
     public Pane playerField;
     public Pane starterCard;
     public Pane movingField;
-    private ArrayList<Pane> fieldPanes = new ArrayList<>();
+    private Pane[][] fieldPanes = new Pane[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
 
 
 
@@ -783,13 +787,114 @@ public class MainGameScreenController extends GUIController{
         try {
             PlayableCard card = viewGUI.getPlayerField().getMatrixField()[DEFAULT_MATRIX_SIZE/2][DEFAULT_MATRIX_SIZE/2];
             starterCard.setStyle(getStyle(getCardUrl(card ,card.getCurrentSide())));
-            fieldPanes.add(starterCard);
+            fieldPanes[DEFAULT_MATRIX_SIZE/2][DEFAULT_MATRIX_SIZE/2] = starterCard;
+            sorround(starterCard);
         }
         catch (Exception e)
         {
             throw new RuntimeException();
         }
 
+    }
+
+    public void sorround(Pane pane)
+    {
+        Pane topRight = new Pane();
+        Pane bottomRight = new Pane();
+        Pane topLeft = new Pane();
+        Pane bottomLeft = new Pane();
+        setupCardPane(pane, bottomRight, AngleOrientation.BOTTOMRIGHT);
+        setupCardPane(pane, topLeft, AngleOrientation.TOPLEFT);
+        setupCardPane(pane, topRight, AngleOrientation.TOPRIGHT);
+        setupCardPane(pane, bottomLeft, AngleOrientation.BOTTOMLEFT);
+
+    }
+    public void setupCardPane(Pane pane, Pane newPane, AngleOrientation orientation)
+    {
+        double oldX = pane.getLayoutX();
+        double oldY = pane.getLayoutY();
+
+        double newX = 0;
+        double newY = 0;
+        switch (orientation)
+        {
+            case TOPRIGHT, BOTTOMRIGHT -> { // 20 and 24 are the width and height of the angle: 90 - 20 = 70, 60 - 24 = 36
+                newX = oldX + 70;
+            }
+            case TOPLEFT, BOTTOMLEFT ->
+            {
+                newX = oldX - 70;
+            }
+        }
+        switch (orientation)
+        {
+            case TOPRIGHT, TOPLEFT -> {
+                newY = oldY - 36;
+            }
+            case BOTTOMRIGHT, BOTTOMLEFT ->
+            {
+                newY = oldY + 36;
+            }
+        }
+
+        newPane.setLayoutX(newX);
+        newPane.setLayoutY(newY);
+        newPane.setPrefWidth(90);
+        newPane.setPrefHeight(60);
+        //temporary
+        newPane.setStyle("-fx-background-color: blue");
+        newPane.setVisible(true);
+        newPane.setDisable(false);
+
+        newPane.setOnMouseClicked(e -> {
+            clickedOnPane(e);
+        });
+
+        movingField.getChildren().add(newPane);
+        try
+        {
+            for(int i = 0; i< DEFAULT_MATRIX_SIZE; i++)
+            {
+                for(int j = 0; j< DEFAULT_MATRIX_SIZE; j++)
+                {
+                    if(fieldPanes[i][j] != null && fieldPanes[i][j].equals(pane))
+                    {
+                        int xPane = i + orientation.mapEnumToX();
+                        int yPane = j + orientation.mapEnumToY();
+
+                        fieldPanes[xPane][yPane] = newPane;
+                        return;
+
+                    }
+                }
+            }
+            throw new RuntimeException();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+
+    }
+
+    @FXML
+    public void clickedOnPane(MouseEvent event)
+    {
+        //This is going to be the playcard method
+        try
+        {
+        if(viewGUI.getIsTurn()) {
+            Pane source = (Pane) event.getSource();
+            //test
+            PlayableCard card = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerHand().getCardsInHand().get(0);
+            source.setStyle(getStyle(getCardUrl(card, Side.FRONT)));
+        }
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
     }
 
 

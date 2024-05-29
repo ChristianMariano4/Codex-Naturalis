@@ -188,5 +188,8 @@ public class ViewGUI implements View, Runnable {
     public PlayerField getPlayerField() throws NotExistingPlayerException {
         return game.getPlayer(client.getUsername()).getPlayerField();
     }
+    public boolean getIsTurn() throws NotExistingPlayerException {
+        return game.getPlayer(client.getUsername()).getIsTurn();
+    }
 
 }

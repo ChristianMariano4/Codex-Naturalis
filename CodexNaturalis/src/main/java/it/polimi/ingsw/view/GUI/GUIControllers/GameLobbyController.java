@@ -41,26 +41,28 @@ public class GameLobbyController extends GUIController {
 
     @FXML
     public void rulebookButton() {
-        if(isInRulebook) {
-            rulebookPane.setDisable(false);
-            rulebookPane.setVisible(true);
+        synchronized (playerPanes) {
+            if (isInRulebook) {
+                rulebookPane.setDisable(false);
+                rulebookPane.setVisible(true);
 
-            playersPane.setDisable(true);
-            playersPane.setVisible(false);
-            playersPane1.setDisable(true);
-            playersPane1.setVisible(false);
+                playersPane.setDisable(true);
+                playersPane.setVisible(false);
+                playersPane1.setDisable(true);
+                playersPane1.setVisible(false);
 
-            isInRulebook = false;
-        } else  {
-            rulebookPane.setDisable(true);
-            rulebookPane.setVisible(false);
+                isInRulebook = false;
+            } else {
+                rulebookPane.setDisable(true);
+                rulebookPane.setVisible(false);
 
-            playersPane.setDisable(false);
-            playersPane.setVisible(true);
-            playersPane1.setDisable(false);
-            playersPane1.setVisible(true);
+                playersPane.setDisable(false);
+                playersPane.setVisible(true);
+                playersPane1.setDisable(false);
+                playersPane1.setVisible(true);
 
-            isInRulebook = true;
+                isInRulebook = true;
+            }
         }
     }
     @FXML
@@ -78,54 +80,51 @@ public class GameLobbyController extends GUIController {
         if(!(update instanceof Game))
             return;
         Game game = (Game) update;
-        for(int i = 0; i< 4; i++)
-        {
-            try {
-                synchronized (this) {
-                    Label label = names.get(i);
-                    String username = game.getListOfPlayers().get(i).getUsername();
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            label.setText(username);
 
-                        }
-                    });//multithreading javafx
-                    names.get(i).setDisable(false);
-                    names.get(i).setVisible(true);
-                    playerPanes.get(i).setDisable(false);
-                    playerPanes.get(i).setVisible(true);
-                }
-                new Thread()
-                {
-                    public void run()
-                    {
-                        try {
-                            while (!viewGUI.getPlaying()) {
-                                Thread.sleep(1);
+            for (int i = 0; i < 4; i++) {
+                try {
+                    synchronized (playerPanes) {
+                        Label label = names.get(i);
+                        String username = game.getListOfPlayers().get(i).getUsername();
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                label.setText(username);
+
                             }
-                            Platform.runLater(new Runnable() {
-
-                                public void run() {
-                                    gui.switchScene(GUIScene.GAME);
-                                }
-                            });
-                        }
-                        catch (Exception e)
-                        {
-                            throw new RuntimeException();
-                        }
+                        });//multithreading javafx
+                        names.get(i).setDisable(false);
+                        names.get(i).setVisible(true);
+                        playerPanes.get(i).setDisable(false);
+                        playerPanes.get(i).setVisible(true);
                     }
-                }.start(); //waiting for game to begin
+                    new Thread() {
+                        public void run() {
+                            try {
+                                while (!viewGUI.getPlaying()) {
+                                    Thread.sleep(1);
+                                }
+                                Platform.runLater(new Runnable() {
+
+                                    public void run() {
+                                        gui.switchScene(GUIScene.GAME);
+                                    }
+                                });
+                            } catch (Exception e) {
+                                throw new RuntimeException();
+                            }
+                        }
+                    }.start(); //waiting for game to begin
+                } catch (IndexOutOfBoundsException e) {
+                    synchronized (playerPanes) {
+                        names.get(i).setDisable(true);
+                        names.get(i).setVisible(false);
+                        playerPanes.get(i).setDisable(true);
+                        playerPanes.get(i).setVisible(false);
+                    }
+                }
             }
-            catch (IndexOutOfBoundsException e)
-            {
-                names.get(i).setDisable(true);
-                names.get(i).setVisible(false);
-                playerPanes.get(i).setDisable(true);
-                playerPanes.get(i).setVisible(false);
-            }
-        }
+
     }
     @FXML
     public void setReadyButton() {
@@ -151,17 +150,19 @@ public class GameLobbyController extends GUIController {
 
     @Override
     public void sceneInitializer() {
-        this.names.add(p1name);
-        this.names.add(p2name);
-        this.names.add(p3name);
-        this.names.add(p4name);
+        synchronized (playerPanes) {
+            this.names.add(p1name);
+            this.names.add(p2name);
+            this.names.add(p3name);
+            this.names.add(p4name);
 
-        this.playerPanes.add(p1);
-        this.playerPanes.add(p2);
-        this.playerPanes.add(p3);
-        this.playerPanes.add(p4);
+            this.playerPanes.add(p1);
+            this.playerPanes.add(p2);
+            this.playerPanes.add(p3);
+            this.playerPanes.add(p4);
 
-        Game game = viewGUI.getGame();
-        update(game);
+            Game game = viewGUI.getGame();
+            update(game);
+        }
     }
 }

@@ -333,7 +333,7 @@
                <children>
                   <Pane fx:id="movingField" layoutX="-1911.0" layoutY="-1481.0" opacity="0.35" prefHeight="3317.0" prefWidth="4914.0" style="-fx-background-color: red;">
                      <children>
-                        <Pane fx:id="starterCard" layoutX="2330.0" layoutY="1670.0" prefHeight="60.0" prefWidth="90.0" />
+                        <Pane fx:id="starterCard" layoutX="2330.0" layoutY="1670.0" onMouseClicked="#clickedOnPane" prefHeight="60.0" prefWidth="90.0" />
                      </children>
                   </Pane>
                </children>
