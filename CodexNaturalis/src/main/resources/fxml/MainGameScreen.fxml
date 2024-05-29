@@ -206,7 +206,7 @@
                   <Pane opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
                   <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
                      <children>
-                        <Button fx:id="exitObjectiveButton" mnemonicParsing="false" prefHeight="41.0" prefWidth="42.0" styleClass="closeButton" />
+                        <Button mnemonicParsing="false" onAction="#exitObjectiveButton" prefHeight="41.0" prefWidth="42.0" styleClass="closeButton" />
                      </children>
                   </Pane>
                   <Pane fx:id="showObjCard" layoutX="251.0" layoutY="120.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;">
@@ -240,7 +240,7 @@
                   <Pane opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
                   <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
                      <children>
-                        <Button fx:id="exitObjectiveSecretButton" mnemonicParsing="false" prefHeight="41.0" prefWidth="42.0" styleClass="closeButton" />
+                        <Button mnemonicParsing="false" onAction="#exitObjectiveSecretButton" prefHeight="41.0" prefWidth="42.0" styleClass="closeButton" />
                      </children>
                   </Pane>
                   <Pane fx:id="showSObjCard" layoutX="251.0" layoutY="120.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;">
