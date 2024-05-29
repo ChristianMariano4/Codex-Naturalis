@@ -10,17 +10,17 @@
     -fx-background-radius: 5em;
 }
 .loginScreen {
-    -fx-background-image: url("images/Backgounds/loginBackground.jpg");
+    -fx-background-image: url("images/Backgrounds/loginBackground.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .lobbyScreen {
-    -fx-background-image: url("images/Backgounds/gameCreationBackground.jpg");
+    -fx-background-image: url("images/Backgrounds/gameCreationBackground.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
 .codexBackground {
-    -fx-background-image: url("images/Backgounds/Slider-Codex-2-1920x1080.jpg");
+    -fx-background-image: url("images/Backgrounds/Slider-Codex-2-1920x1080.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
@@ -105,7 +105,7 @@
 }
 
 .gameBackground {
-    -fx-background-image: url("images/Backgounds/wood.png");
+    -fx-background-image: url("images/Backgrounds/wood.png");
     -fx-background-size: cover;
 }
 .gameScoreboard {

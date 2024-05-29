@@ -1,22 +1,18 @@
 package it.polimi.ingsw.view.GUI.GUIControllers;
 
 import it.polimi.ingsw.enumerations.DrawPosition;
-import it.polimi.ingsw.enumerations.GUIScene;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerField;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.view.GUI.ViewGUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
@@ -34,6 +30,11 @@ public class MainGameScreenController extends GUIController{
     private boolean isInRulebook = true;
     public Button nextButton;
     public Button backButton;
+
+    private boolean frontSide = true;
+    private int cardInHandSelected = 3;
+    public Pane cardsInHandInspector;
+    public Pane handCardInspector;
 
     public Pane card1;
     public Pane card2;
@@ -419,6 +420,54 @@ public class MainGameScreenController extends GUIController{
             throw new RuntimeException();
         }
     }
+    @FXML
+    public void showOtherCardInHandSide() {
+        if(frontSide) {
+            showCardInHand(cardInHandSelected, Side.BACK);
+            frontSide = false;
+        } else {
+            showCardInHand(cardInHandSelected, Side.FRONT);
+            frontSide = true;
+        }
+    }
+    @FXML
+    public void card1HandInspectorButton() {
+        cardInHandSelected = 0;
+        showCardInHand(0, Side.FRONT);
+    }
+    @FXML
+    public void card2HandInspectorButton() {
+        cardInHandSelected = 1;
+        showCardInHand(1, Side.FRONT);
+    }
+    @FXML
+    public void card3HandInspectorButton() {
+        cardInHandSelected = 2;
+        showCardInHand(2, Side.FRONT);
+    }
+    private void showCardInHand(Integer i, Side side) {
+        Game game = viewGUI.getGame();
+
+        cardsInHandInspector.setDisable(false);
+        cardsInHandInspector.setVisible(true);
+        playerField.setDisable(true);
+        playerField.setVisible(false);
+
+        try {
+            handCardInspector.setStyle(getStyle(getCardUrl(game.getPlayer(viewGUI.getUsername()).getPlayerHand().getCardsInHand().get(i), side)));
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+    @FXML
+    public void exitButtonAction() {
+        cardsInHandInspector.setDisable(true);
+        cardsInHandInspector.setVisible(false);
+        playerField.setDisable(false);
+        playerField.setVisible(true);
+        cardInHandSelected = 3;
+    }
+
     private void initializeScoreboard()
     {
         platPanes.add(plat0);
@@ -555,7 +604,7 @@ public class MainGameScreenController extends GUIController{
 
 
         playerField.setClip(fieldCut);
-        playerField.setStyle(getStyle("images/Backgounds/yellow.jpg"));
+        playerField.setStyle(getStyle("images/Backgrounds/yellow.jpg"));
         playerField.setDisable(false);
         playerField.setVisible(true);
         //scalable.setStyle(getStyle("images/Backgounds/woodCut.png"));

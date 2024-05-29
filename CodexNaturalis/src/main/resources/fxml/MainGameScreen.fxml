@@ -63,9 +63,18 @@
             <Pane fx:id="playerHand" disable="true" layoutX="318.0" layoutY="436.0" prefHeight="60.0" prefWidth="290.0" visible="false">
                <children>
                   <Pane layoutX="-10.0" layoutY="-7.0" opacity="0.4" prefHeight="75.0" prefWidth="310.0" style="-fx-background-color: black; -fx-background-radius: 10;" />
-                  <Pane fx:id="card1" disable="true" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
-                  <Pane fx:id="card2" layoutX="100.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
-                  <Pane fx:id="card3" layoutX="200.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
+                  <Pane fx:id="card1" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#card1HandInspectorButton" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
+                     </children></Pane>
+                  <Pane fx:id="card2" layoutX="100.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#card2HandInspectorButton" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
+                     </children></Pane>
+                  <Pane fx:id="card3" layoutX="200.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#card3HandInspectorButton" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
+                     </children></Pane>
                </children>
             </Pane>
             <Pane fx:id="objectiveCards" disable="true" layoutX="30.0" layoutY="38.0" prefHeight="175.0" prefWidth="200.0" visible="false">
@@ -76,22 +85,6 @@
                   <Pane fx:id="secret" layoutX="55.0" layoutY="105.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" />
                   <Text fill="WHITE" layoutX="41.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shared objective cards" />
                   <Text fill="WHITE" layoutX="43.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Secret objective card" />
-               </children>
-            </Pane>
-            <Pane fx:id="CardsInHandInspector" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
-               <children>
-                  <Pane opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
-                  <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
-                     <children>
-                        <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="42.0" styleClass="closeButton" />
-                     </children>
-                  </Pane>
-                  <Pane layoutX="251.0" layoutY="81.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;" />
-                  <Pane layoutX="395.0" layoutY="408.0" prefHeight="50.0" prefWidth="130.0">
-                     <children>
-                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Play the card" />
-                     </children>
-                  </Pane>
                </children>
             </Pane>
             <Pane fx:id="ObjectiveCardsInspector" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
@@ -208,6 +201,26 @@
             <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="rulebookButton" />
+               </children>
+            </Pane>
+            <Pane fx:id="cardsInHandInspector" prefHeight="518.0" prefWidth="920.0" visible="false">
+               <children>
+                  <Pane opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
+                  <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#exitButtonAction" prefHeight="41.0" prefWidth="42.0" styleClass="closeButton" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="handCardInspector" layoutX="251.0" layoutY="81.0" prefHeight="280.0" prefWidth="420.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#showOtherCardInHandSide" opacity="0.0" prefHeight="280.0" prefWidth="420.0" text="Button" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="395.0" layoutY="408.0" prefHeight="50.0" prefWidth="130.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Play the card" />
+                     </children>
+                  </Pane>
                </children>
             </Pane>
             <Pane layoutX="865.0" layoutY="456.0" prefHeight="41.0" prefWidth="41.0">
