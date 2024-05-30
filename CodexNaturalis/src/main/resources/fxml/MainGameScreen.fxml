@@ -248,7 +248,7 @@
                         </Pane>
                         <Pane layoutX="395.0" layoutY="408.0" prefHeight="50.0" prefWidth="130.0">
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Play the card" />
+                              <Button mnemonicParsing="false" onAction="#playCardButton" prefHeight="50.0" prefWidth="130.0" text="Play the card" />
                            </children>
                         </Pane>
                      </children>

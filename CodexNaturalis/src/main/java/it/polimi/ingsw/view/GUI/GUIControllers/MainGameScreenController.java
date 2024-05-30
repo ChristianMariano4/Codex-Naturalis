@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.GUI.GUIControllers;
 
 import it.polimi.ingsw.enumerations.*;
+import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.*;
@@ -8,7 +9,9 @@ import it.polimi.ingsw.view.GUI.InspectedCardInfo;
 import it.polimi.ingsw.view.GUI.ViewGUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
@@ -27,6 +30,7 @@ import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 public class MainGameScreenController extends GUIController{
 
     private InspectedCardInfo inspectedCardInfo;
+    private boolean playingCard = false;
     public Pane scalable;
 
     public Pane tableTop;
@@ -486,6 +490,14 @@ public class MainGameScreenController extends GUIController{
         }
     }
     @FXML
+    public void playCardButton() {
+        cardsInHandInspector.setDisable(true);
+        cardsInHandInspector.setVisible(false);
+        playerField.setDisable(false);
+        playerField.setVisible(true);
+        playingCard = true;
+    }
+    @FXML
     public void exitHandButton() {
         cardsInHandInspector.setDisable(true);
         cardsInHandInspector.setVisible(false);
@@ -847,6 +859,7 @@ public class MainGameScreenController extends GUIController{
 
     public void sorround(Pane pane)
     {
+        //Check if the angle is playable and not covered
         Pane topRight = new Pane();
         Pane bottomRight = new Pane();
         Pane topLeft = new Pane();
@@ -884,21 +897,6 @@ public class MainGameScreenController extends GUIController{
                 newY = oldY + 36;
             }
         }
-
-        newPane.setLayoutX(newX);
-        newPane.setLayoutY(newY);
-        newPane.setPrefWidth(90);
-        newPane.setPrefHeight(60);
-        //temporary
-        newPane.setStyle("-fx-background-color: blue");
-        newPane.setVisible(true);
-        newPane.setDisable(false);
-
-        newPane.setOnMouseClicked(e -> {
-            clickedOnPane(e);
-        });
-
-        movingField.getChildren().add(newPane);
         try
         {
             for(int i = 0; i< DEFAULT_MATRIX_SIZE; i++)
@@ -910,7 +908,29 @@ public class MainGameScreenController extends GUIController{
                         int xPane = i + orientation.mapEnumToX();
                         int yPane = j + orientation.mapEnumToY();
 
+                        PlayableCard[][] matrixField = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerField().getMatrixField();
+
+                        if(matrixField[xPane][yPane] != null) {
+                            return;
+                        }
+
                         fieldPanes[xPane][yPane] = newPane;
+
+                        newPane.setLayoutX(newX);
+                        newPane.setLayoutY(newY);
+                        newPane.setPrefWidth(90);
+                        newPane.setPrefHeight(60);
+                        //temporary
+                        newPane.setStyle("-fx-background-color: blue");
+                        newPane.setVisible(true);
+                        newPane.setDisable(false);
+
+                        newPane.setOnMouseClicked(e -> {
+                            clickedOnPane(e);
+                        });
+
+                        movingField.getChildren().add(newPane);
+
                         return;
 
                     }
@@ -927,24 +947,47 @@ public class MainGameScreenController extends GUIController{
     }
 
     @FXML
-    public void clickedOnPane(MouseEvent event)
-    {
-        //This is going to be the playcard method
-        try
-        {
-        if(viewGUI.getIsTurn()) {
-            Pane source = (Pane) event.getSource();
-            //test
-            PlayableCard card = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerHand().getCardsInHand().get(0);
-            source.setStyle(getStyle(getCardUrl(card, Side.FRONT)));
-        }
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException();
+    public void clickedOnPane(MouseEvent event) {
+        //Invalid input screen
+        if(playingCard && !event.getEventType().equals(MouseEvent.DRAG_DETECTED)) {
+            try {
+                if(viewGUI.getIsTurn()) {
+                    Pane source = (Pane) event.getSource();
+                    PlayableCard card = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerHand().getCardsInHand().get(inspectedCardInfo.getCardInHandSelected());
+
+                    for(int i = 0; i< DEFAULT_MATRIX_SIZE; i++) {
+                        for (int j = 0; j < DEFAULT_MATRIX_SIZE; j++) {
+                            if (fieldPanes[i][j] != null && fieldPanes[i][j].equals(source)) {
+                                PlayableCard[][] matrixField = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerField().getMatrixField();
+
+                                for(AngleOrientation orientation: AngleOrientation.values()) {
+                                    if(!orientation.equals(AngleOrientation.NONE)) {
+                                        int xPane = i + orientation.mapEnumToX();
+                                        int yPane = j + orientation.mapEnumToY();
+
+                                        if(matrixField[xPane][yPane] != null) {
+                                            viewGUI.playCard(matrixField[xPane][yPane], card, orientation);
+                                            source.setStyle(getStyle(getCardUrl(card, inspectedCardInfo.getSide())));
+                                            removeCardFromHand();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new RuntimeException();
+            }
+            playingCard = false;
         }
     }
 
-
+    private void removeCardFromHand() {
+        playerHandPanes.get(inspectedCardInfo.getCardInHandSelected()).setDisable(true);
+        playerHandPanes.get(inspectedCardInfo.getCardInHandSelected()).setVisible(false);
+    }
 
 }

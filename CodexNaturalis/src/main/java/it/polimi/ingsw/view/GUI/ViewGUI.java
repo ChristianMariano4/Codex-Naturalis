@@ -1,18 +1,12 @@
 package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.enumerations.DrawPosition;
-import it.polimi.ingsw.enumerations.GUIScene;
-import it.polimi.ingsw.enumerations.Marker;
-import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.DrawingField;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerField;
-import it.polimi.ingsw.model.cards.GoldCard;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.ResourceCard;
-import it.polimi.ingsw.model.cards.StarterCard;
+import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.view.TUI.TUI;
 import it.polimi.ingsw.view.View;
@@ -196,6 +190,9 @@ public class ViewGUI implements View, Runnable {
     }
     public boolean getIsTurn() throws NotExistingPlayerException {
         return game.getPlayer(client.getUsername()).getIsTurn();
+    }
+    public void playCard(PlayableCard cardOnBoard, PlayableCard card, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, ServerDisconnectedException, IOException, AngleAlreadyLinkedException {
+        client.playCard(game.getGameId(), client.getUsername(), cardOnBoard, card, orientation);
     }
 
 }
