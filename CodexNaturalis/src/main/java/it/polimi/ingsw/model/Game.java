@@ -21,7 +21,6 @@ import java.util.Collections;
 public class Game implements Serializable {
     private final boolean isGameStarted;
     private final int gameId;
-    private int numberOfPlayers;
     private final ArrayList<Player> listOfPlayers;
     private Player currentPlayer;
     private final TableTop tableTop;
@@ -44,7 +43,6 @@ public class Game implements Serializable {
         this.isGameStarted = false;
         this.gameId = gameId;
         this.listOfPlayers = new ArrayList<Player>();
-        this.numberOfPlayers = 0;
         this.availableMarkers = new ArrayList<Marker>(Arrays.asList(Marker.values()));
         availableMarkers.remove(Marker.BLACK);
         try {
@@ -74,9 +72,8 @@ public class Game implements Serializable {
      */
     public void addPlayer(Player player, int desiredNumberOfPlayers) throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
         if(!(listOfPlayers.contains(player))) {
-            if(numberOfPlayers < desiredNumberOfPlayers) {
+            if(listOfPlayers.size() < desiredNumberOfPlayers) {
                 this.listOfPlayers.add(player);
-                numberOfPlayers++;
                 tableTop.addPlayerField(player);
                 player.setGame(this);
             } else {
@@ -92,7 +89,7 @@ public class Game implements Serializable {
      * @return the number of players currently present in the game
      */
     public int getNumberOfPlayers() {
-        return numberOfPlayers;
+        return listOfPlayers.size();
     }
 
     /**
@@ -167,5 +164,14 @@ public class Game implements Serializable {
     public void setIsGameEndedForDisconnection(boolean isGameEndedForDisconnection)
     {
         this.isGameEndedForDisconnection = isGameEndedForDisconnection;
+    }
+
+    public void removePlayer(String username) {
+        for(Player player : listOfPlayers) {
+            if(player.getUsername().equals(username)) {
+                listOfPlayers.remove(player);
+                break;
+            }
+        }
     }
 }

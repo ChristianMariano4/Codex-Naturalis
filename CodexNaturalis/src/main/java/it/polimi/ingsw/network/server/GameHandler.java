@@ -317,6 +317,10 @@ public class GameHandler implements Serializable {
         synchronized (this) {
             try {
                 controller.setPlayerDisconnected(username);
+                if (!game.getgameStarted()){
+                    this.readyPlayers--;
+                    game.removePlayer(username);
+                }
             } catch (NotExistingPlayerException e) {
                 throw new RuntimeException(e);
             }
