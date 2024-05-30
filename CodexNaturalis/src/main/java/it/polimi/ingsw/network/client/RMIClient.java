@@ -44,6 +44,8 @@ public class RMIClient extends Client {
             throw new ServerDisconnectedException();
         } catch (GameAlreadyStartedException e) {
             throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -65,6 +67,8 @@ public class RMIClient extends Client {
             } catch (RemoteException e) {
                 throw new ServerDisconnectedException();
             } catch (GameAlreadyStartedException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

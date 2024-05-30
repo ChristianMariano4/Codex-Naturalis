@@ -69,75 +69,74 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     @Override
     @SuppressWarnings("unchecked")
     public void update(GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException {
-        switch (event) {
-            case BOARD_UPDATED -> {
-                //TODO: print what happened
-                //TODO: print new board
-                view.boardUpdate((Game) gameUpdate);
-            }
-            case NEW_PLAYER -> {
-                view.update((Game) gameUpdate);
-                view.newPlayer((Game) gameUpdate);
-            }
-            case GAME_INITIALIZED -> {
-                view.update((Game) gameUpdate);
-                this.playing = true;
+            switch (event) {
+                case BOARD_UPDATED -> {
+                    //TODO: print what happened
+                    //TODO: print new board
+                    view.boardUpdate((Game) gameUpdate);
+                }
+                case NEW_PLAYER -> {
+                    view.update((Game) gameUpdate);
+                    view.newPlayer((Game) gameUpdate);
+                }
+                case GAME_INITIALIZED -> {
+                    view.update((Game) gameUpdate);
+                    this.playing = true;
 
-            }
-            case GAME_BEGIN ->
-            {
-                view.update((Game) gameUpdate);
-                this.gameBegin = true;
-            }
-            case TURN_EVENT -> {
-                view.update((Game) gameUpdate);
-                this.viewThread.interrupt();
-            }
-            case SECRET_OBJECTIVE_CHOICE_REQUEST ->
-            {
-                this.objectiveCardsToChoose = (ArrayList<ObjectiveCard>) gameUpdate;
-            }
-            case MARKER_EVENT ->
-            {
-                Game game = (Game) gameUpdate;
-                view.update(game);
-                if(!this.markerTurn) {
-                    String currentMarkerChoice = game.getListOfPlayers().get(4 - game.getAvailableMarkers().size()).getUsername(); //how many markers have already been chosen
-                    if (username.equals(currentMarkerChoice))
-                        this.markerTurn = true;
+                }
+                case GAME_BEGIN ->
+                {
+                    view.update((Game) gameUpdate);
+                    this.gameBegin = true;
+                }
+                case TURN_EVENT -> {
+                    view.update((Game) gameUpdate);
+                    this.viewThread.interrupt();
+                }
+                case SECRET_OBJECTIVE_CHOICE_REQUEST ->
+                {
+                    this.objectiveCardsToChoose = (ArrayList<ObjectiveCard>) gameUpdate;
+                }
+                case MARKER_EVENT ->
+                {
+                    Game game = (Game) gameUpdate;
+                    view.update(game);
+                    if(!this.markerTurn) {
+                        String currentMarkerChoice = game.getListOfPlayers().get(4 - game.getAvailableMarkers().size()).getUsername(); //how many markers have already been chosen
+                        if (username.equals(currentMarkerChoice))
+                            this.markerTurn = true;
+                    }
+                }
+                case MARKER_DONE ->
+                {
+                    view.update((Game) gameUpdate);
+                    this.markerDone = true;
+                }
+                case ASSIGNED_STARTER_CARDS ->
+                {
+                    view.update((Game) gameUpdate);
+                    this.starterCardAssigned = true;
+                }
+                case STARTER_CARD_SIDE_CHOSEN ->
+                {
+                    view.update((Game) gameUpdate);
+                }
+                case TWENTY_POINTS -> {
+                    view.twentyPoints((String) gameUpdate);
+                    this.viewThread.interrupt();
+                }
+                case FINAL_ROUND ->
+                {
+                    view.finalRound();
+                    this.viewThread.interrupt();
+                }
+                case GAME_END ->
+                {
+                    view.update((Game) gameUpdate);
+                    this.viewThread.interrupt();
+                    //view.gameEnd();
                 }
             }
-            case MARKER_DONE ->
-            {
-                view.update((Game) gameUpdate);
-                this.markerDone = true;
-            }
-            case ASSIGNED_STARTER_CARDS ->
-            {
-                view.update((Game) gameUpdate);
-                this.starterCardAssigned = true;
-            }
-            case STARTER_CARD_SIDE_CHOSEN ->
-            {
-                view.update((Game) gameUpdate);
-            }
-            case TWENTY_POINTS -> {
-                view.twentyPoints((String) gameUpdate);
-                this.viewThread.interrupt();
-            }
-            case FINAL_ROUND ->
-            {
-                view.finalRound();
-                this.viewThread.interrupt();
-            }
-            case GAME_END ->
-            {
-                view.update((Game) gameUpdate);
-                this.viewThread.interrupt();
-                //view.gameEnd();
-            }
-
-        }
     }
 
     boolean preGameStart(ViewCLI viewCLI) throws InterruptedException, NotExistingPlayerException, IOException, ServerDisconnectedException {

@@ -14,11 +14,13 @@ public class GameListener implements Listener<GameEvent> {
 
     private Game updatedGame;
     private final ClientHandlerInterface client;
+    private final String username;
     private final Server server;
 
-    public GameListener(ClientHandlerInterface client, Server server) {
+    public GameListener(ClientHandlerInterface client, Server server) throws IOException {
         this.client = client;
         this.server = server;
+        this.username = client.getUsername();
     }
 
     @Override
@@ -39,5 +41,9 @@ public class GameListener implements Listener<GameEvent> {
 
     public ClientHandlerInterface getClient() {
         return client;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

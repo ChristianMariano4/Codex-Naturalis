@@ -160,7 +160,7 @@ public class GameHandler implements Serializable {
         }
     }
 
-    public void subscribe(ClientHandlerInterface client, int gameId) throws RemoteException, GameAlreadyStartedException {
+    public void subscribe(ClientHandlerInterface client, int gameId) throws IOException, GameAlreadyStartedException {
         synchronized (this) {
             if (isOpen)
                 eventManager.subscribe(GameEvent.class, new GameListener(client, server));
@@ -298,17 +298,13 @@ public class GameHandler implements Serializable {
         }
     }
 
-    public void unsubscribe(ClientHandlerInterface client) {
-        GameListener gameListener = (GameListener) eventManager.getListener(GameEvent.class, (l) -> {
+    public void unsubscribe(String username) {
+        GameListener toUnsubscribe = (GameListener) eventManager.getListener(GameEvent.class, (l) -> {
             GameListener gl = (GameListener) l;
-            try {
-                return gl.getClient().getUsername().equals(client.getUsername());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            return gl.getUsername().equals(username);
         });
         synchronized (this) {
-            eventManager.unsubscribe(GameEvent.class, gameListener);
+            eventManager.unsubscribe(GameEvent.class, toUnsubscribe);
         }
     }
 

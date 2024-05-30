@@ -64,7 +64,7 @@ public class Server extends Thread implements ServerRMIInterface {
     public void disconnect(ClientHandlerInterface client) throws IOException {
         if(clients.get(client).getGameId() != -1) { //if the client is in a game
             gameHandlerMap.get(clients.get(client).getGameId()).setPlayerDisconnected(clients.get(client).getUsername());
-//            gameHandlerMap.get(clients.get(client).getGameId()).unsubscribe(client);
+            gameHandlerMap.get(clients.get(client).getGameId()).unsubscribe(clients.get(client).getUsername());
         }
         synchronized (this.clients) {
             gameHandlerMap.get(clients.get(client).getGameId()).removeClient(client);
@@ -88,7 +88,7 @@ public class Server extends Thread implements ServerRMIInterface {
         int id = GameValues.numberOfGames;
         GameValues.numberOfGames++;
         gameHandlerMap.put(id, new GameHandler(id, this, numberOfPlayers));
-        subscribe(gameSerializer, id); //subscribe game serializer to game events to handle game state saving
+        //subscribe(gameSerializer, id); //subscribe game serializer to game events to handle game state saving
         return id;
     }
 
@@ -116,7 +116,7 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public void subscribe(ClientHandlerInterface client, int gameId) throws RemoteException, GameAlreadyStartedException {
+    public void subscribe(ClientHandlerInterface client, int gameId) throws IOException, GameAlreadyStartedException {
         this.gameHandlerMap.get(gameId).subscribe(client, gameId);
     }
 

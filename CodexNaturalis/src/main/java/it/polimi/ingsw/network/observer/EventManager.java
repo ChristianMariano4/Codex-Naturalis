@@ -23,10 +23,14 @@ public class EventManager {
     }
 
     public <E extends Enum<E>> void unsubscribe(Class<E> eventType, Listener<E> listener) {
+        System.out.println("Listeners size: " + listeners.get(eventType).size());
+        System.out.println(((GameListener) listener).getUsername());
         List<Listener<?>> eventListeners = listeners.get(eventType);
         if (eventListeners != null && listener != null) {
             eventListeners.remove(listener);
         }
+        System.out.println("Listeners size: " + listeners.get(eventType).size());
+
     }
 
     public <E extends Enum<E>> void notify(E event, Object... args) {
