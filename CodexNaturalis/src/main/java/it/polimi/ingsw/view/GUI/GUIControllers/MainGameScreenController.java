@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.view.GUI.InspectedCardInfo;
 import it.polimi.ingsw.view.GUI.ViewGUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -25,6 +26,7 @@ import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 
 public class MainGameScreenController extends GUIController{
 
+    private InspectedCardInfo inspectedCardInfo;
     public Pane scalable;
 
     public Pane tableTop;
@@ -160,6 +162,7 @@ public class MainGameScreenController extends GUIController{
     }
     public void sceneInitializer() {
 
+        inspectedCardInfo = new InspectedCardInfo();
         markerPanes.add(marker1);
         markerPanes.add(marker2);
         markerPanes.add(marker3);
@@ -437,30 +440,38 @@ public class MainGameScreenController extends GUIController{
     }
     @FXML
     public void showOtherCardInHandSide() {
-        if(frontSide) {
-            showCardInHand(cardInHandSelected, Side.BACK);
-            frontSide = false;
+        if(inspectedCardInfo.getFrontSide()) {
+            inspectedCardInfo.setSide(Side.BACK);
+            showCardInHand();
+            inspectedCardInfo.setFrontSide(false);
         } else {
-            showCardInHand(cardInHandSelected, Side.FRONT);
-            frontSide = true;
+            inspectedCardInfo.setSide(Side.FRONT);
+            showCardInHand();
+            inspectedCardInfo.setFrontSide(true);
         }
     }
     @FXML
     public void card1HandInspectorButton() {
-        cardInHandSelected = 0;
-        showCardInHand(0, Side.FRONT);
+        inspectedCardInfo.setCardInHandSelected(0);
+        inspectedCardInfo.setSide(Side.FRONT);
+        //cardInHandSelected = 0;
+        showCardInHand();
     }
     @FXML
     public void card2HandInspectorButton() {
-        cardInHandSelected = 1;
-        showCardInHand(1, Side.FRONT);
+        inspectedCardInfo.setCardInHandSelected(1);
+        inspectedCardInfo.setSide(Side.FRONT);
+        //cardInHandSelected = 1;
+        showCardInHand();
     }
     @FXML
     public void card3HandInspectorButton() {
-        cardInHandSelected = 2;
-        showCardInHand(2, Side.FRONT);
+        inspectedCardInfo.setCardInHandSelected(2);
+        inspectedCardInfo.setSide(Side.FRONT);
+        //cardInHandSelected = 2;
+        showCardInHand();
     }
-    private void showCardInHand(Integer i, Side side) {
+    private void showCardInHand(/*InspectedCardInfo inspectedCardInfo*/) {
         Game game = viewGUI.getGame();
 
         cardsInHandInspector.setDisable(false);
@@ -469,7 +480,7 @@ public class MainGameScreenController extends GUIController{
         playerField.setVisible(false);
 
         try {
-            handCardInspector.setStyle(getStyle(getCardUrl(game.getPlayer(viewGUI.getUsername()).getPlayerHand().getCardsInHand().get(i), side)));
+            handCardInspector.setStyle(getStyle(getCardUrl(game.getPlayer(viewGUI.getUsername()).getPlayerHand().getCardsInHand().get(inspectedCardInfo.getCardInHandSelected()), inspectedCardInfo.getSide())));
         } catch (Exception e) {
             throw new RuntimeException();
         }
@@ -480,8 +491,8 @@ public class MainGameScreenController extends GUIController{
         cardsInHandInspector.setVisible(false);
         playerField.setDisable(false);
         playerField.setVisible(true);
-        cardInHandSelected = 3;
-        frontSide = true;
+        inspectedCardInfo.setCardInHandSelected(3);
+        inspectedCardInfo.setFrontSide(true);
     }
     //SHOW SHARED OBJECTIVE CARDS
     @FXML
