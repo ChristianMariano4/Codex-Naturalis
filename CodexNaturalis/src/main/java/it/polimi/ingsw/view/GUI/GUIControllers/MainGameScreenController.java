@@ -802,13 +802,16 @@ public class MainGameScreenController extends GUIController{
 
         for(int i = 0; i < game.getListOfPlayers().size(); i++) {
             scoreboardMarkerPanes.get(i).setStyle(getStyle(game.getListOfPlayers().get(i).getMarker().getPath()));
-            scoreboardMarkerPanes.get(i).setDisable(false);
-            scoreboardMarkerPanes.get(i).setVisible(true);
+            scoreboardMarkerPanes.get(i).setPrefHeight(30);
+            scoreboardMarkerPanes.get(i).setPrefWidth(30);
             platPanes.get(game.getListOfPlayers().get(i).getPoints()).getChildren().add(scoreboardMarkerPanes.get(i));
             setScoreboardChildren(platPanes.get(game.getListOfPlayers().get(i).getPoints()));
+            scoreboardMarkerPanes.get(i).setDisable(false);
+            scoreboardMarkerPanes.get(i).setVisible(true);
+            //platPanes.get(game.getListOfPlayers().get(i).getPoints()).getChildren().get(i).setVisible(true);
             platPanes.get(game.getListOfPlayers().get(i).getPoints()).setDisable(false);
             platPanes.get(game.getListOfPlayers().get(i).getPoints()).setVisible(true);
-            //platPanes.get(game.getListOfPlayers().get(i).getPoints()).setStyle(getStyle(game.getListOfPlayers().get(i).getMarker().getPath()));
+            platPanes.get(game.getListOfPlayers().get(i).getPoints()).setStyle("-fx-background-color: red");
         }
     }
 
