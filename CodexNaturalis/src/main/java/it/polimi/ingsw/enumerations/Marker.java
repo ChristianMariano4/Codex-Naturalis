@@ -12,16 +12,16 @@ public enum Marker {
         switch (this)
         {
             case RED -> {
-                return "images/CODEX_pion_rouge.png";
+                return "images/Markers/CODEX_pion_rouge.png";
             }
             case BLUE -> {
-                return "images/CODEX_pion_bleu.png";
+                return "images/Markers/CODEX_pion_bleu.png";
             }
             case YELLOW -> {
-                return "images/CODEX_pion_jaune.png";
+                return "images/Markers/CODEX_pion_jaune.png";
             }
             case GREEN -> {
-                return "images/CODEX_pion_vert.png";
+                return "images/Markers/CODEX_pion_vert.png";
             }
             default ->
             {

@@ -11,10 +11,12 @@ import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.view.GUI.InspectedCardInfo;
 import it.polimi.ingsw.view.GUI.ViewGUI;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
@@ -139,8 +141,11 @@ public class MainGameScreenController extends GUIController{
     public Pane movingField;
     private Pane[][] fieldPanes = new Pane[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
 
-
-
+    public Pane m1;
+    public Pane m2;
+    public Pane m3;
+    public Pane m4;
+    public ArrayList<Pane> scoreboardMarkerPanes = new ArrayList<>();
 
     @FXML
     public void rulebookButton(ActionEvent actionEvent) {
@@ -708,6 +713,16 @@ public class MainGameScreenController extends GUIController{
 
     private void initializeScoreboard()
     {
+        m1 = new Pane();
+        m2 = new Pane();
+        m3 = new Pane();
+        m4 = new Pane();
+
+        scoreboardMarkerPanes.add(m1);
+        scoreboardMarkerPanes.add(m2);
+        scoreboardMarkerPanes.add(m3);
+        scoreboardMarkerPanes.add(m4);
+
         platPanes.add(plat0);
         platPanes.add(plat1);
         platPanes.add(plat2);
@@ -748,13 +763,28 @@ public class MainGameScreenController extends GUIController{
         markerPositionInScoreboard();
     }
 
+    private void setScoreboardChildren(Pane pane) {
+        double transformation = 0;
+        for(Node marker: pane.getChildren()) {
+            Pane markerPane = (Pane) marker;
+            markerPane.setLayoutY(transformation);
+            //pane.getChildren().add(markerPane);
+            transformation = transformation - 15;
+        }
+    }
+
     private void markerPositionInScoreboard() {
         Game game = viewGUI.getGame();
 
-        for(Player player: game.getListOfPlayers()) {
-            int points = player.getPoints();
-            platPanes.get(points).setStyle(getStyle(player.getMarker().getPath()));
-            platPanes.get(points).setVisible(true);
+        for(int i = 0; i < game.getListOfPlayers().size(); i++) {
+            scoreboardMarkerPanes.get(i).setStyle(getStyle(game.getListOfPlayers().get(i).getMarker().getPath()));
+            scoreboardMarkerPanes.get(i).setDisable(false);
+            scoreboardMarkerPanes.get(i).setVisible(true);
+            platPanes.get(game.getListOfPlayers().get(i).getPoints()).getChildren().add(scoreboardMarkerPanes.get(i));
+            setScoreboardChildren(platPanes.get(game.getListOfPlayers().get(i).getPoints()));
+            platPanes.get(game.getListOfPlayers().get(i).getPoints()).setDisable(false);
+            platPanes.get(game.getListOfPlayers().get(i).getPoints()).setVisible(true);
+            //platPanes.get(game.getListOfPlayers().get(i).getPoints()).setStyle(getStyle(game.getListOfPlayers().get(i).getMarker().getPath()));
         }
     }
 

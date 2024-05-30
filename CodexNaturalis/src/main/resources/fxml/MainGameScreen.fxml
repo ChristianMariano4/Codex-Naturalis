@@ -18,7 +18,7 @@
                <children>
                   <Pane fx:id="scoreBoard" disable="true" layoutX="697.0" layoutY="98.0" prefHeight="322.0" prefWidth="161.0" styleClass="gameScoreboard" visible="false">
                      <children>
-                        <Pane fx:id="plat0" layoutX="27.5" layoutY="284.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
+                        <Pane fx:id="plat0" layoutX="27.5" layoutY="284.5" prefHeight="30.0" prefWidth="30.0" />
                         <Pane fx:id="plat1" layoutX="65.5" layoutY="284.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
                         <Pane fx:id="plat2" layoutX="103.5" layoutY="284.5" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
                         <Pane fx:id="plat3" layoutX="122.5" layoutY="250.0" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 20;" />
