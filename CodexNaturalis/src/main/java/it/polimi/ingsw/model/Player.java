@@ -39,7 +39,7 @@ public class Player implements Serializable {
         this.playerHand  = new PlayerHand();
         this.playerField = new PlayerField();
         this.points = 0;
-
+        this.marker = null;
         resourceAmount = new HashMap<Resource, Integer>();
 
         resourceAmountInitializer(resourceAmount);

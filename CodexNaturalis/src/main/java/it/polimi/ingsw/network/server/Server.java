@@ -54,15 +54,19 @@ public class Server extends Thread implements ServerRMIInterface {
                         System.out.println("Client disconnected successfully");
                         break;
                     }
-                } catch (InterruptedException | IOException e) {
+                } catch (InterruptedException | IOException | NotExistingPlayerException | NotAvailableMarkerException |
+                         DeckIsEmptyException e) {
                     throw new RuntimeException(e);
                 }
             }
         }).start();
     }
 
-    public void disconnect(ClientHandlerInterface client) throws IOException {
-        if(clients.get(client).getGameId() != -1) { //if the client is in a game
+    public void disconnect(ClientHandlerInterface client) throws IOException, NotExistingPlayerException, NotAvailableMarkerException, DeckIsEmptyException {
+        if(clients.get(client).getGameId() != -1) {
+            if (gameHandlerMap.get(clients.get(client).getGameId()).getGame().getGameStatus().getStatusNumber() < GameStatus.GAME_STARTED.getStatusNumber()){
+                gameHandlerMap.get(clients.get(client).getGameId()).setRandomInitialization(clients.get(client).getUsername());
+            }
             gameHandlerMap.get(clients.get(client).getGameId()).setPlayerDisconnected(clients.get(client).getUsername());
             gameHandlerMap.get(clients.get(client).getGameId()).unsubscribe(clients.get(client).getUsername());
         }

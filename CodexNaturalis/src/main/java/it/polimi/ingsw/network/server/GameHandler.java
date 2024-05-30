@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.server;
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.enumerations.AngleOrientation;
+import it.polimi.ingsw.enumerations.GameStatus;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
@@ -134,6 +135,7 @@ public class GameHandler implements Serializable {
             if (readyPlayers == desiredNumberOfPlayers) {
                 try {
                     this.game = controller.initializeGame();
+                    this.game.setGameStatus(GameStatus.ALL_PLAYERS_READY);
                 } catch (CardTypeMismatchException | InvalidConstructorDataException | CardNotImportedException |
                          DeckIsEmptyException | AlreadyExistingPlayerException | AlreadyMaxNumberOfPlayersException |
                          IOException |
@@ -294,6 +296,7 @@ public class GameHandler implements Serializable {
                 if (p.getSecretObjective() == null)
                     return;
             }
+            game.setGameStatus(GameStatus.GAME_STARTED);
             eventManager.notify(GameEvent.GAME_BEGIN, game);
         }
     }
@@ -313,12 +316,26 @@ public class GameHandler implements Serializable {
         synchronized (this) {
             try {
                 controller.setPlayerDisconnected(username);
-                if (!game.getgameStarted()){
+                if (game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
                     this.readyPlayers--;
                     game.removePlayer(username);
                 }
             } catch (NotExistingPlayerException e) {
                 throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void setRandomInitialization(String username) throws NotExistingPlayerException, NotAvailableMarkerException, DeckIsEmptyException {
+    synchronized (this) {
+            if (game.getPlayer(username).getMarker() == null){
+                this.setMarker(game.getPlayer(username), game.getAvailableMarkers().getFirst());
+            }
+            if (game.getPlayer(username).getSecretObjective() == null){
+                this.setSecretObjectiveCard(game.getPlayer(username), game.getObjectiveCardDeck().getTopCard());
+            }
+            if (game.getPlayer(username).getStarterCard() == null){
+                this.setStarterCardSide(game.getPlayer(username), game.getPlayer(username).getStarterCard(), Side.FRONT);
             }
         }
     }

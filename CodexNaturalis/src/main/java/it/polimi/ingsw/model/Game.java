@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.enumerations.GameStatus;
 import it.polimi.ingsw.enumerations.Marker;
 import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
 import it.polimi.ingsw.exceptions.AlreadyMaxNumberOfPlayersException;
@@ -19,7 +20,7 @@ import java.util.Collections;
  * The game is responsible for adding players to the game and managing the table.
  */
 public class Game implements Serializable {
-    private final boolean isGameStarted;
+    private GameStatus gameStatus;
     private final int gameId;
     private final ArrayList<Player> listOfPlayers;
     private Player currentPlayer;
@@ -40,7 +41,7 @@ public class Game implements Serializable {
      * @throws InvalidConstructorDataException when controller didn't properly create Game
      */
     public Game(int gameId, DrawingField drawingField, ArrayList<ObjectiveCard> sharedObjectiveCards, Deck<ObjectiveCard> objectiveCardDeck, Deck<StarterCard> starterCardDeck) throws InvalidConstructorDataException {
-        this.isGameStarted = false;
+        this.gameStatus = GameStatus.LOBBY_CREATED;
         this.gameId = gameId;
         this.listOfPlayers = new ArrayList<Player>();
         this.availableMarkers = new ArrayList<Marker>(Arrays.asList(Marker.values()));
@@ -135,8 +136,12 @@ public class Game implements Serializable {
         this.currentPlayer = currentPlayer;
     }
 
-    public boolean getgameStarted() {
-        return isGameStarted;
+    public GameStatus getGameStatus() {
+        return this.gameStatus;
+    }
+
+    public void setGameStatus(GameStatus gameStatus){
+        this.gameStatus = gameStatus;
     }
 
     public Player getPlayer(String username) throws NotExistingPlayerException{
