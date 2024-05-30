@@ -121,7 +121,16 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                     }
 
                 }
-            } catch (NotEnoughPlayersException e) {
+            }
+            catch (InvalidCardPositionException e)
+            {
+                sendMessage(ServerMessageType.ERROR, ErrorType.INVALID_CARD_POSITION);
+            }
+            catch (RequirementsNotMetException e)
+            {
+                sendMessage(ServerMessageType.ERROR, ErrorType.REQUIREMENTS_NOT_MET);
+            }
+            catch (NotEnoughPlayersException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.NOT_ENOUGH_PLAYERS);
             } catch (NotExistingPlayerException e) {
                 throw new RuntimeException(e);

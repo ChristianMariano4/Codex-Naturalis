@@ -1,7 +1,9 @@
 package it.polimi.ingsw.view.GUI.GUIControllers;
 
 import it.polimi.ingsw.enumerations.*;
+import it.polimi.ingsw.exceptions.InvalidCardPositionException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
+import it.polimi.ingsw.exceptions.RequirementsNotMetException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerHand;
@@ -31,6 +33,7 @@ import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 public class MainGameScreenController extends GUIController{
 
     private InspectedCardInfo inspectedCardInfo;
+    private boolean dragging = false;
     private boolean playingCard = false;
     public Pane scalable;
 
@@ -418,6 +421,8 @@ public class MainGameScreenController extends GUIController{
        initializeObjectiveCards();
        initializeDrawingField();
        initializePlayerField();
+
+
     }
 
     private void initializePlayerHand()
@@ -934,6 +939,10 @@ public class MainGameScreenController extends GUIController{
                         newPane.setStyle("-fx-background-color: blue");
                         newPane.setVisible(true);
                         newPane.setDisable(false);
+                        newPane.setOnMouseDragged(e->
+                        {
+                            dragging = true;
+                        });
 
                         newPane.setOnMouseClicked(e -> {
                             clickedOnPane(e);
@@ -959,39 +968,56 @@ public class MainGameScreenController extends GUIController{
     @FXML
     public void clickedOnPane(MouseEvent event) {
         //Invalid input screen
-        if(playingCard) {
-            try {
-                if(viewGUI.getIsTurn()) {
-                    Pane source = (Pane) event.getSource();
-                    PlayableCard card = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerHand().getCardsInHand().get(inspectedCardInfo.getCardInHandSelected());
+        if(event.getEventType() == MouseEvent.MOUSE_CLICKED) {
+            if(dragging)
+            {
+                dragging = false;
+                return;
+            }
+            if (playingCard) {
+                try {
+                    if (viewGUI.getIsTurn()) {
+                        Pane source = (Pane) event.getSource();
+                        PlayableCard card = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerHand().getCardsInHand().get(inspectedCardInfo.getCardInHandSelected());
 
-                    for(int i = 0; i< DEFAULT_MATRIX_SIZE; i++) {
-                        for (int j = 0; j < DEFAULT_MATRIX_SIZE; j++) {
-                            if (fieldPanes[i][j] != null && fieldPanes[i][j].equals(source)) {
-                                PlayableCard[][] matrixField = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerField().getMatrixField();
+                        for (int i = 0; i < DEFAULT_MATRIX_SIZE; i++) {
+                            for (int j = 0; j < DEFAULT_MATRIX_SIZE; j++) {
+                                if (fieldPanes[i][j] != null && fieldPanes[i][j].equals(source)) {
+                                    PlayableCard[][] matrixField = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerField().getMatrixField();
 
-                                for(AngleOrientation orientation: AngleOrientation.values()) {
-                                    if(!orientation.equals(AngleOrientation.NONE)) {
-                                        int xPane = i + orientation.mapEnumToX();
-                                        int yPane = j + orientation.mapEnumToY();
+                                    for (AngleOrientation orientation : AngleOrientation.values()) {
+                                        if (!orientation.equals(AngleOrientation.NONE)) {
+                                            int xPane = i + orientation.mapEnumToX();
+                                            int yPane = j + orientation.mapEnumToY();
 
-                                        if(matrixField[xPane][yPane] != null) {
-                                            viewGUI.playCard(matrixField[xPane][yPane], card, orientation);
-                                            source.setStyle(getStyle(getCardUrl(card, inspectedCardInfo.getSide())));
-                                            removeCardFromHand();
+                                            if (matrixField[xPane][yPane] != null) {
+                                                viewGUI.playCard(matrixField[xPane][yPane], card, orientation);
+                                                sorround(source);
+                                                source.setStyle(getStyle(getCardUrl(card, inspectedCardInfo.getSide())));
+                                                removeCardFromHand();
+                                                break;
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+                        playingCard = false;
                     }
+                }catch (InvalidCardPositionException e)
+                {
+                    System.out.println("invalid card position");
                 }
+                catch (RequirementsNotMetException e)
+                {
+                    System.out.println("requirements not met");
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    throw new RuntimeException();
+                }
+
             }
-            catch (Exception e)
-            {
-                throw new RuntimeException();
-            }
-            playingCard = false;
         }
     }
 

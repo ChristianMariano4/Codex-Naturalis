@@ -215,6 +215,10 @@ public class SocketClient extends Client {
         {
             messageHandlerQueue.take();
         }
+        catch (InvalidCardPositionException | RequirementsNotMetException e)
+        {
+            throw e;
+        }
         catch(Exception e)
         {
             throw new RuntimeException();

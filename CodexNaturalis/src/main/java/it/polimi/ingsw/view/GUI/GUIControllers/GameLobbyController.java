@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.GUI.GUIControllers;
 
+import com.sun.media.jfxmedia.control.MediaPlayerOverlay;
 import it.polimi.ingsw.enumerations.GUIScene;
 import it.polimi.ingsw.exceptions.NotEnoughPlayersException;
 import it.polimi.ingsw.model.Game;
@@ -83,21 +84,21 @@ public class GameLobbyController extends GUIController {
 
             for (int i = 0; i < 4; i++) {
                 try {
-                    synchronized (playerPanes) {
                         Label label = names.get(i);
                         String username = game.getListOfPlayers().get(i).getUsername();
+                        Pane playerPane = playerPanes.get(i);
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
                                 label.setText(username);
+                                label.setDisable(false);
+                                label.setVisible(true);
+                                playerPane.setDisable(false);
+                                playerPane.setVisible(true);
 
                             }
                         });//multithreading javafx
-                        names.get(i).setDisable(false);
-                        names.get(i).setVisible(true);
-                        playerPanes.get(i).setDisable(false);
-                        playerPanes.get(i).setVisible(true);
-                    }
+
                     new Thread() {
                         public void run() {
                             try {

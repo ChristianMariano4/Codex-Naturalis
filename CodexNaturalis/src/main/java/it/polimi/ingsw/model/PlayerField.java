@@ -5,6 +5,7 @@ import it.polimi.ingsw.enumerations.AngleStatus;
 import it.polimi.ingsw.exceptions.AngleAlreadyLinkedException;
 import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.InvalidCardPositionException;
+import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 
@@ -40,7 +41,6 @@ public class PlayerField implements Serializable {
         return returnedMatrixField;
     }
 
-    //TODO: dynamic resizing
 
     /**
      * Add a card to the player field
@@ -60,6 +60,16 @@ public class PlayerField implements Serializable {
                     int cardToAddY = j + angleOrientation.mapEnumToY();
                     if(matrixField[cardToAddX][cardToAddY] != null)
                         throw new InvalidCardPositionException();
+                    for(AngleOrientation orientation : AngleOrientation.values())
+                    {
+                        if(orientation.equals(AngleOrientation.NONE))
+                            continue;
+                        PlayableCard otherAngle = matrixField[cardToAddX + orientation.mapEnumToX()][cardToAddY + orientation.mapEnumToY()];
+                        if(otherAngle != null && !otherAngle.getAngle(orientation.getOpposite()).isPlayable())
+                        {
+                            throw new InvalidCardPositionException();
+                        }
+                    }
                     if(card.getAngle(angleOrientation).isPlayable() && card.getAngle(angleOrientation).getAngleStatus().equals(AngleStatus.UNLINKED))
                     {
                         matrixField[cardToAddX][cardToAddY] = cardToAdd;
@@ -69,9 +79,6 @@ public class PlayerField implements Serializable {
                     else {
                         throw new InvalidCardPositionException();
                     }
-
-
-
                     i = DEFAULT_MATRIX_SIZE;
                     break;
 
