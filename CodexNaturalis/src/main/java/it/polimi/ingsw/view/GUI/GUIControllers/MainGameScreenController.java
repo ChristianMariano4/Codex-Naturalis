@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.GUI.GUIControllers;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.view.GUI.InspectedCardInfo;
@@ -417,8 +418,6 @@ public class MainGameScreenController extends GUIController{
        initializeObjectiveCards();
        initializeDrawingField();
        initializePlayerField();
-
-
     }
 
     private void initializePlayerHand()
@@ -741,6 +740,17 @@ public class MainGameScreenController extends GUIController{
         }
         scoreBoard.setDisable(false);
         scoreBoard.setVisible(true);
+        markerPositionInScoreboard();
+    }
+
+    private void markerPositionInScoreboard() {
+        Game game = viewGUI.getGame();
+
+        for(Player player: game.getListOfPlayers()) {
+            int points = player.getPoints();
+            platPanes.get(points).setStyle(getStyle(player.getMarker().getPath()));
+            platPanes.get(points).setVisible(true);
+        }
     }
 
     private void initializeObjectiveCards()
@@ -949,7 +959,7 @@ public class MainGameScreenController extends GUIController{
     @FXML
     public void clickedOnPane(MouseEvent event) {
         //Invalid input screen
-        if(playingCard && !event.getEventType().equals(MouseEvent.DRAG_DETECTED)) {
+        if(playingCard) {
             try {
                 if(viewGUI.getIsTurn()) {
                     Pane source = (Pane) event.getSource();
