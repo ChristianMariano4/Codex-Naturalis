@@ -29,6 +29,7 @@ public class Game implements Serializable {
     private final Deck<StarterCard> availableStarterCards;
     private final ArrayList<Marker> availableMarkers;
     private boolean isGameEnded = false;
+    private boolean isGameEndedForDisconnection = false;
 
 
     //controller has to create the drawing field before creating the game to create drawingField
@@ -157,5 +158,14 @@ public class Game implements Serializable {
     public void setIsGameEnded(boolean isGameEnded)
     {
         this.isGameEnded = isGameEnded;
+    }
+
+    public boolean getIsGameEndedForDisconnection()
+    {
+        return this.isGameEndedForDisconnection;
+    }
+    public void setIsGameEndedForDisconnection(boolean isGameEndedForDisconnection)
+    {
+        this.isGameEndedForDisconnection = isGameEndedForDisconnection;
     }
 }

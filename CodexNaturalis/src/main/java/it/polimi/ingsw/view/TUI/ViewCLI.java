@@ -166,11 +166,12 @@ public class ViewCLI implements View, Runnable {
         {
             boolean isTurn = game.getPlayer(client.getUsername()).getIsTurn();
             String playerPlaying = game.getCurrentPlayer().getUsername();
-            if(!game.getIsGameEnded()) {
+            if(!game.getIsGameEnded() && !game.getIsGameEndedForDisconnection()){
                 ui.showTurnScreen(playerPlaying, client.getUsername());
             }
-            else
-            {
+            else if (game.getIsGameEndedForDisconnection()) {
+                gameEndDisconnection();
+            } else {
                 showEndGameScreen();
             }
 
