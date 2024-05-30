@@ -319,6 +319,12 @@ public class GameHandler implements Serializable {
                 if (game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
                     this.readyPlayers--;
                     game.removePlayer(username);
+                } else if (game.getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
+                    if(game.getPlayer(username).getIsTurn()){
+//                        controller.finishTurn(game.getPlayer(username));
+                        controller.nextTurn(game.getPlayer(username));
+                        eventManager.notify(GameEvent.TURN_EVENT, game);
+                    }
                 }
             } catch (NotExistingPlayerException e) {
                 throw new RuntimeException(e);

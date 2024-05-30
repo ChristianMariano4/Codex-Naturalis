@@ -259,7 +259,7 @@ public class Controller {
         int nextIndex = index + 1;
         if(nextIndex>= gameHandler.getGame().getListOfPlayers().size())
             nextIndex = 0;
-        while(gameHandler.getGame().getListOfPlayers().get(nextIndex).getConnectionStatus()) {
+        while(gameHandler.getGame().getListOfPlayers().get(nextIndex).getIsDisconnected()) {
             nextIndex++;
             if(nextIndex>= gameHandler.getGame().getListOfPlayers().size())
                 nextIndex = 0;

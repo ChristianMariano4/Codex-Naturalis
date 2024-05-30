@@ -136,7 +136,6 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                     if (this.viewThread != null) {
                         this.viewThread.interrupt();
                     }
-                    //TODO: chiedere ad ale se abbiamo rotto il gioco
                     //view.gameEnd();
                 }
             }

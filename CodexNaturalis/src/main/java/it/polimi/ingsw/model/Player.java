@@ -227,7 +227,7 @@ public class Player implements Serializable {
         this.isDisconneted = false;
     }
 
-    public boolean getConnectionStatus(){
+    public boolean getIsDisconnected(){
         return this.isDisconneted;
     }
 
