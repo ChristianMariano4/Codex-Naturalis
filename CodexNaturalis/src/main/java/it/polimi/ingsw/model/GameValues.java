@@ -14,4 +14,5 @@ public class GameValues {
     public static final int HEARTBEAT_INTERVAL = 1000;
     public static final int HEARTBEAT_TIMEOUT = 2000;
     public static final int GAME_END_TIMEOUT = 5000;
+//    TODO: reset timeouts to meaningful values after testing is finished
 }
