@@ -493,29 +493,36 @@ public class MainGameScreenController extends GUIController{
         playerField.setVisible(true);
         inspectedCardInfo.setCardInHandSelected(3);
         inspectedCardInfo.setFrontSide(true);
+        //inspectedCardInfo reset to default values
     }
     //SHOW SHARED OBJECTIVE CARDS
     @FXML
     public void showOtherSharedObjCardSide() {
-        if(frontSide) {
-            showSharedObjCard(sharedObjChoice, Side.BACK);
-            frontSide = false;
+        if(inspectedCardInfo.getFrontSide()) {
+            inspectedCardInfo.setSide(Side.BACK);
+            showSharedObjCard();
+            inspectedCardInfo.setFrontSide(false);
+            //frontSide = false;
         } else {
-            showSharedObjCard(sharedObjChoice, Side.FRONT);
-            frontSide = true;
+            inspectedCardInfo.setSide(Side.FRONT);
+            showSharedObjCard();
+            inspectedCardInfo.setFrontSide(true);
         }
     }
     @FXML
     public void sharedObjCardButtonOne() {
-        sharedObjChoice = 0;
-        showSharedObjCard(0, Side.FRONT);
+        inspectedCardInfo.setSharedObjChoice(0);
+        inspectedCardInfo.setSide(Side.FRONT);
+        //sharedObjChoice = 0;
+        showSharedObjCard();
     }
     @FXML
     public void sharedObjCardButtonTwo() {
-        sharedObjChoice = 1;
-        showSharedObjCard(1, Side.FRONT);
+        inspectedCardInfo.setSharedObjChoice(1);
+        inspectedCardInfo.setSide(Side.FRONT);
+        showSharedObjCard();
     }
-    private void showSharedObjCard(Integer i, Side side) {
+    private void showSharedObjCard() {
         Game game = viewGUI.getGame();
 
         objectiveCardsInspector.setDisable(false);
@@ -525,7 +532,7 @@ public class MainGameScreenController extends GUIController{
 
         try {
             ArrayList<ObjectiveCard> sharedObjectiveCards = viewGUI.getSharedObjectiveCards();
-            showObjCard.setStyle(getStyle(getCardUrl(sharedObjectiveCards.get(i), side)));
+            showObjCard.setStyle(getStyle(getCardUrl(sharedObjectiveCards.get(inspectedCardInfo.getSharedObjChoice()), inspectedCardInfo.getSide())));
         } catch (Exception e) {
             throw new RuntimeException();
         }
@@ -536,32 +543,34 @@ public class MainGameScreenController extends GUIController{
         objectiveCardsInspector.setVisible(false);
         playerField.setDisable(false);
         playerField.setVisible(true);
-        sharedObjChoice = 2;
-        frontSide = true;
+        inspectedCardInfo.setSharedObjChoice(2);
+        inspectedCardInfo.setFrontSide(true);
     }
     //SHOW SECRET OBJECTIVE CARD
     @FXML
     public void showOtherSecretObjCardSide() {
-        if(frontSide) {
-            showSecretObjCard(Side.BACK);
-            frontSide = false;
+        if(inspectedCardInfo.getFrontSide()) {
+            inspectedCardInfo.setSide(Side.BACK);
+            showSecretObjCard();
+            inspectedCardInfo.setFrontSide(false);
         } else {
-            showSecretObjCard(Side.FRONT);
-            frontSide = true;
+            inspectedCardInfo.setSide(Side.FRONT);
+            showSecretObjCard();
+            inspectedCardInfo.setFrontSide(true);
         }
     }
     @FXML
     public void secretObjCardButton() {
-        showSecretObjCard(Side.FRONT);
+        showSecretObjCard();
     }
-    private void showSecretObjCard(Side side) {
+    private void showSecretObjCard() {
         secretObjCardsInspector.setDisable(false);
         secretObjCardsInspector.setVisible(true);
         playerField.setDisable(true);
         playerField.setVisible(false);
 
         try {
-            showSObjCard.setStyle(getStyle(getCardUrl(viewGUI.getSecretObjectiveCard(), side)));
+            showSObjCard.setStyle(getStyle(getCardUrl(viewGUI.getSecretObjectiveCard(), inspectedCardInfo.getSide())));
         } catch (Exception e) {
             throw new RuntimeException();
         }
@@ -572,71 +581,99 @@ public class MainGameScreenController extends GUIController{
         secretObjCardsInspector.setVisible(false);
         playerField.setDisable(false);
         playerField.setVisible(true);
-        frontSide = true;
+        inspectedCardInfo.setFrontSide(true);
     }
     //SHOW DRAWING FIELD CARD
     @FXML
-    public void showOtherDrawingCardSide() { //TODO: other side card only for discovered cards
-        if(frontSide) {
-            showSharedObjCard(sharedObjChoice, Side.BACK);
-            frontSide = false;
-        } else {
-            showSharedObjCard(sharedObjChoice, Side.FRONT);
-            frontSide = true;
+    public void showOtherDrawingCardSide() {
+        if(!inspectedCardInfo.getFromDeck()) {
+            if(inspectedCardInfo.getFrontSide()) {
+                inspectedCardInfo.setSide(Side.BACK);
+                showDrawingFieldCard();
+                inspectedCardInfo.setFrontSide(false);
+            } else {
+                inspectedCardInfo.setSide(Side.FRONT);
+                showDrawingFieldCard();
+                inspectedCardInfo.setFrontSide(true);
+            }
         }
     }
     @FXML
     public void leftDeckButton() {
-        showDrawingFieldCard(Side.BACK, CardType.RESOURCE, true, DrawPosition.LEFT);
+        inspectedCardInfo.setSide(Side.BACK);
+        inspectedCardInfo.setCardType(CardType.RESOURCE);
+        inspectedCardInfo.setFromDeck(true);
+        inspectedCardInfo.setDrawPosition(DrawPosition.LEFT);
+        showDrawingFieldCard();
     }
     @FXML
     public void rightDeckButton() {
-        showDrawingFieldCard(Side.BACK, CardType.GOLD, true, DrawPosition.RIGHT);
+        inspectedCardInfo.setSide(Side.BACK);
+        inspectedCardInfo.setCardType(CardType.GOLD);
+        inspectedCardInfo.setFromDeck(true);
+        inspectedCardInfo.setDrawPosition(DrawPosition.RIGHT);
+        showDrawingFieldCard();
     }
     @FXML
     public void rightTopDrawingButton() {
-        showDrawingFieldCard(Side.FRONT, CardType.GOLD, false, DrawPosition.LEFT);
+        inspectedCardInfo.setSide(Side.FRONT);
+        inspectedCardInfo.setCardType(CardType.GOLD);
+        inspectedCardInfo.setFromDeck(false);
+        inspectedCardInfo.setDrawPosition(DrawPosition.LEFT);
+        showDrawingFieldCard();
     }
     @FXML
     public void leftTopDrawingButton() {
-        showDrawingFieldCard(Side.FRONT, CardType.RESOURCE, false, DrawPosition.LEFT);
+        inspectedCardInfo.setSide(Side.FRONT);
+        inspectedCardInfo.setCardType(CardType.RESOURCE);
+        inspectedCardInfo.setFromDeck(false);
+        inspectedCardInfo.setDrawPosition(DrawPosition.LEFT);
+        showDrawingFieldCard();
     }
     @FXML
     public void rightBottomDrawingButton() {
-        showDrawingFieldCard(Side.FRONT, CardType.GOLD, false, DrawPosition.RIGHT);
+        inspectedCardInfo.setSide(Side.FRONT);
+        inspectedCardInfo.setCardType(CardType.GOLD);
+        inspectedCardInfo.setFromDeck(false);
+        inspectedCardInfo.setDrawPosition(DrawPosition.RIGHT);
+        showDrawingFieldCard();
     }
     @FXML
     public void leftBottomDrawingButton() {
-        showDrawingFieldCard(Side.FRONT, CardType.RESOURCE, false, DrawPosition.RIGHT);
+        inspectedCardInfo.setSide(Side.FRONT);
+        inspectedCardInfo.setCardType(CardType.RESOURCE);
+        inspectedCardInfo.setFromDeck(false);
+        inspectedCardInfo.setDrawPosition(DrawPosition.RIGHT);
+        showDrawingFieldCard();
     }
 
-    private void showDrawingFieldCard(Side side, CardType cardType, boolean fromDeck, DrawPosition drawPosition) {
+    private void showDrawingFieldCard() {
         DrawingCardsInspector.setDisable(false);
         DrawingCardsInspector.setVisible(true);
         playerField.setDisable(true);
         playerField.setVisible(false);
 
         try {
-            if(fromDeck) {
-                if(cardType.equals(CardType.GOLD)) {
+            if(inspectedCardInfo.getFromDeck()) {
+                if(inspectedCardInfo.getCardType().equals(CardType.GOLD)) {
                     DrawingCardPane.setStyle(getStyle(getCardUrl(viewGUI.getTopGoldCard(),Side.BACK)));
-                } else if(cardType.equals(CardType.RESOURCE)) {
+                } else if(inspectedCardInfo.getCardType().equals(CardType.RESOURCE)) {
                     DrawingCardPane.setStyle(getStyle(getCardUrl(viewGUI.getTopResourceCard(),Side.BACK)));
                 }
             } else {
-                if(cardType.equals(CardType.GOLD)) {
+                if(inspectedCardInfo.getCardType().equals(CardType.GOLD)) {
                     HashMap<DrawPosition,GoldCard> discoveredGoldCards = viewGUI.getDiscoveredGoldCards();
-                    if(drawPosition.equals(DrawPosition.RIGHT)) {
-                       DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.RIGHT),side)));
+                    if(inspectedCardInfo.getDrawPosition().equals(DrawPosition.RIGHT)) {
+                       DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.RIGHT), inspectedCardInfo.getSide())));
                     } else {
-                        DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.LEFT),side)));
+                        DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.LEFT),inspectedCardInfo.getSide())));
                     }
-                } else if(cardType.equals(CardType.RESOURCE)) {
+                } else if(inspectedCardInfo.getCardType().equals(CardType.RESOURCE)) {
                     HashMap<DrawPosition,ResourceCard> discoveredResourceCards = viewGUI.getDiscoveredResourceCards();
-                    if(drawPosition.equals(DrawPosition.RIGHT)) {
-                        DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredResourceCards.get(DrawPosition.RIGHT),side)));
+                    if(inspectedCardInfo.getDrawPosition().equals(DrawPosition.RIGHT)) {
+                        DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredResourceCards.get(DrawPosition.RIGHT),inspectedCardInfo.getSide())));
                     } else {
-                        DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredResourceCards.get(DrawPosition.LEFT),side)));
+                        DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredResourceCards.get(DrawPosition.LEFT),inspectedCardInfo.getSide())));
                     }
                 }
             }

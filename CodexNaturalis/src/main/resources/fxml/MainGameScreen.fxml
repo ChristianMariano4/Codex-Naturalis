@@ -278,7 +278,7 @@
                         </Pane>
                         <Pane fx:id="DrawingCardPane" layoutX="251.0" layoutY="81.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;">
                            <children>
-                              <Button mnemonicParsing="false" opacity="0.0" prefHeight="280.0" prefWidth="420.0" text="Button" />
+                              <Button mnemonicParsing="false" onAction="#showOtherDrawingCardSide" opacity="0.0" prefHeight="280.0" prefWidth="420.0" text="Button" />
                            </children>
                         </Pane>
                         <Pane layoutX="395.0" layoutY="408.0" prefHeight="50.0" prefWidth="130.0">
