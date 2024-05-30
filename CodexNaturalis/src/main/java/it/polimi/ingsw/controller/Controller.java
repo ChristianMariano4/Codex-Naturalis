@@ -128,8 +128,25 @@ public class Controller {
     }
 
     public StarterCard giveStarterCard(Player player) throws DeckIsEmptyException, NotExistingPlayerException {
+        Player playerObj =  gameHandler.getGame().getPlayer(player.getUsername());
         StarterCard starterCard = gameHandler.getGame().getAvailableStarterCards().getTopCard();
-        gameHandler.getGame().getPlayer(player.getUsername()).setStarterCard(starterCard);
+        playerObj.setStarterCard(starterCard);
+        for(AngleOrientation orientation : AngleOrientation.values())
+        {
+            try {
+                if (orientation.equals(AngleOrientation.NONE))
+                    continue;
+                Angle angle = starterCard.getAngle(orientation);
+                if(!angle.getResource().equals(Resource.NONE))
+                {
+                    playerObj.updateResourceAmount(angle.getResource(), 1);
+                }
+            }
+            catch (NoneResourceException e) {
+                continue;
+            }
+
+        }
         return starterCard;
     }
 
@@ -199,12 +216,45 @@ public class Controller {
             playerObj.getPlayerField().addCardToCell(card, orientation, otherCard);
             playerObj.getPlayerHand().removeCardFromHand(otherCard);
             playerObj.addPoints(otherCard.getPoints());
+            for(AngleOrientation angleOrientation : AngleOrientation.values())
+            {
+                if(angleOrientation.equals(AngleOrientation.NONE))
+                {
+                    continue;
+                }
+                Angle angle = card.getAngle(angleOrientation);
+                if(!angle.getResource().equals(Resource.NONE))
+                {
+                    try {
+                        playerObj.updateResourceAmount(angle.getResource(), 1);
+                    }
+                    catch (NoneResourceException e)
+                    {
+                        continue;
+                    }
 
+                }
+                try {
+                    if (!angle.getAngleStatus().equals(AngleStatus.UNLINKED) && !angle.getLinkedAngle().getResource().equals(Resource.NONE))
+                    {
+                        playerObj.updateResourceAmount(angle.getLinkedAngle().getResource(), -1);
+                    }
+                }
+                catch (UnlinkedCardException e)
+                {
+                    continue;
+                } catch (NoneResourceException e) {
+                    continue;
+                }
+
+            }
         }
         else{
             throw new RequirementsNotMetException();
         }
     }
+
+
 
 
     public synchronized void calculateAndUpdateFinalPoints() throws CardTypeMismatchException {
