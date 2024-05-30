@@ -194,5 +194,8 @@ public class ViewGUI implements View, Runnable {
     public void playCard(PlayableCard cardOnBoard, PlayableCard card, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, ServerDisconnectedException, IOException, AngleAlreadyLinkedException {
         client.playCard(game.getGameId(), client.getUsername(), cardOnBoard, card, orientation);
     }
+    public PlayableCard getOtherSideCard(PlayableCard card) throws ServerDisconnectedException, IOException {
+        return client.getOtherSideCard(game.getGameId(), card);
+    }
 
 }

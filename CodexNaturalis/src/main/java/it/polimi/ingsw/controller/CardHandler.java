@@ -337,6 +337,8 @@ public class CardHandler {
         }
         if(cardInfo.getCardType().equals(CardType.GOLD))
         {
+            if(card.getCurrentSide().equals(Side.BACK))
+                return true;
             HashMap<Resource, Integer> requirementsResourceAmount = new HashMap<>();
             for(Resource resource : cardInfo.getRequirements())
             {

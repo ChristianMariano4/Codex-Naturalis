@@ -27,6 +27,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -37,10 +38,14 @@ public class MainGameScreenController extends GUIController{
     private InspectedCardInfo inspectedCardInfo;
     private boolean dragging = false;
     private boolean playingCard = false;
+    private boolean drawingCard = false;
     public Pane scalable;
 
     public Pane tableTop;
 
+    public Label turnLabel;
+    public Label requirementsLabel;
+    public Label positionLabel;
 
     public TabPane rulebookTabPane;
     public Pane rulebookPane;
@@ -426,8 +431,27 @@ public class MainGameScreenController extends GUIController{
        initializeObjectiveCards();
        initializeDrawingField();
        initializePlayerField();
+       setTurnLabel();
 
 
+    }
+    private void setTurnLabel()
+    {
+        try {
+            if (viewGUI.getIsTurn()) {
+                turnLabel.setText("It is currently your turn, select a card from your hand to Play");
+            }
+            else {
+
+                turnLabel.setText("It is currently " + viewGUI.getGame().getCurrentPlayer().getUsername() + "'s turn");
+            }
+            turnLabel.setDisable(false);
+            turnLabel.setVisible(true);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
     }
 
     private void initializePlayerHand()
@@ -967,8 +991,10 @@ public class MainGameScreenController extends GUIController{
                         newPane.setPrefHeight(60);
                         //temporary
                         newPane.setStyle("-fx-background-color: blue");
+                        newPane.setOpacity(0.2);
                         newPane.setVisible(true);
                         newPane.setDisable(false);
+
                         newPane.setOnMouseDragged(e->
                         {
                             dragging = true;
@@ -1009,6 +1035,10 @@ public class MainGameScreenController extends GUIController{
                     if (viewGUI.getIsTurn()) {
                         Pane source = (Pane) event.getSource();
                         PlayableCard card = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerHand().getCardsInHand().get(inspectedCardInfo.getCardInHandSelected());
+                        if(inspectedCardInfo.getSide().equals(Side.BACK))
+                        {
+                            card = viewGUI.getOtherSideCard(card);
+                        }
 
                         for (int i = 0; i < DEFAULT_MATRIX_SIZE; i++) {
                             for (int j = 0; j < DEFAULT_MATRIX_SIZE; j++) {
@@ -1024,7 +1054,21 @@ public class MainGameScreenController extends GUIController{
                                                 viewGUI.playCard(matrixField[xPane][yPane], card, orientation);
                                                 sorround(source);
                                                 source.setStyle(getStyle(getCardUrl(card, inspectedCardInfo.getSide())));
+                                                source.setVisible(true);
+                                                source.setDisable(false);
+                                                source.setOpacity(1); //temp
+
                                                 removeCardFromHand();
+
+                                                positionLabel.setDisable(true);
+                                                positionLabel.setVisible(false);
+
+                                                requirementsLabel.setDisable(true);
+                                                requirementsLabel.setVisible(false);
+
+                                                inspectedCardInfo.setFrontSide(true);
+                                                inspectedCardInfo.setSide(Side.FRONT);
+
                                                 break;
                                             }
                                         }
@@ -1036,11 +1080,17 @@ public class MainGameScreenController extends GUIController{
                     }
                 }catch (InvalidCardPositionException e)
                 {
-                    System.out.println("invalid card position");
+                    positionLabel.setDisable(false);
+                    positionLabel.setVisible(true);
+                    inspectedCardInfo.setFrontSide(true);
+                    inspectedCardInfo.setSide(Side.FRONT);
                 }
                 catch (RequirementsNotMetException e)
                 {
-                    System.out.println("requirements not met");
+                    requirementsLabel.setDisable(false);
+                    requirementsLabel.setVisible(true);
+                    inspectedCardInfo.setFrontSide(true);
+                    inspectedCardInfo.setSide(Side.FRONT);
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -1054,6 +1104,12 @@ public class MainGameScreenController extends GUIController{
     private void removeCardFromHand() {
         playerHandPanes.get(inspectedCardInfo.getCardInHandSelected()).setDisable(true);
         playerHandPanes.get(inspectedCardInfo.getCardInHandSelected()).setVisible(false);
+    }
+
+    public void update()
+    {
+        viewGUI.getGame();
+
     }
 
 }

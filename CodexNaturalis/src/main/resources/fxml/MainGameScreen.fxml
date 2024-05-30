@@ -129,6 +129,16 @@
                         <Text fill="WHITE" layoutX="43.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Secret objective card" />
                      </children>
                   </Pane>
+                  <Label fx:id="positionLabel" disable="true" layoutX="400.0" layoutY="400.0" text="Invalid card position" visible="false">
+                     <font>
+                        <Font name="Serif Regular" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="requirementsLabel" disable="true" layoutX="400.0" layoutY="400.0" text="Requirements not met" visible="false">
+                     <font>
+                        <Font name="Serif Regular" size="20.0" />
+                     </font>
+                  </Label>
                   <Pane fx:id="markerSelection" prefHeight="518.0" prefWidth="920.0">
                      <children>
                         <Pane disable="true" layoutX="81.0" layoutY="43.0" opacity="0.6" prefHeight="432.0" prefWidth="768.0" styleClass="gameLobbyBackground" />
@@ -327,11 +337,16 @@
                         </Label>
                      </children>
                   </Pane>
+                  <Label fx:id="turnLabel" disable="true" layoutX="300.0" layoutY="30.0" text="Label" visible="false">
+                     <font>
+                        <Font name="Serif Regular" size="20.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
-            <Pane fx:id="playerField" disable="true" opacity="0.9" prefHeight="518.0" prefWidth="920.0" visible="false">
+            <Pane fx:id="playerField" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
                <children>
-                  <Pane fx:id="movingField" layoutX="-1911.0" layoutY="-1481.0" opacity="0.35" prefHeight="3317.0" prefWidth="4914.0" style="-fx-background-color: red;">
+                  <Pane fx:id="movingField" layoutX="-1911.0" layoutY="-1481.0" prefHeight="3317.0" prefWidth="4914.0" style="-fx-background-color: rgb(62, 139, 165);">
                      <children>
                         <Pane fx:id="starterCard" layoutX="2330.0" layoutY="1670.0" onMouseClicked="#clickedOnPane" prefHeight="60.0" prefWidth="90.0" />
                      </children>
