@@ -10,50 +10,52 @@ public enum AngleOrientation {
     public int mapEnumToX()
     {
         return switch (this) {
-            case TOPRIGHT, BOTTOMRIGHT -> 1;
-            case TOPLEFT, BOTTOMLEFT -> -1;
+            case BOTTOMLEFT, BOTTOMRIGHT -> 1;
+            case TOPLEFT, TOPRIGHT -> -1;
             case NONE -> 0;
         };
-
     }
     public int mapEnumToY()
     {
+
         return switch (this) {
-            case BOTTOMLEFT, BOTTOMRIGHT -> 1;
-            case TOPLEFT, TOPRIGHT -> -1;
+            case TOPRIGHT, BOTTOMRIGHT -> 1;
+            case TOPLEFT, BOTTOMLEFT -> -1;
             case NONE -> 0;
         };
     }
     public int mapEnumToXLShaped()
     {
         int xValue;
-        return switch (this) {
-            case TOPRIGHT, BOTTOMLEFT -> {
+        return switch(this)
+        {
+            case TOPRIGHT, TOPLEFT-> {
                 xValue = 1;
                 yield xValue;
             }
-            case TOPLEFT, BOTTOMRIGHT -> {
-                xValue = -1;
+            case BOTTOMRIGHT, BOTTOMLEFT-> {
+                xValue= -1;
                 yield xValue;
             }
-            case NONE -> 0;
+            case NONE-> 0;
         };
+
     }
     public int mapEnumToYLShaped()
     {
         int yValue;
-        return switch(this)
-        {
-            case TOPRIGHT, TOPLEFT-> {
+        return switch (this) {
+            case TOPRIGHT, BOTTOMLEFT -> {
                 yValue = 1;
                 yield yValue;
             }
-            case BOTTOMRIGHT, BOTTOMLEFT-> {
-                yValue= -1;
+            case TOPLEFT, BOTTOMRIGHT -> {
+                yValue = -1;
                 yield yValue;
             }
-            case NONE-> 0;
+            case NONE -> 0;
         };
+
     }
     public AngleOrientation getOpposite()
     {

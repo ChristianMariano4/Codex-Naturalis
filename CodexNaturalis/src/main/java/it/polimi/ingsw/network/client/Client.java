@@ -91,7 +91,8 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                 }
                 case TURN_EVENT -> {
                     view.update((Game) gameUpdate);
-                    this.viewThread.interrupt();
+                    if(this.viewThread!=null)
+                        this.viewThread.interrupt();
                 }
                 case SECRET_OBJECTIVE_CHOICE_REQUEST ->
                 {

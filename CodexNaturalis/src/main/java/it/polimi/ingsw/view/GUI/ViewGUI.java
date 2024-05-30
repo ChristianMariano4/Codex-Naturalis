@@ -197,5 +197,11 @@ public class ViewGUI implements View, Runnable {
     public PlayableCard getOtherSideCard(PlayableCard card) throws ServerDisconnectedException, IOException {
         return client.getOtherSideCard(game.getGameId(), card);
     }
+    public void drawCard(CardType cardType, DrawPosition drawPosition) throws NotExistingPlayerException, NotTurnException, ServerDisconnectedException, IOException, AlreadyThreeCardsInHandException, DeckIsEmptyException {
+        client.drawCard(game.getGameId(), client.getUsername(), cardType, drawPosition);
+    }
+    public void endTurn() throws NotExistingPlayerException, IOException, CardTypeMismatchException, ServerDisconnectedException {
+        client.endTurn(game.getGameId(), client.getUsername());
+    }
 
 }

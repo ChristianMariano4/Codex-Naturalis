@@ -1,44 +1,38 @@
 package it.polimi.ingsw.view.GUI.GUIControllers;
 
 import it.polimi.ingsw.enumerations.*;
+import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.exceptions.InvalidCardPositionException;
-import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.exceptions.RequirementsNotMetException;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerField;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.view.GUI.InspectedCardInfo;
-import it.polimi.ingsw.view.GUI.ViewGUI;
+import it.polimi.ingsw.view.TUI.TUI;
+import it.polimi.ingsw.view.TUI.ViewCLI;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
-import java.util.Scanner;
 
 import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 
 public class MainGameScreenController extends GUIController{
 
+    private boolean inGame = false;
     private InspectedCardInfo inspectedCardInfo;
     private boolean dragging = false;
     private boolean playingCard = false;
-    private boolean drawingCard = false;
     public Pane scalable;
 
     public Pane tableTop;
@@ -65,14 +59,15 @@ public class MainGameScreenController extends GUIController{
     public Pane secretObjCardsInspector;
     public Pane showSObjCard;
 
-    public Pane DrawingCardsInspector;
-    public Pane DrawingCardPane;
+    public Pane drawingCardsInspector;
+    public Pane drawingCardPane;
 
     public Pane card1;
     public Pane card2;
     public Pane card3;
     public Pane playerHand;
     private ArrayList<Pane> playerHandPanes = new ArrayList<>();
+    public Button playCard;
 
     public Label waitTurn;
     public Pane markerSelection;
@@ -140,6 +135,7 @@ public class MainGameScreenController extends GUIController{
     public Pane bottomDiscoveredR;
     public Pane topDiscoveredG;
     public Pane bottomDiscoveredG;
+    public Button drawCard;
 
     public Pane playerField;
     public Pane starterCard;
@@ -174,10 +170,7 @@ public class MainGameScreenController extends GUIController{
         rulebookTabPane.getSelectionModel().select(rulebookTabPane.getSelectionModel().getSelectedIndex()-1);
         backButton.disableProperty().bind(rulebookTabPane.getSelectionModel().selectedIndexProperty().lessThanOrEqualTo(0));
     }
-    public void update(Object update)
-    {
 
-    }
     public void sceneInitializer() {
 
         inspectedCardInfo = new InspectedCardInfo();
@@ -431,19 +424,30 @@ public class MainGameScreenController extends GUIController{
        initializeObjectiveCards();
        initializeDrawingField();
        initializePlayerField();
-       setTurnLabel();
+       setTurn();
+       inGame = true;
 
 
     }
-    private void setTurnLabel()
+    private void setTurn()
     {
         try {
             if (viewGUI.getIsTurn()) {
                 turnLabel.setText("It is currently your turn, select a card from your hand to Play");
+
+                playCard.setDisable(false);
+                playCard.setVisible(true);
+
             }
             else {
 
                 turnLabel.setText("It is currently " + viewGUI.getGame().getCurrentPlayer().getUsername() + "'s turn");
+
+                playCard.setDisable(true);
+                playCard.setVisible(false);
+
+                drawCard.setDisable(true);
+                drawCard.setVisible(false);
             }
             turnLabel.setDisable(false);
             turnLabel.setVisible(true);
@@ -460,6 +464,15 @@ public class MainGameScreenController extends GUIController{
         playerHandPanes.add(card1);
         playerHandPanes.add(card2);
         playerHandPanes.add(card3);
+
+        card1.setDisable(false);
+        card1.setVisible(true);
+
+        card2.setDisable(false);
+        card2.setVisible(true);
+
+        card3.setDisable(false);
+        card3.setVisible(true);
         try {
             PlayerHand hand = game.getPlayer(viewGUI.getUsername()).getPlayerHand();
             for(int i = 0; i<3 ; i++)
@@ -529,7 +542,24 @@ public class MainGameScreenController extends GUIController{
         playerField.setDisable(false);
         playerField.setVisible(true);
         playingCard = true;
+
+        setAdditionalPanesVisibility(true);
+
+
     }
+
+    private void setAdditionalPanesVisibility(boolean visible)
+    {
+        for(int i = 0; i < DEFAULT_MATRIX_SIZE; i++) {
+            for (int j = 0; j < DEFAULT_MATRIX_SIZE; j++) {
+                if (fieldPanes[i][j] != null && fieldPanes[i][j].getOpacity() < 1) {
+                    fieldPanes[i][j].setDisable(!visible);
+                    fieldPanes[i][j].setVisible(visible);
+                }
+            }
+        }
+    }
+
     @FXML
     public void exitHandButton() {
         cardsInHandInspector.setDisable(true);
@@ -693,32 +723,32 @@ public class MainGameScreenController extends GUIController{
     }
 
     private void showDrawingFieldCard() {
-        DrawingCardsInspector.setDisable(false);
-        DrawingCardsInspector.setVisible(true);
+        drawingCardsInspector.setDisable(false);
+        drawingCardsInspector.setVisible(true);
         playerField.setDisable(true);
         playerField.setVisible(false);
 
         try {
             if(inspectedCardInfo.getFromDeck()) {
                 if(inspectedCardInfo.getCardType().equals(CardType.GOLD)) {
-                    DrawingCardPane.setStyle(getStyle(getCardUrl(viewGUI.getTopGoldCard(),Side.BACK)));
+                    drawingCardPane.setStyle(getStyle(getCardUrl(viewGUI.getTopGoldCard(),Side.BACK)));
                 } else if(inspectedCardInfo.getCardType().equals(CardType.RESOURCE)) {
-                    DrawingCardPane.setStyle(getStyle(getCardUrl(viewGUI.getTopResourceCard(),Side.BACK)));
+                    drawingCardPane.setStyle(getStyle(getCardUrl(viewGUI.getTopResourceCard(),Side.BACK)));
                 }
             } else {
                 if(inspectedCardInfo.getCardType().equals(CardType.GOLD)) {
                     HashMap<DrawPosition,GoldCard> discoveredGoldCards = viewGUI.getDiscoveredGoldCards();
                     if(inspectedCardInfo.getDrawPosition().equals(DrawPosition.RIGHT)) {
-                       DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.RIGHT), inspectedCardInfo.getSide())));
+                       drawingCardPane.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.RIGHT), inspectedCardInfo.getSide())));
                     } else {
-                        DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.LEFT),inspectedCardInfo.getSide())));
+                        drawingCardPane.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.LEFT),inspectedCardInfo.getSide())));
                     }
                 } else if(inspectedCardInfo.getCardType().equals(CardType.RESOURCE)) {
                     HashMap<DrawPosition,ResourceCard> discoveredResourceCards = viewGUI.getDiscoveredResourceCards();
                     if(inspectedCardInfo.getDrawPosition().equals(DrawPosition.RIGHT)) {
-                        DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredResourceCards.get(DrawPosition.RIGHT),inspectedCardInfo.getSide())));
+                        drawingCardPane.setStyle(getStyle(getCardUrl(discoveredResourceCards.get(DrawPosition.RIGHT),inspectedCardInfo.getSide())));
                     } else {
-                        DrawingCardPane.setStyle(getStyle(getCardUrl(discoveredResourceCards.get(DrawPosition.LEFT),inspectedCardInfo.getSide())));
+                        drawingCardPane.setStyle(getStyle(getCardUrl(discoveredResourceCards.get(DrawPosition.LEFT),inspectedCardInfo.getSide())));
                     }
                 }
             }
@@ -728,8 +758,8 @@ public class MainGameScreenController extends GUIController{
     }
     @FXML
     public void exitDrawingFieldButton() {
-        DrawingCardsInspector.setDisable(true);
-        DrawingCardsInspector.setVisible(false);
+        drawingCardsInspector.setDisable(true);
+        drawingCardsInspector.setVisible(false);
         playerField.setDisable(false);
         playerField.setVisible(true);
         frontSide = true;
@@ -835,6 +865,7 @@ public class MainGameScreenController extends GUIController{
 
     private void initializeDrawingField()
     {
+
         try
         {
             resourceDeck.setStyle(getStyle(getCardUrl(viewGUI.getTopResourceCard(),Side.BACK)));
@@ -980,7 +1011,7 @@ public class MainGameScreenController extends GUIController{
                         int xPane = i + orientation.mapEnumToX();
                         int yPane = j + orientation.mapEnumToY();
 
-                        PlayableCard[][] matrixField = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerField().getMatrixField();
+                        PlayableCard[][] matrixField = viewGUI.getPlayerField().getMatrixField();
 
                         if(matrixField[xPane][yPane] != null) {
                             return;
@@ -992,11 +1023,11 @@ public class MainGameScreenController extends GUIController{
                         newPane.setLayoutY(newY);
                         newPane.setPrefWidth(90);
                         newPane.setPrefHeight(60);
-                        //temporary
-                        newPane.setStyle("-fx-background-color: blue");
+
+                        newPane.setVisible(false);
+                        newPane.setDisable(true);
                         newPane.setOpacity(0.2);
-                        newPane.setVisible(true);
-                        newPane.setDisable(false);
+                        newPane.setStyle("-fx-background-color: white");
 
                         newPane.setOnMouseDragged(e->
                         {
@@ -1004,7 +1035,7 @@ public class MainGameScreenController extends GUIController{
                         });
 
                         newPane.setOnMouseClicked(e -> {
-                            clickedOnPane(e);
+                            clickedOnFieldPane(e);
                         });
 
                         movingField.getChildren().add(newPane);
@@ -1024,8 +1055,24 @@ public class MainGameScreenController extends GUIController{
 
     }
 
+
+    private int[][] createMatrixFromField(PlayerField playerField) {
+        int i = 0, j = 0;
+        int[][] matrix = new int[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
+        for(PlayableCard[] cards: playerField.getMatrixField()) {
+            j=0;
+            for(PlayableCard card: cards) {
+                if(card != null) {
+                    matrix[i][j] = card.getCardId();
+                }
+                j++;
+            }
+            i++;
+        }
+        return matrix;
+    }
     @FXML
-    public void clickedOnPane(MouseEvent event) {
+    public void clickedOnFieldPane(MouseEvent event) {
         //Invalid input screen
         if(event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             if(dragging)
@@ -1054,12 +1101,13 @@ public class MainGameScreenController extends GUIController{
                                             int yPane = j + orientation.mapEnumToY();
 
                                             if (matrixField[xPane][yPane] != null) {
-                                                viewGUI.playCard(matrixField[xPane][yPane], card, orientation);
-                                                sorround(source);
+                                                viewGUI.playCard(matrixField[xPane][yPane], card, orientation.getOpposite());
                                                 source.setStyle(getStyle(getCardUrl(card, inspectedCardInfo.getSide())));
                                                 source.setVisible(true);
                                                 source.setDisable(false);
                                                 source.setOpacity(1); //temp
+                                                sorround(source);
+
 
                                                 removeCardFromHand();
 
@@ -1072,6 +1120,7 @@ public class MainGameScreenController extends GUIController{
                                                 inspectedCardInfo.setFrontSide(true);
                                                 inspectedCardInfo.setSide(Side.FRONT);
 
+
                                                 break;
                                             }
                                         }
@@ -1080,20 +1129,36 @@ public class MainGameScreenController extends GUIController{
                             }
                         }
                         playingCard = false;
+
+                        playCard.setDisable(true);
+                        playCard.setVisible(false);
+
+                        drawCard.setDisable(false);
+                        drawCard.setVisible(true);
+
+                        setAdditionalPanesVisibility(false);
+
+                        turnLabel.setText("Draw a card to end your turn");
                     }
                 }catch (InvalidCardPositionException e)
                 {
                     positionLabel.setDisable(false);
                     positionLabel.setVisible(true);
+                    requirementsLabel.setDisable(true);
+                    requirementsLabel.setVisible(false);
                     inspectedCardInfo.setFrontSide(true);
                     inspectedCardInfo.setSide(Side.FRONT);
+                    playingCard = false;
                 }
                 catch (RequirementsNotMetException e)
                 {
                     requirementsLabel.setDisable(false);
                     requirementsLabel.setVisible(true);
+                    positionLabel.setDisable(true);
+                    positionLabel.setVisible(false);
                     inspectedCardInfo.setFrontSide(true);
                     inspectedCardInfo.setSide(Side.FRONT);
+                    playingCard = false;
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -1104,14 +1169,53 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+
     private void removeCardFromHand() {
         playerHandPanes.get(inspectedCardInfo.getCardInHandSelected()).setDisable(true);
         playerHandPanes.get(inspectedCardInfo.getCardInHandSelected()).setVisible(false);
     }
 
-    public void update()
+    @FXML
+    public void drawCardButton()
     {
-        viewGUI.getGame();
+        drawingCardsInspector.setDisable(true);
+        drawingCardsInspector.setVisible(false);
+
+        playerField.setDisable(false);
+        playerField.setVisible(true);
+        try {
+
+            DrawPosition drawPosition = inspectedCardInfo.getDrawPosition();
+            CardType cardType = inspectedCardInfo.getCardType();
+            viewGUI.drawCard(cardType, drawPosition);
+            viewGUI.endTurn();
+        }
+        catch (DeckIsEmptyException e)
+        {
+            //TODO: handle empty deck
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
+    }
+
+
+    public boolean worked = false;
+
+    public void update(Object update)
+    {
+        if(inGame) {
+            Platform.runLater(new Runnable() {
+                public void run() {
+                    initializeDrawingField();
+                    initializePlayerHand();
+                    setTurn();
+                    //Scoreboard
+                    worked = true;
+                }
+            });
+        }
 
     }
 
