@@ -259,9 +259,11 @@ public class ViewCLI implements View, Runnable {
     {
         ui.notYourTurn(game.getCurrentPlayer().getUsername());
     }
+
     private void endTurn() throws NotExistingPlayerException, IOException, CardTypeMismatchException, ServerDisconnectedException {
         client.endTurn(game.getGameId(), client.getUsername());
     }
+
     private void drawCard() throws IOException, ServerDisconnectedException {
         HashMap<DrawPosition, GoldCard> discoveredGoldCards =  game.getTableTop().getDrawingField().getDiscoveredGoldCards();
         HashMap<DrawPosition, ResourceCard> discoveredResourceCards =  game.getTableTop().getDrawingField().getDiscoveredResourceCards();
@@ -332,6 +334,7 @@ public class ViewCLI implements View, Runnable {
             }
         }while(true);
     }
+
     private void playCard() throws IOException, NotExistingPlayerException, ServerDisconnectedException {
         showPlayerHand();
         showPlayerField();
@@ -397,10 +400,12 @@ public class ViewCLI implements View, Runnable {
         } while(true);
 
     }
+
     public void showSecretObjectiveCard() throws NotExistingPlayerException, IOException, ServerDisconnectedException {
         ObjectiveCard card = game.getPlayer(client.getUsername()).getSecretObjective();
         ui.showCardInfo(card, client.getCardInfo(card, game.getGameId()));
     }
+
     private void showAllPlayers()
     {
         ArrayList<String> usernames = new ArrayList<>();
@@ -408,10 +413,12 @@ public class ViewCLI implements View, Runnable {
             usernames.add(player.getUsername());
         ui.showAllPlayers(usernames);
     }
+
     public void twentyPoints(String username)
     {
         ui.twentyPoints(username);
     }
+
     public void showSharedObjectiveCards() throws IOException, ServerDisconnectedException {
         HashMap<ObjectiveCard, CardInfo> sharedObjectiveCards = new HashMap<>();
         ArrayList<ObjectiveCard> objectiveCards = game.getTableTop().getSharedObjectiveCards();
@@ -420,6 +427,7 @@ public class ViewCLI implements View, Runnable {
 
         ui.showSharedObjectiveCard(sharedObjectiveCards);
     }
+
     public void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose) throws ServerDisconnectedException {
             ui.secretObjectiveCardTitle();
             try {
@@ -557,6 +565,7 @@ public class ViewCLI implements View, Runnable {
         }
         return matrix;
     }
+
     public void showEndGameScreen() {
         LinkedHashMap<String, Integer> playersPlacement = new LinkedHashMap<>();
         ArrayList<Player> sortedPlayers = new ArrayList<>();
@@ -570,8 +579,11 @@ public class ViewCLI implements View, Runnable {
         for(Player p : sortedPlayers) {
             playersPlacement.put(p.getUsername(), p.getPoints());
         }
+        if(this.playerId.equals(sortedPlayers.getFirst().getUsername()))
+            ui.printWinner();
         ui.showEndGameScreen(playersPlacement);
     }
+
     public boolean waitingForOthers()
     {
         if(!game.getListOfPlayers().getLast().getUsername().equals(client.getUsername())) {
@@ -580,10 +592,12 @@ public class ViewCLI implements View, Runnable {
         }
         return false;
     }
+
     public void waitingForGameBegin()
     {
         ui.waitingForGameBegin();
     }
+
     public void chooseStarterCardSide() throws NotExistingPlayerException, IOException, ServerDisconnectedException {
         StarterCard cardFront = game.getPlayer(client.getUsername()).getStarterCard();
         StarterCard cardBack = client.getOtherSideCard(game.getGameId(), cardFront);
@@ -637,6 +651,12 @@ public class ViewCLI implements View, Runnable {
         } catch (ServerDisconnectedException e) {
             return;
         }
+    }
+
+    public void gameEndDisconnection()
+    {
+        ui.printWinner();
+        ui.gameEndDisconnection();
     }
 
 }

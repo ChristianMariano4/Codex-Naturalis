@@ -88,6 +88,12 @@ public class ViewGUI implements View, Runnable {
     public void finalRound() {
 
     }
+
+    @Override
+    public void gameEndDisconnection() {
+        //TODO: implement
+    }
+
     public List<Integer> showAvailableGames() throws ServerDisconnectedException, IOException, InterruptedException {
         return client.getAvailableGames();
     }

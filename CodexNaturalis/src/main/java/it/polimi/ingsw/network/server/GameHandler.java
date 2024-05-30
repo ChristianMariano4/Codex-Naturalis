@@ -109,7 +109,7 @@ public class GameHandler implements Serializable {
                         }
                         if (!isReconnected) {
                             game.setIsGameEnded(true);
-                            //TODO: handle game ending
+                            eventManager.notify(GameEvent.GAME_END_DISCONNECTION, game);
                         }
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);

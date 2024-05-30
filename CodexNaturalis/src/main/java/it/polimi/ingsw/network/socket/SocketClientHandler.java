@@ -116,7 +116,6 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
                     case END_TURN -> {
-
                         server.endTurn((int) message.getMessageContent()[0], (String) message.getMessageContent()[1]);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }

@@ -19,4 +19,5 @@ public interface View  {
     void twentyPoints(String username);
     void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose) throws ServerDisconnectedException;
     void finalRound();
+    void gameEndDisconnection();
 }
