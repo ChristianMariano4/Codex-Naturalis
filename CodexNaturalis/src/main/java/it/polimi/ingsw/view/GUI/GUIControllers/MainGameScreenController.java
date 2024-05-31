@@ -6,13 +6,11 @@ import it.polimi.ingsw.exceptions.InvalidCardPositionException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.exceptions.RequirementsNotMetException;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerField;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.view.GUI.InspectedCardInfo;
-import it.polimi.ingsw.view.TUI.TUI;
-import it.polimi.ingsw.view.TUI.ViewCLI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
+import static it.polimi.ingsw.model.GameValues.cardWidth;
 
 public class MainGameScreenController extends GUIController{
 
@@ -146,6 +145,8 @@ public class MainGameScreenController extends GUIController{
     public Pane playerField;
     public Pane starterCard;
     public Pane movingField;
+    public Pane fieldBoundsCheck;
+    private Rectangle fieldBounds = new Rectangle();
     private Pane[][] fieldPanes = new Pane[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
 
     public Pane m1;
@@ -665,7 +666,6 @@ public class MainGameScreenController extends GUIController{
     private void setAdditionalPanesVisibility(boolean visible)
     {
         try {
-            PlayableCard[][] playerField = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerField().getMatrixField();
             for (int i = 0; i < DEFAULT_MATRIX_SIZE; i++) {
                 for (int j = 0; j < DEFAULT_MATRIX_SIZE; j++) {
                     if (fieldPanes[i][j] != null && fieldPanes[i][j].getId().equals("empty")) {
@@ -1046,29 +1046,36 @@ public class MainGameScreenController extends GUIController{
             startDragY = e.getSceneY() - movingField.getTranslateY();
         });
 
+        //default field bounds size, about the size of 2 cards
+        fieldBounds.setLayoutX(movingField.getLayoutX() + 2*GameValues.cardWidth);
+        fieldBounds.setLayoutY(movingField.getLayoutY() + 2*GameValues.cardHeight);
+        fieldBounds.setWidth(movingField.getWidth() - 4*GameValues.cardWidth );
+        fieldBounds.setHeight(movingField.getHeight()- 4*GameValues.cardHeight);
+
         movingField.setOnMouseDragged(e -> {
-
-            System.out.println("field local: " + playerField.getBoundsInLocal()+"\n");
-            System.out.println("field parent: " +playerField.getBoundsInParent()+"\n\n");
-
-            System.out.println("moving local: " + movingField.getBoundsInLocal()+"\n");
-            System.out.println("moving parent: " +movingField.getBoundsInParent()+"\n\n");
-
-            System.out.println("starter local: " + starterCard.getBoundsInLocal()+"\n");
-            System.out.println("starter parent: " +starterCard.getBoundsInParent()+"\n\n");
+            double translateX = e.getSceneX() - startDragX;
+            double translateY = e.getSceneY() - startDragY;
 
 
-           // System.out.println("contains?: " + movingField.getBoundsInLocal().contains(movingField.getBoundsInParent())+"\n");
-            //System.out.println("card contains?: "+playerField.getBoundsInLocal().contains(starterCard.getBoundsInParent())+"\n");
+            fieldBoundsCheck.setTranslateX(translateX);
+            if(fieldBoundsCheck.getBoundsInParent().getMaxX() > fieldBounds.getBoundsInParent().getMaxX() && fieldBoundsCheck.getBoundsInParent().getMinX() < fieldBounds.getBoundsInParent().getMinX())
+            {
+                movingField.setTranslateX(translateX);
+            }
+            else
+            {
+                fieldBoundsCheck.setTranslateX(-translateX);
+            }
+            fieldBoundsCheck.setTranslateY(translateY);
+            if(fieldBoundsCheck.getBoundsInParent().getMaxY() > fieldBounds.getBoundsInParent().getMaxY() && fieldBoundsCheck.getBoundsInParent().getMinY() < fieldBounds.getBoundsInParent().getMinY())
+            {
+                movingField.setTranslateY(translateY);
+            }
+            else
+            {
+                fieldBoundsCheck.setTranslateY(-translateY);
+            }
 
-
-
-
-
-
-
-            movingField.setTranslateX(e.getSceneX() - startDragX);
-            movingField.setTranslateY(e.getSceneY() - startDragY);
         });
 
         movingField.setOnScroll(e -> {
@@ -1077,6 +1084,7 @@ public class MainGameScreenController extends GUIController{
             {
                 movingField.setScaleX(movingField.getScaleX() * scaleFactor);
                 movingField.setScaleY(movingField.getScaleY() * scaleFactor);
+
             }
         });
 
@@ -1176,8 +1184,8 @@ public class MainGameScreenController extends GUIController{
 
                         newPane.setLayoutX(newX);
                         newPane.setLayoutY(newY);
-                        newPane.setPrefWidth(90);
-                        newPane.setPrefHeight(60);
+                        newPane.setPrefWidth(GameValues.cardWidth);
+                        newPane.setPrefHeight(GameValues.cardHeight);
 
                         newPane.setVisible(false);
                         newPane.setDisable(true);
@@ -1222,6 +1230,10 @@ public class MainGameScreenController extends GUIController{
                 try {
                     if (viewGUI.getIsTurn()) {
                         Pane source = (Pane) event.getSource();
+                        if(source.getId().equals("full"))
+                        {
+                            throw new InvalidCardPositionException();
+                        }
                         PlayableCard card = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerHand().getCardsInHand().get(inspectedCardInfo.getCardInHandSelected());
                         if(inspectedCardInfo.getSide().equals(Side.BACK))
                         {
@@ -1245,7 +1257,7 @@ public class MainGameScreenController extends GUIController{
                                                 source.setStyle(getStyle(getCardUrl(card, inspectedCardInfo.getSide())));
                                                 source.setVisible(true);
                                                 source.setDisable(false);
-                                                source.setOpacity(1); //temp
+                                                source.setOpacity(1);
                                                 sorround(source);
 
 
