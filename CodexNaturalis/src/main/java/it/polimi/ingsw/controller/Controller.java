@@ -196,7 +196,7 @@ public class Controller {
         }
     }
 
-    public synchronized void playCard(Player player, PlayableCard cardOnField, PlayableCard cardInHand, AngleOrientation orientation) throws InvalidCardPositionException, CardTypeMismatchException, RequirementsNotMetException, AngleAlreadyLinkedException, NotExistingPlayerException {
+    public synchronized int playCard(Player player, PlayableCard cardOnField, PlayableCard cardInHand, AngleOrientation orientation) throws InvalidCardPositionException, CardTypeMismatchException, RequirementsNotMetException, AngleAlreadyLinkedException, NotExistingPlayerException {
         Player playerObj = gameHandler.getPlayer(player.getUsername());
         int points = 0;
         if(cardHandler.checkRequirements(cardInHand, playerObj)) {
@@ -205,6 +205,7 @@ public class Controller {
             points = PointCalculator.calculatePlayedCardPoints(playerObj, cardInHand, cardHandler.getCardInfo(cardInHand));
             playerObj.addPoints(points);
             updateResources(playerObj, cardInHand);
+            return points;
         }
         else{
             throw new RequirementsNotMetException();

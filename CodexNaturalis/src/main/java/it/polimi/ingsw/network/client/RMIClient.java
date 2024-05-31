@@ -186,9 +186,9 @@ public class RMIClient extends Client {
         }
     }
 
-    public void playCard(int gameId,String username, PlayableCard cardOnBoard, PlayableCard card , AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, RemoteException, AngleAlreadyLinkedException, ServerDisconnectedException {
+    public int playCard(int gameId, String username, PlayableCard cardOnBoard, PlayableCard card , AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, RemoteException, AngleAlreadyLinkedException, ServerDisconnectedException {
         try {
-        serverRMIInterface.playCard(gameId,username,cardOnBoard, card, orientation);
+        return serverRMIInterface.playCard(gameId,username,cardOnBoard, card, orientation);
     }
         catch (RemoteException e)
         {

@@ -6,12 +6,9 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
-import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 import it.polimi.ingsw.network.socket.ErrorAwareQueue;
 import it.polimi.ingsw.network.socket.SocketClientMessageHandler;
 import it.polimi.ingsw.view.GUI.GUI;
-import it.polimi.ingsw.view.GUI.ViewGUI;
-import it.polimi.ingsw.view.TUI.ViewCLI;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,7 +17,6 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SimpleTimeZone;
 import java.util.concurrent.*;
 
 public class SocketClient extends Client {
@@ -209,11 +205,11 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public void playCard(int gameId, String username, PlayableCard cardOnBoard, PlayableCard card, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, IOException, AngleAlreadyLinkedException, ServerDisconnectedException {
+    public int playCard(int gameId, String username, PlayableCard cardOnBoard, PlayableCard card, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, IOException, AngleAlreadyLinkedException, ServerDisconnectedException {
         messageHandler.sendMessage(ClientMessageType.PLAY_CARD,gameId, username, cardOnBoard, card, orientation);
         try
         {
-            messageHandlerQueue.take();
+            return (int) messageHandlerQueue.take();
         }
         catch (InvalidCardPositionException | RequirementsNotMetException e)
         {

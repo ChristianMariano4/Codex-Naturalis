@@ -177,9 +177,9 @@ public class GameHandler implements Serializable {
         }
     }
 
-    public void playCard(Player player, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, RequirementsNotMetException, CardTypeMismatchException, AngleAlreadyLinkedException {
+    public int playCard(Player player, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, RequirementsNotMetException, CardTypeMismatchException, AngleAlreadyLinkedException {
         synchronized (this) {
-            controller.playCard(player, card, otherCard, orientation);
+            return controller.playCard(player, card, otherCard, orientation);
         }
     }
     public List<ClientHandlerInterface> getClients() {

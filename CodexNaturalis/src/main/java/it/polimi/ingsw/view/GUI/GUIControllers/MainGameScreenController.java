@@ -38,6 +38,9 @@ public class MainGameScreenController extends GUIController{
     private boolean playingCard = false;
     public Pane scalable;
 
+    private PlayableCard cardJustPlayed = null;
+    private int pointsObtained = 0;
+
     public Pane tableTop;
 
     public Label turnLabel;
@@ -208,7 +211,7 @@ public class MainGameScreenController extends GUIController{
                     otherMarkers.get(markerPosition).setDisable(false);
                     otherMarkers.get(markerPosition).setVisible(true);
                     otherUsername.get(markerPosition).setText(viewGUI.getGame().getListOfPlayers().get(i).getUsername());
-                    otherUsername.get(markerPosition).setStyle("-fx-text-alignment: center; -fx-background-color: white; -fx-background-radius: 20");
+                    otherUsername.get(markerPosition).setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
                     otherUsername.get(markerPosition).setAlignment(Pos.CENTER);
                     width = width + 50;
                     markerPosition++;
@@ -661,13 +664,20 @@ public class MainGameScreenController extends GUIController{
 
     private void setAdditionalPanesVisibility(boolean visible)
     {
-        for(int i = 0; i < DEFAULT_MATRIX_SIZE; i++) {
-            for (int j = 0; j < DEFAULT_MATRIX_SIZE; j++) {
-                if (fieldPanes[i][j] != null && fieldPanes[i][j].getOpacity() < 1) {
-                    fieldPanes[i][j].setDisable(!visible);
-                    fieldPanes[i][j].setVisible(visible);
+        try {
+            PlayableCard[][] playerField = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerField().getMatrixField();
+            for (int i = 0; i < DEFAULT_MATRIX_SIZE; i++) {
+                for (int j = 0; j < DEFAULT_MATRIX_SIZE; j++) {
+                    if (fieldPanes[i][j] != null && fieldPanes[i][j].getId().equals("empty")) {
+                        fieldPanes[i][j].setDisable(!visible);
+                        fieldPanes[i][j].setVisible(visible);
+                    }
                 }
             }
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
         }
     }
 
@@ -948,15 +958,24 @@ public class MainGameScreenController extends GUIController{
 
         for(int i = 0; i < game.getListOfPlayers().size(); i++) {
             scoreboardMarkerPanes.get(i).setStyle(getStyle(game.getListOfPlayers().get(i).getMarker().getPath()));
+            int toAdd = 0;
 
-            platPanes.get(game.getListOfPlayers().get(i).getPoints()).getChildren().add(scoreboardMarkerPanes.get(i));
+            if(game.getListOfPlayers().get(i).getUsername().equals(viewGUI.getUsername()))
+            {
+                platPanes.get(game.getListOfPlayers().get(i).getPoints() + pointsObtained).getChildren().add(scoreboardMarkerPanes.get(i));
+                toAdd = pointsObtained;
+
+            }
+            else {
+                platPanes.get(game.getListOfPlayers().get(i).getPoints()).getChildren().add(scoreboardMarkerPanes.get(i));
+            }
             setScoreboardChildren(platPanes.get(game.getListOfPlayers().get(i).getPoints()));
 
             scoreboardMarkerPanes.get(i).setDisable(false);
             scoreboardMarkerPanes.get(i).setVisible(true);
             //platPanes.get(game.getListOfPlayers().get(i).getPoints()).getChildren().get(i).setVisible(true);
-            platPanes.get(game.getListOfPlayers().get(i).getPoints()).setDisable(false);
-            platPanes.get(game.getListOfPlayers().get(i).getPoints()).setVisible(true);
+            platPanes.get(game.getListOfPlayers().get(i).getPoints() + toAdd).setDisable(false);
+            platPanes.get(game.getListOfPlayers().get(i).getPoints() + toAdd).setVisible(true);
         }
     }
 
@@ -1028,27 +1047,25 @@ public class MainGameScreenController extends GUIController{
         });
 
         movingField.setOnMouseDragged(e -> {
-         /*   double starterRight = starterCard.getLayoutX() + starterCard.getWidth();
-            double starterLeft = starterCard.getLayoutX();
-            double starterUp = starterCard.getLayoutY();
-            double starterDown = starterCard.getLayoutY() + starterCard.getHeight();
 
-            double maxRight = starterRight;
-            double maxLeft = starterLeft;
-            double maxUp = starterUp;
-            double maxDown = starterDown;
+            System.out.println("field local: " + playerField.getBoundsInLocal()+"\n");
+            System.out.println("field parent: " +playerField.getBoundsInParent()+"\n\n");
+
+            System.out.println("moving local: " + movingField.getBoundsInLocal()+"\n");
+            System.out.println("moving parent: " +movingField.getBoundsInParent()+"\n\n");
+
+            System.out.println("starter local: " + starterCard.getBoundsInLocal()+"\n");
+            System.out.println("starter parent: " +starterCard.getBoundsInParent()+"\n\n");
 
 
-            for(Pane p : fieldPanes)
-            {
-                System.out.println(p.getLayoutX());
-                System.out.println(p.getLayoutY());
+           // System.out.println("contains?: " + movingField.getBoundsInLocal().contains(movingField.getBoundsInParent())+"\n");
+            //System.out.println("card contains?: "+playerField.getBoundsInLocal().contains(starterCard.getBoundsInParent())+"\n");
 
-            }
-            System.out.println(movingField.getTranslateX());
-            System.out.println(movingField.getTranslateY()+"\n");
-            */
-            //System.out.println(scalable.get);
+
+
+
+
+
 
             movingField.setTranslateX(e.getSceneX() - startDragX);
             movingField.setTranslateY(e.getSceneY() - startDragY);
@@ -1086,6 +1103,7 @@ public class MainGameScreenController extends GUIController{
     public void sorround(Pane pane)
     {
         //Check if the angle is playable and not covered
+        pane.setId("full");
         Pane topRight = new Pane();
         Pane bottomRight = new Pane();
         Pane topLeft = new Pane();
@@ -1096,51 +1114,65 @@ public class MainGameScreenController extends GUIController{
         setupCardPane(pane, bottomLeft, AngleOrientation.BOTTOMLEFT);
 
     }
-    public void setupCardPane(Pane pane, Pane newPane, AngleOrientation orientation)
-    {
+    public void setupCardPane(Pane pane, Pane newPane, AngleOrientation orientation) {
         double oldX = pane.getLayoutX();
         double oldY = pane.getLayoutY();
 
         double newX = 0;
         double newY = 0;
-        switch (orientation)
-        {
-            case TOPRIGHT, BOTTOMRIGHT -> { // 20 and 24 are the width and height of the angle: 90 - 20 = 70, 60 - 24 = 36
+        switch (orientation) {
+            case TOPRIGHT,
+                 BOTTOMRIGHT -> { // 20 and 24 are the width and height of the angle: 90 - 20 = 70, 60 - 24 = 36
                 newX = oldX + 70;
             }
-            case TOPLEFT, BOTTOMLEFT ->
-            {
+            case TOPLEFT, BOTTOMLEFT -> {
                 newX = oldX - 70;
             }
         }
-        switch (orientation)
-        {
+        switch (orientation) {
             case TOPRIGHT, TOPLEFT -> {
                 newY = oldY - 36;
             }
-            case BOTTOMRIGHT, BOTTOMLEFT ->
-            {
+            case BOTTOMRIGHT, BOTTOMLEFT -> {
                 newY = oldY + 36;
             }
         }
-        try
-        {
-            for(int i = 0; i< DEFAULT_MATRIX_SIZE; i++)
-            {
-                for(int j = 0; j< DEFAULT_MATRIX_SIZE; j++)
-                {
-                    if(fieldPanes[i][j] != null && fieldPanes[i][j].equals(pane))
-                    {
+        try {
+            for (int i = 0; i < DEFAULT_MATRIX_SIZE; i++) {
+                for (int j = 0; j < DEFAULT_MATRIX_SIZE; j++) {
+                    if (fieldPanes[i][j] != null && fieldPanes[i][j].equals(pane)) {
                         int xPane = i + orientation.mapEnumToX();
                         int yPane = j + orientation.mapEnumToY();
 
                         PlayableCard[][] matrixField = viewGUI.getPlayerField().getMatrixField();
 
-                        if(matrixField[xPane][yPane] != null) {
+                        if (matrixField[xPane][yPane] != null) {
                             return;
+                        }
+                        //delete old Pane
+                        Pane oldPane = fieldPanes[xPane][yPane];
+                        if (oldPane != null) {
+                            oldPane.setDisable(true);
+                            oldPane.setVisible(false);
+                            movingField.getChildren().remove(oldPane);
+                        }
+
+                        //checks if the position where i want to place the new pane is a valid playable position
+                        for (AngleOrientation angleOrientation : AngleOrientation.values()) {
+                            if (angleOrientation.equals(AngleOrientation.NONE))
+                                continue;
+                            if (cardJustPlayed != null && !cardJustPlayed.getAngle(angleOrientation).isPlayable())
+                                return;
+                            int checkX = xPane + angleOrientation.mapEnumToX();
+                            int checkY = yPane + angleOrientation.mapEnumToY();
+                            if (matrixField[checkX][checkY] != null && !matrixField[checkX][checkY].getAngle(angleOrientation.getOpposite()).isPlayable()) {
+                                return;
+                            }
                         }
 
                         fieldPanes[xPane][yPane] = newPane;
+
+                        newPane.setId("empty");
 
                         newPane.setLayoutX(newX);
                         newPane.setLayoutY(newY);
@@ -1152,7 +1184,7 @@ public class MainGameScreenController extends GUIController{
                         newPane.setOpacity(0.2);
                         newPane.setStyle("-fx-background-color: white");
 
-                        newPane.setOnMouseDragged(e->
+                        newPane.setOnMouseDragged(e ->
                         {
                             dragging = true;
                         });
@@ -1169,39 +1201,17 @@ public class MainGameScreenController extends GUIController{
                 }
             }
             throw new RuntimeException();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
 
     }
-    private int[][] createMatrixFromField(PlayerField playerField) {
-        int i = 0, j = 0;
-        int[][] matrix = new int[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
-        for(PlayableCard[] cards: playerField.getMatrixField()) {
-            j=0;
-            for(PlayableCard card: cards) {
-                if(card != null) {
-                    matrix[i][j] = card.getCardId();
-                }
-                j++;
-            }
-            i++;
-        }
-        return matrix;
-    }
+
     @FXML
     public void clickedOnFieldPane(MouseEvent event) {
 
-        try
-        {
-            System.out.println(viewGUI.getGame().getPlayer(viewGUI.getUsername()).getUsername() +": "+viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPoints());
-        }catch (Exception e)
-        {
 
-        }
         if(event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             if(dragging)
             {
@@ -1229,7 +1239,9 @@ public class MainGameScreenController extends GUIController{
                                             int yPane = j + orientation.mapEnumToY();
 
                                             if (matrixField[xPane][yPane] != null) {
-                                                viewGUI.playCard(matrixField[xPane][yPane], card, orientation.getOpposite());
+                                                pointsObtained = viewGUI.playCard(matrixField[xPane][yPane], card, orientation.getOpposite());
+                                                cardJustPlayed = card;
+                                                markerPositionInScoreboard();
                                                 source.setStyle(getStyle(getCardUrl(card, inspectedCardInfo.getSide())));
                                                 source.setVisible(true);
                                                 source.setDisable(false);
@@ -1248,7 +1260,6 @@ public class MainGameScreenController extends GUIController{
                                                 inspectedCardInfo.setFrontSide(true);
                                                 inspectedCardInfo.setSide(Side.FRONT);
 
-                                                markerPositionInScoreboard();
                                                 break;
                                             }
                                         }
@@ -1345,6 +1356,8 @@ public class MainGameScreenController extends GUIController{
         if(inGame) {
             Platform.runLater(new Runnable() {
                 public void run() {
+                    pointsObtained = 0;
+                    cardJustPlayed = null;
                     initializeDrawingField();
                     initializePlayerHand();
                     setTurn();

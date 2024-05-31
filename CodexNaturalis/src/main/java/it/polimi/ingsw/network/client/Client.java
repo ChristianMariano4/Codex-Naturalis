@@ -10,7 +10,6 @@ import it.polimi.ingsw.view.GUI.ViewGUI;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.TUI.ViewCLI;
 import it.polimi.ingsw.network.messages.GameEvent;
-import javafx.scene.Scene;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -233,7 +232,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     public abstract CardInfo getCardInfo(Card card, int gameId) throws IOException, ServerDisconnectedException;
     public abstract void endTurn(int gameId, String username) throws NotExistingPlayerException, CardTypeMismatchException, IOException, ServerDisconnectedException;
     public abstract void drawCard(int gameId, String username, CardType cardType, DrawPosition drawPosition) throws NotExistingPlayerException, NotTurnException, IOException, AlreadyThreeCardsInHandException, DeckIsEmptyException, ServerDisconnectedException;
-    public abstract void playCard(int gameId,String username, PlayableCard cardOnBoard, PlayableCard card , AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, IOException, AngleAlreadyLinkedException, ServerDisconnectedException;
+    public abstract int playCard(int gameId, String username, PlayableCard cardOnBoard, PlayableCard card , AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, IOException, AngleAlreadyLinkedException, ServerDisconnectedException;
     public abstract void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard chosenObjectiveCard) throws NotExistingPlayerException, IOException, ServerDisconnectedException;
     public abstract void setMarker(Player player, int gameId, Marker chosenMarker) throws NotExistingPlayerException, IOException, NotAvailableMarkerException, ServerDisconnectedException;
     public abstract void setStarterCardSide(int gameId, Player player, StarterCard cardFront, Side side) throws NotExistingPlayerException, IOException, ServerDisconnectedException;

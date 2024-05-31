@@ -108,8 +108,8 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
                     case PLAY_CARD -> {
-                        server.playCard((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], (PlayableCard) message.getMessageContent()[2], (PlayableCard) message.getMessageContent()[3], (AngleOrientation) message.getMessageContent()[4]);
-                        sendMessage(ServerMessageType.SUCCESS, true);
+                        int points = server.playCard((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], (PlayableCard) message.getMessageContent()[2], (PlayableCard) message.getMessageContent()[3], (AngleOrientation) message.getMessageContent()[4]);
+                        sendMessage(ServerMessageType.POINTS_OBTAINED, points);
                     }
                     case DRAW_CARD -> {
                         server.drawCard((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], (CardType) message.getMessageContent()[2], (DrawPosition) message.getMessageContent()[3]);

@@ -14,6 +14,6 @@ public enum ServerMessageType implements Serializable {
     READY_PLAYERS,
     OTHER_SIDE_PLAYABLE,
     OTHER_SIDE_STARTER,
-    CARD_INFO,
+    CARD_INFO, POINTS_OBTAINED,
 
 }

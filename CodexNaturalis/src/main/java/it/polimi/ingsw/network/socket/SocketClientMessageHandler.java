@@ -94,6 +94,10 @@ public class SocketClientMessageHandler implements Runnable {
                     case OTHER_SIDE_PLAYABLE -> {
                         messageQueue.put(message.getMessageContent()[0]);
                     }
+                    case POINTS_OBTAINED ->
+                    {
+                        messageQueue.put(message.getMessageContent()[0]);
+                    }
 
                 }
             }

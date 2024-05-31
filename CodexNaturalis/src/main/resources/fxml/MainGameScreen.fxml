@@ -17,6 +17,41 @@
          <children>
             <Pane fx:id="tableTop" prefHeight="518.0" prefWidth="920.0" styleClass="gameBackground">
                <children>
+                  <Pane fx:id="playersMarkerPane" disable="true" prefHeight="518.0" prefWidth="920.0">
+                     <children>
+                        <Pane layoutX="678.0" layoutY="25.0" prefHeight="60.0" prefWidth="165.0">
+                           <children>
+                              <Pane fx:id="mBackground" opacity="0.4" prefHeight="60.0" prefWidth="165.0" style="-fx-background-color: black; -fx-background-radius: 25;" />
+                              <Pane fx:id="p1" disable="true" layoutX="3.75" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" visible="false" />
+                              <Pane fx:id="p2" disable="true" layoutX="57.5" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" visible="false" />
+                              <Pane fx:id="p3" disable="true" layoutX="111.25" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" visible="false" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="648.0" layoutY="436.0" prefHeight="60.0" prefWidth="115.0">
+                           <children>
+                              <Pane fx:id="firstPlayer" opacity="0.4" prefHeight="60.0" prefWidth="115.0" style="-fx-background-color: black; -fx-background-radius: 25;" />
+                              <Pane fx:id="notFirstPlayer" opacity="0.4" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: black; -fx-background-radius: 20;" />
+                              <Pane fx:id="p0" layoutX="5.0" layoutY="5.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" />
+                              <Pane fx:id="blackMarker" layoutX="60.0" layoutY="5.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" />
+                           </children>
+                        </Pane>
+                        <HBox alignment="CENTER" layoutX="686.0" layoutY="4.0" prefWidth="150.0">
+                           <children>
+                              <Label fx:id="usernameOne" disable="true" mouseTransparent="true" textAlignment="CENTER" textFill="WHITE" visible="false" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="686.0" layoutY="4.0" mouseTransparent="true" prefWidth="150.0">
+                           <children>
+                              <Label fx:id="usernameTwo" disable="true" mouseTransparent="true" style="-fx-background-color: white;" textAlignment="CENTER" textFill="WHITE" visible="false" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="686.0" layoutY="4.0" mouseTransparent="true" prefWidth="150.0">
+                           <children>
+                              <Label fx:id="usernameThree" disable="true" mouseTransparent="true" textAlignment="CENTER" textFill="WHITE" visible="false" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </Pane>
                   <Pane fx:id="scoreBoard" layoutX="680.0" layoutY="98.0" prefHeight="322.0" prefWidth="161.0" styleClass="gameScoreboard" visible="false">
                      <children>
                         <Pane fx:id="plat0" layoutX="27.5" layoutY="284.5" prefHeight="30.0" prefWidth="30.0" />
@@ -349,41 +384,6 @@
                      </children>
                   </Pane>
                   <Pane disable="true" layoutX="288.0" layoutY="60.0" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: red;" visible="false" />
-                  <Pane fx:id="playersMarkerPane" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
-                     <children>
-                        <Pane layoutX="678.0" layoutY="25.0" prefHeight="60.0" prefWidth="165.0">
-                           <children>
-                              <Pane fx:id="mBackground" opacity="0.4" prefHeight="60.0" prefWidth="165.0" style="-fx-background-color: black; -fx-background-radius: 25;" />
-                              <Pane fx:id="p1" disable="true" layoutX="3.75" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" visible="false" />
-                              <Pane fx:id="p2" disable="true" layoutX="57.5" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" visible="false" />
-                              <Pane fx:id="p3" disable="true" layoutX="111.25" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" visible="false" />
-                           </children>
-                        </Pane>
-                        <Pane layoutX="648.0" layoutY="436.0" prefHeight="60.0" prefWidth="115.0">
-                           <children>
-                              <Pane fx:id="firstPlayer" opacity="0.4" prefHeight="60.0" prefWidth="115.0" style="-fx-background-color: black; -fx-background-radius: 25;" />
-                              <Pane fx:id="notFirstPlayer" opacity="0.4" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: black; -fx-background-radius: 20;" />
-                              <Pane fx:id="p0" layoutX="5.0" layoutY="5.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" />
-                              <Pane fx:id="blackMarker" layoutX="60.0" layoutY="5.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" />
-                           </children>
-                        </Pane>
-                        <HBox alignment="CENTER" layoutX="632.0" layoutY="46.0" prefWidth="150.0">
-                           <children>
-                              <Label fx:id="usernameOne" disable="true" mouseTransparent="true" style="-fx-background-color: white; -fx-background-radius: 20;" textAlignment="CENTER" visible="false" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" layoutX="686.0" layoutY="46.0" prefWidth="150.0">
-                           <children>
-                              <Label fx:id="usernameTwo" disable="true" mouseTransparent="true" textAlignment="CENTER" visible="false" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" layoutX="740.0" layoutY="46.0" prefWidth="150.0">
-                           <children>
-                              <Label fx:id="usernameThree" disable="true" mouseTransparent="true" textAlignment="CENTER" visible="false" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </Pane>
                </children>
             </Pane>
             <Pane fx:id="playerField" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
