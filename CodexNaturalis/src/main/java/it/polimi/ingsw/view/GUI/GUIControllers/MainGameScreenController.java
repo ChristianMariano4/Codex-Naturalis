@@ -678,7 +678,7 @@ public class MainGameScreenController extends GUIController{
         inspectedCardInfo.setSide(Side.BACK);
         inspectedCardInfo.setCardType(CardType.RESOURCE);
         inspectedCardInfo.setFromDeck(true);
-        inspectedCardInfo.setDrawPosition(DrawPosition.LEFT);
+        inspectedCardInfo.setDrawPosition(DrawPosition.FROMDECK);
         showDrawingFieldCard();
     }
     @FXML
@@ -686,7 +686,7 @@ public class MainGameScreenController extends GUIController{
         inspectedCardInfo.setSide(Side.BACK);
         inspectedCardInfo.setCardType(CardType.GOLD);
         inspectedCardInfo.setFromDeck(true);
-        inspectedCardInfo.setDrawPosition(DrawPosition.RIGHT);
+        inspectedCardInfo.setDrawPosition(DrawPosition.FROMDECK);
         showDrawingFieldCard();
     }
     @FXML

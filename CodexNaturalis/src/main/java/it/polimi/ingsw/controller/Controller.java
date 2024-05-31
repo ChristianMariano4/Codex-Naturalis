@@ -11,6 +11,8 @@ import it.polimi.ingsw.network.server.GameHandler;
 import java.io.IOException;
 import java.util.*;
 
+import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
+
 /**
  * MainServer controller class
  */
@@ -131,22 +133,6 @@ public class Controller {
         Player playerObj =  gameHandler.getGame().getPlayer(player.getUsername());
         StarterCard starterCard = gameHandler.getGame().getAvailableStarterCards().getTopCard();
         playerObj.setStarterCard(starterCard);
-        for(AngleOrientation orientation : AngleOrientation.values())
-        {
-            try {
-                if (orientation.equals(AngleOrientation.NONE))
-                    continue;
-                Angle angle = starterCard.getAngle(orientation);
-                if(!angle.getResource().equals(Resource.NONE))
-                {
-                    playerObj.updateResourceAmount(angle.getResource(), 1);
-                }
-            }
-            catch (NoneResourceException e) {
-                continue;
-            }
-
-        }
         return starterCard;
     }
 
@@ -162,6 +148,23 @@ public class Controller {
             playerObj.getPlayerField().addCardToCell(starterCard);
         } else {
             playerObj.getPlayerField().addCardToCell(cardHandler.getOtherSideCard(starterCard));
+        }
+        PlayableCard card = playerObj.getPlayerField().getMatrixField()[DEFAULT_MATRIX_SIZE/2][DEFAULT_MATRIX_SIZE/2];
+        for(AngleOrientation orientation : AngleOrientation.values())
+        {
+            try {
+                if (orientation.equals(AngleOrientation.NONE))
+                    continue;
+                Angle angle = card.getAngle(orientation);
+                if(!angle.getResource().equals(Resource.NONE))
+                {
+                    playerObj.updateResourceAmount(angle.getResource(), 1);
+                }
+            }
+            catch (NoneResourceException e) {
+                continue;
+            }
+
         }
     }
 
@@ -222,7 +225,7 @@ public class Controller {
                 {
                     continue;
                 }
-                Angle angle = card.getAngle(angleOrientation);
+                Angle angle = otherCard.getAngle(angleOrientation);
                 if(!angle.getResource().equals(Resource.NONE))
                 {
                     try {
