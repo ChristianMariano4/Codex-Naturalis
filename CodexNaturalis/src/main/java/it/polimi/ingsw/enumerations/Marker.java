@@ -23,6 +23,9 @@ public enum Marker {
             case GREEN -> {
                 return "images/Markers/CODEX_pion_vert.png";
             }
+            case BLACK -> {
+                return "images/Markers/CODEX_pion_noir.png";
+            }
             default ->
             {
                 return null;

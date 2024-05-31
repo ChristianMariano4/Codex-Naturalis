@@ -3,8 +3,10 @@ package it.polimi.ingsw.view.GUI.GUIControllers;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.exceptions.InvalidCardPositionException;
+import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.exceptions.RequirementsNotMetException;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerField;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.*;
@@ -14,6 +16,7 @@ import it.polimi.ingsw.view.TUI.ViewCLI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -149,6 +152,113 @@ public class MainGameScreenController extends GUIController{
     public ArrayList<Pane> scoreboardMarkerPanes = new ArrayList<>();
     public Pane popupPane;
 
+    public Pane playersMarkerPane;
+    public Pane p0;
+    public Pane p1;
+    public Pane p2;
+    public Pane p3;
+    public ArrayList<Pane> otherMarkers;
+    public Pane firstPlayer;
+    public Pane notFirstPlayer;
+    public Pane blackMarker;
+    public Pane mBackground;
+
+    public Label usernameOne;
+    public Label usernameTwo;
+    public Label usernameThree;
+    public ArrayList<Label> otherUsername;
+
+    private void markerPaneInitializer() {
+
+        playersMarkerPane.setDisable(false);
+        playersMarkerPane.setVisible(true);
+
+        otherMarkers = new ArrayList<>();
+        otherMarkers.add(p1);
+        otherMarkers.add(p2);
+        otherMarkers.add(p3);
+
+        otherUsername = new ArrayList<>();
+        otherUsername.add(usernameOne);
+        otherUsername.add(usernameTwo);
+        otherUsername.add(usernameThree);
+
+        try {
+            Player player = viewGUI.getGame().getPlayer(viewGUI.getUsername());
+            p0.setStyle(getStyle(player.getMarker().getPath()));
+            if(player.getIsFirst()) {
+                firstPlayer.setDisable(false);
+                firstPlayer.setVisible(true);
+                notFirstPlayer.setDisable(true);
+                notFirstPlayer.setVisible(false);
+                blackMarker.setStyle(getStyle(Marker.BLACK.getPath()));
+            } else {
+                notFirstPlayer.setDisable(false);
+                notFirstPlayer.setVisible(true);
+                firstPlayer.setDisable(true);
+                firstPlayer.setVisible(false);
+                blackMarker.setDisable(true);
+                blackMarker.setVisible(false);
+            }
+            double width = 3.75;
+            int markerPosition = 0;
+            for(int i = 0; i < viewGUI.getGame().getListOfPlayers().size(); i++) {
+                if(!viewGUI.getGame().getListOfPlayers().get(i).getUsername().equals(player.getUsername())) {
+                    otherMarkers.get(markerPosition).setStyle(getStyle(viewGUI.getGame().getListOfPlayers().get(i).getMarker().getPath()));
+                    otherMarkers.get(markerPosition).setDisable(false);
+                    otherMarkers.get(markerPosition).setVisible(true);
+                    otherUsername.get(markerPosition).setText(viewGUI.getGame().getListOfPlayers().get(i).getUsername());
+                    otherUsername.get(markerPosition).setStyle("-fx-text-alignment: center; -fx-background-color: white; -fx-background-radius: 20");
+                    otherUsername.get(markerPosition).setAlignment(Pos.CENTER);
+                    width = width + 50;
+                    markerPosition++;
+                }
+            }
+            width = width + 3.75;
+            mBackground.setPrefWidth(width);
+
+        } catch (NotExistingPlayerException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    public void showUsername(MouseEvent event) {
+        Pane pane = (Pane)event.getSource();
+        switch (pane.getId()) {
+            case "p1":
+                usernameOne.setDisable(false);
+                usernameOne.setVisible(true);
+                break;
+            case "p2":
+                usernameTwo.setDisable(false);
+                usernameTwo.setVisible(true);
+                break;
+            case "p3":
+                usernameThree.setDisable(false);
+                usernameThree.setVisible(true);
+                break;
+        }
+    }
+    @FXML
+    public void hydeUsername(MouseEvent event) {
+        Pane pane = (Pane)event.getSource();
+        switch (pane.getId()) {
+            case "p1":
+                usernameOne.setDisable(true);
+                usernameOne.setVisible(false);
+                break;
+            case "p2":
+                usernameTwo.setDisable(true);
+                usernameTwo.setVisible(false);
+                break;
+            case "p3":
+                usernameThree.setDisable(true);
+                usernameThree.setVisible(false);
+                break;
+        }
+    }
+
     @FXML
     public void rulebookButton(ActionEvent actionEvent) {
         if(isInRulebook) {
@@ -180,7 +290,6 @@ public class MainGameScreenController extends GUIController{
         markerPanes.add(marker3);
         markerPanes.add(marker4);
         preGame();
-
     }
     private String  getCardUrl(Card card, Side side)
     {
@@ -425,6 +534,7 @@ public class MainGameScreenController extends GUIController{
        initializeObjectiveCards();
        initializeDrawingField();
        initializePlayerField();
+       markerPaneInitializer();
        setTurn();
        inGame = true;
 
@@ -1067,8 +1177,6 @@ public class MainGameScreenController extends GUIController{
         }
 
     }
-
-
     private int[][] createMatrixFromField(PlayerField playerField) {
         int i = 0, j = 0;
         int[][] matrix = new int[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
@@ -1240,6 +1348,7 @@ public class MainGameScreenController extends GUIController{
                     initializeDrawingField();
                     initializePlayerHand();
                     setTurn();
+                    markerPositionInScoreboard();
                     //Scoreboard
 
                 }
