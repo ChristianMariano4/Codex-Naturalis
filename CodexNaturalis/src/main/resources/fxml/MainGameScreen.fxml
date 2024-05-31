@@ -17,7 +17,7 @@
          <children>
             <Pane fx:id="tableTop" prefHeight="518.0" prefWidth="920.0" styleClass="gameBackground">
                <children>
-                  <Pane fx:id="playersMarkerPane" disable="true" prefHeight="518.0" prefWidth="920.0">
+                  <Pane fx:id="playersMarkerPane" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
                      <children>
                         <Pane layoutX="678.0" layoutY="25.0" prefHeight="60.0" prefWidth="165.0">
                            <children>
