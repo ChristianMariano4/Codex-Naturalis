@@ -102,7 +102,7 @@ public class ViewGUI implements View, Runnable {
     }
 
     public void createGame(int numberOfPlayers) throws ServerDisconnectedException {
-        this.game = client.createGame(this.client.getUsername(), 2);
+        this.game = client.createGame(this.client.getUsername(), numberOfPlayers);
     }
 
     public HashMap<String, Integer> showScoreboard() {

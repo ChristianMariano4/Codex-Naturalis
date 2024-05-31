@@ -129,16 +129,6 @@
                         <Text fill="WHITE" layoutX="43.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Secret objective card" />
                      </children>
                   </Pane>
-                  <Label fx:id="positionLabel" disable="true" layoutX="400.0" layoutY="400.0" text="Invalid card position" visible="false">
-                     <font>
-                        <Font name="Serif Regular" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="requirementsLabel" disable="true" layoutX="400.0" layoutY="400.0" text="Requirements not met" visible="false">
-                     <font>
-                        <Font name="Serif Regular" size="20.0" />
-                     </font>
-                  </Label>
                   <Pane fx:id="markerSelection" prefHeight="518.0" prefWidth="920.0">
                      <children>
                         <Pane disable="true" layoutX="81.0" layoutY="43.0" opacity="0.6" prefHeight="432.0" prefWidth="768.0" styleClass="gameLobbyBackground" />
@@ -337,7 +327,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Label fx:id="turnLabel" disable="true" layoutX="300.0" layoutY="30.0" text="Label" visible="false">
+                  <Label fx:id="turnLabel" disable="true" layoutX="288.0" layoutY="30.0" prefWidth="350.0" text="Label" textAlignment="CENTER" visible="false">
                      <font>
                         <Font name="Serif Regular" size="20.0" />
                      </font>
@@ -442,6 +432,21 @@
                         <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="rulebookButton" />
                      </children>
                   </Pane>
+               </children>
+            </Pane>
+            <Pane fx:id="popupPane" disable="true" layoutX="310.0" layoutY="159.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+               <children>
+                  <Label fx:id="positionLabel" disable="true" layoutX="44.0" layoutY="74.0" prefHeight="29.0" prefWidth="212.0" text="Invalid card position" textAlignment="CENTER" visible="false">
+                     <font>
+                        <Font name="Serif Regular" size="25.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="requirementsLabel" disable="true" layoutX="39.0" layoutY="74.0" prefHeight="29.0" prefWidth="222.0" text="Requirements not met" textAlignment="CENTER" visible="false">
+                     <font>
+                        <Font name="Serif Regular" size="25.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="122.0" layoutY="134.0" mnemonicParsing="false" onAction="#exitPopupButton" styleClass="test" text="Ok" />
                </children>
             </Pane>
          </children>

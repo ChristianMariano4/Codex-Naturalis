@@ -147,6 +147,7 @@ public class MainGameScreenController extends GUIController{
     public Pane m3;
     public Pane m4;
     public ArrayList<Pane> scoreboardMarkerPanes = new ArrayList<>();
+    public Pane popupPane;
 
     @FXML
     public void rulebookButton(ActionEvent actionEvent) {
@@ -812,6 +813,10 @@ public class MainGameScreenController extends GUIController{
             pane.setDisable(true);
             pane.setVisible(false);
         }
+        for(Pane pane: scoreboardMarkerPanes) {
+            pane.setPrefHeight(30);
+            pane.setPrefWidth(30);
+        }
         scoreBoard.setDisable(false);
         scoreBoard.setVisible(true);
         markerPositionInScoreboard();
@@ -823,25 +828,33 @@ public class MainGameScreenController extends GUIController{
             Pane markerPane = (Pane) marker;
             markerPane.setLayoutY(transformation);
             //pane.getChildren().add(markerPane);
-            transformation = transformation - 15;
+            transformation = transformation - 2.5;
         }
     }
 
     private void markerPositionInScoreboard() {
         Game game = viewGUI.getGame();
+        resetScoreboard();
 
         for(int i = 0; i < game.getListOfPlayers().size(); i++) {
             scoreboardMarkerPanes.get(i).setStyle(getStyle(game.getListOfPlayers().get(i).getMarker().getPath()));
-            scoreboardMarkerPanes.get(i).setPrefHeight(30);
-            scoreboardMarkerPanes.get(i).setPrefWidth(30);
+
             platPanes.get(game.getListOfPlayers().get(i).getPoints()).getChildren().add(scoreboardMarkerPanes.get(i));
             setScoreboardChildren(platPanes.get(game.getListOfPlayers().get(i).getPoints()));
+
             scoreboardMarkerPanes.get(i).setDisable(false);
             scoreboardMarkerPanes.get(i).setVisible(true);
             //platPanes.get(game.getListOfPlayers().get(i).getPoints()).getChildren().get(i).setVisible(true);
             platPanes.get(game.getListOfPlayers().get(i).getPoints()).setDisable(false);
             platPanes.get(game.getListOfPlayers().get(i).getPoints()).setVisible(true);
-            platPanes.get(game.getListOfPlayers().get(i).getPoints()).setStyle("-fx-background-color: red");
+        }
+    }
+
+    private void resetScoreboard() {
+        for(Pane pane: platPanes) {
+            pane.setDisable(true);
+            pane.setVisible(false);
+            pane.getChildren().clear();
         }
     }
 
@@ -1120,7 +1133,8 @@ public class MainGameScreenController extends GUIController{
                                                 inspectedCardInfo.setFrontSide(true);
                                                 inspectedCardInfo.setSide(Side.FRONT);
 
-
+                                                System.out.println(viewGUI.getUsername() + " points: " + viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPoints());
+                                                markerPositionInScoreboard();
                                                 break;
                                             }
                                         }
@@ -1142,6 +1156,8 @@ public class MainGameScreenController extends GUIController{
                     }
                 }catch (InvalidCardPositionException e)
                 {
+                    popupPane.setDisable(false);
+                    popupPane.setVisible(true);
                     positionLabel.setDisable(false);
                     positionLabel.setVisible(true);
                     requirementsLabel.setDisable(true);
@@ -1152,6 +1168,8 @@ public class MainGameScreenController extends GUIController{
                 }
                 catch (RequirementsNotMetException e)
                 {
+                    popupPane.setDisable(false);
+                    popupPane.setVisible(true);
                     requirementsLabel.setDisable(false);
                     requirementsLabel.setVisible(true);
                     positionLabel.setDisable(true);
@@ -1167,6 +1185,12 @@ public class MainGameScreenController extends GUIController{
 
             }
         }
+    }
+
+    @FXML
+    public void exitPopupButton() {
+        popupPane.setDisable(true);
+        popupPane.setVisible(false);
     }
 
 
