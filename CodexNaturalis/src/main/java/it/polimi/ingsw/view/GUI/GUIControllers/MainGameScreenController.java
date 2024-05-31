@@ -1086,7 +1086,14 @@ public class MainGameScreenController extends GUIController{
     }
     @FXML
     public void clickedOnFieldPane(MouseEvent event) {
-        //Invalid input screen
+
+        try
+        {
+            System.out.println(viewGUI.getGame().getPlayer(viewGUI.getUsername()).getUsername() +": "+viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPoints());
+        }catch (Exception e)
+        {
+
+        }
         if(event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             if(dragging)
             {
@@ -1133,7 +1140,6 @@ public class MainGameScreenController extends GUIController{
                                                 inspectedCardInfo.setFrontSide(true);
                                                 inspectedCardInfo.setSide(Side.FRONT);
 
-                                                System.out.println(viewGUI.getUsername() + " points: " + viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPoints());
                                                 markerPositionInScoreboard();
                                                 break;
                                             }
@@ -1225,7 +1231,6 @@ public class MainGameScreenController extends GUIController{
     }
 
 
-    public boolean worked = false;
 
     public void update(Object update)
     {
@@ -1236,7 +1241,7 @@ public class MainGameScreenController extends GUIController{
                     initializePlayerHand();
                     setTurn();
                     //Scoreboard
-                    worked = true;
+
                 }
             });
         }

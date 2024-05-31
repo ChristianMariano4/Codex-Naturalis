@@ -144,28 +144,11 @@ public class Controller {
      */
     public synchronized void initializeStarterCard(Player player, StarterCard starterCard, Side side) throws NotExistingPlayerException {
         Player playerObj = gameHandler.getPlayer(player.getUsername());
-        if(side == Side.FRONT){
-            playerObj.getPlayerField().addCardToCell(starterCard);
-        } else {
-            playerObj.getPlayerField().addCardToCell(cardHandler.getOtherSideCard(starterCard));
-        }
-        PlayableCard card = playerObj.getPlayerField().getMatrixField()[DEFAULT_MATRIX_SIZE/2][DEFAULT_MATRIX_SIZE/2];
-        for(AngleOrientation orientation : AngleOrientation.values())
-        {
-            try {
-                if (orientation.equals(AngleOrientation.NONE))
-                    continue;
-                Angle angle = card.getAngle(orientation);
-                if(!angle.getResource().equals(Resource.NONE))
-                {
-                    playerObj.updateResourceAmount(angle.getResource(), 1);
-                }
-            }
-            catch (NoneResourceException e) {
-                continue;
-            }
+        if(side == Side.BACK)
+            starterCard = cardHandler.getOtherSideCard(starterCard);
 
-        }
+        playerObj.getPlayerField().addCardToCell(starterCard);
+        updateResources(player, starterCard);
     }
 
     /**
@@ -213,47 +196,63 @@ public class Controller {
         }
     }
 
-    public synchronized void playCard(Player player, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws InvalidCardPositionException, CardTypeMismatchException, RequirementsNotMetException, AngleAlreadyLinkedException, NotExistingPlayerException {
+    public synchronized void playCard(Player player, PlayableCard cardOnField, PlayableCard cardInHand, AngleOrientation orientation) throws InvalidCardPositionException, CardTypeMismatchException, RequirementsNotMetException, AngleAlreadyLinkedException, NotExistingPlayerException {
         Player playerObj = gameHandler.getPlayer(player.getUsername());
-        if(cardHandler.checkRequirements(otherCard, playerObj)) {
-            playerObj.getPlayerField().addCardToCell(card, orientation, otherCard);
-            playerObj.getPlayerHand().removeCardFromHand(otherCard);
-            playerObj.addPoints(otherCard.getPoints());
-            for(AngleOrientation angleOrientation : AngleOrientation.values())
-            {
-                if(angleOrientation.equals(AngleOrientation.NONE))
-                {
-                    continue;
-                }
-                Angle angle = otherCard.getAngle(angleOrientation);
-                if(!angle.getResource().equals(Resource.NONE))
-                {
-                    try {
-                        playerObj.updateResourceAmount(angle.getResource(), 1);
-                    }
-                    catch (NoneResourceException e)
-                    {
-                        continue;
-                    }
-
-                }
-                try {
-                    if (!angle.getAngleStatus().equals(AngleStatus.UNLINKED) && !angle.getLinkedAngle().getResource().equals(Resource.NONE))
-                    {
-                        playerObj.updateResourceAmount(angle.getLinkedAngle().getResource(), -1);
-                    }
-                }
-                catch (UnlinkedCardException e)
-                {
-                    continue;
-                } catch (NoneResourceException e) {
-                    continue;
-                }
-
-            }
+        int points = 0;
+        if(cardHandler.checkRequirements(cardInHand, playerObj)) {
+            playerObj.getPlayerField().addCardToCell(cardOnField, orientation, cardInHand);
+            playerObj.getPlayerHand().removeCardFromHand(cardInHand);
+            points = PointCalculator.calculatePlayedCardPoints(playerObj, cardInHand, cardHandler.getCardInfo(cardInHand));
+            playerObj.addPoints(points);
+            updateResources(playerObj, cardInHand);
         }
         else{
             throw new RequirementsNotMetException();
+        }
+    }
+
+    private void updateResources(Player player, PlayableCard cardInHand)
+    {
+        for(Resource resource : cardInHand.getCentralResources())
+        {
+            try {
+                player.updateResourceAmount(resource, 1);
+            }
+            catch (NoneResourceException e)
+            {
+                continue;
+            }
+        }
+        for(AngleOrientation angleOrientation : AngleOrientation.values())
+        {
+            if(angleOrientation.equals(AngleOrientation.NONE))
+            {
+                continue;
+            }
+            Angle angle = cardInHand.getAngle(angleOrientation);
+            if(!angle.getResource().equals(Resource.NONE))
+            {
+                try {
+                    player.updateResourceAmount(angle.getResource(), 1);
+                }
+                catch (NoneResourceException e)
+                {
+                    continue;
+                }
+            }
+            try {
+                if (!angle.getAngleStatus().equals(AngleStatus.UNLINKED) && !angle.getLinkedAngle().getResource().equals(Resource.NONE))
+                {
+                    player.updateResourceAmount(angle.getLinkedAngle().getResource(), -1);
+                }
+            }
+            catch (UnlinkedCardException e)
+            {
+                continue;
+            } catch (NoneResourceException e) {
+                continue;
+            }
+
         }
     }
 

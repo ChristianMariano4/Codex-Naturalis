@@ -16,4 +16,26 @@ public enum GoldPointCondition {
             case MANUSCRIPT -> "MAN";
         };
     }
+    public Resource mapToResource()
+    {
+        switch (this)
+        {
+            case QUILL ->
+            {
+                return Resource.QUILL;
+            }
+            case INKWELL ->
+            {
+                return Resource.INKWELL;
+            }
+            case MANUSCRIPT ->
+            {
+                return Resource.MANUSCRIPT;
+            }
+            default ->
+            {
+                return Resource.NONE;
+            }
+        }
+    }
 }

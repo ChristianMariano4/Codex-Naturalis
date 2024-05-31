@@ -4,7 +4,10 @@ import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.enumerations.AngleOrientation;
 import it.polimi.ingsw.enumerations.AngleStatus;
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
+import it.polimi.ingsw.exceptions.NotEnoughPlayersException;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameValues;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerField;
 import it.polimi.ingsw.model.cards.CardInfo;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
@@ -162,16 +165,16 @@ public class PointCalculator {
                 if(matrixFieled[i][j] != null) {
                     if(matrixFieled[i][j].getCardColor() == cardInfo.getCardColor().getOtherLShaped()) {
                         try {
-                            int firstAndSecondNextX = i + xValue;
-                            int firstNextY = j + yValue;
-                            int secondNextY = firstNextY + yValue + yValue; //moves two positions
-                            PlayableCard firstNext = matrixFieled[firstAndSecondNextX][firstNextY];
-                            PlayableCard secondNext = matrixFieled[firstAndSecondNextX][secondNextY];
-                            if(firstNext != null && secondNext != null && !isVisited[firstAndSecondNextX][firstNextY] && !isVisited[firstAndSecondNextX][secondNextY]) {
+                            int firstNextX = i + xValue;
+                            int firstAndSecondNextY = j + yValue;
+                            int secondNextX = firstNextX + xValue + xValue; //moves two positions
+                            PlayableCard firstNext = matrixFieled[firstNextX][firstAndSecondNextY];
+                            PlayableCard secondNext = matrixFieled[secondNextX][firstAndSecondNextY];
+                            if(firstNext != null && secondNext != null && !isVisited[firstNextX][firstAndSecondNextY] && !isVisited[secondNextX][firstAndSecondNextY]) {
                                 if(firstNext.getCardColor() == cardInfo.getCardColor() && secondNext.getCardColor() == cardInfo.getCardColor()) {
                                     points += objectiveCard.getPoints();
-                                    isVisited[firstAndSecondNextX][firstNextY] = true;
-                                    isVisited[firstAndSecondNextX][secondNextY] = true;
+                                    isVisited[firstNextX][firstAndSecondNextY] = true;
+                                    isVisited[secondNextX][firstAndSecondNextY] = true;
                                     isVisited[i][j] = true;
                                 }
                             }
@@ -183,6 +186,55 @@ public class PointCalculator {
             }
         }
         return points;
+    }
+
+    public static int calculatePlayedCardPoints(Player player, PlayableCard card, CardInfo cardInfo)
+    {
+        if(cardInfo.getCardType().equals(CardType.RESOURCE))
+            return card.getPoints();
+        GoldPointCondition condition = cardInfo.getGoldPointCondition();
+        switch (cardInfo.getGoldPointCondition())
+        {
+            case null -> {
+                return card.getPoints();
+            }
+            case GoldPointCondition.NONE ->
+            {
+                return card.getPoints();
+            }
+            case ANGLE ->
+            {
+                PlayableCard[][] playerField = player.getPlayerField().getMatrixField();
+                for(int i = 0; i < GameValues.DEFAULT_MATRIX_SIZE; i++)
+                {
+                    for(int j = 0; j < GameValues.DEFAULT_MATRIX_SIZE; j++)
+                    {
+                        if(playerField[i][j] != null && playerField[i][j].equals(card))
+                        {
+                            int angles = 0;
+                            for(AngleOrientation orientation : AngleOrientation.values())
+                            {
+                                if(orientation.equals(AngleOrientation.NONE))
+                                    continue;
+                                if(playerField[i + orientation.mapEnumToX()][j + orientation.mapEnumToY()] != null)
+                                {
+                                    angles += 1;
+                                }
+                            }
+                            return angles * card.getPoints();
+                        }
+                    }
+
+                }
+                throw new RuntimeException();
+            }
+            //INKWELL, QUILL AND MANUSCRIPT
+            default ->
+            {
+                return player.getResourceAmount(condition.mapToResource()) * card.getPoints();
+            }
+        }
+
     }
 
 }
