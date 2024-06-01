@@ -14,7 +14,9 @@ public class GameValues {
     public static final int HEARTBEAT_INTERVAL = 1000;
     public static final int HEARTBEAT_TIMEOUT = 2000;
     public static final int GAME_END_TIMEOUT = 5000;
-    public static final double cardWidth = 90.0;
-    public static final double cardHeight = 60.0;
+    public static final double CARD_WIDTH = 90.0;
+    public static final double CARD_HEIGHT = 60.0;
+    public static double ANGLE_WIDTH = 20.0;
+    public static double ANGLE_HEIGHT = 24.0;
 //    TODO: reset timeouts to meaningful values after testing is finished
 }

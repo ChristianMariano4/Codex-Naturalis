@@ -26,7 +26,7 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
+import static it.polimi.ingsw.model.GameValues.*;
 
 public class MainGameScreenController extends GUIController{
 
@@ -1109,11 +1109,8 @@ public class MainGameScreenController extends GUIController{
             startDragY = e.getSceneY() - movingField.getTranslateY();
         });
 
-        //default field bounds size, about the size of 2 cards
-        fieldBounds.setLayoutX(movingField.getLayoutX() + 2*GameValues.cardWidth);
-        fieldBounds.setLayoutY(movingField.getLayoutY() + 2*GameValues.cardHeight);
-        fieldBounds.setWidth(movingField.getWidth() - 4*GameValues.cardWidth );
-        fieldBounds.setHeight(movingField.getHeight()- 4*GameValues.cardHeight);
+
+
         scalable.getChildren().add(fieldBounds);
         fieldBounds.setVisible(false);
         fieldBounds.setMouseTransparent(true);
@@ -1193,6 +1190,7 @@ public class MainGameScreenController extends GUIController{
         setupCardPane(pane, topLeft, AngleOrientation.TOPLEFT);
         setupCardPane(pane, topRight, AngleOrientation.TOPRIGHT);
         setupCardPane(pane, bottomLeft, AngleOrientation.BOTTOMLEFT);
+        updateBounds();
 
     }
     public void setupCardPane(Pane pane, Pane newPane, AngleOrientation orientation) {
@@ -1204,18 +1202,18 @@ public class MainGameScreenController extends GUIController{
         switch (orientation) {
             case TOPRIGHT,
                  BOTTOMRIGHT -> { // 20 and 24 are the width and height of the angle: 90 - 20 = 70, 60 - 24 = 36
-                newX = oldX + 70;
+                newX = oldX + (CARD_WIDTH - ANGLE_WIDTH);
             }
             case TOPLEFT, BOTTOMLEFT -> {
-                newX = oldX - 70;
+                newX = oldX - (CARD_WIDTH - ANGLE_WIDTH);
             }
         }
         switch (orientation) {
             case TOPRIGHT, TOPLEFT -> {
-                newY = oldY - 36;
+                newY = oldY - (CARD_HEIGHT - ANGLE_HEIGHT);
             }
             case BOTTOMRIGHT, BOTTOMLEFT -> {
-                newY = oldY + 36;
+                newY = oldY + (CARD_HEIGHT - ANGLE_HEIGHT);
             }
         }
         try {
@@ -1261,8 +1259,8 @@ public class MainGameScreenController extends GUIController{
 
                         newPane.setLayoutX(newX);
                         newPane.setLayoutY(newY);
-                        newPane.setPrefWidth(GameValues.cardWidth);
-                        newPane.setPrefHeight(GameValues.cardHeight);
+                        newPane.setPrefWidth(CARD_WIDTH);
+                        newPane.setPrefHeight(CARD_HEIGHT);
 
                         newPane.setVisible(false);
                         newPane.setDisable(true);
@@ -1287,15 +1285,61 @@ public class MainGameScreenController extends GUIController{
             }
             throw new RuntimeException();
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException();
         }
 
     }
+    private HashMap<Direction, Integer> findExternals()
+    {
+        int firstX = DEFAULT_MATRIX_SIZE;
+        int lastX = -1;
+        int firstY = DEFAULT_MATRIX_SIZE;
+        int lastY = -1;
+        HashMap<Direction, Integer> externals = new HashMap<>();
+        for(int i = 0; i < DEFAULT_MATRIX_SIZE; i++)
+        {
+            for (int j = 0; j < DEFAULT_MATRIX_SIZE; j++) {
+
+                if(fieldPanes[i][j] != null)
+                {
+                    if(i < firstX)
+                        firstX = i;
+                    if(i > lastX)
+                        lastX = i;
+                    if(j < firstY)
+                        firstY = j;
+                    if(j > lastY)
+                       lastY = j;
+                }
+            }
+        }
+        externals.put(Direction.TOP, DEFAULT_MATRIX_SIZE/2 - firstX);
+        externals.put(Direction.BOTTOM, lastX - DEFAULT_MATRIX_SIZE/2 );
+        externals.put(Direction.LEFT, DEFAULT_MATRIX_SIZE/2 - firstY);
+        externals.put(Direction.RIGHT, lastY - DEFAULT_MATRIX_SIZE/2);
+
+        return externals;
+
+    }
+
+    private void updateBounds()
+    {
+        try
+        {
+            HashMap<Direction, Integer> externals = findExternals();
+            fieldBounds.setLayoutX(movingField.getLayoutX() + (externals.get(Direction.LEFT) + 1)*(CARD_WIDTH - ANGLE_WIDTH));
+            fieldBounds.setLayoutY(movingField.getLayoutY() + (externals.get(Direction.TOP) + 1)* (CARD_HEIGHT - ANGLE_HEIGHT));
+            fieldBounds.setWidth(movingField.getWidth() - (CARD_WIDTH - ANGLE_WIDTH) * (2 + externals.get(Direction.LEFT) + externals.get(Direction.RIGHT)));
+            fieldBounds.setHeight(movingField.getHeight()- (CARD_HEIGHT - ANGLE_HEIGHT) * (2 + externals.get(Direction.TOP) + externals.get(Direction.BOTTOM)));
+
+        }catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
+    }
 
     @FXML
     public void clickedOnFieldPane(MouseEvent event) {
-
         if(event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             if(dragging)
             {
@@ -1380,7 +1424,6 @@ public class MainGameScreenController extends GUIController{
                     requirementsLabel.setVisible(false);
                     inspectedCardInfo.setFrontSide(true);
                     inspectedCardInfo.setSide(Side.FRONT);
-                    playingCard = false;
                 }
                 catch (RequirementsNotMetException e)
                 {
@@ -1392,7 +1435,6 @@ public class MainGameScreenController extends GUIController{
                     positionLabel.setVisible(false);
                     inspectedCardInfo.setFrontSide(true);
                     inspectedCardInfo.setSide(Side.FRONT);
-                    playingCard = false;
                 }
                 catch (Exception e) {
                     e.printStackTrace();

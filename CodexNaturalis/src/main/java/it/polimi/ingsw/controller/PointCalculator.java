@@ -231,7 +231,8 @@ public class PointCalculator {
             //INKWELL, QUILL AND MANUSCRIPT
             default ->
             {
-                return player.getResourceAmount(condition.mapToResource()) * card.getPoints();
+                return (player.getResourceAmount(condition.mapToResource()) + 1)* card.getPoints();
+                //adding 1 to include the resource on the card being played, as per rules
             }
         }
 
