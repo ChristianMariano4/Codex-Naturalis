@@ -52,9 +52,9 @@
                         </HBox>
                      </children>
                   </Pane>
-                  <Pane fx:id="resources" disable="true" layoutX="862.0" layoutY="98.0" prefHeight="322.0" prefWidth="46.0" visible="false">
+                  <Pane fx:id="resources" disable="true" layoutX="862.0" layoutY="95.5" prefHeight="327.0" prefWidth="46.0">
                      <children>
-                        <Pane opacity="0.4" prefHeight="322.0" prefWidth="46.0" style="-fx-background-color: black; -fx-background-radius: 10;" />
+                        <Pane opacity="0.4" prefHeight="327.0" prefWidth="46.0" style="-fx-background-color: black; -fx-background-radius: 10;" />
                         <Pane prefHeight="46.0" prefWidth="46.0">
                            <children>
                               <Pane layoutX="8.0" layoutY="5.0" prefHeight="30.0" prefWidth="30.0" styleClass="fungi" />
@@ -155,7 +155,7 @@
                         </Pane>
                      </children>
                   </Pane>
-                  <Pane fx:id="scoreBoard" layoutX="680.0" layoutY="98.0" prefHeight="322.0" prefWidth="161.0" styleClass="gameScoreboard" visible="false">
+                  <Pane fx:id="scoreBoard" layoutX="680.0" layoutY="98.0" prefHeight="322.0" prefWidth="161.0" styleClass="gameScoreboard">
                      <children>
                         <Pane fx:id="plat0" layoutX="27.5" layoutY="284.5" prefHeight="30.0" prefWidth="30.0" />
                         <Pane fx:id="plat1" layoutX="65.5" layoutY="284.5" prefHeight="30.0" prefWidth="30.0" />
