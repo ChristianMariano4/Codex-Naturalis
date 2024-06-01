@@ -1179,21 +1179,25 @@ public class MainGameScreenController extends GUIController{
                         }
 
                         //checks if the position where i want to place the new pane is a valid playable position
+                        if (cardJustPlayed != null && !cardJustPlayed.getAngle(orientation).isPlayable())
+                            return;
+
                         for (AngleOrientation angleOrientation : AngleOrientation.values()) {
                             if (angleOrientation.equals(AngleOrientation.NONE))
                                 continue;
-                            if (cardJustPlayed != null && !cardJustPlayed.getAngle(angleOrientation).isPlayable())
-                                return;
+
                             int checkX = xPane + angleOrientation.mapEnumToX();
                             int checkY = yPane + angleOrientation.mapEnumToY();
                             if (matrixField[checkX][checkY] != null && !matrixField[checkX][checkY].getAngle(angleOrientation.getOpposite()).isPlayable()) {
                                 return;
                             }
                         }
-
+                        newPane.setId("empty");
                         fieldPanes[xPane][yPane] = newPane;
 
-                        newPane.setId("empty");
+                        movingField.getChildren().add(newPane);
+
+
 
                         newPane.setLayoutX(newX);
                         newPane.setLayoutY(newY);
@@ -1214,7 +1218,7 @@ public class MainGameScreenController extends GUIController{
                             clickedOnFieldPane(e);
                         });
 
-                        movingField.getChildren().add(newPane);
+
 
                         return;
 
@@ -1232,7 +1236,6 @@ public class MainGameScreenController extends GUIController{
     @FXML
     public void clickedOnFieldPane(MouseEvent event) {
 
-
         if(event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             if(dragging)
             {
@@ -1245,7 +1248,7 @@ public class MainGameScreenController extends GUIController{
                         Pane source = (Pane) event.getSource();
                         if(source.getId().equals("full"))
                         {
-                            throw new InvalidCardPositionException();
+                            return;
                         }
                         PlayableCard card = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerHand().getCardsInHand().get(inspectedCardInfo.getCardInHandSelected());
                         if(inspectedCardInfo.getSide().equals(Side.BACK))
