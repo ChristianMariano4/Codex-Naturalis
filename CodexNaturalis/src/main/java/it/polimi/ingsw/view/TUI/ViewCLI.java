@@ -20,7 +20,8 @@ public class ViewCLI implements View, Runnable {
     private Client client;
     private final Scanner scanner = new Scanner(System.in);
     private String playerId;
-    TUI ui = new TUI();;
+    TUI ui = new TUI();
+    private boolean inGame = true;
 
 
     public void setUsername() throws IOException, InterruptedException, ServerDisconnectedException {
@@ -155,7 +156,7 @@ public class ViewCLI implements View, Runnable {
     }
 
     public void gameLoop() throws IOException, NotExistingPlayerException, InterruptedException, CardTypeMismatchException, ServerDisconnectedException {
-        boolean inGame = true;
+
         ui.showMainScreen();
         Object lock = new Object();
         BlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>();
@@ -251,6 +252,7 @@ public class ViewCLI implements View, Runnable {
             }
             Thread.sleep(1);
         }
+        showEndGameScreen();
     }
 
     private void showScoreboard() {
@@ -673,6 +675,11 @@ public class ViewCLI implements View, Runnable {
     {
         ui.printWinner();
         ui.gameEndDisconnection();
+    }
+
+    @Override
+    public void gameEnd() {
+        this.inGame = false;
     }
 
 }

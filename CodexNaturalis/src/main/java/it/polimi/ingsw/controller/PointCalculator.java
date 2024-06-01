@@ -39,7 +39,9 @@ public class PointCalculator {
                 if (playableCards[j] != null) {
                     for (AngleOrientation orientation : AngleOrientation.values()) //checks all angles
                     {
-                        if ((playableCards[j].getAngle(orientation).getAngleStatus() == AngleStatus.OVER || playableCards[j].getAngle(orientation).getAngleStatus() == AngleStatus.OVER) && (playableCards[j].getAngle(orientation).getResource() == Resource.INKWELL || playableCards[j].getAngle(orientation).getResource() == Resource.MANUSCRIPT || playableCards[j].getAngle(orientation).getResource() == Resource.QUILL)) // checks if angle has valid resource needed for TripleObjectiveCard
+                        if(orientation.equals(AngleOrientation.NONE))
+                            continue;
+                        if ((playableCards[j].getAngle(orientation).getAngleStatus().equals(AngleStatus.OVER) || playableCards[j].getAngle(orientation).getAngleStatus().equals(AngleStatus.OVER)) && (playableCards[j].getAngle(orientation).getResource().equals(Resource.INKWELL) || playableCards[j].getAngle(orientation).getResource().equals(Resource.MANUSCRIPT) || playableCards[j].getAngle(orientation).getResource().equals(Resource.QUILL))) // checks if angle has valid resource needed for TripleObjectiveCard
                         {
                             resources.put(playableCards[j].getAngle(orientation).getResource(), resources.get(playableCards[j].getAngle(orientation).getResource()) + 1); //adds 1 to found resource amount in hashmap
                         }
@@ -67,7 +69,9 @@ public class PointCalculator {
             for (int j = 0; j < matrixFiled[0].length; j++) {
                 if (playableCards[j] != null) {
                     for (AngleOrientation angleorientation : AngleOrientation.values()) {
-                        if (playableCards[j].getAngle(angleorientation).getResource() == cardInfo.getCardResource() && (playableCards[j].getAngle(angleorientation).getAngleStatus() == AngleStatus.OVER || playableCards[j].getAngle(angleorientation).getAngleStatus() == AngleStatus.UNLINKED)) {
+                        if(angleorientation.equals(AngleOrientation.NONE))
+                            continue;
+                        if (playableCards[j].getAngle(angleorientation).getResource().equals(cardInfo.getCardResource()) && (playableCards[j].getAngle(angleorientation).getAngleStatus() == AngleStatus.OVER || playableCards[j].getAngle(angleorientation).getAngleStatus().equals(AngleStatus.UNLINKED))) {
                             if (temp == 1) {
                                 points += objectiveCard.getPoints();
                                 temp = 0;
@@ -149,29 +153,29 @@ public class PointCalculator {
     /**
      * Calculate all points given by the lShapedObjectiveCard
      * @param cardInfo the information of the objectiveCard
-     * @param matrixFieled is the matrix of the field
+     * @param matrixField is the matrix of the field
      * @param objectiveCard the objectiveCard used to calculate the points
      * @return he total amount of points
      */
-    private static int calculateLShapedObjective(CardInfo cardInfo, PlayableCard[][] matrixFieled, ObjectiveCard objectiveCard)
+    private static int calculateLShapedObjective(CardInfo cardInfo, PlayableCard[][] matrixField, ObjectiveCard objectiveCard)
     {
         int points = 0;
         int xValue = cardInfo.getOrientation().mapEnumToXLShaped();
         int yValue = cardInfo.getOrientation().mapEnumToYLShaped();
-        boolean[][] isVisited = new boolean[matrixFieled.length][matrixFieled[0].length];
+        boolean[][] isVisited = new boolean[matrixField.length][matrixField[0].length];
 
-        for(int i = 0; i < matrixFieled.length; i++) {
-            for(int j = 0; j < matrixFieled[0].length; j++) {
-                if(matrixFieled[i][j] != null) {
-                    if(matrixFieled[i][j].getCardColor() == cardInfo.getCardColor().getOtherLShaped()) {
+        for(int i = 0; i < matrixField.length; i++) {
+            for(int j = 0; j < matrixField[0].length; j++) {
+                if(matrixField[i][j] != null) {
+                    if(matrixField[i][j].getCardColor().equals(cardInfo.getCardColor().getOtherLShaped())) {
                         try {
                             int firstNextX = i + xValue;
                             int firstAndSecondNextY = j + yValue;
                             int secondNextX = firstNextX + xValue + xValue; //moves two positions
-                            PlayableCard firstNext = matrixFieled[firstNextX][firstAndSecondNextY];
-                            PlayableCard secondNext = matrixFieled[secondNextX][firstAndSecondNextY];
+                            PlayableCard firstNext = matrixField[firstNextX][firstAndSecondNextY];
+                            PlayableCard secondNext = matrixField[secondNextX][firstAndSecondNextY];
                             if(firstNext != null && secondNext != null && !isVisited[firstNextX][firstAndSecondNextY] && !isVisited[secondNextX][firstAndSecondNextY]) {
-                                if(firstNext.getCardColor() == cardInfo.getCardColor() && secondNext.getCardColor() == cardInfo.getCardColor()) {
+                                if(firstNext.getCardColor().equals(cardInfo.getCardColor()) && secondNext.getCardColor().equals(cardInfo.getCardColor())) {
                                     points += objectiveCard.getPoints();
                                     isVisited[firstNextX][firstAndSecondNextY] = true;
                                     isVisited[secondNextX][firstAndSecondNextY] = true;
@@ -214,6 +218,7 @@ public class PointCalculator {
                             int angles = 0;
                             for(AngleOrientation orientation : AngleOrientation.values())
                             {
+
                                 if(orientation.equals(AngleOrientation.NONE))
                                     continue;
                                 if(playerField[i + orientation.mapEnumToX()][j + orientation.mapEnumToY()] != null)

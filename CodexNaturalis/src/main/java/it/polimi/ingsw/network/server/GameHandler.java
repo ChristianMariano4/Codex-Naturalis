@@ -271,7 +271,7 @@ public class GameHandler implements Serializable {
             if (twentyPointsReached && game.getCurrentPlayer().equals(game.getListOfPlayers().getFirst())) //final round begins when first player is playing and a player has reached 20 points
             {
                 this.finalRound = true;
-                eventManager.notify(GameEvent.FINAL_ROUND, null);
+                eventManager.notify(GameEvent.FINAL_ROUND, (Object) null);
             }
 
             eventManager.notify(GameEvent.TURN_EVENT, game);

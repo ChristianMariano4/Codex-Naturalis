@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
-public class GUIController {
+public abstract class GUIController {
 
     protected ViewGUI viewGUI;
     protected GUI gui;
@@ -27,5 +27,11 @@ public class GUIController {
     public void sceneInitializer() {
 
     }
+
+    public void finalRound(){}
+
     public void update(Object update){}
+    public void twentyPoints(String username) {
+
+    }
 }

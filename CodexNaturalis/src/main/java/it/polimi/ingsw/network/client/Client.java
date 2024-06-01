@@ -123,20 +123,24 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                 }
                 case TWENTY_POINTS -> {
                     view.twentyPoints((String) gameUpdate);
-                    this.viewThread.interrupt();
+                    if(viewThread!=null)
+                        this.viewThread.interrupt();
                 }
                 case FINAL_ROUND ->
                 {
                     view.finalRound();
-                    this.viewThread.interrupt();
+                    if(viewThread!=null)
+                        this.viewThread.interrupt();
                 }
                 case GAME_END ->
                 {
+
                     view.update((Game) gameUpdate);
+                    view.gameEnd();
                     if (this.viewThread != null) {
                         this.viewThread.interrupt();
                     }
-                    //view.gameEnd();
+
                 }
             }
     }

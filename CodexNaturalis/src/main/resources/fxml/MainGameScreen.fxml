@@ -387,7 +387,7 @@
                         </Pane>
                         <Pane layoutX="395.0" layoutY="408.0" prefHeight="50.0" prefWidth="130.0">
                            <children>
-                              <Button fx:id="playCard" mnemonicParsing="false" onAction="#playCardButton" prefHeight="50.0" prefWidth="130.0" styleClass="test" text="Play Card" />
+                              <Button fx:id="playCard" disable="true" mnemonicParsing="false" onAction="#playCardButton" prefHeight="50.0" prefWidth="130.0" styleClass="test" text="Play Card" visible="false" />
                            </children>
                         </Pane>
                      </children>
@@ -422,7 +422,7 @@
                         </Pane>
                         <Pane layoutX="395.0" layoutY="408.0" prefHeight="50.0" prefWidth="130.0">
                            <children>
-                              <Button fx:id="drawCard" mnemonicParsing="false" onAction="#drawCardButton" prefHeight="50.0" prefWidth="130.0" styleClass="test" text="Draw Card" />
+                              <Button fx:id="drawCard" disable="true" mnemonicParsing="false" onAction="#drawCardButton" prefHeight="50.0" prefWidth="130.0" styleClass="test" text="Draw Card" visible="false" />
                            </children>
                         </Pane>
                      </children>
@@ -472,6 +472,16 @@
                      </font>
                   </Label>
                   <Pane disable="true" layoutX="288.0" layoutY="60.0" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: red;" visible="false" />
+                  <Label fx:id="twentyPoints" disable="true" layoutX="300.0" layoutY="415.0" prefWidth="350.0" textAlignment="CENTER" visible="false">
+                     <font>
+                        <Font name="Serif Regular" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="finalRound" disable="true" layoutX="300.0" layoutY="415.0" prefWidth="350.0" text="The final round has begun" textAlignment="CENTER" visible="false">
+                     <font>
+                        <Font name="Serif Regular" size="20.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
             <Pane fx:id="playerField" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">

@@ -6,7 +6,6 @@ import it.polimi.ingsw.exceptions.InvalidCardPositionException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.exceptions.RequirementsNotMetException;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerHand;
 import it.polimi.ingsw.model.cards.*;
@@ -18,6 +17,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -181,6 +181,9 @@ public class MainGameScreenController extends GUIController{
     public ArrayList<Label> otherUsername;
     public Pane playerHandBackground;
     public Pane drawingFieldBackground;
+
+    public Label twentyPoints;
+    public Label finalRound;
 
     private void markerPaneInitializer() {
 
@@ -1494,8 +1497,31 @@ public class MainGameScreenController extends GUIController{
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             throw new RuntimeException();
         }
+    }
+    @Override
+    public void twentyPoints(String username) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                twentyPoints.setText("Player " + username + " has reached 20 points!");
+                twentyPoints.setDisable(false);
+                twentyPoints.setVisible(true);
+            }
+        });
+    }
+
+    @Override
+    public void finalRound() {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                twentyPoints.setDisable(true);
+                twentyPoints.setVisible(false);
+                finalRound.setDisable(false);
+                finalRound.setVisible(true);
+            }
+        });
     }
 
 

@@ -70,6 +70,7 @@ public class ViewGUI implements View, Runnable {
 
     @Override
     public void twentyPoints(String username) {
+        gui.twentyPoints(username);
 
     }
 
@@ -80,12 +81,17 @@ public class ViewGUI implements View, Runnable {
 
     @Override
     public void finalRound() {
-
+        gui.finalRound();
     }
 
     @Override
     public void gameEndDisconnection() {
         //TODO: implement
+    }
+
+    @Override
+    public void gameEnd() {
+        gui.gameEnd();
     }
 
     public List<Integer> showAvailableGames() throws ServerDisconnectedException, IOException, InterruptedException {

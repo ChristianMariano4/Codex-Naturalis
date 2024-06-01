@@ -20,4 +20,5 @@ public interface View  {
     void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose) throws ServerDisconnectedException;
     void finalRound();
     void gameEndDisconnection();
+    void gameEnd();
 }

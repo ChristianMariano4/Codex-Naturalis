@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.client.SocketClient;
 import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 import it.polimi.ingsw.view.GUI.GUIControllers.GUIController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -199,5 +200,21 @@ public class GUI extends Application {
     public void update(Object update)
     {
         controller.update(update);
+    }
+    public void twentyPoints(String username) {
+        controller.twentyPoints(username);
+    }
+    public void finalRound()
+    {
+        controller.finalRound();
+    }
+    public void gameEnd()
+    {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                switchScene(GUIScene.SCOREBOARD);
+            }
+        });
     }
 }
