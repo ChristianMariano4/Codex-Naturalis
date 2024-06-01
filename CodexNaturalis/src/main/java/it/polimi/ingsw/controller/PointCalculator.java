@@ -13,6 +13,8 @@ import it.polimi.ingsw.model.cards.CardInfo;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 import it.polimi.ingsw.model.cards.PlayableCard;
 
+import java.lang.runtime.ObjectMethods;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import it.polimi.ingsw.model.cards.PlayableCard;
@@ -22,68 +24,30 @@ import javax.management.StandardEmitterMBean;
 public class PointCalculator {
     /**
      * Calculate all points given by the tripleObjective card
-     * @param playerField of the player for the map
-     * @param objectiveCard the objectiveCard used to calculate the points
+     * @param player the player
      * @return the total amount of points
      */
-    public static int calculateTripleObjective(PlayerField playerField, ObjectiveCard objectiveCard)
+    public static int calculateTripleObjective(Player player)
     {
-        PlayableCard[][] matrixField = playerField.getMatrixField();
-        HashMap<Resource, Integer> resources = new HashMap<>();
-        resources.put(Resource.INKWELL, 0);
-        resources.put(Resource.QUILL, 0);
-        resources.put(Resource.MANUSCRIPT, 0);
-
-        for (PlayableCard[] playableCards : matrixField) {
-            for (int j = 0; j < matrixField[0].length; j++) {
-                if (playableCards[j] != null) {
-                    for (AngleOrientation orientation : AngleOrientation.values()) //checks all angles
-                    {
-                        if(orientation.equals(AngleOrientation.NONE))
-                            continue;
-                        if ((playableCards[j].getAngle(orientation).getAngleStatus().equals(AngleStatus.OVER) || playableCards[j].getAngle(orientation).getAngleStatus().equals(AngleStatus.OVER)) && (playableCards[j].getAngle(orientation).getResource().equals(Resource.INKWELL) || playableCards[j].getAngle(orientation).getResource().equals(Resource.MANUSCRIPT) || playableCards[j].getAngle(orientation).getResource().equals(Resource.QUILL))) // checks if angle has valid resource needed for TripleObjectiveCard
-                        {
-                            resources.put(playableCards[j].getAngle(orientation).getResource(), resources.get(playableCards[j].getAngle(orientation).getResource()) + 1); //adds 1 to found resource amount in hashmap
-                        }
-                    }
-                }
-            }
-        }
-        return Collections.min(resources.values())*objectiveCard.getPoints();
+        ArrayList<Integer> resourceAmounts = new ArrayList<>();
+        resourceAmounts.add(player.getResourceAmount(Resource.INKWELL));
+        resourceAmounts.add(player.getResourceAmount(Resource.MANUSCRIPT));
+        resourceAmounts.add(player.getResourceAmount(Resource.QUILL));
+        return Collections.min(resourceAmounts);
     }
 
     /**
      * Calculate all points given by the objectiveCard
      * @param cardInfo the information of the objectiveCard
-     * @param playerField of the player for the map
+     * @param player the player
      * @param objectiveCard the objectiveCard used to calculate the points
      * @return the total amount of points
      */
-    public static int calculateResourceObjective(CardInfo cardInfo, PlayerField playerField, ObjectiveCard objectiveCard)
+    public static int calculateResourceObjective(CardInfo cardInfo, Player player, ObjectiveCard objectiveCard)
     {
-        int points = 0;
-        int temp = 0;
-        PlayableCard[][] matrixFiled = playerField.getMatrixField();
-
-        for (PlayableCard[] playableCards : matrixFiled) {
-            for (int j = 0; j < matrixFiled[0].length; j++) {
-                if (playableCards[j] != null) {
-                    for (AngleOrientation angleorientation : AngleOrientation.values()) {
-                        if(angleorientation.equals(AngleOrientation.NONE))
-                            continue;
-                        if (playableCards[j].getAngle(angleorientation).getResource().equals(cardInfo.getCardResource()) && (playableCards[j].getAngle(angleorientation).getAngleStatus() == AngleStatus.OVER || playableCards[j].getAngle(angleorientation).getAngleStatus().equals(AngleStatus.UNLINKED))) {
-                            if (temp == 1) {
-                                points += objectiveCard.getPoints();
-                                temp = 0;
-                            } else {
-                                temp++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return points;
+        int cardPoints = objectiveCard.getPoints();
+        Resource resource = cardInfo.getCardResource();
+        return (player.getResourceAmount(resource)/3) * cardPoints;
     }
 
     /**
