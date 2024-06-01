@@ -204,5 +204,47 @@
         -fx-text-fill: #e3dab3;
     }
 }
+.plant {
+    -fx-background-image: url("images/Icons/plant.png");
+    -fx-background-position: center;
+    -fx-background-size: 90%;
+    -fx-background-repeat: no-repeat;
+}
+.fungi {
+    -fx-background-image: url("images/Icons/fungi.png");
+    -fx-background-position: center;
+    -fx-background-size: 90%;
+    -fx-background-repeat: no-repeat;
+}
+.insect {
+    -fx-background-image: url("images/Icons/insect.png");
+    -fx-background-position: center;
+    -fx-background-size: 90%;
+    -fx-background-repeat: no-repeat;
+}
+.animal {
+    -fx-background-image: url("images/Icons/animal.png");
+    -fx-background-position: center;
+    -fx-background-size: 75%;
+    -fx-background-repeat: no-repeat;
+}
+.quill {
+    -fx-background-image: url("images/Icons/quill.png");
+    -fx-background-position: center;
+    -fx-background-size: 90%;
+    -fx-background-repeat: no-repeat;
+}
+.manuscript {
+    -fx-background-image: url("images/Icons/manuscript.png");
+    -fx-background-position: center;
+    -fx-background-size: 90%;
+    -fx-background-repeat: no-repeat;
+}
+.inkwell {
+    -fx-background-image: url("images/Icons/inkwell.png");
+    -fx-background-position: center;
+    -fx-background-size: 90%;
+    -fx-background-repeat: no-repeat;
+}
 
 

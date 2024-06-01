@@ -52,6 +52,109 @@
                         </HBox>
                      </children>
                   </Pane>
+                  <Pane fx:id="resources" disable="true" layoutX="862.0" layoutY="98.0" prefHeight="322.0" prefWidth="46.0" visible="false">
+                     <children>
+                        <Pane opacity="0.4" prefHeight="322.0" prefWidth="46.0" style="-fx-background-color: black; -fx-background-radius: 10;" />
+                        <Pane prefHeight="46.0" prefWidth="46.0">
+                           <children>
+                              <Pane layoutX="8.0" layoutY="5.0" prefHeight="30.0" prefWidth="30.0" styleClass="fungi" />
+                              <HBox alignment="CENTER" layoutY="36.0" prefHeight="10.0" prefWidth="46.0">
+                                 <children>
+                                    <Label fx:id="fungi" textFill="WHITE">
+                                       <font>
+                                          <Font size="8.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="46.0" prefHeight="46.0" prefWidth="46.0">
+                           <children>
+                              <Pane layoutX="8.0" layoutY="5.0" prefHeight="30.0" prefWidth="30.0" styleClass="plant" />
+                              <HBox alignment="CENTER" layoutY="36.0" prefHeight="10.0" prefWidth="46.0">
+                                 <children>
+                                    <Label fx:id="plant" textFill="WHITE">
+                                       <font>
+                                          <Font size="8.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="92.0" prefHeight="46.0" prefWidth="46.0">
+                           <children>
+                              <Pane layoutX="8.0" layoutY="5.0" prefHeight="30.0" prefWidth="30.0" styleClass="animal" />
+                              <HBox alignment="CENTER" layoutY="36.0" prefHeight="10.0" prefWidth="46.0">
+                                 <children>
+                                    <Label fx:id="animal" textFill="WHITE">
+                                       <font>
+                                          <Font size="8.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="138.0" prefHeight="46.0" prefWidth="46.0">
+                           <children>
+                              <Pane layoutX="8.0" layoutY="5.0" prefHeight="30.0" prefWidth="30.0" styleClass="insect" />
+                              <HBox alignment="CENTER" layoutY="36.0" prefHeight="10.0" prefWidth="46.0">
+                                 <children>
+                                    <Label fx:id="insect" textFill="WHITE">
+                                       <font>
+                                          <Font size="8.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="184.0" prefHeight="46.0" prefWidth="46.0">
+                           <children>
+                              <Pane layoutX="8.0" layoutY="5.0" prefHeight="30.0" prefWidth="30.0" styleClass="manuscript" />
+                              <HBox alignment="CENTER" layoutY="36.0" prefHeight="10.0" prefWidth="46.0">
+                                 <children>
+                                    <Label fx:id="manuscript" textFill="WHITE">
+                                       <font>
+                                          <Font size="8.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="230.0" prefHeight="46.0" prefWidth="46.0">
+                           <children>
+                              <Pane layoutX="8.0" layoutY="5.0" prefHeight="30.0" prefWidth="30.0" styleClass="inkwell" />
+                              <HBox alignment="CENTER" layoutY="36.0" prefHeight="10.0" prefWidth="46.0">
+                                 <children>
+                                    <Label fx:id="inkwell" textFill="WHITE">
+                                       <font>
+                                          <Font size="8.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="276.0" prefHeight="46.0" prefWidth="46.0">
+                           <children>
+                              <Pane layoutX="8.0" layoutY="5.0" prefHeight="30.0" prefWidth="30.0" styleClass="quill" />
+                              <HBox alignment="CENTER" layoutY="36.0" prefHeight="10.0" prefWidth="46.0">
+                                 <children>
+                                    <Label fx:id="quill" textFill="WHITE">
+                                       <font>
+                                          <Font size="8.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </Pane>
+                     </children>
+                  </Pane>
                   <Pane fx:id="scoreBoard" layoutX="680.0" layoutY="98.0" prefHeight="322.0" prefWidth="161.0" styleClass="gameScoreboard" visible="false">
                      <children>
                         <Pane fx:id="plat0" layoutX="27.5" layoutY="284.5" prefHeight="30.0" prefWidth="30.0" />
