@@ -271,7 +271,7 @@ public class Controller {
                 switch(objectiveCardInfo.getCardType())
                 {
                     case CardType.TRIPLEOBJECTIVE:
-                        player.addPoints(PointCalculator.calculateTripleObjective(player));
+                        player.addPoints(PointCalculator.calculateTripleObjective(player, objectiveCard));
                         break;
                     case CardType.RESOURCEOBJECTIVE:
                         player.addPoints(PointCalculator.calculateResourceObjective(objectiveCardInfo, player,objectiveCard));

@@ -27,13 +27,13 @@ public class PointCalculator {
      * @param player the player
      * @return the total amount of points
      */
-    public static int calculateTripleObjective(Player player)
+    public static int calculateTripleObjective(Player player, ObjectiveCard objectiveCard)
     {
         ArrayList<Integer> resourceAmounts = new ArrayList<>();
         resourceAmounts.add(player.getResourceAmount(Resource.INKWELL));
         resourceAmounts.add(player.getResourceAmount(Resource.MANUSCRIPT));
         resourceAmounts.add(player.getResourceAmount(Resource.QUILL));
-        return Collections.min(resourceAmounts);
+        return Collections.min(resourceAmounts) * objectiveCard.getPoints();
     }
 
     /**
@@ -45,9 +45,7 @@ public class PointCalculator {
      */
     public static int calculateResourceObjective(CardInfo cardInfo, Player player, ObjectiveCard objectiveCard)
     {
-        int cardPoints = objectiveCard.getPoints();
-        Resource resource = cardInfo.getCardResource();
-        return (player.getResourceAmount(resource)/3) * cardPoints;
+        return (player.getResourceAmount(cardInfo.getCardResource())/3) * objectiveCard.getPoints();
     }
 
     /**
