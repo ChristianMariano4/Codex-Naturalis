@@ -171,6 +171,8 @@ public class MainGameScreenController extends GUIController{
     public Label usernameTwo;
     public Label usernameThree;
     public ArrayList<Label> otherUsername;
+    public Pane playerHandBackground;
+    public Pane drawingFieldBackground;
 
     private void markerPaneInitializer() {
 
@@ -549,6 +551,7 @@ public class MainGameScreenController extends GUIController{
         try {
             if (viewGUI.getIsTurn()) {
                 turnLabel.setText("It is currently your turn, select a card from your hand to Play");
+                setBorderPane(playerHandBackground, false);
 
                 playCard.setDisable(false);
                 playCard.setVisible(true);
@@ -969,7 +972,7 @@ public class MainGameScreenController extends GUIController{
             else {
                 platPanes.get(game.getListOfPlayers().get(i).getPoints()).getChildren().add(scoreboardMarkerPanes.get(i));
             }
-            setScoreboardChildren(platPanes.get(game.getListOfPlayers().get(i).getPoints()));
+            setScoreboardChildren(platPanes.get(game.getListOfPlayers().get(i).getPoints() + toAdd));
 
             scoreboardMarkerPanes.get(i).setDisable(false);
             scoreboardMarkerPanes.get(i).setVisible(true);
@@ -1300,6 +1303,8 @@ public class MainGameScreenController extends GUIController{
                         setAdditionalPanesVisibility(false);
 
                         turnLabel.setText("Draw a card to end your turn");
+                        setBorderPane(drawingFieldBackground, false);
+                        setBorderPane(playerHandBackground, true);
                     }
                 }catch (InvalidCardPositionException e)
                 {
@@ -1330,6 +1335,22 @@ public class MainGameScreenController extends GUIController{
                     throw new RuntimeException();
                 }
 
+            }
+        }
+    }
+
+    private void setBorderPane(Pane pane, boolean toRemove) {
+        if(!toRemove) {
+            if(pane.getId().equals("playerHandBackground")) {
+                pane.setStyle("-fx-border-color: red; -fx-border-width: 3px; -fx-border-radius: 9; -fx-background-color: black; -fx-background-radius: 10;");
+            } else if(pane.getId().equals("drawingFieldBackground")) {
+                pane.setStyle("-fx-border-color: red; -fx-border-width: 3px; -fx-border-radius: 19; -fx-background-color: black; -fx-background-radius: 20;");
+            }
+        } else {
+            if(pane.getId().equals("playerHandBackground")) {
+                pane.setStyle("-fx-border-color: none; -fx-background-color: black; -fx-background-radius: 10;");
+            } else if(pane.getId().equals("drawingFieldBackground")) {
+                pane.setStyle("-fx-border-color: none; -fx-background-color: black; -fx-background-radius: 20;");
             }
         }
     }
@@ -1382,6 +1403,8 @@ public class MainGameScreenController extends GUIController{
                     cardJustPlayed = null;
                     initializeDrawingField();
                     initializePlayerHand();
+                    setBorderPane(playerHandBackground, true);
+                    setBorderPane(drawingFieldBackground, true);
                     setTurn();
                     markerPositionInScoreboard();
                     //Scoreboard
