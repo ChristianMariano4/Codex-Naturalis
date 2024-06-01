@@ -245,7 +245,7 @@ public class Server extends Thread implements ServerRMIInterface {
         gameHandlerMap.get(gameId).setStarterCardSide(player, starterCard, side);
     }
 
-    public int playCard(int gameId, String username, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws RemoteException, NotExistingPlayerException, InvalidCardPositionException, RequirementsNotMetException, CardTypeMismatchException, AngleAlreadyLinkedException, NotTurnException {
+    public Player playCard(int gameId, String username, PlayableCard card, PlayableCard otherCard, AngleOrientation orientation) throws RemoteException, NotExistingPlayerException, InvalidCardPositionException, RequirementsNotMetException, CardTypeMismatchException, AngleAlreadyLinkedException, NotTurnException {
         GameHandler game = gameHandlerMap.get(gameId);
         if(game.getGame().getCurrentPlayer().equals(game.getPlayer(username)))
         {

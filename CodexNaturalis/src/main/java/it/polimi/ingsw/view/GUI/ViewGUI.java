@@ -191,7 +191,7 @@ public class ViewGUI implements View, Runnable {
     public boolean getIsTurn() throws NotExistingPlayerException {
         return game.getPlayer(client.getUsername()).getIsTurn();
     }
-    public int playCard(PlayableCard cardOnBoard, PlayableCard card, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, ServerDisconnectedException, IOException, AngleAlreadyLinkedException {
+    public Player playCard(PlayableCard cardOnBoard, PlayableCard card, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, ServerDisconnectedException, IOException, AngleAlreadyLinkedException {
         return client.playCard(game.getGameId(), client.getUsername(), cardOnBoard, card, orientation);
     }
     public PlayableCard getOtherSideCard(PlayableCard card) throws ServerDisconnectedException, IOException {

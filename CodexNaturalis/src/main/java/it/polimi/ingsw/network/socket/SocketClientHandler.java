@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.socket;
 
-import com.sun.net.httpserver.Authenticator;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Player;
@@ -108,8 +107,8 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
                     case PLAY_CARD -> {
-                        int points = server.playCard((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], (PlayableCard) message.getMessageContent()[2], (PlayableCard) message.getMessageContent()[3], (AngleOrientation) message.getMessageContent()[4]);
-                        sendMessage(ServerMessageType.POINTS_OBTAINED, points);
+                        Player player = server.playCard((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], (PlayableCard) message.getMessageContent()[2], (PlayableCard) message.getMessageContent()[3], (AngleOrientation) message.getMessageContent()[4]);
+                        sendMessage(ServerMessageType.PLAYED_CARD_SUCCESS, player);
                     }
                     case DRAW_CARD -> {
                         server.drawCard((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], (CardType) message.getMessageContent()[2], (DrawPosition) message.getMessageContent()[3]);

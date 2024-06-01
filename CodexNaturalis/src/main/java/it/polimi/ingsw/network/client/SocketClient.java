@@ -205,11 +205,11 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public int playCard(int gameId, String username, PlayableCard cardOnBoard, PlayableCard card, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, IOException, AngleAlreadyLinkedException, ServerDisconnectedException {
+    public Player playCard(int gameId, String username, PlayableCard cardOnBoard, PlayableCard card, AngleOrientation orientation) throws InvalidCardPositionException, NotExistingPlayerException, NotTurnException, RequirementsNotMetException, CardTypeMismatchException, IOException, AngleAlreadyLinkedException, ServerDisconnectedException {
         messageHandler.sendMessage(ClientMessageType.PLAY_CARD,gameId, username, cardOnBoard, card, orientation);
         try
         {
-            return (int) messageHandlerQueue.take();
+            return (Player) messageHandlerQueue.take();
         }
         catch (InvalidCardPositionException | RequirementsNotMetException e)
         {

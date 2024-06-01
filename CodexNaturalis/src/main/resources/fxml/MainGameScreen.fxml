@@ -52,7 +52,7 @@
                         </HBox>
                      </children>
                   </Pane>
-                  <Pane fx:id="resources" disable="true" layoutX="862.0" layoutY="95.5" prefHeight="327.0" prefWidth="46.0" visible="false">
+                  <Pane fx:id="resourcesPane" layoutX="862.0" layoutY="95.5" prefHeight="327.0" prefWidth="46.0" visible="false">
                      <children>
                         <Pane opacity="0.4" prefHeight="327.0" prefWidth="46.0" style="-fx-background-color: black; -fx-background-radius: 10;" />
                         <Pane prefHeight="46.0" prefWidth="46.0">
@@ -478,7 +478,7 @@
                <children>
                   <Pane fx:id="movingField" layoutX="-1337.0" layoutY="-1565.0" prefHeight="3600.0" prefWidth="3600.0" style="-fx-background-color: rgb(62, 139, 165);">
                      <children>
-                        <Pane fx:id="starterCard" layoutX="1710.0" layoutY="1740.0" onMouseClicked="#clickedOnFieldPane" prefHeight="60.0" prefWidth="90.0" />
+                        <Pane fx:id="starterCard" layoutX="1755.0" layoutY="1770.0" onMouseClicked="#clickedOnFieldPane" prefHeight="60.0" prefWidth="90.0" />
                      </children>
                   </Pane>
                   <Pane fx:id="fieldBoundsCheck" disable="true" layoutX="-1337.0" layoutY="-1565.0" prefHeight="3600.0" prefWidth="3600.0" style="-fx-background-color: rgb(62, 139, 165);" visible="false" />

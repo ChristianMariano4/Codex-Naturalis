@@ -39,7 +39,7 @@ public class ViewCLI implements View, Runnable {
                 break;
             }
             catch (InvalidUsernameException e) {
-                System.out.println("Username already in use, try again: ");
+                System.out.println("Username not available, try again: ");
             }
         }while(true);
         playerId = username;
@@ -197,6 +197,9 @@ public class ViewCLI implements View, Runnable {
                             case "myHand":
                                 showPlayerHand();
                                 break;
+                            case "myResources":
+                                showMyResources();
+                                break;
                             case "showMyField":
                                 showPlayerField();
                                 break;
@@ -255,6 +258,18 @@ public class ViewCLI implements View, Runnable {
         for(Player player : game.getListOfPlayers()) {
             ui.showPoints(player);
         }
+    }
+
+    public void showMyResources() throws NotExistingPlayerException {
+        Player player = game.getPlayer(client.getUsername());
+        LinkedHashMap<Resource, Integer> resources = new LinkedHashMap<>();
+        for(Resource resource: Resource.values())
+        {
+            if(resource.equals(Resource.NONE))
+                continue;
+            resources.put(resource,player.getResourceAmount(resource));
+        }
+        ui.showResources(resources);
     }
     private void notYourTurn()
     {

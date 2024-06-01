@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
-import static it.polimi.ingsw.model.GameValues.cardWidth;
 
 public class MainGameScreenController extends GUIController{
 
@@ -38,9 +37,18 @@ public class MainGameScreenController extends GUIController{
     public Pane scalable;
 
     private PlayableCard cardJustPlayed = null;
-    private int pointsObtained = 0;
+    private Player playerUpdated = null;
 
     public Pane tableTop;
+
+    public Pane resourcesPane;
+    public Label fungi;
+    public Label animal;
+    public Label insect;
+    public Label plant;
+    public Label quill;
+    public Label manuscript;
+    public Label inkwell;
 
     public Label turnLabel;
     public Label requirementsLabel;
@@ -541,11 +549,64 @@ public class MainGameScreenController extends GUIController{
        initializeDrawingField();
        initializePlayerField();
        markerPaneInitializer();
+       resourceInitializer();
        setTurn();
        inGame = true;
-
-
     }
+
+    private void resourceInitializer()
+    {
+        try {
+            resourcesPane.setVisible(true);
+            Player player;
+            if(playerUpdated!=null)
+            {
+                player = playerUpdated;
+            }
+            else {
+                player = viewGUI.getGame().getPlayer(viewGUI.getUsername());
+            }
+            for (Resource resource : Resource.values()) {
+                if (resource.equals(Resource.NONE))
+                    continue;
+
+                Label resourceLabel = null;
+                switch(resource){
+                    case FUNGI -> {
+
+                        resourceLabel = fungi;
+                    }
+                    case ANIMAL -> {
+                        resourceLabel = animal;
+                    }
+                    case PLANT -> {
+                        resourceLabel = plant;
+                    }
+                    case INSECT -> {
+                        resourceLabel = insect;
+                    }
+                    case QUILL -> {
+                        resourceLabel = quill;
+                    }
+                    case INKWELL -> {
+                        resourceLabel = inkwell;
+                    }
+                    case MANUSCRIPT -> {
+                        resourceLabel = manuscript;
+
+                    }
+                    default -> throw new RuntimeException();
+                }
+                resourceLabel.setText(Integer.toString(player.getResourceAmount(resource)));
+            }
+        }
+        catch (Exception e)
+        {
+
+            throw new RuntimeException();
+        }
+    }
+
     private void setTurn()
     {
         try {
@@ -960,25 +1021,24 @@ public class MainGameScreenController extends GUIController{
         resetScoreboard();
 
         for(int i = 0; i < game.getListOfPlayers().size(); i++) {
-            scoreboardMarkerPanes.get(i).setStyle(getStyle(game.getListOfPlayers().get(i).getMarker().getPath()));
-            int toAdd = 0;
-
-            if(game.getListOfPlayers().get(i).getUsername().equals(viewGUI.getUsername()))
+            Player player;
+            if(game.getListOfPlayers().get(i).getUsername().equals(viewGUI.getUsername()) && playerUpdated != null)
             {
-                platPanes.get(game.getListOfPlayers().get(i).getPoints() + pointsObtained).getChildren().add(scoreboardMarkerPanes.get(i));
-                toAdd = pointsObtained;
+                player = playerUpdated;
+            }
+            else
+            {
+                player = game.getListOfPlayers().get(i);
+            }
+            scoreboardMarkerPanes.get(i).setStyle(getStyle(player.getMarker().getPath()));
+            platPanes.get(player.getPoints()).getChildren().add(scoreboardMarkerPanes.get(i));
 
-            }
-            else {
-                platPanes.get(game.getListOfPlayers().get(i).getPoints()).getChildren().add(scoreboardMarkerPanes.get(i));
-            }
-            setScoreboardChildren(platPanes.get(game.getListOfPlayers().get(i).getPoints() + toAdd));
+            setScoreboardChildren(platPanes.get(player.getPoints()));
 
             scoreboardMarkerPanes.get(i).setDisable(false);
             scoreboardMarkerPanes.get(i).setVisible(true);
-            //platPanes.get(game.getListOfPlayers().get(i).getPoints()).getChildren().get(i).setVisible(true);
-            platPanes.get(game.getListOfPlayers().get(i).getPoints() + toAdd).setDisable(false);
-            platPanes.get(game.getListOfPlayers().get(i).getPoints() + toAdd).setVisible(true);
+            platPanes.get(player.getPoints()).setDisable(false);
+            platPanes.get(player.getPoints()).setVisible(true);
         }
     }
 
@@ -1267,9 +1327,10 @@ public class MainGameScreenController extends GUIController{
                                             int yPane = j + orientation.mapEnumToY();
 
                                             if (matrixField[xPane][yPane] != null) {
-                                                pointsObtained = viewGUI.playCard(matrixField[xPane][yPane], card, orientation.getOpposite());
+                                                playerUpdated = viewGUI.playCard(matrixField[xPane][yPane], card, orientation.getOpposite());
                                                 cardJustPlayed = card;
                                                 markerPositionInScoreboard();
+                                                resourceInitializer();
                                                 source.setStyle(getStyle(getCardUrl(card, inspectedCardInfo.getSide())));
                                                 source.setVisible(true);
                                                 source.setDisable(false);
@@ -1402,13 +1463,14 @@ public class MainGameScreenController extends GUIController{
         if(inGame) {
             Platform.runLater(new Runnable() {
                 public void run() {
-                    pointsObtained = 0;
+                    playerUpdated = null;
                     cardJustPlayed = null;
                     initializeDrawingField();
                     initializePlayerHand();
                     setBorderPane(playerHandBackground, true);
                     setBorderPane(drawingFieldBackground, true);
                     setTurn();
+                    resourceInitializer();
                     markerPositionInScoreboard();
                     //Scoreboard
 

@@ -53,7 +53,7 @@ public class TUI extends UI {
 
                             █▄░█ █▀█ ▀█▀   █▄█ █▀█ █░█ █▀█   ▀█▀ █░█ █▀█ █▄░█
                             █░▀█ █▄█ ░█░   ░█░ █▄█ █▄█ █▀▄   ░█░ █▄█ █▀▄ █░▀█""").reset());
-            System.out.println("It is currently "+ playerPlaying+"'s turn.");
+            System.out.println("\nIt is currently "+ playerPlaying+"'s turn.");
         }
         this.showAllCommands();
         System.out.println("Waiting for input");
@@ -192,6 +192,20 @@ public class TUI extends UI {
                         ▄█ █▀█ █▀█ █▀▄ ██▄ █▄▀   █▄█ █▄█ █▄█ ██▄ █▄▄ ░█░ █ ▀▄▀ ██▄   █▄▄ █▀█ █▀▄ █▄▀ ▄█""").reset());
         for(ObjectiveCard card: sharedObjectiveCards.keySet()) {
             showCardInfo(card, sharedObjectiveCards.get(card));
+        }
+    }
+    public void showResources(HashMap<Resource, Integer> resources)
+    {
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset())
+                .println(ansi().fg(GREEN).a("""
+
+                         █▀█ █▀▀ █▀ █▀█ █░█ █▀█ █▀▀ █▀▀ █▀
+                         █▀▄ ██▄ ▄█ █▄█ █▄█ █▀▄ █▄▄ ██▄ ▄█""").reset());
+        for(Resource resource : resources.keySet())
+        {
+            System.out.println(resource.toString() + ": "+resources.get(resource));
         }
     }
 
@@ -752,7 +766,8 @@ public class TUI extends UI {
                    6 - type showOtherField to show another player's field
                    7 - type any card Id to see its information
                    8 - type showSecretObjectiveCard to see your secret objective card
-                   9 - type showSharedObjectiveCards to see the shared objective cards""");
+                   9 - type showSharedObjectiveCards to see the shared objective cards
+                   10 - type myResources to see you resources""");
     }
     public void commandNotFound() {
         System.out.println(ansi().fg(RED).a("Invalid command"));
