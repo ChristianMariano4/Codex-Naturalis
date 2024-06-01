@@ -1051,6 +1051,10 @@ public class MainGameScreenController extends GUIController{
         fieldBounds.setLayoutY(movingField.getLayoutY() + 2*GameValues.cardHeight);
         fieldBounds.setWidth(movingField.getWidth() - 4*GameValues.cardWidth );
         fieldBounds.setHeight(movingField.getHeight()- 4*GameValues.cardHeight);
+        scalable.getChildren().add(fieldBounds);
+        fieldBounds.setVisible(false);
+        fieldBounds.setMouseTransparent(true);
+
 
         movingField.setOnMouseDragged(e -> {
             double translateX = e.getSceneX() - startDragX;
@@ -1084,6 +1088,12 @@ public class MainGameScreenController extends GUIController{
             {
                 movingField.setScaleX(movingField.getScaleX() * scaleFactor);
                 movingField.setScaleY(movingField.getScaleY() * scaleFactor);
+
+                fieldBoundsCheck.setScaleX(fieldBoundsCheck.getScaleX() * scaleFactor);
+                fieldBoundsCheck.setScaleY(fieldBoundsCheck.getScaleY() * scaleFactor);
+
+                fieldBounds.setScaleX(fieldBounds.getScaleX() * scaleFactor);
+                fieldBounds.setScaleY(fieldBounds.getScaleY() * scaleFactor);
 
             }
         });
