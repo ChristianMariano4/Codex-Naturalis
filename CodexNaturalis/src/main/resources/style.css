@@ -200,6 +200,12 @@
     -fx-font-family: Serif;
 }
 .list-cell:focused {
+    -fx-background-color: #EEE5BC;
+    -fx-border-color: #EEE5BC;
+    -fx-text-fill: black;
+    -fx-font-family: Serif;
+}
+.list-cell:selected {
     -fx-font-family: Serif;
     -fx-background-color: #746216;
     -fx-text-fill: white;

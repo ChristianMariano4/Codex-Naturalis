@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
@@ -53,24 +54,6 @@ public class JoinGameScreenController extends GUIController {
         } catch (ServerDisconnectedException e) {
             throw new RuntimeException(e);
         }
-    }
-
-
-    public void gameInformations() {
-        int gameId;
-        String choice = gameList.getSelectionModel().getSelectedItem();
-        if(!choice.equals(gameOnTextFlow)) {
-            //print all informations
-            gameOnTextFlow = choice;
-            System.out.println("GameId: " + choice);
-            //TODO: get game by id?
-            gameId = Integer.parseInt(choice);
-            //Game game = viewGUI.getGameById(gameId);
-
-        }
-        choice = choice.replace("Game id: ", "");
-
-        //textFlow
     }
     @Override
     public void sceneInitializer() {
