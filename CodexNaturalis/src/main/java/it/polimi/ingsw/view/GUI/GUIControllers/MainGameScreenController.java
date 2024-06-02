@@ -227,11 +227,13 @@ public class MainGameScreenController extends GUIController{
                     otherUsername.get(markerPosition).setText(viewGUI.getGame().getListOfPlayers().get(i).getUsername());
                     otherUsername.get(markerPosition).setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
                     otherUsername.get(markerPosition).setAlignment(Pos.CENTER);
-                    width = width + 50;
+                    width = width + 53.75;
                     markerPosition++;
                 }
             }
-            width = width + 3.75;
+            if(markerPosition == 3) {
+                width = width + 3.75;
+            }
             mBackground.setPrefWidth(width);
 
         } catch (NotExistingPlayerException e) {
@@ -615,6 +617,7 @@ public class MainGameScreenController extends GUIController{
         try {
             if (viewGUI.getIsTurn()) {
                 turnLabel.setText("It is currently your turn, select a card from your hand to Play");
+                turnLabel.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
                 setBorderPane(playerHandBackground, false);
 
                 playCard.setDisable(false);
@@ -624,6 +627,7 @@ public class MainGameScreenController extends GUIController{
             else {
 
                 turnLabel.setText("It is currently " + viewGUI.getGame().getCurrentPlayer().getUsername() + "'s turn");
+                turnLabel.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
 
                 playCard.setDisable(true);
                 playCard.setVisible(false);
@@ -703,7 +707,7 @@ public class MainGameScreenController extends GUIController{
         //cardInHandSelected = 2;
         showCardInHand();
     }
-    private void showCardInHand(/*InspectedCardInfo inspectedCardInfo*/) {
+    private void showCardInHand() {
         Game game = viewGUI.getGame();
 
         cardsInHandInspector.setDisable(false);
@@ -1414,6 +1418,7 @@ public class MainGameScreenController extends GUIController{
                         setAdditionalPanesVisibility(false);
 
                         turnLabel.setText("Draw a card to end your turn");
+                        turnLabel.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
                         setBorderPane(drawingFieldBackground, false);
                         setBorderPane(playerHandBackground, true);
                     }
@@ -1468,6 +1473,15 @@ public class MainGameScreenController extends GUIController{
     public void exitPopupButton() {
         popupPane.setDisable(true);
         popupPane.setVisible(false);
+
+        twentyPoints.setDisable(true);
+        twentyPoints.setVisible(false);
+        finalRound.setDisable(true);
+        finalRound.setVisible(false);
+        requirementsLabel.setDisable(true);
+        requirementsLabel.setVisible(false);
+        positionLabel.setDisable(true);
+        positionLabel.setVisible(false);
     }
 
 
@@ -1506,6 +1520,8 @@ public class MainGameScreenController extends GUIController{
         Platform.runLater(new Runnable() {
             public void run() {
                 twentyPoints.setText("Player " + username + " has reached 20 points!");
+                popupPane.setDisable(false);
+                popupPane.setVisible(true);
                 twentyPoints.setDisable(false);
                 twentyPoints.setVisible(true);
             }
@@ -1516,6 +1532,8 @@ public class MainGameScreenController extends GUIController{
     public void finalRound() {
         Platform.runLater(new Runnable() {
             public void run() {
+                popupPane.setDisable(false);
+                popupPane.setVisible(true);
                 twentyPoints.setDisable(true);
                 twentyPoints.setVisible(false);
                 finalRound.setDisable(false);

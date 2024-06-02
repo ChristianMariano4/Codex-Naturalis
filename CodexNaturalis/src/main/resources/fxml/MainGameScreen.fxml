@@ -35,7 +35,7 @@
                               <Pane fx:id="blackMarker" layoutX="60.0" layoutY="5.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" />
                            </children>
                         </Pane>
-                        <HBox alignment="CENTER" layoutX="686.0" layoutY="4.0" prefWidth="150.0">
+                        <HBox alignment="CENTER" layoutX="630.0" layoutY="4.0" prefWidth="150.0">
                            <children>
                               <Label fx:id="usernameOne" disable="true" mouseTransparent="true" textAlignment="CENTER" textFill="WHITE" visible="false" />
                            </children>
@@ -45,7 +45,7 @@
                               <Label fx:id="usernameTwo" disable="true" mouseTransparent="true" style="-fx-background-color: white;" textAlignment="CENTER" textFill="WHITE" visible="false" />
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" layoutX="686.0" layoutY="4.0" mouseTransparent="true" prefWidth="150.0">
+                        <HBox alignment="CENTER" layoutX="790.0" layoutY="68.0" mouseTransparent="true" prefWidth="125.0">
                            <children>
                               <Label fx:id="usernameThree" disable="true" mouseTransparent="true" textAlignment="CENTER" textFill="WHITE" visible="false" />
                            </children>
@@ -466,22 +466,16 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Label fx:id="turnLabel" disable="true" layoutX="288.0" layoutY="30.0" prefWidth="350.0" text="Label" textAlignment="CENTER" visible="false">
-                     <font>
-                        <Font name="Serif Regular" size="20.0" />
-                     </font>
-                  </Label>
+                  <HBox alignment="CENTER" layoutX="263.0" layoutY="30.0" prefWidth="400.0">
+                     <children>
+                        <Label fx:id="turnLabel" disable="true" textAlignment="CENTER" textFill="WHITE" visible="false">
+                           <font>
+                              <Font name="Serif Regular" size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
                   <Pane disable="true" layoutX="288.0" layoutY="60.0" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: red;" visible="false" />
-                  <Label fx:id="twentyPoints" disable="true" layoutX="300.0" layoutY="415.0" prefWidth="350.0" textAlignment="CENTER" visible="false">
-                     <font>
-                        <Font name="Serif Regular" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="finalRound" disable="true" layoutX="300.0" layoutY="415.0" prefWidth="350.0" text="The final round has begun" textAlignment="CENTER" visible="false">
-                     <font>
-                        <Font name="Serif Regular" size="20.0" />
-                     </font>
-                  </Label>
                </children>
             </Pane>
             <Pane fx:id="playerField" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
@@ -510,6 +504,20 @@
                      </font>
                   </Label>
                   <Button layoutX="122.0" layoutY="134.0" mnemonicParsing="false" onAction="#exitPopupButton" styleClass="test" text="Ok" />
+                  <Label fx:id="finalRound" disable="true" layoutX="38.0" layoutY="74.0" prefHeight="23.0" prefWidth="222.0" text="The final round has begun" textAlignment="CENTER" visible="false">
+                     <font>
+                        <Font name="Serif Regular" size="20.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER" layoutY="49.0" prefWidth="300.0">
+                     <children>
+                        <Label fx:id="twentyPoints" disable="true" prefWidth="0.0" textAlignment="CENTER" visible="false">
+                           <font>
+                              <Font name="Serif Regular" size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
                </children>
             </Pane>
             <Pane fx:id="rulebookPane" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
