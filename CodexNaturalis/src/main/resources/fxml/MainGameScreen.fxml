@@ -22,9 +22,9 @@
                         <Pane layoutX="678.0" layoutY="25.0" prefHeight="60.0" prefWidth="165.0">
                            <children>
                               <Pane fx:id="mBackground" opacity="0.4" prefHeight="60.0" prefWidth="165.0" style="-fx-background-color: black; -fx-background-radius: 25;" />
-                              <Pane fx:id="p1" disable="true" layoutX="3.75" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" visible="false" />
-                              <Pane fx:id="p2" disable="true" layoutX="57.5" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" visible="false" />
-                              <Pane fx:id="p3" disable="true" layoutX="111.25" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" visible="false" />
+                              <Pane fx:id="p1" disable="true" layoutX="3.75" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" styleClass="clickableObject" visible="false" />
+                              <Pane fx:id="p2" disable="true" layoutX="57.5" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" styleClass="clickableObject" visible="false" />
+                              <Pane fx:id="p3" disable="true" layoutX="111.25" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" styleClass="clickableObject" visible="false" />
                            </children>
                         </Pane>
                         <Pane layoutX="648.0" layoutY="436.0" prefHeight="60.0" prefWidth="115.0">
@@ -192,32 +192,32 @@
                   <Pane fx:id="drawingField" layoutX="30.0" layoutY="246.0" prefHeight="250.0" prefWidth="200.0" visible="false">
                      <children>
                         <Pane fx:id="drawingFieldBackground" layoutX="-3.0" layoutY="-5.0" opacity="0.4" prefHeight="253.0" prefWidth="206.0" style="-fx-background-color: black; -fx-background-radius: 20;" />
-                        <Pane fx:id="resourceDeck" layoutX="5.0" layoutY="20.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                        <Pane fx:id="resourceDeck" layoutX="5.0" layoutY="20.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
                               <Button mnemonicParsing="false" onAction="#leftDeckButton" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
                            </children>
                         </Pane>
-                        <Pane fx:id="topDiscoveredR" layoutX="5.0" layoutY="105.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                        <Pane fx:id="topDiscoveredR" layoutX="5.0" layoutY="105.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
                               <Button mnemonicParsing="false" onAction="#leftTopDrawingButton" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
                            </children>
                         </Pane>
-                        <Pane fx:id="bottomDiscoveredR" layoutX="5.0" layoutY="175.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                        <Pane fx:id="bottomDiscoveredR" layoutX="5.0" layoutY="175.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
                               <Button mnemonicParsing="false" onAction="#leftBottomDrawingButton" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
                            </children>
                         </Pane>
-                        <Pane fx:id="topDiscoveredG" layoutX="105.0" layoutY="105.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                        <Pane fx:id="topDiscoveredG" layoutX="105.0" layoutY="105.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
                               <Button mnemonicParsing="false" onAction="#rightTopDrawingButton" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
                            </children>
                         </Pane>
-                        <Pane fx:id="bottomDiscoveredG" layoutX="105.0" layoutY="175.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                        <Pane fx:id="bottomDiscoveredG" layoutX="105.0" layoutY="175.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
                               <Button mnemonicParsing="false" onAction="#rightBottomDrawingButton" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
                            </children>
                         </Pane>
-                        <Pane fx:id="goldDeck" layoutX="105.0" layoutY="20.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                        <Pane fx:id="goldDeck" layoutX="105.0" layoutY="20.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
                               <Button mnemonicParsing="false" onAction="#rightDeckButton" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
                            </children>
@@ -229,17 +229,17 @@
                   <Pane fx:id="playerHand" layoutX="318.0" layoutY="436.0" prefHeight="60.0" prefWidth="290.0" visible="false">
                      <children>
                         <Pane fx:id="playerHandBackground" layoutX="-10.0" layoutY="-7.0" opacity="0.4" prefHeight="75.0" prefWidth="310.0" style="-fx-background-color: black; -fx-background-radius: 10;" />
-                        <Pane fx:id="card1" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                        <Pane fx:id="card1" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
                               <Button mnemonicParsing="false" onAction="#card1HandInspectorButton" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
                            </children>
                         </Pane>
-                        <Pane fx:id="card2" layoutX="100.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                        <Pane fx:id="card2" layoutX="100.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
                               <Button mnemonicParsing="false" onAction="#card2HandInspectorButton" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
                            </children>
                         </Pane>
-                        <Pane fx:id="card3" layoutX="200.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                        <Pane fx:id="card3" layoutX="200.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
                               <Button mnemonicParsing="false" onAction="#card3HandInspectorButton" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
                            </children>
@@ -249,17 +249,17 @@
                   <Pane fx:id="objectiveCards" layoutX="30.0" layoutY="38.0" prefHeight="175.0" prefWidth="200.0" visible="false">
                      <children>
                         <Pane layoutX="-3.0" layoutY="-6.0" opacity="0.4" prefHeight="185.0" prefWidth="206.0" style="-fx-background-color: black; -fx-background-radius: 20;" />
-                        <Pane fx:id="sharedLeft" layoutX="5.0" layoutY="20.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                        <Pane fx:id="sharedLeft" layoutX="5.0" layoutY="20.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
                               <Button mnemonicParsing="false" onAction="#sharedObjCardButtonOne" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
                            </children>
                         </Pane>
-                        <Pane fx:id="sharedRight" layoutX="105.0" layoutY="20.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                        <Pane fx:id="sharedRight" layoutX="105.0" layoutY="20.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
                               <Button mnemonicParsing="false" onAction="#sharedObjCardButtonTwo" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
                            </children>
                         </Pane>
-                        <Pane fx:id="secret" layoutX="55.0" layoutY="105.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;">
+                        <Pane fx:id="secret" layoutX="55.0" layoutY="105.0" prefHeight="60.0" prefWidth="90.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
                               <Button mnemonicParsing="false" onAction="#secretObjCardButton" opacity="0.0" prefHeight="60.0" prefWidth="90.0" text="Button" />
                            </children>
