@@ -51,7 +51,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     }
 
     public abstract Game createGame(String username, int numberOfPlayers) throws ServerDisconnectedException;
-    public abstract List<Integer> getAvailableGames() throws IOException, InterruptedException, ServerDisconnectedException;
+    public abstract ArrayList<Integer> getAvailableGames() throws IOException, InterruptedException, ServerDisconnectedException;
 
     public abstract Game joinGame(int gameId, String username) throws ServerDisconnectedException;
 

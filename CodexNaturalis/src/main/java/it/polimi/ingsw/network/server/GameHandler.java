@@ -75,6 +75,8 @@ public class GameHandler implements Serializable {
                 throw new GameAlreadyStartedException();
             try {
                 game = this.controller.addPlayerToGame(username, desiredNumberOfPlayers);
+                if(clients.size() == desiredNumberOfPlayers)
+                    isOpen = false;
             } catch (AlreadyExistingPlayerException e) {
                 throw new RuntimeException(e);
             } catch (AlreadyMaxNumberOfPlayersException e) {

@@ -20,7 +20,7 @@ public interface ServerRMIInterface extends Remote {
     void connect(ClientHandlerInterface client) throws IOException;
     //expose methods that the client can call, i.e. those of the controller
     int createGame(ClientHandlerInterface client, int numberOfPlayers) throws IOException, NotExistingPlayerException, InterruptedException;
-    List<Integer> getAvailableGames() throws RemoteException;
+    ArrayList<Integer> getAvailableGames() throws RemoteException;
     Game addPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException, GameAlreadyStartedException;
     ArrayList<Integer> setReady(int gameId) throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException;
     void subscribe(ClientHandlerInterface client, int gameId) throws IOException, GameAlreadyStartedException;

@@ -50,7 +50,7 @@ public class RMIClient extends Client {
     }
 
     @Override
-    public List<Integer> getAvailableGames() throws ServerDisconnectedException {
+    public ArrayList<Integer> getAvailableGames() throws ServerDisconnectedException {
         try {
             return serverRMIInterface.getAvailableGames();
         } catch (RemoteException e) {

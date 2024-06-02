@@ -94,7 +94,7 @@ public class ViewGUI implements View, Runnable {
         gui.gameEnd();
     }
 
-    public List<Integer> showAvailableGames() throws ServerDisconnectedException, IOException, InterruptedException {
+    public ArrayList<Integer> showAvailableGames() throws ServerDisconnectedException, IOException, InterruptedException {
         return client.getAvailableGames();
     }
 

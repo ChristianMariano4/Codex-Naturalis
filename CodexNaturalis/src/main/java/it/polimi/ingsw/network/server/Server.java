@@ -100,7 +100,7 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public List<Integer> getAvailableGames() throws RemoteException {
+    public ArrayList<Integer> getAvailableGames() throws RemoteException {
         return new ArrayList<>(gameHandlerMap.keySet().stream().filter(g -> gameHandlerMap.get(g).getIsOpen()).toList());
     }
 
