@@ -6,10 +6,12 @@ import it.polimi.ingsw.exceptions.AngleAlreadyLinkedException;
 import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.InvalidCardPositionException;
 import it.polimi.ingsw.model.cards.Card;
+import it.polimi.ingsw.model.cards.CardPosition;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 /**
@@ -18,6 +20,7 @@ import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
  */
 public class PlayerField implements Serializable {
     private final PlayableCard[][] matrixField;
+    private final ArrayList<CardPosition> playedCards = new ArrayList<>();
 
     /**
      * Constructor
@@ -39,6 +42,15 @@ public class PlayerField implements Serializable {
             System.arraycopy(matrixField[i], 0, returnedMatrixField[i], 0, DEFAULT_MATRIX_SIZE);
         }
         return returnedMatrixField;
+    }
+
+    /**
+     *
+     * @return the card played by the player and their position
+     */
+    public ArrayList<CardPosition> getPlayedCards()
+    {
+        return new ArrayList<>(playedCards);
     }
 
 
@@ -75,6 +87,7 @@ public class PlayerField implements Serializable {
                         matrixField[cardToAddX][cardToAddY] = cardToAdd;
                         card.getAngle(angleOrientation).setLinkedAngle(cardToAdd.getAngle(angleOrientation.getOpposite()), AngleStatus.UNDER);
                         cardToAdd.getAngle(angleOrientation.getOpposite()).setLinkedAngle(card.getAngle(angleOrientation), AngleStatus.OVER);
+                        playedCards.add(new CardPosition(cardToAdd, cardToAddX, cardToAddY));
                     }
                     else {
                         throw new InvalidCardPositionException();
@@ -89,6 +102,7 @@ public class PlayerField implements Serializable {
 
     public void addCardToCell(StarterCard starterCard){
         matrixField[DEFAULT_MATRIX_SIZE/2][DEFAULT_MATRIX_SIZE/2] = starterCard;
+        playedCards.add(new CardPosition(starterCard, DEFAULT_MATRIX_SIZE/2, DEFAULT_MATRIX_SIZE/2));
     }
     public PlayableCard getCardById(int cardId) throws CardNotFoundException {
         for(int i = 0; i<DEFAULT_MATRIX_SIZE; i++)

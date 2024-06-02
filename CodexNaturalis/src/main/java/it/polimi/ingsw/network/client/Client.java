@@ -67,7 +67,8 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     public abstract ArrayList<Integer> setReady() throws NotEnoughPlayersException, IOException, ServerDisconnectedException;
     @Override
     @SuppressWarnings("unchecked")
-    public void update(GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException {
+    public synchronized void update(GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException {
+
             switch (event) {
                 case BOARD_UPDATED -> {
                     //TODO: print what happened

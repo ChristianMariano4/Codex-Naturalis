@@ -10,6 +10,7 @@ public class GameValues {
     public static final int DEFAULT_MATRIX_SIZE = 81;
     public static final int RMI_SERVER_PORT = 1234;
     public static final int SOCKET_SERVER_PORT = 4567;
+    public static final double DEFAULT_SCALE_FACTOR = 1.1;
     public static int numberOfGames = 0;
     public static final int HEARTBEAT_INTERVAL = 1000;
     public static final int HEARTBEAT_TIMEOUT = 2000;

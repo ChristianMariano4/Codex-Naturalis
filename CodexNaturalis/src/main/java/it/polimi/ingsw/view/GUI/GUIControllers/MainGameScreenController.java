@@ -5,9 +5,7 @@ import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.exceptions.InvalidCardPositionException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.exceptions.RequirementsNotMetException;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerHand;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.view.GUI.InspectedCardInfo;
 import javafx.application.Platform;
@@ -17,7 +15,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -35,6 +32,7 @@ public class MainGameScreenController extends GUIController{
     private boolean dragging = false;
     private boolean playingCard = false;
     public Pane scalable;
+    private boolean twentyPointsReached = false;
 
     private PlayableCard cardJustPlayed = null;
     private Player playerUpdated = null;
@@ -156,6 +154,9 @@ public class MainGameScreenController extends GUIController{
     public Pane fieldBoundsCheck;
     private Rectangle fieldBounds = new Rectangle();
     private Pane[][] fieldPanes = new Pane[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
+    private ArrayList<Pane> otherPlayerFields = new ArrayList<>();
+    private ArrayList<Pane> otherPlayerFieldBoundsChecks = new ArrayList<>();
+    private ArrayList<Rectangle> otherPlayerFieldBounds = new ArrayList<>();
 
     public Pane m1;
     public Pane m2;
@@ -184,6 +185,8 @@ public class MainGameScreenController extends GUIController{
 
     public Label twentyPoints;
     public Label finalRound;
+    private boolean finalTurn = false;
+    private boolean inMyField = true;
 
     private void markerPaneInitializer() {
 
@@ -259,8 +262,86 @@ public class MainGameScreenController extends GUIController{
                 break;
         }
     }
+
     @FXML
-    public void hydeUsername(MouseEvent event) {
+    public void showOtherPlayerField(MouseEvent event) {
+        Pane pane = (Pane) event.getSource();
+        int index = 0;
+        switch (pane.getId()) {
+            case "p1":
+                index = 0;
+                break;
+            case "p2":
+                index = 1;
+                break;
+            case "p3":
+                index = 2;
+                break;
+        }
+        if(inMyField) {
+            setOtherField(index);
+        }
+        else {
+            boolean isDisable = false;
+            if(otherPlayerFields.get(index).isDisable())
+                isDisable = true;
+            setMyField();
+            if(isDisable)
+                setOtherField(index);
+        }
+    }
+
+    private void setOtherField(int index)
+    {
+        try {
+            movingField.setDisable(true);
+            movingField.setVisible(false);
+
+            fieldBoundsCheck.setDisable(true);
+            fieldBounds.setDisable(true);
+
+            otherPlayerFields.get(index).setDisable(false);
+            otherPlayerFields.get(index).setVisible(true);
+
+            otherPlayerFieldBounds.get(index).setDisable(false);
+
+            otherPlayerFieldBoundsChecks.get(index).setDisable(false);
+            inMyField = false;
+            initializePlayerHand(viewGUI.getGame().getPlayer(otherPlayerFields.get(index).getId()).getPlayerHand(), Side.BACK, false);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
+
+    }
+    @FXML
+    public void setMyField()
+    {
+        try {
+            for (int i = 0; i < otherPlayerFields.size(); i++) {
+                otherPlayerFields.get(i).setVisible(false);
+                otherPlayerFields.get(i).setDisable(true);
+
+                otherPlayerFieldBounds.get(i).setDisable(true);
+
+                otherPlayerFieldBoundsChecks.get(i).setDisable(true);
+
+            }
+            movingField.setDisable(false);
+            movingField.setVisible(true);
+            fieldBoundsCheck.setDisable(false);
+            fieldBounds.setDisable(false);
+            initializePlayerHand(viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerHand(), Side.FRONT, true);
+            inMyField = true;
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
+    }
+    @FXML
+    public void hideUsername(MouseEvent event) {
         Pane pane = (Pane)event.getSource();
         switch (pane.getId()) {
             case "p1":
@@ -548,15 +629,22 @@ public class MainGameScreenController extends GUIController{
 
     public void tabletopSetup()
     {
-       initializePlayerHand();
-       initializeScoreboard();
-       initializeObjectiveCards();
-       initializeDrawingField();
-       initializePlayerField();
-       markerPaneInitializer();
-       resourceInitializer();
-       setTurn();
-       inGame = true;
+        try {
+            initializePlayerHand(viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerHand(), Side.FRONT, true);
+            initializeScoreboard();
+            initializeObjectiveCards();
+            initializeDrawingField();
+            initializePlayerField();
+            initializeOtherPlayerFields();
+            markerPaneInitializer();
+            resourceInitializer();
+            setTurn();
+            inGame = true;
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
     }
 
     private void resourceInitializer()
@@ -623,6 +711,8 @@ public class MainGameScreenController extends GUIController{
                 playCard.setDisable(false);
                 playCard.setVisible(true);
 
+                setMyField();
+
             }
             else {
 
@@ -644,9 +734,8 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
-    private void initializePlayerHand()
+    private void initializePlayerHand(PlayerHand hand, Side side, boolean enabled)
     {
-        Game game = viewGUI.getGame();
         playerHandPanes.add(card1);
         playerHandPanes.add(card2);
         playerHandPanes.add(card3);
@@ -660,13 +749,20 @@ public class MainGameScreenController extends GUIController{
         card3.setDisable(false);
         card3.setVisible(true);
         try {
-            PlayerHand hand = game.getPlayer(viewGUI.getUsername()).getPlayerHand();
-            for(int i = 0; i<3 ; i++)
+            for(int i = 0; i< 3 ; i++)
             {
-                PlayableCard card = hand.getCardsInHand().get(i);
-                playerHandPanes.get(i).setStyle(getStyle(getCardUrl(card, Side.FRONT)));
+                try {
+                    PlayableCard card = hand.getCardsInHand().get(i);
+                    playerHandPanes.get(i).setStyle(getStyle(getCardUrl(card, side)));
+                }
+                catch (IndexOutOfBoundsException e)
+                {
+                    playerHandPanes.get(i).setDisable(true);
+                    playerHandPanes.get(i).setVisible(false);
+
+                }
             }
-            playerHand.setDisable(false);
+            playerHand.setDisable(!enabled);
             playerHand.setVisible(true);
         }
         catch (Exception e)
@@ -674,6 +770,7 @@ public class MainGameScreenController extends GUIController{
             throw new RuntimeException();
         }
     }
+
     @FXML
     public void showOtherCardInHandSide() {
         if(inspectedCardInfo.getFrontSide()) {
@@ -1037,15 +1134,18 @@ public class MainGameScreenController extends GUIController{
             {
                 player = game.getListOfPlayers().get(i);
             }
+            int points = player.getPoints();
+            if(points >= 29) //capping scoreboard to 29
+                points = 29;
             scoreboardMarkerPanes.get(i).setStyle(getStyle(player.getMarker().getPath()));
-            platPanes.get(player.getPoints()).getChildren().add(scoreboardMarkerPanes.get(i));
+            platPanes.get(points).getChildren().add(scoreboardMarkerPanes.get(i));
 
-            setScoreboardChildren(platPanes.get(player.getPoints()));
+            setScoreboardChildren(platPanes.get(points));
 
             scoreboardMarkerPanes.get(i).setDisable(false);
             scoreboardMarkerPanes.get(i).setVisible(true);
-            platPanes.get(player.getPoints()).setDisable(false);
-            platPanes.get(player.getPoints()).setVisible(true);
+            platPanes.get(points).setDisable(false);
+            platPanes.get(points).setVisible(true);
         }
     }
 
@@ -1102,68 +1202,60 @@ public class MainGameScreenController extends GUIController{
     }
     private double startDragX;
     private double startDragY;
-    public void initializePlayerField()
+
+    private void initializePlayerField()
     {
         Rectangle fieldCut = new Rectangle();
         fieldCut.setLayoutX(288.0f); //298.0f
         fieldCut.setLayoutY(60.0f); //70.0f
         fieldCut.setWidth(350.0f);
         fieldCut.setHeight(350.0f);
-        fieldCut.setStyle("-fx-border-radius: 20px"); //TODO: rounded border doesn't works
-        movingField.setOnMousePressed(e -> {
+        fieldCut.setStyle("-fx-border-radius: 20px"); //TODO: rounded border doesn't work
 
-            startDragX = e.getSceneX() - movingField.getTranslateX();
-            startDragY = e.getSceneY() - movingField.getTranslateY();
-        });
 
+        Pane field1 = new Pane();
+        Pane boundsCheck1 = new Pane();
+
+        Pane field2 = new Pane();
+        Pane boundsCheck2 = new Pane();
+
+        Pane field3 = new Pane();
+        Pane boundsCheck3 = new Pane();
+
+        setDefaultFieldConfiguration(field1, boundsCheck1);
+        setDefaultFieldConfiguration(field2, boundsCheck2);
+        setDefaultFieldConfiguration(field3, boundsCheck3);
+
+        otherPlayerFields.add(field1);
+        otherPlayerFields.add(field2);
+        otherPlayerFields.add(field3);
+
+        otherPlayerFieldBoundsChecks.add(boundsCheck1);
+        otherPlayerFieldBoundsChecks.add(boundsCheck2);
+        otherPlayerFieldBoundsChecks.add(boundsCheck3);
+
+        otherPlayerFieldBounds.add(new Rectangle());
+        otherPlayerFieldBounds.add(new Rectangle());
+        otherPlayerFieldBounds.add(new Rectangle());
+
+        for(Rectangle bounds : otherPlayerFieldBounds)
+        {
+            scalable.getChildren().add(bounds);
+            bounds.setVisible(false);
+            bounds.setDisable(true);
+            bounds.setMouseTransparent(true);
+        }
 
 
         scalable.getChildren().add(fieldBounds);
         fieldBounds.setVisible(false);
-        fieldBounds.setMouseTransparent(true);
 
 
-        movingField.setOnMouseDragged(e -> {
-            double translateX = e.getSceneX() - startDragX;
-            double translateY = e.getSceneY() - startDragY;
+        setMouseActions(movingField, fieldBoundsCheck, fieldBounds);
 
-
-            fieldBoundsCheck.setTranslateX(translateX);
-            if(fieldBoundsCheck.getBoundsInParent().getMaxX() > fieldBounds.getBoundsInParent().getMaxX() && fieldBoundsCheck.getBoundsInParent().getMinX() < fieldBounds.getBoundsInParent().getMinX())
-            {
-                movingField.setTranslateX(translateX);
-            }
-            else
-            {
-                fieldBoundsCheck.setTranslateX(-translateX);
-            }
-            fieldBoundsCheck.setTranslateY(translateY);
-            if(fieldBoundsCheck.getBoundsInParent().getMaxY() > fieldBounds.getBoundsInParent().getMaxY() && fieldBoundsCheck.getBoundsInParent().getMinY() < fieldBounds.getBoundsInParent().getMinY())
-            {
-                movingField.setTranslateY(translateY);
-            }
-            else
-            {
-                fieldBoundsCheck.setTranslateY(-translateY);
-            }
-
-        });
-
-        movingField.setOnScroll(e -> {
-            double scaleFactor = e.getDeltaY() > 0 ? 1.1 : 1/1.1;
-            if((movingField.getScaleX() <= 2 && e.getDeltaY() > 0) || (movingField.getScaleX()>= 0.75  && e.getDeltaY() < 0))
-            {
-                movingField.setScaleX(movingField.getScaleX() * scaleFactor);
-                movingField.setScaleY(movingField.getScaleY() * scaleFactor);
-
-                fieldBoundsCheck.setScaleX(fieldBoundsCheck.getScaleX() * scaleFactor);
-                fieldBoundsCheck.setScaleY(fieldBoundsCheck.getScaleY() * scaleFactor);
-
-                fieldBounds.setScaleX(fieldBounds.getScaleX() * scaleFactor);
-                fieldBounds.setScaleY(fieldBounds.getScaleY() * scaleFactor);
-
-            }
-        });
+        setMouseActions(field1, boundsCheck1, otherPlayerFieldBounds.get(0));
+        setMouseActions(field2, boundsCheck2, otherPlayerFieldBounds.get(1));
+        setMouseActions(field3, boundsCheck3, otherPlayerFieldBounds.get(2));
 
 
         playerField.setClip(fieldCut);
@@ -1185,10 +1277,86 @@ public class MainGameScreenController extends GUIController{
 
     }
 
+    private void setMouseActions(Pane field, Pane boundsCheck, Rectangle bounds)
+    {
+        field.setOnMousePressed(e -> {
+
+            startDragX = e.getSceneX() - field.getTranslateX();
+            startDragY = e.getSceneY() - field.getTranslateY();
+        });
+
+        field.setOnMouseDragged(e -> {
+            double translateX = e.getSceneX() - startDragX;
+            double translateY = e.getSceneY() - startDragY;
+
+            boundsCheck.setTranslateX(translateX);
+            if(boundsCheck.getBoundsInParent().getMaxX() > bounds.getBoundsInParent().getMaxX() && boundsCheck.getBoundsInParent().getMinX() < bounds.getBoundsInParent().getMinX())
+            {
+                field.setTranslateX(translateX);
+            }
+            else
+            {
+                boundsCheck.setTranslateX(-translateX);
+            }
+            boundsCheck.setTranslateY(translateY);
+            if(boundsCheck.getBoundsInParent().getMaxY() > bounds.getBoundsInParent().getMaxY() && boundsCheck.getBoundsInParent().getMinY() < bounds.getBoundsInParent().getMinY())
+            {
+                field.setTranslateY(translateY);
+            }
+            else
+            {
+                boundsCheck.setTranslateY(-translateY);
+            }
+
+        });
+
+        field.setOnScroll(e -> {
+            double scaleFactor = e.getDeltaY() > 0 ? GameValues.DEFAULT_SCALE_FACTOR : 1/GameValues.DEFAULT_SCALE_FACTOR;
+            if((field.getScaleX() <= 2 && e.getDeltaY() > 0) || (field.getScaleX()>= 0.75  && e.getDeltaY() < 0))
+            {
+                field.setScaleX(field.getScaleX() * scaleFactor);
+                field.setScaleY(field.getScaleY() * scaleFactor);
+
+                boundsCheck.setScaleX(boundsCheck.getScaleX() * scaleFactor);
+                boundsCheck.setScaleY(boundsCheck.getScaleY() * scaleFactor);
+
+                bounds.setScaleX(bounds.getScaleX() * scaleFactor);
+                bounds.setScaleY(bounds.getScaleY() * scaleFactor);
+
+            }
+        });
+
+    }
+
+    private void setDefaultFieldConfiguration(Pane field, Pane boundsCheck)
+    {
+        playerField.getChildren().add(field);
+        field.setLayoutX(movingField.getLayoutX());
+        field.setLayoutY(movingField.getLayoutY());
+        field.setPrefWidth(movingField.getPrefWidth());
+        field.setPrefHeight(movingField.getPrefHeight());
+        field.setStyle(movingField.getStyle());
+        field.setDisable(true);
+        field.setVisible(false);
+
+
+        playerField.getChildren().add(boundsCheck);
+        boundsCheck.setLayoutX(fieldBoundsCheck.getLayoutX());
+        boundsCheck.setLayoutY(fieldBoundsCheck.getLayoutY());
+        boundsCheck.setPrefWidth(fieldBoundsCheck.getPrefWidth());
+        boundsCheck.setPrefHeight(fieldBoundsCheck.getPrefHeight());
+        boundsCheck.setStyle(fieldBoundsCheck.getStyle());
+        boundsCheck.setDisable(true);
+        boundsCheck.setVisible(false);
+
+
+    }
+
     public void sorround(Pane pane)
     {
         //Check if the angle is playable and not covered
         pane.setId("full");
+        pane.getStyleClass().clear();
         Pane topRight = new Pane();
         Pane bottomRight = new Pane();
         Pane topLeft = new Pane();
@@ -1197,7 +1365,7 @@ public class MainGameScreenController extends GUIController{
         setupCardPane(pane, topLeft, AngleOrientation.TOPLEFT);
         setupCardPane(pane, topRight, AngleOrientation.TOPRIGHT);
         setupCardPane(pane, bottomLeft, AngleOrientation.BOTTOMLEFT);
-        updateBounds();
+        updateBounds(movingField, fieldBounds);
 
     }
     public void setupCardPane(Pane pane, Pane newPane, AngleOrientation orientation) {
@@ -1258,6 +1426,7 @@ public class MainGameScreenController extends GUIController{
                             }
                         }
                         newPane.setId("empty");
+                        newPane.getStyleClass().add("clickableObject");
                         fieldPanes[xPane][yPane] = newPane;
 
                         movingField.getChildren().add(newPane);
@@ -1296,18 +1465,36 @@ public class MainGameScreenController extends GUIController{
         }
 
     }
-    private HashMap<Direction, Integer> findExternals()
+
+    private HashMap<Direction, Integer> findExternals(Pane field)
     {
         int firstX = DEFAULT_MATRIX_SIZE;
         int lastX = -1;
         int firstY = DEFAULT_MATRIX_SIZE;
         int lastY = -1;
         HashMap<Direction, Integer> externals = new HashMap<>();
+        Object[][] matrix = null;
+        int toAdd = 0; //making player fields of other players a bit more comfortable to navigate
+        if(field.equals(movingField))
+            matrix = fieldPanes;
+        else {
+            toAdd = 1;
+            for(Player player: viewGUI.getGame().getListOfPlayers())
+            {
+                if(player.getUsername().equals(field.getId()))
+                {
+                    matrix = player.getPlayerField().getMatrixField();
+                    break;
+                }
+            }
+            if(matrix == null)
+                throw new RuntimeException();
+        }
         for(int i = 0; i < DEFAULT_MATRIX_SIZE; i++)
         {
             for (int j = 0; j < DEFAULT_MATRIX_SIZE; j++) {
 
-                if(fieldPanes[i][j] != null)
+                if(matrix[i][j] != null)
                 {
                     if(i < firstX)
                         firstX = i;
@@ -1320,24 +1507,24 @@ public class MainGameScreenController extends GUIController{
                 }
             }
         }
-        externals.put(Direction.TOP, DEFAULT_MATRIX_SIZE/2 - firstX);
-        externals.put(Direction.BOTTOM, lastX - DEFAULT_MATRIX_SIZE/2 );
-        externals.put(Direction.LEFT, DEFAULT_MATRIX_SIZE/2 - firstY);
-        externals.put(Direction.RIGHT, lastY - DEFAULT_MATRIX_SIZE/2);
+        externals.put(Direction.TOP, DEFAULT_MATRIX_SIZE/2 - firstX + toAdd);
+        externals.put(Direction.BOTTOM, lastX - DEFAULT_MATRIX_SIZE/2 + toAdd);
+        externals.put(Direction.LEFT, DEFAULT_MATRIX_SIZE/2 - firstY + toAdd);
+        externals.put(Direction.RIGHT, lastY - DEFAULT_MATRIX_SIZE/2 + toAdd);
 
         return externals;
-
     }
 
-    private void updateBounds()
+    private void updateBounds(Pane field, Rectangle bounds)
     {
         try
         {
-            HashMap<Direction, Integer> externals = findExternals();
-            fieldBounds.setLayoutX(movingField.getLayoutX() + (externals.get(Direction.LEFT) + 1)*(CARD_WIDTH - ANGLE_WIDTH));
-            fieldBounds.setLayoutY(movingField.getLayoutY() + (externals.get(Direction.TOP) + 1)* (CARD_HEIGHT - ANGLE_HEIGHT));
-            fieldBounds.setWidth(movingField.getWidth() - (CARD_WIDTH - ANGLE_WIDTH) * (2 + externals.get(Direction.LEFT) + externals.get(Direction.RIGHT)));
-            fieldBounds.setHeight(movingField.getHeight()- (CARD_HEIGHT - ANGLE_HEIGHT) * (2 + externals.get(Direction.TOP) + externals.get(Direction.BOTTOM)));
+            HashMap<Direction, Integer> externals = findExternals(field);
+            bounds.setLayoutX(field.getLayoutX() + (externals.get(Direction.LEFT) + 1)*(CARD_WIDTH - ANGLE_WIDTH));
+            bounds.setLayoutY(field.getLayoutY() + (externals.get(Direction.TOP) + 1)* (CARD_HEIGHT - ANGLE_HEIGHT));
+            bounds.setWidth(field.getPrefWidth() - (CARD_WIDTH - ANGLE_WIDTH) * (2 + externals.get(Direction.LEFT) + externals.get(Direction.RIGHT)));
+            bounds.setHeight(field.getPrefHeight()- (CARD_HEIGHT - ANGLE_HEIGHT) * (2 + externals.get(Direction.TOP) + externals.get(Direction.BOTTOM)));
+
 
         }catch (Exception e)
         {
@@ -1515,6 +1702,46 @@ public class MainGameScreenController extends GUIController{
             throw new RuntimeException();
         }
     }
+
+    private void initializeOtherPlayerFields()
+    {
+        ArrayList<Player> otherPlayers = new ArrayList<>();
+        for(Player player: viewGUI.getGame().getListOfPlayers())
+        {
+            if(player.getUsername().equals(viewGUI.getUsername()))
+                continue;
+            otherPlayers.add(player);
+
+        }
+
+        for(int i = 0; i < otherPlayers.size(); i++)
+        {
+            otherPlayerFields.get(i).setId(otherPlayers.get(i).getUsername());
+            buildFieldFromPlayedCards(i, otherPlayers.get(i).getPlayerField().getPlayedCards());
+        }
+    }
+
+    private void buildFieldFromPlayedCards(int index, ArrayList<CardPosition> playedCards)
+    {
+        for(int i = 0; i < playedCards.size() - otherPlayerFields.get(index).getChildren().size(); i++)
+        {
+            CardPosition cardToAdd = playedCards.get(playedCards.size() - i - 1);
+            int layoutX = cardToAdd.getPositionY() - DEFAULT_MATRIX_SIZE/2;
+            int layoutY = cardToAdd.getPositionX() - DEFAULT_MATRIX_SIZE/2;
+            Pane cardPane = new Pane();
+            cardPane.setLayoutX(starterCard.getLayoutX() + layoutX * (CARD_WIDTH - ANGLE_WIDTH));
+            cardPane.setLayoutY(starterCard.getLayoutY() + layoutY * (CARD_HEIGHT - ANGLE_HEIGHT));
+            cardPane.setPrefWidth(CARD_WIDTH);
+            cardPane.setPrefHeight(CARD_HEIGHT);
+            cardPane.setDisable(false);
+            cardPane.setVisible(true);
+            cardPane.setStyle(getStyle(getCardUrl(cardToAdd.getCard(), cardToAdd.getCard().getCurrentSide())));
+            otherPlayerFields.get(index).getChildren().add(cardPane);
+        }
+        updateBounds(otherPlayerFields.get(index), otherPlayerFieldBounds.get(index));
+    }
+
+
     @Override
     public void twentyPoints(String username) {
         Platform.runLater(new Runnable() {
@@ -1524,6 +1751,11 @@ public class MainGameScreenController extends GUIController{
                 popupPane.setVisible(true);
                 twentyPoints.setDisable(false);
                 twentyPoints.setVisible(true);
+                twentyPointsReached = true;
+                if(finalTurn)
+                {
+                    finalRound();
+                }
             }
         });
     }
@@ -1532,6 +1764,11 @@ public class MainGameScreenController extends GUIController{
     public void finalRound() {
         Platform.runLater(new Runnable() {
             public void run() {
+                if(!twentyPointsReached)
+                {
+                    finalTurn = true;
+                    return;
+                }
                 popupPane.setDisable(false);
                 popupPane.setVisible(true);
                 twentyPoints.setDisable(true);
@@ -1549,16 +1786,22 @@ public class MainGameScreenController extends GUIController{
         if(inGame) {
             Platform.runLater(new Runnable() {
                 public void run() {
-                    playerUpdated = null;
-                    cardJustPlayed = null;
-                    initializeDrawingField();
-                    initializePlayerHand();
-                    setBorderPane(playerHandBackground, true);
-                    setBorderPane(drawingFieldBackground, true);
-                    setTurn();
-                    resourceInitializer();
-                    markerPositionInScoreboard();
-                    //Scoreboard
+                    try {
+                        playerUpdated = null;
+                        cardJustPlayed = null;
+                        initializeDrawingField();
+                        initializePlayerHand(viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerHand(), Side.FRONT, true);
+                        setBorderPane(playerHandBackground, true);
+                        setBorderPane(drawingFieldBackground, true);
+                        setTurn();
+                        resourceInitializer();
+                        markerPositionInScoreboard();
+                        initializeOtherPlayerFields();
+                    }
+                    catch (Exception e)
+                    {
+                        throw new RuntimeException();
+                    }
 
                 }
             });

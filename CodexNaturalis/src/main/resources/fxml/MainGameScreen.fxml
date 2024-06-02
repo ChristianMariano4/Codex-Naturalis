@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -22,16 +23,16 @@
                         <Pane layoutX="678.0" layoutY="25.0" prefHeight="60.0" prefWidth="165.0">
                            <children>
                               <Pane fx:id="mBackground" opacity="0.4" prefHeight="60.0" prefWidth="165.0" style="-fx-background-color: black; -fx-background-radius: 25;" />
-                              <Pane fx:id="p1" disable="true" layoutX="3.75" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" styleClass="clickableObject" visible="false" />
-                              <Pane fx:id="p2" disable="true" layoutX="57.5" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" styleClass="clickableObject" visible="false" />
-                              <Pane fx:id="p3" disable="true" layoutX="111.25" layoutY="5.0" onMouseEntered="#showUsername" onMouseExited="#hydeUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" styleClass="clickableObject" visible="false" />
+                              <Pane fx:id="p1" disable="true" layoutX="3.75" layoutY="5.0" onMouseClicked="#showOtherPlayerField" onMouseEntered="#showUsername" onMouseExited="#hideUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" styleClass="clickableObject" visible="false" />
+                              <Pane fx:id="p2" disable="true" layoutX="57.5" layoutY="5.0" onMouseClicked="#showOtherPlayerField" onMouseEntered="#showUsername" onMouseExited="#hideUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" styleClass="clickableObject" visible="false" />
+                              <Pane fx:id="p3" disable="true" layoutX="111.25" layoutY="5.0" onMouseClicked="#showOtherPlayerField" onMouseEntered="#showUsername" onMouseExited="#hideUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" styleClass="clickableObject" visible="false" />
                            </children>
                         </Pane>
                         <Pane layoutX="648.0" layoutY="436.0" prefHeight="60.0" prefWidth="115.0">
                            <children>
                               <Pane fx:id="firstPlayer" opacity="0.4" prefHeight="60.0" prefWidth="115.0" style="-fx-background-color: black; -fx-background-radius: 25;" />
                               <Pane fx:id="notFirstPlayer" opacity="0.4" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: black; -fx-background-radius: 20;" />
-                              <Pane fx:id="p0" layoutX="5.0" layoutY="5.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" />
+                              <Pane fx:id="p0" layoutX="5.0" layoutY="5.0" onMouseClicked="#setMyField" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" styleClass="clickableObject" />
                               <Pane fx:id="blackMarker" layoutX="60.0" layoutY="5.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" />
                            </children>
                         </Pane>
@@ -275,22 +276,22 @@
                            <children>
                               <Pane fx:id="MPane" disable="true" layoutX="30.0" prefHeight="432.0" prefWidth="708.0" visible="false">
                                  <children>
-                                    <Pane fx:id="marker1" disable="true" layoutY="138.75" prefHeight="154.5" prefWidth="154.5">
+                                    <Pane fx:id="marker1" disable="true" layoutY="138.75" prefHeight="154.5" prefWidth="154.5" styleClass="clickableObject">
                                        <children>
                                           <Button mnemonicParsing="false" onAction="#markerOne" opacity="0.0" prefHeight="154.5" prefWidth="154.5" styleClass="markerButton" />
                                        </children>
                                     </Pane>
-                                    <Pane fx:id="marker2" disable="true" layoutX="184.5" layoutY="138.75" prefHeight="154.5" prefWidth="154.5">
+                                    <Pane fx:id="marker2" disable="true" layoutX="184.5" layoutY="138.75" prefHeight="154.5" prefWidth="154.5" styleClass="clickableObject">
                                        <children>
                                           <Button mnemonicParsing="false" onAction="#markerTwo" opacity="0.0" prefHeight="154.5" prefWidth="154.5" styleClass="markerButton" />
                                        </children>
                                     </Pane>
-                                    <Pane fx:id="marker3" disable="true" layoutX="369.0" layoutY="138.75" prefHeight="154.5" prefWidth="154.5">
+                                    <Pane fx:id="marker3" disable="true" layoutX="369.0" layoutY="138.75" prefHeight="154.5" prefWidth="154.5" styleClass="clickableObject">
                                        <children>
                                           <Button mnemonicParsing="false" onAction="#markerThree" opacity="0.0" prefHeight="154.5" prefWidth="154.5" styleClass="markerButton" />
                                        </children>
                                     </Pane>
-                                    <Pane fx:id="marker4" disable="true" layoutX="553.5" layoutY="138.75" prefHeight="154.5" prefWidth="154.5">
+                                    <Pane fx:id="marker4" disable="true" layoutX="553.5" layoutY="138.75" prefHeight="154.5" prefWidth="154.5" styleClass="clickableObject">
                                        <children>
                                           <Button mnemonicParsing="false" onAction="#markerFour" opacity="0.0" prefHeight="154.5" prefWidth="154.5" styleClass="markerButton" />
                                        </children>
@@ -328,12 +329,12 @@
                         </Pane>
                         <Pane layoutX="490.0" layoutY="43.0" prefHeight="432.0" prefWidth="359.0">
                            <children>
-                              <Pane fx:id="secret1" layoutX="77.5" layoutY="100.0" prefHeight="136.0" prefWidth="204.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+                              <Pane fx:id="secret1" layoutX="77.5" layoutY="100.0" prefHeight="136.0" prefWidth="204.0" style="-fx-background-color: white; -fx-background-radius: 10;" styleClass="clickableObject">
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#secretOne" opacity="0.0" prefHeight="136.0" prefWidth="204.0" styleClass="markerButton" />
                                  </children>
                               </Pane>
-                              <Pane fx:id="secret2" layoutX="77.5" layoutY="266.0" prefHeight="136.0" prefWidth="204.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+                              <Pane fx:id="secret2" layoutX="77.5" layoutY="266.0" prefHeight="136.0" prefWidth="204.0" style="-fx-background-color: white; -fx-background-radius: 10;" styleClass="clickableObject">
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#secretTwo" opacity="0.0" prefHeight="136.0" prefWidth="204.0" styleClass="markerButton" />
                                  </children>
@@ -437,12 +438,12 @@
                         <Pane layoutX="81.0" layoutY="43.0" opacity="0.6" prefHeight="432.0" prefWidth="768.0" styleClass="gameLobbyBackground" />
                         <Pane layoutX="81.0" layoutY="43.0" prefHeight="432.0" prefWidth="768.0">
                            <children>
-                              <Pane fx:id="starterFront" layoutX="50.0" layoutY="113.0" prefHeight="206.0" prefWidth="309.0" style="-fx-background-color: white;">
+                              <Pane fx:id="starterFront" layoutX="50.0" layoutY="113.0" prefHeight="206.0" prefWidth="309.0" style="-fx-background-color: white;" styleClass="clickableObject">
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#starterFrontButton" opacity="0.0" prefHeight="206.0" prefWidth="309.0" text="Button" />
                                  </children>
                               </Pane>
-                              <Pane fx:id="starterBack" layoutX="409.0" layoutY="113.0" prefHeight="206.0" prefWidth="309.0" style="-fx-background-color: white;">
+                              <Pane fx:id="starterBack" layoutX="409.0" layoutY="113.0" prefHeight="206.0" prefWidth="309.0" style="-fx-background-color: white;" styleClass="clickableObject">
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#starterBackButton" opacity="0.0" prefHeight="206.0" prefWidth="309.0" text="Button" />
                                  </children>
@@ -534,7 +535,11 @@
                   <Pane opacity="0.6" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
                   <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="rulebookButton" />
+                        <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0">
+                           <styleClass>
+                              <String fx:value="rulebookButton" />
+                              <String fx:value="clickableObject" />
+                           </styleClass></Button>
                      </children>
                   </Pane>
                   <Pane prefHeight="518.0" prefWidth="920.0">
@@ -612,7 +617,11 @@
                   </Pane>
                   <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="rulebookButton" />
+                        <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0">
+                           <styleClass>
+                              <String fx:value="rulebookButton" />
+                              <String fx:value="clickableObject" />
+                           </styleClass></Button>
                      </children>
                   </Pane>
                </children>

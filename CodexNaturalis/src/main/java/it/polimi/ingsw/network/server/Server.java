@@ -143,14 +143,16 @@ public class Server extends Thread implements ServerRMIInterface {
     public void updateClient(ClientHandlerInterface client, GameEvent event, Object gameUpdate) throws IOException, InterruptedException, NotExistingPlayerException {
         Runnable updaterThread = () -> //this is needed for socket synchronization
                 {
-                    try {
-                        client.update(event, gameUpdate);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    } catch (NotExistingPlayerException e) {
-                        throw new RuntimeException(e);
+                    synchronized (this) {
+                        try {
+                            client.update(event, gameUpdate);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        } catch (NotExistingPlayerException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 };
         new Thread(updaterThread).start();

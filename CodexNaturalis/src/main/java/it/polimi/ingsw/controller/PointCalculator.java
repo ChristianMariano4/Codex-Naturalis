@@ -45,7 +45,12 @@ public class PointCalculator {
      */
     public static int calculateResourceObjective(CardInfo cardInfo, Player player, ObjectiveCard objectiveCard)
     {
-        return (player.getResourceAmount(cardInfo.getCardResource())/3) * objectiveCard.getPoints();
+        int requiredNumber = switch (cardInfo.getCardResource()) {
+            case MANUSCRIPT, QUILL, INKWELL -> 2;
+            default -> 3;
+        };
+
+        return (player.getResourceAmount(cardInfo.getCardResource())/requiredNumber) * objectiveCard.getPoints();
     }
 
     /**
