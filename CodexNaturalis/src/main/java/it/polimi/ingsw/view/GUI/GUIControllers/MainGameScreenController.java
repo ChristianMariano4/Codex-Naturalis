@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -1281,13 +1282,17 @@ public class MainGameScreenController extends GUIController{
     {
         field.setOnMousePressed(e -> {
 
-            startDragX = e.getSceneX() - field.getTranslateX();
-            startDragY = e.getSceneY() - field.getTranslateY();
+
+            startDragX =  e.getSceneX()/(primaryStage.getWidth() / 936 ) - field.getTranslateX();
+            startDragY = e.getSceneY()/(primaryStage.getHeight() / 559 ) - field.getTranslateY();
+            System.out.println(startDragX + " " + startDragY);
+            System.out.println(e.getSceneX()/(primaryStage.getWidth() / 936 ));
+            System.out.println((primaryStage.getHeight() / 559 ) * e.getSceneY());
         });
 
         field.setOnMouseDragged(e -> {
-            double translateX = e.getSceneX() - startDragX;
-            double translateY = e.getSceneY() - startDragY;
+            double translateX = e.getSceneX()/(primaryStage.getWidth() / 936 ) - startDragX;
+            double translateY = e.getSceneY()/(primaryStage.getHeight() / 559 ) - startDragY;
 
             boundsCheck.setTranslateX(translateX);
             if(boundsCheck.getBoundsInParent().getMaxX() > bounds.getBoundsInParent().getMaxX() && boundsCheck.getBoundsInParent().getMinX() < bounds.getBoundsInParent().getMinX())
