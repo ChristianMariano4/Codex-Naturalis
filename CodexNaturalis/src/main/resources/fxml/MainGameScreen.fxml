@@ -511,7 +511,16 @@
                   </Label>
                   <HBox alignment="CENTER" layoutY="49.0" prefWidth="300.0">
                      <children>
-                        <Label fx:id="twentyPoints" disable="true" prefWidth="0.0" textAlignment="CENTER" visible="false">
+                        <Label fx:id="twentyPoints" disable="true" textAlignment="CENTER" visible="false">
+                           <font>
+                              <Font name="Serif Regular" size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutY="74.0" prefWidth="300.0">
+                     <children>
+                        <Label fx:id="playerDisconnected" disable="true" textAlignment="CENTER" visible="false">
                            <font>
                               <Font name="Serif Regular" size="20.0" />
                            </font>
