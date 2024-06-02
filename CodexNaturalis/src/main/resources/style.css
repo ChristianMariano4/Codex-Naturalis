@@ -188,22 +188,25 @@
 .markerButton {
     -fx-background-size: 100%;
 }
-.listViw {
-    .list-cell:filled:selected:focused, .list-cell:filled:selected {
-        -fx-background-color: linear-gradient(#f0ebbe 0%, #e3dab3 25%, #c1a94f 75%, #736211 100%);
-        -fx-text-fill: #e3dab3;
-    }
-
-    .list-cell:odd {
-        -fx-cell-hover-color: #736211;
-        -fx-background-color: #e3dab3;
-    }
-
-    .list-cell:filled:hover {
-        -fx-cell-hover-color: #736211;
-        -fx-text-fill: #e3dab3;
-    }
+/*LIST VIEW*/
+.list-view {
+    -fx-border-color: #EEE5BC;
+    -fx-background-color: #EEE5BC;
 }
+.list-cell {
+    -fx-background-color: #EEE5BC;
+    -fx-border-color: #EEE5BC;
+    -fx-text-fill: black;
+    -fx-font-family: Serif;
+}
+.list-cell:focused {
+    -fx-font-family: Serif;
+    -fx-background-color: #746216;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-border-color: #EEE5BC;
+}
+/*----------------------------*/
 .plant {
     -fx-background-image: url("images/Icons/plant.png");
     -fx-background-position: center;
@@ -246,5 +249,25 @@
     -fx-background-size: 90%;
     -fx-background-repeat: no-repeat;
 }
+
+.text-area {
+    -fx-background-color: #EEE5BC;
+    -fx-effect: none;
+    -fx-text-align: center;
+    -fx-text-fill: #736119;
+    -fx-font-size: 25px;
+    -fx-font-family: Serif;
+    /*-fx-font-weight: bold;*/
+}
+.text-area .content {
+    -fx-background-color: #EEE5BC;
+}
+.text-area *.text {
+    -fx-text-alignment: center;
+}
+.text-area:focused .content {
+    -fx-background-color: #EEE5BC;
+}
+
 
 

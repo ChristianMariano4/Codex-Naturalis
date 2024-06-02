@@ -15,7 +15,7 @@
                   <Image url="@../images/scoreboard.png" />
                </image>
             </ImageView>
-            <TextArea fx:id="playerPoints" layoutX="360.0" layoutY="194.0" prefHeight="170.0" prefWidth="200.0" />
+            <TextArea fx:id="playerPoints" layoutX="360.0" layoutY="194.0" prefHeight="170.0" prefWidth="200.0" styleClass="scoreboardTextArea" />
          </children>
       </Pane>
    </children>
