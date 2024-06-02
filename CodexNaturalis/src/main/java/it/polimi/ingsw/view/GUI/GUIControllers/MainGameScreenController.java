@@ -1283,16 +1283,13 @@ public class MainGameScreenController extends GUIController{
         field.setOnMousePressed(e -> {
 
 
-            startDragX =  e.getSceneX()/(primaryStage.getWidth() / 936 ) - field.getTranslateX();
-            startDragY = e.getSceneY()/(primaryStage.getHeight() / 559 ) - field.getTranslateY();
-            System.out.println(startDragX + " " + startDragY);
-            System.out.println(e.getSceneX()/(primaryStage.getWidth() / 936 ));
-            System.out.println((primaryStage.getHeight() / 559 ) * e.getSceneY());
+            startDragX =  e.getSceneX()/(primaryStage.getWidth() / WINDOW_WIDTH ) - field.getTranslateX();
+            startDragY = e.getSceneY()/(primaryStage.getHeight() / WINDOW_HEIGHT ) - field.getTranslateY();
         });
 
         field.setOnMouseDragged(e -> {
-            double translateX = e.getSceneX()/(primaryStage.getWidth() / 936 ) - startDragX;
-            double translateY = e.getSceneY()/(primaryStage.getHeight() / 559 ) - startDragY;
+            double translateX = e.getSceneX()/(primaryStage.getWidth() / WINDOW_WIDTH ) - startDragX;
+            double translateY = e.getSceneY()/(primaryStage.getHeight() / WINDOW_HEIGHT ) - startDragY;
 
             boundsCheck.setTranslateX(translateX);
             if(boundsCheck.getBoundsInParent().getMaxX() > bounds.getBoundsInParent().getMaxX() && boundsCheck.getBoundsInParent().getMinX() < bounds.getBoundsInParent().getMinX())

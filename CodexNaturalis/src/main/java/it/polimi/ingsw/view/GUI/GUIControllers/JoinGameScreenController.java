@@ -3,8 +3,10 @@ package it.polimi.ingsw.view.GUI.GUIControllers;
 import it.polimi.ingsw.enumerations.GUIScene;
 import it.polimi.ingsw.exceptions.ServerDisconnectedException;
 import it.polimi.ingsw.model.Game;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,6 +27,7 @@ public class JoinGameScreenController extends GUIController {
     public String gameOnTextFlow;
     public TextFlow textFlow;
     public Button joinButton;
+    private ArrayList<Integer> availableGames = new ArrayList<>();
 
     public ListView<String> gameList2;
     ObservableList<String> items = FXCollections.observableArrayList();
@@ -58,6 +61,8 @@ public class JoinGameScreenController extends GUIController {
     @Override
     public void sceneInitializer() {
 
+
+
         joinButton.setDisable(true);
         joinButton.setVisible(false);
 
@@ -68,6 +73,23 @@ public class JoinGameScreenController extends GUIController {
             for(int i: games) {
                 items.add("Game id: " + i);
             }
+            availableGames.addAll(viewGUI.showAvailableGames());
+            Task<Void> checkGames = new Task() {
+                @Override
+                protected Object call() throws Exception {
+                    while (availableGames.containsAll(viewGUI.showAvailableGames()));
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            sceneInitializer();
+                        }
+                    });
+
+                    return null;
+                }
+            };
+            new Thread(checkGames).start();
+
         } catch (ServerDisconnectedException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -76,4 +98,6 @@ public class JoinGameScreenController extends GUIController {
             throw new RuntimeException(e);
         }
     }
+
+
 }

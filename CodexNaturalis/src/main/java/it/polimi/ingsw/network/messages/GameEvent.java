@@ -14,5 +14,5 @@ public enum GameEvent {
     FINAL_ROUND,
     TWENTY_POINTS,
     SECRET_OBJECTIVE_CHOICE_REQUEST,
-    GAME_END,
+    GAME_END, NEW_GAME,
 }

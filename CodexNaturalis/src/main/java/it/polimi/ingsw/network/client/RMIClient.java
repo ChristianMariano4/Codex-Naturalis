@@ -42,7 +42,7 @@ public class RMIClient extends Client {
             return serverRMIInterface.addPlayerToGame(this.gameId, username, this);
         } catch (RemoteException e) {
             throw new ServerDisconnectedException();
-        } catch (GameAlreadyStartedException e) {
+        } catch (GameAlreadyStartedException | NotExistingPlayerException | InterruptedException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);

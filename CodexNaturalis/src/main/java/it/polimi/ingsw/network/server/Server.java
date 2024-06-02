@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientHandlerInterface;
 import it.polimi.ingsw.network.client.ClientInfo;
 import it.polimi.ingsw.network.messages.GameEvent;
@@ -86,12 +87,14 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public int createGame(ClientHandlerInterface client, int numberOfPlayers) {
+    public int createGame(ClientHandlerInterface client, int numberOfPlayers) throws NotExistingPlayerException, IOException, InterruptedException {
         System.out.println("createGame request received");
         //sequential game id starting from 0
         int id = GameValues.numberOfGames;
         GameValues.numberOfGames++;
         gameHandlerMap.put(id, new GameHandler(id, this, numberOfPlayers));
+        ArrayList<ClientHandlerInterface> notPlayingClients = new ArrayList<>(clients.keySet());
+
         //subscribe(gameSerializer, id); //subscribe game serializer to game events to handle game state saving
         return id;
     }

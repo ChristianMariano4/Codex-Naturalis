@@ -141,7 +141,6 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                     if (this.viewThread != null) {
                         this.viewThread.interrupt();
                     }
-
                 }
             }
     }
