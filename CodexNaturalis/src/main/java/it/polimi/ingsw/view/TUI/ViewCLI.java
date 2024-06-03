@@ -256,7 +256,12 @@ public class ViewCLI implements View, Runnable {
             }
             Thread.sleep(1);
         }
-        showEndGameScreen();
+        //Why the block below is not reachable?
+        if(game.getIsGameEndedForDisconnection()) {
+            gameEndDisconnection();
+        }else{
+            showEndGameScreen();
+        }
     }
 
     private void showScoreboard() {
