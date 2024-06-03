@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 
 import javax.lang.model.util.TypeKindVisitor14;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GameLobbyController extends GUIController {
@@ -131,13 +132,13 @@ public class GameLobbyController extends GUIController {
     public void setReadyButton() {
         try {
             ArrayList<Integer> playersInfo = viewGUI.setReady();
+            HashMap<String, Boolean> readyStatus = viewGUI.getReadyStatus();
             Platform.runLater(new Runnable() {
                 @Override public void run() {
-                    readyPlayers.setText("Ready players: " + playersInfo.get(1) + "/" + playersInfo.get(0));
+                    readyPlayers.setText("Ready players: " + readyStatus.values().stream().filter(e -> e).toList().size() + "/" + readyStatus.size());
                     readyPlayers.setDisable(false);
                     readyPlayers.setVisible(true);
                     setReadyButton.setDisable(true);
-
                 }
             });
         }

@@ -111,6 +111,15 @@ public class ViewGUI implements View, Runnable {
     public void createGame(int numberOfPlayers) throws ServerDisconnectedException {
         this.game = client.createGame(this.client.getUsername(), numberOfPlayers);
     }
+    public HashMap<String, Boolean> getReadyStatus() throws ServerDisconnectedException
+    {
+        try {
+            return client.getReadyStatus();
+        }catch (IOException e){
+            throw new ServerDisconnectedException();
+        }
+
+    }
 
     public HashMap<String, Integer> showScoreboard() {
         LinkedHashMap<String, Integer> playersPlacement = new LinkedHashMap<>();

@@ -94,6 +94,10 @@ public class SocketClientMessageHandler implements Runnable {
                     {
                         messageQueue.put(message.getMessageContent()[0]);
                     }
+                    case READY_STATUS ->
+                    {
+                        messageQueue.put(message.getMessageContent()[0]);
+                    }
 
                 }
             }

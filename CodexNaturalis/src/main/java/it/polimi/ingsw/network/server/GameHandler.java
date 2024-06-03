@@ -39,6 +39,8 @@ public class GameHandler implements Serializable {
     private boolean twentyPointsReached = false;
     private boolean finalRound = false;
     private final int desiredNumberOfPlayers;
+    HashMap<String, Boolean> readyStatus = new HashMap<>();
+
 
     public GameHandler(int gameId, Server server, int desiredNumberOfPlayers){
         this.server = server;
@@ -61,6 +63,11 @@ public class GameHandler implements Serializable {
         }
     }
 
+    public HashMap<String, Boolean> getReadyStatus()
+    {
+        return new HashMap<>(readyStatus);
+    }
+
     public Game getGame() {
         synchronized (this) {
             return game;
@@ -75,6 +82,7 @@ public class GameHandler implements Serializable {
                 throw new GameAlreadyStartedException();
             try {
                 game = this.controller.addPlayerToGame(username, desiredNumberOfPlayers);
+                readyStatus.put(username, false);
                 if(clients.size() == desiredNumberOfPlayers) {
                     game.setGameStatus(GameStatus.ALL_PLAYERS_JOINED);
                     isOpen = false;
@@ -98,10 +106,13 @@ public class GameHandler implements Serializable {
     }
 
     public void removeClient(ClientHandlerInterface client) throws RemoteException {
+        eventManager.notify(GameEvent.PLAYER_DISCONNECTED, game);
         synchronized (this) {
             clients.remove(client);
         }
         if(clients.size() == 1) {
+            if(game.getGameStatus().getStatusNumber() <= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) // waiting in lobby and a player leaves, we can just remove it from the game without handling reconnection
+                return;
             new Thread(() -> {
                 boolean isReconnected = false;
                     try {
@@ -115,6 +126,7 @@ public class GameHandler implements Serializable {
                         if (!isReconnected) {
                             game.setIsGameEndedForDisconnection(true);
                             eventManager.notify(GameEvent.GAME_END, game);
+                            server.removeGame(this); // whenever GAME_END is sent the gamehandler has to be removed from the list otherwise players can still join a finished game
                         }
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
@@ -135,9 +147,10 @@ public class GameHandler implements Serializable {
         }
     }
 
-    public ArrayList<Integer> setReady() throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
+    public ArrayList<Integer> setReady(String username) throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
         synchronized (this) {
             readyPlayers++;
+            readyStatus.put(username,true);
             if (readyPlayers == desiredNumberOfPlayers) {
                 try {
                     this.game = controller.initializeGame();
@@ -270,7 +283,7 @@ public class GameHandler implements Serializable {
         synchronized (this) {
             if (this.finalRound && game.getCurrentPlayer().equals(game.getListOfPlayers().getLast())) {
                 controller.calculateAndUpdateFinalPoints();
-                //server.removeGame(this);
+                server.removeGame(this);
                 eventManager.notify(GameEvent.GAME_END, game);
                 return;
             }
@@ -332,7 +345,11 @@ public class GameHandler implements Serializable {
                 if (game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
                     if(game.getGameStatus().getStatusNumber() == GameStatus.ALL_PLAYERS_JOINED.getStatusNumber())
                         game.setGameStatus(GameStatus.LOBBY_CREATED);
-                    this.readyPlayers--;
+                    this.isOpen = true;
+                    if(readyStatus.get(username) == true)
+                        readyPlayers--;
+                    readyStatus.remove(username);
+                    //TODO: ready players
                     game.removePlayer(username);
                 } else if (game.getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
                     if(game.getPlayer(username).getIsTurn()){

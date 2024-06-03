@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
-import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientHandlerInterface;
 import it.polimi.ingsw.network.client.ClientInfo;
 import it.polimi.ingsw.network.messages.GameEvent;
@@ -64,14 +63,20 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     public void disconnect(ClientHandlerInterface client) throws IOException, NotExistingPlayerException, NotAvailableMarkerException, DeckIsEmptyException {
-        if(clients.get(client).getGameId() != -1) {
-            if (gameHandlerMap.get(clients.get(client).getGameId()).getGame().getGameStatus().getStatusNumber() < GameStatus.GAME_STARTED.getStatusNumber() &&
-            gameHandlerMap.get(clients.get(client).getGameId()).getGame().getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()){
-                gameHandlerMap.get(clients.get(client).getGameId()).setRandomInitialization(clients.get(client).getUsername());
+        try {
+            if (clients.get(client).getGameId() != -1) {
+                if (gameHandlerMap.get(clients.get(client).getGameId()).getGame().getGameStatus().getStatusNumber() < GameStatus.GAME_STARTED.getStatusNumber() &&
+                        gameHandlerMap.get(clients.get(client).getGameId()).getGame().getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
+                    gameHandlerMap.get(clients.get(client).getGameId()).setRandomInitialization(clients.get(client).getUsername());
+                }
+                gameHandlerMap.get(clients.get(client).getGameId()).setPlayerDisconnected(clients.get(client).getUsername());
+                gameHandlerMap.get(clients.get(client).getGameId()).unsubscribe(clients.get(client).getUsername());
+                gameHandlerMap.get(clients.get(client).getGameId()).removeClient(client);
+
             }
-            gameHandlerMap.get(clients.get(client).getGameId()).setPlayerDisconnected(clients.get(client).getUsername());
-            gameHandlerMap.get(clients.get(client).getGameId()).unsubscribe(clients.get(client).getUsername());
-            gameHandlerMap.get(clients.get(client).getGameId()).removeClient(client);
+        }catch (NullPointerException e)
+        {
+
         }
         synchronized (this.clients) {
             this.clients.remove(client);
@@ -95,12 +100,20 @@ public class Server extends Thread implements ServerRMIInterface {
     @Override
     public int createGame(ClientHandlerInterface client, int numberOfPlayers) throws NotExistingPlayerException, IOException, InterruptedException {
         System.out.println("createGame request received");
-        //sequential game id starting from 0
-        int id = GameValues.numberOfGames;
+
+        int id = -1;
+        Random rand = new Random();
+        do {
+            int number = rand.nextInt(10000,100000);
+
+            if(gameHandlerMap.keySet().stream().filter( e-> e == number).toList().isEmpty()) {
+                id = number;
+                break;
+            }
+
+        }while (true);
         GameValues.numberOfGames++;
         gameHandlerMap.put(id, new GameHandler(id, this, numberOfPlayers));
-        ArrayList<ClientHandlerInterface> notPlayingClients = new ArrayList<>(clients.keySet());
-
         //subscribe(gameSerializer, id); //subscribe game serializer to game events to handle game state saving
         return id;
     }
@@ -113,6 +126,7 @@ public class Server extends Thread implements ServerRMIInterface {
     @Override
     public Game reconnectPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException, NotExistingPlayerException {
         try {
+
             gameHandlerMap.get(gameId).getGame().getPlayer(username).setConnected();
             addClientToGameHandler(gameId, client);
         } catch (RemoteException e) {
@@ -147,8 +161,12 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public ArrayList<Integer> setReady(int gameId) throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
-        return this.gameHandlerMap.get(gameId).setReady();
+    public ArrayList<Integer> setReady(int gameId, String username) throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
+        return this.gameHandlerMap.get(gameId).setReady(username);
+    }
+    public HashMap<String, Boolean> getReadyStatus(int gameId) throws RemoteException
+    {
+        return this.gameHandlerMap.get(gameId).getReadyStatus();
     }
 
     @Override

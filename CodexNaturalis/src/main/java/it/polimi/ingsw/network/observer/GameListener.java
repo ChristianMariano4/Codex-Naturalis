@@ -36,7 +36,6 @@ public class GameListener implements Listener<GameEvent> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("We are in GameListener update method");
     }
 
     public ClientHandlerInterface getClient() {

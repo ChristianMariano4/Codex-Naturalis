@@ -16,6 +16,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -160,7 +161,7 @@ public class SocketClient extends Client {
 
     @Override
     public PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException {
-        return null;
+        return null;//TODO!
     }
 
     @Override
@@ -283,6 +284,18 @@ public class SocketClient extends Client {
         }
     }
 
+    @Override
+    public HashMap<String, Boolean> getReadyStatus() throws ServerDisconnectedException, IOException {
+        messageHandler.sendMessage(ClientMessageType.GET_READY_STATUS, gameId);
+        try
+        {
+            return (HashMap<String, Boolean>) messageHandlerQueue.take();
+        }
+        catch(Exception e)
+        {
+            throw new RuntimeException();
+        }
+    }
 
 
     public void run()

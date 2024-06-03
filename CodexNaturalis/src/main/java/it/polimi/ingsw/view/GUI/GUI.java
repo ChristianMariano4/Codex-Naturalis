@@ -142,6 +142,7 @@ public class GUI extends Application {
 
         } catch (Exception e)
         {
+            e.printStackTrace();
             System.exit(-1);
         }
 

@@ -12,6 +12,7 @@ import it.polimi.ingsw.view.GUI.GUI;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -79,12 +80,24 @@ public class RMIClient extends Client {
     public ArrayList<Integer> setReady() throws NotEnoughPlayersException, ServerDisconnectedException {
         try
         {
-            return serverRMIInterface.setReady(this.gameId);
+            return serverRMIInterface.setReady(this.gameId, this.username);
         } catch (NotExistingPlayerException | DeckIsEmptyException | InterruptedException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new ServerDisconnectedException();
         }
+    }
+
+    public HashMap<String, Boolean> getReadyStatus() throws ServerDisconnectedException
+    {
+        try {
+            return serverRMIInterface.getReadyStatus(this.gameId);
+        }
+        catch (RemoteException e)
+        {
+            throw new ServerDisconnectedException();
+        }
+
     }
 
     @Override

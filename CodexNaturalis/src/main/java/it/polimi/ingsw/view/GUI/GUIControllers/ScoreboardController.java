@@ -20,12 +20,12 @@ public class ScoreboardController extends GUIController{
     public Pane p1;
     public Pane p2;
     public Pane p3;
-    private ArrayList<Pane> panes;
+    private ArrayList<Pane> panes = new ArrayList<>();
     public Label p0Label;
     public Label p1Label;
     public Label p2Label;
     public Label p3Label;
-    private ArrayList<Label> labels;
+    private ArrayList<Label> labels = new ArrayList<>();
 
 
 /*
@@ -66,9 +66,7 @@ public class ScoreboardController extends GUIController{
         ArrayList<Player> playersList = game.getListOfPlayers();
         ArrayList<Integer> pPoints = new ArrayList<>();
         for(Player player: playersList) {
-            if(!pPoints.contains(player.getPoints())) {
-                pPoints.add(player.getPoints());
-            }
+            pPoints.add(player.getPoints());
         }
         pPoints.sort(Collections.reverseOrder());
         for(int i = 0; i< viewGUI.getGame().getListOfPlayers().size(); i++) {

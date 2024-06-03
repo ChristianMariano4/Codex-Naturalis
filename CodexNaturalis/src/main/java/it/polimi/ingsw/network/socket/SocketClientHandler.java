@@ -82,7 +82,7 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         sendMessage(ServerMessageType.AVAILABLE_GAMES, server.getAvailableGames());
                     }
                     case SET_READY -> {
-                        sendMessage(ServerMessageType.SUCCESS, server.setReady((Integer) message.getMessageContent()[0]));
+                        sendMessage(ServerMessageType.SUCCESS, server.setReady((Integer) message.getMessageContent()[0], this.username));
                     }
                     case CARD_INFO_REQUEST -> {
                         System.out.println("Sent Card Info");
@@ -122,6 +122,10 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                     {
                         sendMessage(ServerMessageType.SUCCESS, server.reconnectPlayerToGame((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], this));
 
+                    }
+                    case GET_READY_STATUS ->
+                    {
+                        sendMessage(ServerMessageType.READY_STATUS, server.getReadyStatus((int) message.getMessageContent()[0]));
                     }
 
                 }

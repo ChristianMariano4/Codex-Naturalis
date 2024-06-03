@@ -19,33 +19,26 @@ public class EventManager {
         List<Listener<?>> users = listeners.get(eventType);
         users.add(listener);
 
-        System.out.println("Size of listeners " + listeners.get(GameEvent.class).size());
     }
 
     public <E extends Enum<E>> void unsubscribe(Class<E> eventType, Listener<E> listener) {
-        System.out.println("Listeners size: " + listeners.get(eventType).size());
-        System.out.println(((GameListener) listener).getUsername());
         List<Listener<?>> eventListeners = listeners.get(eventType);
         if (eventListeners != null && listener != null) {
             eventListeners.remove(listener);
         }
-        System.out.println("Listeners size: " + listeners.get(eventType).size());
 
     }
 
     public <E extends Enum<E>> void notify(E event, Object... args) {
         List<Listener<?>> eventListeners = listeners.get(event.getClass());
         if (eventListeners != null) {
-            System.out.println("We are inside the notify in EventManager");
             for (Listener<?> listener : eventListeners) {
-                System.out.println("Listener: " + listener);
                 Listener<E> typedListener = (Listener<E>) listener;
                 typedListener.update(event, args);
             }
         } else if(eventListeners == null) {
-            System.out.println("EventListeners is null");
         }
-        System.out.println("Event: " + event + " - Args: " + args);
+        System.out.println("Event: " + event);
     }
 
     public Listener<? extends Enum<?>> getListener(Class<? extends Enum<?>> classToListen, Function<Listener<? extends Enum<?>>, Boolean> func) {

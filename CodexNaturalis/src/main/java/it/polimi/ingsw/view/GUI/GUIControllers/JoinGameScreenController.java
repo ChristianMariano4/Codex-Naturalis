@@ -74,11 +74,13 @@ public class JoinGameScreenController extends GUIController {
         } catch (NotExistingPlayerException e) {
             errorPane.setDisable(false);
             errorPane.setVisible(true);
+            e.printStackTrace();
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (GameNotFoundException e) {
             errorPane.setDisable(false);
             errorPane.setVisible(true);
+            e.printStackTrace();
         }
     }
     @FXML
@@ -89,31 +91,7 @@ public class JoinGameScreenController extends GUIController {
 
     @Override
     public void sceneInitializer() {
-        joinButton.setDisable(true);
-        joinButton.setVisible(false);
-
-        gameList2.getItems().clear();
-        gameList2.setItems(items);
-        try {
-            ArrayList<Game> games = viewGUI.showAvailableGames();
-            for(Game game: games) {
-                if (game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
-                    items.add("GameID : " + game.getGameId());
-                } else if(game.getGameStatus().getStatusNumber() == GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
-                    items.add("GameID : " + game.getGameId() + " - FULL");
-                } else if(game.getGameStatus().getStatusNumber() > GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
-                    items.add("GameID : " + game.getGameId() + " - STARTED");
-                }
-            }
-            availableGames.clear();
-            availableGames.addAll(viewGUI.showAvailableGames().stream().map(Game::getGameId).toList());
-        } catch (ServerDisconnectedException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        refresh();
     }
 
     @FXML
@@ -126,11 +104,11 @@ public class JoinGameScreenController extends GUIController {
         try {
             ArrayList<Game> games = viewGUI.showAvailableGames();
             for(Game game: games) {
-                if (game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
+                if (game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_JOINED.getStatusNumber()) {
                     items.add("GameID : " + game.getGameId());
-                } else if(game.getGameStatus().getStatusNumber() == GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
+                } else if(game.getGameStatus().getStatusNumber() == GameStatus.ALL_PLAYERS_JOINED.getStatusNumber()) {
                     items.add("GameID : " + game.getGameId() + " - FULL");
-                } else if(game.getGameStatus().getStatusNumber() > GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
+                } else if(game.getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
                     items.add("GameID : " + game.getGameId() + " - STARTED");
                 }
             }

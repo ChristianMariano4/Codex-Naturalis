@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class Client extends UnicastRemoteObject implements ClientRMIInterface, Runnable {
@@ -142,6 +143,13 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                         this.viewThread.interrupt();
                     }
                 }
+                case PLAYER_DISCONNECTED ->
+                {
+                    view.update((Game) gameUpdate);
+                    if (this.viewThread != null) {
+                        this.viewThread.interrupt();
+                    }
+                }
             }
     }
 
@@ -245,4 +253,5 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     public abstract void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard chosenObjectiveCard) throws NotExistingPlayerException, IOException, ServerDisconnectedException;
     public abstract void setMarker(Player player, int gameId, Marker chosenMarker) throws NotExistingPlayerException, IOException, NotAvailableMarkerException, ServerDisconnectedException;
     public abstract void setStarterCardSide(int gameId, Player player, StarterCard cardFront, Side side) throws NotExistingPlayerException, IOException, ServerDisconnectedException;
+    public abstract HashMap<String, Boolean> getReadyStatus() throws ServerDisconnectedException, IOException;
 }
