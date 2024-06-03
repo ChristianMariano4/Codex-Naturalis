@@ -98,20 +98,28 @@ public class SocketClient extends Client {
         this.gameId = gameId;
         try {
             messageHandler.sendMessage(ClientMessageType.SUBSCRIBE, this.gameId);
-            if(messageHandlerQueue.take().equals(true)){
-                messageHandler.sendMessage(ClientMessageType.ADD_PLAYER, this.gameId, this.username);
+            messageHandlerQueue.take();
+            messageHandler.sendMessage(ClientMessageType.ADD_PLAYER, this.gameId, this.username);
 
-            }
-            return (Game) messageHandlerQueue.take();
 
-        }
-        catch (ServerDisconnectedException e)
-        {
+        } catch (ServerDisconnectedException e) {
             throw e;
+        } catch(GameAlreadyStartedException e) {
+            try {
+                messageHandler.sendMessage(ClientMessageType.RECONNECT, this.gameId, this.username);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException();
         }
 
+        try {
+            return (Game) messageHandlerQueue.take();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

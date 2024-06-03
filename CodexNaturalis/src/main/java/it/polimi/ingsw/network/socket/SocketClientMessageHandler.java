@@ -66,9 +66,6 @@ public class SocketClientMessageHandler implements Runnable {
                     case SUCCESS -> {
                         messageQueue.put(message.getMessageContent()[0]);
                     }
-                    case RECONNECT -> {
-                        messageQueue.put(message.getMessageContent()[0]);
-                    }
                     case ERROR -> {
                         messageQueue.put(message.getMessageContent()[0]);
                     }

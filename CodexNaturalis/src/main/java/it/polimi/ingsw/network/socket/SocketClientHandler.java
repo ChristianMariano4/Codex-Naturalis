@@ -69,13 +69,8 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         sendMessage(ServerMessageType.GAME_CREATED, server.createGame(this, (int) message.getMessageContent()[0]));
                     }
                     case SUBSCRIBE -> {
-                        try{
-                            server.subscribe(this, (int) message.getMessageContent()[0]);
-                            sendMessage(ServerMessageType.SUCCESS, true);
-                        } catch (GameAlreadyStartedException e) {
-                            server.reconnectPlayerToGame((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], this);
-                            sendMessage(ServerMessageType.RECONNECT, false);
-                        }
+                        server.subscribe(this, (int) message.getMessageContent()[0]);
+                        sendMessage(ServerMessageType.SUCCESS, true);
                     }
                     case ADD_PLAYER -> {
                         sendMessage(ServerMessageType.PLAYER_ADDED, server.addPlayerToGame((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], this));
@@ -123,6 +118,10 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         server.endTurn((int) message.getMessageContent()[0], (String) message.getMessageContent()[1]);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
+                    case RECONNECT -> {
+                        server.reconnectPlayerToGame((int) message.getMessageContent()[0], (String) username, this);
+                        sendMessage(ServerMessageType.SUCCESS, true);
+                    }
 
                 }
             }
@@ -147,6 +146,9 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
             catch (InvalidUsernameException e)
             {
                 sendMessage(ServerMessageType.ERROR, ErrorType.INVALID_USERNAME);
+            }
+            catch(GameAlreadyStartedException e) {
+                sendMessage(ServerMessageType.ERROR, ErrorType.GAME_ALREADY_STARTED);
             }
             catch (Exception e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.UNSPECIFIED);

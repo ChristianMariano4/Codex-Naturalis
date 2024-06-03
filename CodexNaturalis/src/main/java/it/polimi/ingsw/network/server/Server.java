@@ -167,7 +167,7 @@ public class Server extends Thread implements ServerRMIInterface {
                         try {
                             client.update(event, gameUpdate);
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            System.err.println("Failed to update client: " + e.getMessage());
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         } catch (NotExistingPlayerException e) {

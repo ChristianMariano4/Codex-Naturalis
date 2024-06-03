@@ -24,6 +24,7 @@ public enum ClientMessageType implements Serializable {
     OTHER_SIDE_PLAYABLE_CARD_REQUEST,
 
     USERNAME, SET_USERNAME,
+    RECONNECT,
 
 
 }
