@@ -176,7 +176,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         }
         return true;
     }
-    void resetClient(ViewCLI viewCLI)
+    public void resetClient()
     {
          this.gameId = -1;
          this.playing = false;
@@ -195,7 +195,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
             this.viewThread = new Thread(viewCLI); //game loop actually begins here
             this.viewThread.start();
             this.viewThread.join();
-            resetClient(viewCLI); //resetting the client after end of game
+            resetClient(); //resetting the client after end of game
             //TODO: add server side reset
         }
     }

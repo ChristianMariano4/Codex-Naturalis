@@ -39,6 +39,7 @@ public class ScoreboardController extends GUIController{
     }
     @FXML
     public void returnToLobby() {
-        viewGUI.changeScene(GUIScene.NICKNAME);
+        viewGUI.initialize();
+        viewGUI.changeScene(GUIScene.LOBBY);
     }
 }

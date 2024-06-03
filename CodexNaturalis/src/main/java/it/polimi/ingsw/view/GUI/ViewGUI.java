@@ -210,5 +210,8 @@ public class ViewGUI implements View, Runnable {
     public void endTurn() throws NotExistingPlayerException, IOException, CardTypeMismatchException, ServerDisconnectedException {
         client.endTurn(game.getGameId(), client.getUsername());
     }
-
+    public void initialize() {
+        this.game = null;
+        client.resetClient();
+    }
 }
