@@ -282,6 +282,20 @@
     -fx-background-image: url(images/Icons/crown.png);
     -fx-background-size: cover;
 }
+.refreshButton  {
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #746216 0%, #746216 100%),
+            #746216,
+            #746216,
+            radial-gradient(center 50% 50%, radius 100%, #c1aa50, #746218);
+    -fx-effect: dropshadow( gaussian , rgba(0, 0, 0, 0.75), 4,0,0,1 );
+    -fx-background-radius: 5em;
+    -fx-background-image: url("images/Icons/refresh.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 90%;
+    -fx-opacity: 0.6;
+    -fx-background-position: center;
+}
 
 
 

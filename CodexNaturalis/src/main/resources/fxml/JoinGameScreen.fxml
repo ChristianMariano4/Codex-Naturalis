@@ -20,7 +20,7 @@
                   <ListView fx:id="gameList2" onMouseClicked="#joinButton" prefHeight="147.0" prefWidth="159.0" />
                </children>
             </TextFlow>
-            <Button layoutX="435.0" layoutY="347.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+            <Button layoutX="440.0" layoutY="307.0" mnemonicParsing="false" onAction="#refresh" prefHeight="40.0" prefWidth="42.0" styleClass="refreshButton" />
          </children>
       </Pane>
       <Pane fx:id="errorPane" disable="true" prefHeight="518.0" prefWidth="920.0" stylesheets="@../style.css" visible="false">

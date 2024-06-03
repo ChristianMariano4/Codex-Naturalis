@@ -903,6 +903,7 @@ public class MainGameScreenController extends GUIController{
     public void sharedObjCardButtonOne() {
         inspectedCardInfo.setSharedObjChoice(0);
         inspectedCardInfo.setSide(Side.FRONT);
+        inspectedCardInfo.setFrontSide(true);
         //sharedObjChoice = 0;
         showSharedObjCard();
     }
@@ -910,6 +911,7 @@ public class MainGameScreenController extends GUIController{
     public void sharedObjCardButtonTwo() {
         inspectedCardInfo.setSharedObjChoice(1);
         inspectedCardInfo.setSide(Side.FRONT);
+        inspectedCardInfo.setFrontSide(true);
         showSharedObjCard();
     }
     private void showSharedObjCard() {
@@ -951,6 +953,8 @@ public class MainGameScreenController extends GUIController{
     }
     @FXML
     public void secretObjCardButton() {
+        inspectedCardInfo.setSide(Side.FRONT);
+        inspectedCardInfo.setFrontSide(true);
         showSecretObjCard();
     }
     private void showSecretObjCard() {
