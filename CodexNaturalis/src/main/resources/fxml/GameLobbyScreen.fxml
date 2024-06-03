@@ -129,6 +129,11 @@
                   </Label>
                </children>
             </Pane>
+            <Pane layoutX="865.0" layoutY="456.0" prefHeight="41.0" prefWidth="41.0">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="42.0" styleClass="exitButton" />
+               </children>
+            </Pane>
          </children>
       </Pane>
    </children>
