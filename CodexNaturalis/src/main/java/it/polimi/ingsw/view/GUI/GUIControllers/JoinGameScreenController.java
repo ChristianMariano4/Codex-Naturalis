@@ -90,7 +90,7 @@ public class JoinGameScreenController extends GUIController {
                     return null;
                 }
             };
-            new Thread(checkGames).start();
+          //  new Thread(checkGames).start();
 
         } catch (ServerDisconnectedException e) {
             throw new RuntimeException(e);
