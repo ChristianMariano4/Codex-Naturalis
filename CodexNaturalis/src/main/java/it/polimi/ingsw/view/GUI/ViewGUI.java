@@ -99,7 +99,7 @@ public class ViewGUI implements View, Runnable {
         return client.getAvailableGames();
     }
 
-    public void joinGame(int gameId) throws ServerDisconnectedException, NotExistingPlayerException, RemoteException {
+    public void joinGame(int gameId) throws ServerDisconnectedException, NotExistingPlayerException, RemoteException, GameNotFoundException {
         this.game = client.joinGame(gameId, client.getUsername());
     }
 

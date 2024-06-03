@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.GUI.GUIControllers;
 
 import it.polimi.ingsw.enumerations.GUIScene;
 import it.polimi.ingsw.enumerations.GameStatus;
+import it.polimi.ingsw.exceptions.GameNotFoundException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.exceptions.ServerDisconnectedException;
 import it.polimi.ingsw.model.Game;
@@ -16,11 +17,14 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextFlow;
+import javafx.concurrent.ScheduledService;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
@@ -36,6 +40,8 @@ public class JoinGameScreenController extends GUIController {
     public ListView<String> gameList2;
     ObservableList<String> items = FXCollections.observableArrayList();
     public Pane errorPane;
+    private ScheduledService<Void> service;
+
     @FXML
     public void back() {
         gui.switchScene(GUIScene.LOBBY);
@@ -56,14 +62,13 @@ public class JoinGameScreenController extends GUIController {
         choice = choice.replaceAll("\\D+", "");
         gameId = Integer.parseInt(choice);
         try
-        { checkGames.cancel();
-            viewGUI.joinGame(gameId);
+        {
+                viewGUI.joinGame(gameId);
             if(viewGUI.getGame().getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
                 gui.switchScene(GUIScene.GAMELOBBY);
             } else {
                 gui.switchScene(GUIScene.GAME);
             }
-
         } catch (ServerDisconnectedException e) {
             throw new RuntimeException(e);
         } catch (NotExistingPlayerException e) {
@@ -71,6 +76,9 @@ public class JoinGameScreenController extends GUIController {
             errorPane.setVisible(true);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
+        } catch (GameNotFoundException e) {
+            errorPane.setDisable(false);
+            errorPane.setVisible(true);
         }
     }
     @FXML
@@ -97,26 +105,6 @@ public class JoinGameScreenController extends GUIController {
             }
             availableGames.clear();
             availableGames.addAll(viewGUI.showAvailableGames().stream().map(Game::getGameId).toList());
-            checkGames = new Task<>() {
-                @Override
-                protected Void call() throws Exception {
-                    while (availableGames.containsAll(viewGUI.showAvailableGames().stream().map(Game::getGameId).toList()) && new HashSet<>(viewGUI.showAvailableGames().stream().map(Game::getGameId).toList()).containsAll(availableGames))
-                    {
-                        if(isCancelled())
-                            return null;
-                    }
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            sceneInitializer();
-                        }
-                    });
-
-                    return null;
-                }
-            };
-          //  new Thread(checkGames).start();
-
         } catch (ServerDisconnectedException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -126,5 +114,30 @@ public class JoinGameScreenController extends GUIController {
         }
     }
 
+    @FXML
+    public void refresh() {
+        joinButton.setDisable(true);
+        joinButton.setVisible(false);
 
-}
+        gameList2.getItems().clear();
+        gameList2.setItems(items);
+        try {
+            ArrayList<Game> games = viewGUI.showAvailableGames();
+            for (Game game : games) {
+                if (game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
+                    items.add("GameID : " + game.getGameId());
+                } else {
+                    items.add("GameID : " + game.getGameId() + " - ALREADY STARTED");
+                }
+            }
+            availableGames.clear();
+            availableGames.addAll(viewGUI.showAvailableGames().stream().map(Game::getGameId).toList());
+        } catch (ServerDisconnectedException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+     }
+    }

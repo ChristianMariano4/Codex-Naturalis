@@ -46,6 +46,8 @@ public class RMIClient extends Client {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (GameNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -59,7 +61,7 @@ public class RMIClient extends Client {
     }
 
     @Override
-    public Game joinGame(int gameId, String username) throws ServerDisconnectedException, NotExistingPlayerException, RemoteException {
+    public Game joinGame(int gameId, String username) throws ServerDisconnectedException, NotExistingPlayerException, RemoteException, GameNotFoundException {
         this.gameId = gameId;
         try {
                 serverRMIInterface.subscribe(this, this.gameId);

@@ -140,8 +140,14 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public void subscribe(ClientHandlerInterface client, int gameId) throws IOException, GameAlreadyStartedException {
-        this.gameHandlerMap.get(gameId).subscribe(client);
+    public void subscribe(ClientHandlerInterface client, int gameId) throws IOException, GameAlreadyStartedException, GameNotFoundException {
+        try {
+            this.gameHandlerMap.get(gameId).subscribe(client);
+        }
+        catch (NullPointerException e)
+        {
+            throw new GameNotFoundException();
+        }
     }
 
     private void subscribe(GameSerializer gameSerializer, int gameId) {

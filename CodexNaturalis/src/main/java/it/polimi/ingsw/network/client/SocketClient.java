@@ -94,32 +94,51 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public Game joinGame(int gameId, String username) throws ServerDisconnectedException {
+    public Game joinGame(int gameId, String username) throws ServerDisconnectedException, NotExistingPlayerException, GameNotFoundException {
         this.gameId = gameId;
         try {
             messageHandler.sendMessage(ClientMessageType.SUBSCRIBE, this.gameId);
-            messageHandlerQueue.take();
-            messageHandler.sendMessage(ClientMessageType.ADD_PLAYER, this.gameId, this.username);
+            if(messageHandlerQueue.take().equals(true)){
+                messageHandler.sendMessage(ClientMessageType.ADD_PLAYER, this.gameId, this.username);
 
-
-        } catch (ServerDisconnectedException e) {
-            throw e;
-        } catch(GameAlreadyStartedException e) {
-            try {
-                messageHandler.sendMessage(ClientMessageType.RECONNECT, this.gameId, this.username);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
             }
-        }catch (Exception e) {
-            e.printStackTrace();
+            return (Game) messageHandlerQueue.take();
+        }
+        catch (ServerDisconnectedException e)
+        {
+            throw e;
+        }catch (GameAlreadyStartedException e) {
+            try
+            {
+                messageHandler.sendMessage(ClientMessageType.RECONNECT_PLAYER, this.gameId, this.username);
+                return (Game) messageHandlerQueue.take();
+            }
+            catch (IOException ex)
+            {
+                throw new ServerDisconnectedException();
+            }
+            catch (NotExistingPlayerException ex)
+            {
+                throw ex;
+            }
+            catch (GameNotFoundException ex)
+            {
+                throw new GameNotFoundException();
+            }
+            catch (Exception ex)
+            {
+                throw new RuntimeException();
+            }
+        }
+        catch (GameNotFoundException e)
+        {
+            throw e;
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException();
         }
 
-        try {
-            return (Game) messageHandlerQueue.take();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
 
     }
 

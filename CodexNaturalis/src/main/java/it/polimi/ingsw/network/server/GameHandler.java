@@ -75,8 +75,10 @@ public class GameHandler implements Serializable {
                 throw new GameAlreadyStartedException();
             try {
                 game = this.controller.addPlayerToGame(username, desiredNumberOfPlayers);
-                if(clients.size() == desiredNumberOfPlayers)
+                if(clients.size() == desiredNumberOfPlayers) {
+                    game.setGameStatus(GameStatus.ALL_PLAYERS_JOINED);
                     isOpen = false;
+                }
             } catch (AlreadyExistingPlayerException e) {
                 throw new RuntimeException(e);
             } catch (AlreadyMaxNumberOfPlayersException e) {
@@ -167,7 +169,7 @@ public class GameHandler implements Serializable {
 
     public void subscribe(ClientHandlerInterface client) throws IOException, GameAlreadyStartedException {
         synchronized (this) {
-            if (this.game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
+            if (this.game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_JOINED.getStatusNumber()) {
                 eventManager.subscribe(GameEvent.class, new GameListener(client, server));
             } else {
                 try {
@@ -327,6 +329,8 @@ public class GameHandler implements Serializable {
             try {
                 controller.setPlayerDisconnected(username);
                 if (game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
+                    if(game.getGameStatus().getStatusNumber() == GameStatus.ALL_PLAYERS_JOINED.getStatusNumber())
+                        game.setGameStatus(GameStatus.LOBBY_CREATED);
                     this.readyPlayers--;
                     game.removePlayer(username);
                 } else if (game.getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {

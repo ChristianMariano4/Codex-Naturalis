@@ -118,16 +118,29 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         server.endTurn((int) message.getMessageContent()[0], (String) message.getMessageContent()[1]);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
-                    case RECONNECT -> {
-                        server.reconnectPlayerToGame((int) message.getMessageContent()[0], (String) username, this);
-                        sendMessage(ServerMessageType.SUCCESS, true);
+                    case RECONNECT_PLAYER ->
+                    {
+                        sendMessage(ServerMessageType.SUCCESS, server.reconnectPlayerToGame((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], this));
+
                     }
 
                 }
             }
+            catch (GameNotFoundException e)
+            {
+                sendMessage(ServerMessageType.ERROR, ErrorType.GAME_NOT_FOUND);
+            }
             catch (InvalidCardPositionException e)
             {
                 sendMessage(ServerMessageType.ERROR, ErrorType.INVALID_CARD_POSITION);
+            }
+            catch (GameAlreadyStartedException e)
+            {
+                sendMessage(ServerMessageType.ERROR, ErrorType.GAME_ALREADY_STARTED);
+            }
+            catch (NotExistingPlayerException e)
+            {
+                sendMessage(ServerMessageType.ERROR, ErrorType.NOT_EXISTING_PLAYER);
             }
             catch (RequirementsNotMetException e)
             {
@@ -135,9 +148,8 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
             }
             catch (NotEnoughPlayersException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.NOT_ENOUGH_PLAYERS);
-            } catch (NotExistingPlayerException e) {
-                throw new RuntimeException(e);
-            } catch (InterruptedException e) {
+            }
+             catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } catch (DeckIsEmptyException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.DECK_IS_EMPTY);
@@ -146,9 +158,6 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
             catch (InvalidUsernameException e)
             {
                 sendMessage(ServerMessageType.ERROR, ErrorType.INVALID_USERNAME);
-            }
-            catch(GameAlreadyStartedException e) {
-                sendMessage(ServerMessageType.ERROR, ErrorType.GAME_ALREADY_STARTED);
             }
             catch (Exception e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.UNSPECIFIED);

@@ -12,7 +12,7 @@ public class ErrorAwareQueue {
     {
         this.queue = queue;
     }
-    public Object take() throws InterruptedException, NotEnoughPlayersException, DeckIsEmptyException, InvalidCardPositionException, NotTurnException, RequirementsNotMetException, InvalidUsernameException, GameAlreadyStartedException {
+    public Object take() throws InterruptedException, NotEnoughPlayersException, DeckIsEmptyException, InvalidCardPositionException, NotTurnException, RequirementsNotMetException, InvalidUsernameException, GameAlreadyStartedException, NotExistingPlayerException, GameNotFoundException {
         Object result = queue.take();
         if(result instanceof ErrorType)
         {
@@ -30,10 +30,14 @@ public class ErrorAwareQueue {
                     throw new RequirementsNotMetException();
                 case INVALID_USERNAME ->
                     throw new InvalidUsernameException();
-                case UNSPECIFIED ->
-                    throw new RuntimeException();
                 case GAME_ALREADY_STARTED ->
                     throw new GameAlreadyStartedException();
+                case NOT_EXISTING_PLAYER ->
+                    throw new NotExistingPlayerException();
+                case GAME_NOT_FOUND ->
+                    throw new GameNotFoundException();
+                case UNSPECIFIED ->
+                    throw new RuntimeException();
                 default -> throw new RuntimeException();
                 }
 
