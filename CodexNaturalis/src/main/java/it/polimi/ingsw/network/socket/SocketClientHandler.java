@@ -69,8 +69,13 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         sendMessage(ServerMessageType.GAME_CREATED, server.createGame(this, (int) message.getMessageContent()[0]));
                     }
                     case SUBSCRIBE -> {
-                        server.subscribe(this, (int) message.getMessageContent()[0]);
-                        sendMessage(ServerMessageType.SUCCESS, true);
+                        try{
+                            server.subscribe(this, (int) message.getMessageContent()[0]);
+                            sendMessage(ServerMessageType.SUCCESS, true);
+                        } catch (GameAlreadyStartedException e) {
+                            server.reconnectPlayerToGame((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], this);
+                            sendMessage(ServerMessageType.RECONNECT, false);
+                        }
                     }
                     case ADD_PLAYER -> {
                         sendMessage(ServerMessageType.PLAYER_ADDED, server.addPlayerToGame((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], this));

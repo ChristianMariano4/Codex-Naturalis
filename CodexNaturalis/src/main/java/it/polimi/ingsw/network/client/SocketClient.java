@@ -98,9 +98,10 @@ public class SocketClient extends Client {
         this.gameId = gameId;
         try {
             messageHandler.sendMessage(ClientMessageType.SUBSCRIBE, this.gameId);
-            messageHandlerQueue.take();
-            messageHandler.sendMessage(ClientMessageType.ADD_PLAYER, this.gameId, this.username);
+            if(messageHandlerQueue.take().equals(true)){
+                messageHandler.sendMessage(ClientMessageType.ADD_PLAYER, this.gameId, this.username);
 
+            }
             return (Game) messageHandlerQueue.take();
 
         }

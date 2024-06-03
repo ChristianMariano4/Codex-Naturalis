@@ -94,6 +94,7 @@ public class ViewCLI implements View, Runnable {
 
             catch(Exception e)
             {
+                e.printStackTrace();
                 ui.invalidInput();
             }
         }while(true);
