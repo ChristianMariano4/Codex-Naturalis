@@ -1181,17 +1181,17 @@ public class MainGameScreenController extends GUIController{
 
         try
         {
-            resourceDeck.setStyle(getStyle(getCardUrl(viewGUI.getTopResourceCard(),Side.BACK)));
-            goldDeck.setStyle(getStyle(getCardUrl(viewGUI.getTopGoldCard(),Side.BACK)));
+            emptyResourceDeckHandler(viewGUI.getTopResourceCard(), resourceDeck, Side.BACK);
+            emptyGoldDeckHandler(viewGUI.getTopGoldCard(), goldDeck, Side.BACK);
 
             HashMap<DrawPosition,ResourceCard> discoveredResourceCards = viewGUI.getDiscoveredResourceCards();
             HashMap<DrawPosition,GoldCard> discoveredGoldCards = viewGUI.getDiscoveredGoldCards();
 
-            topDiscoveredR.setStyle(getStyle(getCardUrl(discoveredResourceCards.get(DrawPosition.LEFT),Side.FRONT)));
-            bottomDiscoveredR.setStyle(getStyle(getCardUrl(discoveredResourceCards.get(DrawPosition.RIGHT),Side.FRONT)));
-
-            topDiscoveredG.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.LEFT),Side.FRONT)));
-            bottomDiscoveredG.setStyle(getStyle(getCardUrl(discoveredGoldCards.get(DrawPosition.RIGHT),Side.FRONT)));
+            //Empty decks handler
+            emptyResourceDeckHandler(discoveredResourceCards.get(DrawPosition.LEFT), topDiscoveredR, Side.FRONT);
+            emptyResourceDeckHandler(discoveredResourceCards.get(DrawPosition.LEFT), bottomDiscoveredR, Side.FRONT);
+            emptyGoldDeckHandler(discoveredGoldCards.get(DrawPosition.LEFT), topDiscoveredG, Side.FRONT);
+            emptyGoldDeckHandler(discoveredGoldCards.get(DrawPosition.RIGHT), bottomDiscoveredG, Side.FRONT);
 
         }
         catch (Exception e)
@@ -1201,6 +1201,23 @@ public class MainGameScreenController extends GUIController{
         drawingField.setDisable(false);
         drawingField.setVisible(true);
     }
+    private void emptyResourceDeckHandler(ResourceCard card, Pane pane, Side side) {
+        if(card == null) {
+            pane.setDisable(true);
+            pane.setVisible(false);
+        } else {
+            pane.setStyle(getStyle(getCardUrl(card,side)));
+        }
+    }
+    private void emptyGoldDeckHandler(GoldCard card, Pane pane, Side side) {
+        if(card == null) {
+            pane.setDisable(true);
+            pane.setVisible(false);
+        } else {
+            pane.setStyle(getStyle(getCardUrl(card,side)));
+        }
+    }
+
     private double startDragX;
     private double startDragY;
 
@@ -1697,6 +1714,7 @@ public class MainGameScreenController extends GUIController{
         catch (DeckIsEmptyException e)
         {
             //TODO: handle empty deck
+
         }
         catch (Exception e)
         {
