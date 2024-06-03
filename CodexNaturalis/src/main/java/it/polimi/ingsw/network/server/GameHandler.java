@@ -112,6 +112,7 @@ public class GameHandler implements Serializable {
                         }
                         if (!isReconnected) {
                             game.setIsGameEndedForDisconnection(true);
+                            server.removeGame(this);
                             eventManager.notify(GameEvent.GAME_END, game);
                         }
                     } catch (InterruptedException e) {
@@ -266,6 +267,7 @@ public class GameHandler implements Serializable {
         synchronized (this) {
             if (this.finalRound && game.getCurrentPlayer().equals(game.getListOfPlayers().getLast())) {
                 controller.calculateAndUpdateFinalPoints();
+                server.removeGame(this);
                 eventManager.notify(GameEvent.GAME_END, game);
                 return;
             }

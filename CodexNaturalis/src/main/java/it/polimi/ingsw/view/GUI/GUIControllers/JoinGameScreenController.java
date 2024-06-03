@@ -54,9 +54,9 @@ public class JoinGameScreenController extends GUIController {
         choice = choice.replaceAll("\\D+", "");
         gameId = Integer.parseInt(choice);
         try
-        {
+        { checkGames.cancel();
             viewGUI.joinGame(gameId);
-            checkGames.cancel();
+
             gui.switchScene(GUIScene.GAMELOBBY);
         } catch (ServerDisconnectedException e) {
             throw new RuntimeException(e);

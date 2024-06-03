@@ -79,6 +79,11 @@ public class Server extends Thread implements ServerRMIInterface {
 
     }
 
+    public void removeGame(GameHandler game)
+    {
+        gameHandlerMap.remove(game.getGame().getGameId(), game);
+    }
+
     @Override
     public void sendHeartbeat(long time, ClientHandlerInterface client) throws RemoteException {
         synchronized (this.clients){
