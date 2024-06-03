@@ -278,6 +278,10 @@
     /*-fx-opacity: 0.6;*/
     -fx-effect: dropshadow(three-pass-box, rgba(203,181,89,0.8), 10, 0, 0, 0);
 }
+.crown {
+    -fx-background-image: url(images/Icons/crown.png);
+    -fx-background-size: cover;
+}
 
 
 

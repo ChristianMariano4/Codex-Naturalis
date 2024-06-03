@@ -140,10 +140,9 @@ public class GUI extends Application {
                 );
             }
 
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
-
+            System.exit(-1);
         }
 
     }
