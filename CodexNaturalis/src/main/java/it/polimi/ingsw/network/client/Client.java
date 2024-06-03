@@ -65,6 +65,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     }
 
     public abstract ArrayList<Integer> setReady() throws NotEnoughPlayersException, IOException, ServerDisconnectedException;
+    public abstract void quitGame() throws IOException, ServerDisconnectedException;
     @Override
     @SuppressWarnings("unchecked")
     public synchronized void update(GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException {
@@ -191,12 +192,14 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         view = new ViewCLI(this);
         ViewCLI viewCLI = (ViewCLI) view;
         viewCLI.setUsername();
-        while (preGameStart(viewCLI)) {
-            this.viewThread = new Thread(viewCLI); //game loop actually begins here
-            this.viewThread.start();
-            this.viewThread.join();
-            resetClient(); //resetting the client after end of game
-            //TODO: add server side reset
+        while(true){
+            while (preGameStart(viewCLI)) {
+                this.viewThread = new Thread(viewCLI); //game loop actually begins here
+                this.viewThread.start();
+                this.viewThread.join();
+                resetClient(); //resetting the client after end of game
+                //TODO: add server side reset
+            }
         }
     }
     public void serMarkerTurn(boolean turn)

@@ -87,6 +87,17 @@ public class RMIClient extends Client {
         }
     }
 
+    @Override
+    public void quitGame() throws ServerDisconnectedException {
+        try {
+            serverRMIInterface.quitGame(this.gameId, this);
+        } catch (RemoteException e) {
+            throw new ServerDisconnectedException();
+        } catch (NotExistingPlayerException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void run()
     {
         try {

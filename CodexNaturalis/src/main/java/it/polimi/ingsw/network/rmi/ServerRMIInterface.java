@@ -50,4 +50,6 @@ public interface ServerRMIInterface extends Remote {
 
 
     Game reconnectPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException, NotExistingPlayerException;
+
+    void quitGame(int gameId, ClientHandlerInterface client) throws RemoteException, NotExistingPlayerException;
 }

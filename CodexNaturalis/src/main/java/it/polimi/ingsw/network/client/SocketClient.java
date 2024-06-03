@@ -120,21 +120,11 @@ public class SocketClient extends Client {
             catch (NotExistingPlayerException ex)
             {
                 throw ex;
-            }
-            catch (GameNotFoundException ex)
-            {
-                throw new GameNotFoundException();
-            }
-            catch (Exception ex)
+            } catch (Exception ex)
             {
                 throw new RuntimeException();
             }
-        }
-        catch (GameNotFoundException e)
-        {
-            throw e;
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             throw new RuntimeException();
         }
@@ -160,6 +150,11 @@ public class SocketClient extends Client {
             throw new RuntimeException();
         }
 
+    }
+
+    @Override
+    public void quitGame() throws IOException, ServerDisconnectedException {
+        //TODO
     }
 
 

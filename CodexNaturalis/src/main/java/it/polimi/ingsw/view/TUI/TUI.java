@@ -771,7 +771,8 @@ public class TUI extends UI {
                    7 - type any card Id to see its information
                    8 - type showSecretObjectiveCard to see your secret objective card
                    9 - type showSharedObjectiveCards to see the shared objective cards
-                   10 - type myResources to see you resources""");
+                   10 - type myResources to see you resources
+                   11 - type quit to leave the game""");
     }
     public void commandNotFound() {
         System.out.println(ansi().fg(RED).a("Invalid command"));

@@ -124,6 +124,17 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
+    public void quitGame(int gameId, ClientHandlerInterface client) throws RemoteException, NotExistingPlayerException {
+        try {
+            gameHandlerMap.get(gameId).setPlayerDisconnected(client.getUsername());
+            gameHandlerMap.get(gameId).unsubscribe(client.getUsername());
+            gameHandlerMap.get(gameId).removeClient(client);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public Game addPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException, GameAlreadyStartedException {
         try {
             addClientToGameHandler(gameId, client);

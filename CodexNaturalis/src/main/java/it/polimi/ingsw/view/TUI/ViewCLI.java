@@ -17,7 +17,7 @@ import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 
 public class ViewCLI implements View, Runnable {
     private Game game;
-    private Client client;
+    private final Client client;
     private final Scanner scanner = new Scanner(System.in);
     private String playerId;
     TUI ui = new TUI();
@@ -194,8 +194,10 @@ public class ViewCLI implements View, Runnable {
 
                         switch (command) {
                             case "q", "quit":
-                                inGame = false;
-                                break;
+                                client.quitGame();
+                                readerThread.interrupt();
+                                lock.notifyAll();
+                                return;
                             case "showPlayers":
                                 showAllPlayers();
                                 break;
