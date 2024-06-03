@@ -388,6 +388,10 @@ public class MainGameScreenController extends GUIController{
     public void sceneInitializer() {
 
         inspectedCardInfo = new InspectedCardInfo();
+        if(viewGUI.getGame().getGameStatus().getStatusNumber() >= GameStatus.GAME_STARTED.getStatusNumber())
+        {
+            tabletopSetup();
+        }
         markerPanes.add(marker1);
         markerPanes.add(marker2);
         markerPanes.add(marker3);
@@ -633,6 +637,8 @@ public class MainGameScreenController extends GUIController{
     public void tabletopSetup()
     {
         try {
+            markerSelection.setDisable(true);
+            markerSelection.setVisible(false);
             initializePlayerHand(viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerHand(), Side.FRONT, true);
             initializeScoreboard();
             initializeObjectiveCards();

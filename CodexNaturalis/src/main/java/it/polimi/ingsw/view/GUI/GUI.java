@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.enumerations.GUIScene;
+import it.polimi.ingsw.exceptions.NoneResourceException;
 import it.polimi.ingsw.exceptions.ServerDisconnectedException;
 import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.network.client.RMIClient;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import static it.polimi.ingsw.enumerations.GUIScene.NICKNAME;
+
 public class GUI extends Application {
 
     //BorderPane root;
@@ -50,7 +53,7 @@ public class GUI extends Application {
     public void start(Stage stage) throws IOException {
         this.viewGUI = new ViewGUI(this);
         primaryStage = new Stage();
-        loadAllScenes();
+        //loadAllScenes();
 
         do {
 
@@ -58,78 +61,60 @@ public class GUI extends Application {
             try {
                 serverInit();
                 break;
-            }
-            catch(ServerDisconnectedException e)
-            {
+            } catch (ServerDisconnectedException e) {
                 continue;
-        }
-    }while(true);
-
-
-
-
+            }
+        } while (true);
         Image icon = new Image(getClass().getResourceAsStream("/images/CODEX_Rulebook_IT/01.png"));
         primaryStage.getIcons().add(icon);
         primaryStage.setTitle("Codex Naturalis");
-
-        switchScene(GUIScene.NICKNAME);
+        switchScene(NICKNAME);
     }
-    private void loadAllScenes()
-    {
-        this.scenes = new HashMap<>();
-        Parent root;
-        GUIController controller;
-        for(GUIScene scene : GUIScene.values())
-        {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(scene.getPath()));
-                root = loader.load();
-                controller = loader.getController();
-                controller.setView(viewGUI);
-                controller.setGUI(this);
-                controller.setStage(primaryStage);
-                scenes.put(scene, new SceneData(new Scene(root), controller));
-            } catch (IOException e) {
-                System.out.println("Not loaded");
-                throw new RuntimeException(e);
-            }
 
-        }
-
-
-    }
     public void switchScene(GUIScene scene)
     {
-        rescalable = false;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(scene.getPath()));
+            Parent root = loader.load();
+            try {
+                primaryStage.getScene().setRoot(root);
+            }
+            catch (NullPointerException e)
+            {
+                primaryStage.setScene(new Scene(root));
+                primaryStage.getScene().setRoot(root);
+            }
+            rescalable = false;
 
-        scenes.get(scene).getController().sceneInitializer();
-        primaryStage.setScene(scenes.get(scene).getScene());
+            this.controller = loader.getController();
+            controller.setView(viewGUI);
+            controller.setGUI(this);
+            controller.setStage(primaryStage);
+            controller.sceneInitializer();
 
+            primaryStage.show();
 
-        this.controller = scenes.get(scene).getController();
+            widthOld = GameValues.WINDOW_WIDTH - 16;
+            heightOld = GameValues.WINDOW_HEIGHT - 41;
+            rescalable = true;
+            rescale(primaryStage.getWidth()- 16, primaryStage.getHeight() - 39);
 
-        primaryStage.show();
+            this.primaryStage.widthProperty().addListener(
+                    (obs, oldVal, newVal) -> {
+                        rescale((double) newVal - 16, heightOld); // - 16
+                    }
+            );
+            this.primaryStage.heightProperty().addListener(
+                    (obs, oldVal, newVal) -> {
+                        rescale(widthOld, (double) newVal - 39); // -39
+                    }
+            );
 
-        widthOld = primaryStage.getScene().getWidth();
-        heightOld = primaryStage.getScene().getHeight();
+        }
+        catch (Exception e)
+        {
 
-        this.primaryStage.widthProperty().addListener(
-                (obs, oldVal, newVal) -> {
-                    rescale((double) newVal - 16, heightOld); // - 16
-                }
-        );
-        this.primaryStage.heightProperty().addListener(
-                (obs, oldVal, newVal) -> {
-                    rescale(widthOld, (double) newVal - 39); // -39
-                }
-        );
-        rescalable = true;
-
-       // primaryStage.setHeight(heightOld + 39);
-      //  primaryStage.setWidth(widthOld);
-
-
-
+        }
 
     }
 
