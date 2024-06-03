@@ -4,6 +4,10 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import javafx.scene.control.TextArea;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
 
 public class ScoreboardController extends GUIController{
 
@@ -14,9 +18,20 @@ public class ScoreboardController extends GUIController{
     {
         StringBuilder points = new StringBuilder();
         Game game = viewGUI.getGame();
-        for(Player player : game.getListOfPlayers())
-        {
-            points.append(player.getUsername()).append(": ").append(player.getPoints()).append("\n");
+        ArrayList<Player> playersList = game.getListOfPlayers();
+        ArrayList<Integer> pPoints = new ArrayList<>();
+        for(Player player: playersList) {
+            if(!pPoints.contains(player.getPoints())) {
+                pPoints.add(player.getPoints());
+            }
+        }
+        pPoints.sort(Collections.reverseOrder());
+        for(Integer p: pPoints) {
+            for(Player player: playersList) {
+                if(p.equals(player.getPoints())) {
+                    points.append(player.getUsername()).append(": ").append(player.getPoints()).append("\n");
+                }
+            }
         }
         playerPoints.setText(points.toString());
 
