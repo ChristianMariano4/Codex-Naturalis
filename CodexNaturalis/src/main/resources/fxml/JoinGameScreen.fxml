@@ -15,9 +15,9 @@
             <Button fx:id="joinButton" disable="true" layoutX="428.0" layoutY="372.0" mnemonicParsing="false" onAction="#join" styleClass="test" stylesheets="@../style.css" text="Join" visible="false" />
             <Button layoutX="498.0" layoutY="307.0" mnemonicParsing="false" styleClass="test" stylesheets="@../style.css" text="Quit" />
             <Button layoutX="353.0" layoutY="307.0" mnemonicParsing="false" onAction="#back" styleClass="test" stylesheets="@../style.css" text="Back" />
-            <TextFlow layoutX="381.0" layoutY="134.0" prefHeight="147.0" prefWidth="159.0" stylesheets="@../style.css">
+            <TextFlow layoutX="360.0" layoutY="153.0" prefHeight="130.0" prefWidth="200.0" stylesheets="@../style.css">
                <children>
-                  <ListView fx:id="gameList2" onMouseClicked="#joinButton" prefHeight="147.0" prefWidth="159.0" />
+                  <ListView fx:id="gameList2" onMouseClicked="#joinButton" prefHeight="130.0" prefWidth="200.0" />
                </children>
             </TextFlow>
             <Button layoutX="440.0" layoutY="307.0" mnemonicParsing="false" onAction="#refresh" prefHeight="40.0" prefWidth="42.0" styleClass="refreshButton" />
