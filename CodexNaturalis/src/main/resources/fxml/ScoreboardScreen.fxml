@@ -18,7 +18,7 @@
             </ImageView>
             <TextArea fx:id="playerPoints" layoutX="360.0" layoutY="194.0" prefHeight="170.0" prefWidth="200.0" styleClass="scoreboardTextArea" />
             <Pane layoutX="433.0" layoutY="385.0" />
-            <Button fx:id="toLobbyButton" layoutX="416.0" layoutY="374.0" mnemonicParsing="false" styleClass="test" text="Lobby" />
+            <Button layoutX="416.0" layoutY="374.0" mnemonicParsing="false" onAction="#returnToLobby" styleClass="test" text="Lobby" />
          </children>
       </Pane>
    </children>

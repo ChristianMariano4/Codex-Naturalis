@@ -1,7 +1,9 @@
 package it.polimi.ingsw.view.GUI.GUIControllers;
 
+import it.polimi.ingsw.enumerations.GUIScene;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
 import java.util.ArrayList;
@@ -34,6 +36,9 @@ public class ScoreboardController extends GUIController{
             }
         }
         playerPoints.setText(points.toString());
-
+    }
+    @FXML
+    public void returnToLobby() {
+        viewGUI.changeScene(GUIScene.NICKNAME);
     }
 }
