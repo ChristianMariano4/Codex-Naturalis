@@ -1807,7 +1807,7 @@ public class MainGameScreenController extends GUIController{
     public void twentyPoints(String username) {
         Platform.runLater(new Runnable() {
             public void run() {
-                twentyPoints.setText("Player " + username + " has reached 20 points!");
+                twentyPoints.setText("Player " + username + "\n has reached 20 points!");
                 popupPane.setDisable(false);
                 popupPane.setVisible(true);
                 twentyPoints.setDisable(false);
