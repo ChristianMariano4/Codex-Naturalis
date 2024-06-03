@@ -179,6 +179,7 @@ public class MainGameScreenController extends GUIController{
     public Pane blackMarker;
     public Pane mBackground;
 
+    public Label usernameZero;
     public Label usernameOne;
     public Label usernameTwo;
     public Label usernameThree;
@@ -236,6 +237,12 @@ public class MainGameScreenController extends GUIController{
                     width = width + 53.75;
                     markerPosition++;
                 }
+                else
+                {
+                    usernameZero.setText(viewGUI.getUsername());
+                    usernameZero.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
+                    usernameZero.setAlignment(Pos.CENTER);
+                }
             }
             if(markerPosition == 3) {
                 width = width + 3.75;
@@ -251,6 +258,10 @@ public class MainGameScreenController extends GUIController{
     public void showUsername(MouseEvent event) {
         Pane pane = (Pane)event.getSource();
         switch (pane.getId()) {
+            case "p0":
+                usernameZero.setDisable(false);
+                usernameZero.setVisible(true);
+                break;
             case "p1":
                 usernameOne.setDisable(false);
                 usernameOne.setVisible(true);
@@ -263,6 +274,7 @@ public class MainGameScreenController extends GUIController{
                 usernameThree.setDisable(false);
                 usernameThree.setVisible(true);
                 break;
+
         }
     }
 
@@ -347,6 +359,10 @@ public class MainGameScreenController extends GUIController{
     public void hideUsername(MouseEvent event) {
         Pane pane = (Pane)event.getSource();
         switch (pane.getId()) {
+            case "p0":
+                usernameZero.setDisable(true);
+                usernameZero.setVisible(false);
+                break;
             case "p1":
                 usernameOne.setDisable(true);
                 usernameOne.setVisible(false);

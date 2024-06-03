@@ -32,7 +32,7 @@
                            <children>
                               <Pane fx:id="firstPlayer" opacity="0.4" prefHeight="60.0" prefWidth="115.0" style="-fx-background-color: black; -fx-background-radius: 25;" />
                               <Pane fx:id="notFirstPlayer" opacity="0.4" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: black; -fx-background-radius: 20;" />
-                              <Pane fx:id="p0" layoutX="5.0" layoutY="5.0" onMouseClicked="#setMyField" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" styleClass="clickableObject" />
+                              <Pane fx:id="p0" layoutX="5.0" layoutY="5.0" onMouseClicked="#setMyField" onMouseEntered="#showUsername" onMouseExited="#hideUsername" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" styleClass="clickableObject" />
                               <Pane fx:id="blackMarker" layoutX="60.0" layoutY="5.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 25;" />
                            </children>
                         </Pane>
