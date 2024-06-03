@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
@@ -39,6 +40,7 @@ public class MainGameScreenController extends GUIController{
     private Player playerUpdated = null;
 
     public Pane tableTop;
+    public HBox turnLHbox;
 
     public Pane resourcesPane;
     public Label fungi;
@@ -705,8 +707,9 @@ public class MainGameScreenController extends GUIController{
     {
         try {
             if (viewGUI.getIsTurn()) {
-                turnLabel.setText("It is currently your turn, select a card from your hand to Play");
-                turnLabel.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
+                turnLabel.setText("It is currently your turn,\n select a card from your hand to Play");
+                turnLHbox.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
+                //turnLHbox.setLayoutY(12);
                 setBorderPane(playerHandBackground, false);
 
                 playCard.setDisable(false);
@@ -718,8 +721,8 @@ public class MainGameScreenController extends GUIController{
             else {
 
                 turnLabel.setText("It is currently " + viewGUI.getGame().getCurrentPlayer().getUsername() + "'s turn");
-                turnLabel.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
-
+                turnLHbox.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
+                //turnLHbox.setLayoutY(19);
                 playCard.setDisable(true);
                 playCard.setVisible(false);
 
@@ -1635,7 +1638,8 @@ public class MainGameScreenController extends GUIController{
                         setAdditionalPanesVisibility(false);
 
                         turnLabel.setText("Draw a card to end your turn");
-                        turnLabel.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
+                        turnLHbox.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
+                        //turnLHbox.setLayoutY(8);
                         setBorderPane(drawingFieldBackground, false);
                         setBorderPane(playerHandBackground, true);
                     }

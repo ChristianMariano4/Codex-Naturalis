@@ -467,7 +467,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <HBox alignment="CENTER" layoutX="263.0" layoutY="30.0" prefWidth="400.0">
+                  <HBox fx:id="turnLHbox" alignment="CENTER" layoutX="288.0" layoutY="6.0" prefHeight="48.0" prefWidth="350.0">
                      <children>
                         <Label fx:id="turnLabel" disable="true" textAlignment="CENTER" textFill="WHITE" visible="false">
                            <font>
@@ -476,7 +476,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <Pane disable="true" layoutX="288.0" layoutY="60.0" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: red;" visible="false" />
+                  <Pane layoutX="288.0" layoutY="60.0" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: red;" visible="false" />
                </children>
             </Pane>
             <Pane fx:id="playerField" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
