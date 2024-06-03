@@ -18,7 +18,7 @@
          <children>
             <Pane fx:id="tableTop" prefHeight="518.0" prefWidth="920.0" styleClass="gameBackground">
                <children>
-                  <Pane fx:id="playersMarkerPane" prefHeight="518.0" prefWidth="920.0">
+                  <Pane fx:id="playersMarkerPane" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
                      <children>
                         <Pane layoutX="678.0" layoutY="25.0" prefHeight="60.0" prefWidth="165.0">
                            <children>
@@ -58,7 +58,7 @@
                         </HBox>
                      </children>
                   </Pane>
-                  <Pane fx:id="resourcesPane" layoutX="862.0" layoutY="95.5" prefHeight="327.0" prefWidth="46.0" visible="false">
+                  <Pane fx:id="resourcesPane" layoutX="862.0" layoutY="94.5" prefHeight="327.0" prefWidth="46.0" visible="false">
                      <children>
                         <Pane opacity="0.4" prefHeight="327.0" prefWidth="46.0" style="-fx-background-color: black; -fx-background-radius: 10;" />
                         <Pane prefHeight="46.0" prefWidth="46.0">
