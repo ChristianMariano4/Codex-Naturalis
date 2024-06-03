@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
@@ -34,6 +35,7 @@ public class JoinGameScreenController extends GUIController {
 
     public ListView<String> gameList2;
     ObservableList<String> items = FXCollections.observableArrayList();
+    public Pane errorPane;
     @FXML
     public void back() {
         gui.switchScene(GUIScene.LOBBY);
@@ -61,10 +63,16 @@ public class JoinGameScreenController extends GUIController {
         } catch (ServerDisconnectedException e) {
             throw new RuntimeException(e);
         } catch (NotExistingPlayerException e) {
-            throw new RuntimeException(e);
+            errorPane.setDisable(false);
+            errorPane.setVisible(true);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
+    }
+    @FXML
+    public void exitFromErrorButton() {
+        errorPane.setDisable(true);
+        errorPane.setVisible(false);
     }
 
     @Override
