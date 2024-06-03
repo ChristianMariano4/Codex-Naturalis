@@ -120,11 +120,14 @@ public class MainClient {
     {
         GUI.setConnectionType(false);
         GUI.launchGUI();
+        System.exit(0);
+
     }
     private static void RMIGUI()
     {
         GUI.setConnectionType(true);
         GUI.launchGUI();
+        System.exit(0);
     }
 
 
