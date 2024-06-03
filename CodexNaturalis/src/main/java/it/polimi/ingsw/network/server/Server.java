@@ -65,14 +65,15 @@ public class Server extends Thread implements ServerRMIInterface {
 
     public void disconnect(ClientHandlerInterface client) throws IOException, NotExistingPlayerException, NotAvailableMarkerException, DeckIsEmptyException {
         if(clients.get(client).getGameId() != -1) {
-            if (gameHandlerMap.get(clients.get(client).getGameId()).getGame().getGameStatus().getStatusNumber() < GameStatus.GAME_STARTED.getStatusNumber()){
+            if (gameHandlerMap.get(clients.get(client).getGameId()).getGame().getGameStatus().getStatusNumber() < GameStatus.GAME_STARTED.getStatusNumber() &&
+            gameHandlerMap.get(clients.get(client).getGameId()).getGame().getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()){
                 gameHandlerMap.get(clients.get(client).getGameId()).setRandomInitialization(clients.get(client).getUsername());
             }
             gameHandlerMap.get(clients.get(client).getGameId()).setPlayerDisconnected(clients.get(client).getUsername());
             gameHandlerMap.get(clients.get(client).getGameId()).unsubscribe(clients.get(client).getUsername());
+            gameHandlerMap.get(clients.get(client).getGameId()).removeClient(client);
         }
         synchronized (this.clients) {
-            gameHandlerMap.get(clients.get(client).getGameId()).removeClient(client);
             this.clients.remove(client);
         }
         System.out.println("Client disconnected. Clients size: "+ clients.size()); //debugging
