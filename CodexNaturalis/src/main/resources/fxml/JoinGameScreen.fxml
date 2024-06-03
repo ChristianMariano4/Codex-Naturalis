@@ -27,7 +27,7 @@
             <Pane opacity="0.4" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
             <Pane layoutX="310.0" layoutY="159.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 20;">
                <children>
-                  <Button layoutX="119.0" layoutY="135.0" mnemonicParsing="false" styleClass="test" text="Ok" />
+                  <Button layoutX="119.0" layoutY="135.0" mnemonicParsing="false" onAction="#exitFromErrorButton" styleClass="test" text="Ok" />
                   <Label layoutX="44.0" layoutY="62.0" text="This game alrealdy started,">
                      <font>
                         <Font name="Serif Regular" size="20.0" />
