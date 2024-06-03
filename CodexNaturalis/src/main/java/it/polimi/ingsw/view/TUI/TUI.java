@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.TUI;
 
 import it.polimi.ingsw.enumerations.*;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.view.UI;
@@ -105,12 +106,15 @@ public class TUI extends UI {
                 """).reset());
     }
 
-    public void showAllExistingGames(List<Integer> availableGames) {
+    public void showAllExistingGames(List<Game> availableGames) {
         int counter = 0;
         System.out.println("Available Games:");
-        for(Integer game: availableGames) {
-            counter++;
-            System.out.println(ansi().a("GameID n°" + counter + ": " + game));
+        for(Game game: availableGames) {
+            if(game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
+                System.out.println(ansi().a("GameID : " + game.getGameId() ));
+            } else {
+                System.out.println(ansi().a("GameID : " + game.getGameId() + " - ALREADY STARTED"));
+            }
         }
         System.out.print("Enter the game id you want to join: ");
     }

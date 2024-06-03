@@ -46,7 +46,7 @@ public class ViewCLI implements View, Runnable {
         playerId = username;
 
     }
-    public boolean setChoiceGame() throws ServerDisconnectedException {
+    public int setChoiceGame() throws ServerDisconnectedException {
         do
         {
             try {
@@ -75,11 +75,14 @@ public class ViewCLI implements View, Runnable {
                 else if (choice == 2) {
                     ui.showAllExistingGames(client.getAvailableGames());
                     this.game = client.joinGame(Integer.parseInt(scanner.nextLine()), this.client.getUsername());
+                    if (game.getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
+                        return 2;
+                    }
                     break;
                 }
                 else if(choice == 0)
                 {
-                    return false;
+                    return 0;
                 }
                 else
                     throw new NumberFormatException();
@@ -95,7 +98,7 @@ public class ViewCLI implements View, Runnable {
             }
         }while(true);
 
-        return true;
+        return 1;
     }
 
     public void setReady() throws ServerDisconnectedException{

@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.client.ClientHandlerInterface;
+import it.polimi.ingsw.network.client.RMIClient;
 
 import java.io.IOException;
 import java.rmi.Remote;
@@ -20,7 +21,7 @@ public interface ServerRMIInterface extends Remote {
     void connect(ClientHandlerInterface client) throws IOException;
     //expose methods that the client can call, i.e. those of the controller
     int createGame(ClientHandlerInterface client, int numberOfPlayers) throws IOException, NotExistingPlayerException, InterruptedException;
-    ArrayList<Integer> getAvailableGames() throws RemoteException;
+    ArrayList<Game> getAvailableGames() throws RemoteException;
     Game addPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException, GameAlreadyStartedException;
     ArrayList<Integer> setReady(int gameId) throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException;
     void subscribe(ClientHandlerInterface client, int gameId) throws IOException, GameAlreadyStartedException;
@@ -48,4 +49,5 @@ public interface ServerRMIInterface extends Remote {
     void sendHeartbeat(long time, ClientHandlerInterface client) throws RemoteException;
 
 
+    Game reconnectPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException, NotExistingPlayerException;
 }

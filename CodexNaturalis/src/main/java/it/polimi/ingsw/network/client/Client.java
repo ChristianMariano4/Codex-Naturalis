@@ -51,9 +51,9 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     }
 
     public abstract Game createGame(String username, int numberOfPlayers) throws ServerDisconnectedException;
-    public abstract ArrayList<Integer> getAvailableGames() throws IOException, InterruptedException, ServerDisconnectedException;
+    public abstract ArrayList<Game> getAvailableGames() throws IOException, InterruptedException, ServerDisconnectedException;
 
-    public abstract Game joinGame(int gameId, String username) throws ServerDisconnectedException;
+    public abstract Game joinGame(int gameId, String username) throws ServerDisconnectedException, NotExistingPlayerException, RemoteException;
 
    /* public ServerRMIInterface getServer() {
         return server;
@@ -84,8 +84,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                     this.playing = true;
 
                 }
-                case GAME_BEGIN ->
-                {
+                case GAME_BEGIN -> {
                     view.update((Game) gameUpdate);
                     this.gameBegin = true;
                 }
@@ -146,8 +145,11 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     }
 
     boolean preGameStart(ViewCLI viewCLI) throws InterruptedException, NotExistingPlayerException, IOException, ServerDisconnectedException {
-        if (!viewCLI.setChoiceGame())
+        int choice = viewCLI.setChoiceGame();
+        if (choice == 0)
             return false;
+        if (choice == 2)
+            return true;
         viewCLI.setReady();
         while (!this.playing) {
             Thread.sleep(10);

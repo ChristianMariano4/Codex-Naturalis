@@ -100,10 +100,22 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public ArrayList<Integer> getAvailableGames() throws RemoteException {
-        return new ArrayList<>(gameHandlerMap.keySet().stream().filter(g -> gameHandlerMap.get(g).getIsOpen()).toList());
+    public ArrayList<Game> getAvailableGames() throws RemoteException {
+        return new ArrayList<>(gameHandlerMap.values().stream().map(GameHandler::getGame).toList());
     }
 
+    @Override
+    public Game reconnectPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException, NotExistingPlayerException {
+        try {
+            gameHandlerMap.get(gameId).getGame().getPlayer(username).setConnected();
+            addClientToGameHandler(gameId, client);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        } catch (NotExistingPlayerException e) {
+            throw new NotExistingPlayerException();
+        }
+        return this.gameHandlerMap.get(gameId).getGame();
+    }
 
     @Override
     public Game addPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException, GameAlreadyStartedException {
@@ -124,7 +136,7 @@ public class Server extends Thread implements ServerRMIInterface {
 
     @Override
     public void subscribe(ClientHandlerInterface client, int gameId) throws IOException, GameAlreadyStartedException {
-        this.gameHandlerMap.get(gameId).subscribe(client, gameId);
+        this.gameHandlerMap.get(gameId).subscribe(client);
     }
 
     private void subscribe(GameSerializer gameSerializer, int gameId) {

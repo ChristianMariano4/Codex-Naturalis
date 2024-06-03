@@ -137,13 +137,13 @@ public class GameHandler implements Serializable {
             if (readyPlayers == desiredNumberOfPlayers) {
                 try {
                     this.game = controller.initializeGame();
-                    this.game.setGameStatus(GameStatus.ALL_PLAYERS_READY);
                 } catch (CardTypeMismatchException | InvalidConstructorDataException | CardNotImportedException |
                          DeckIsEmptyException | AlreadyExistingPlayerException | AlreadyMaxNumberOfPlayersException |
                          IOException |
                          UnlinkedCardException | AlreadyThreeCardsInHandException e) {
                     throw new RuntimeException(e);
                 }
+                this.game.setGameStatus(GameStatus.ALL_PLAYERS_READY);
                 this.isOpen = false;
                 eventManager.notify(GameEvent.GAME_INITIALIZED, this.game);
                 for (Player player : game.getListOfPlayers()) {
@@ -164,12 +164,18 @@ public class GameHandler implements Serializable {
         }
     }
 
-    public void subscribe(ClientHandlerInterface client, int gameId) throws IOException, GameAlreadyStartedException {
+    public void subscribe(ClientHandlerInterface client) throws IOException, GameAlreadyStartedException {
         synchronized (this) {
-            if (isOpen)
+            if (this.game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
                 eventManager.subscribe(GameEvent.class, new GameListener(client, server));
-            else
-                throw new GameAlreadyStartedException();
+            } else {
+                try {
+                    this.game.getPlayer(client.getUsername());
+                    eventManager.subscribe(GameEvent.class, new GameListener(client, server));
+                } catch (NotExistingPlayerException e) {
+                    throw new GameAlreadyStartedException();
+                }
+            }
         }
     }
 

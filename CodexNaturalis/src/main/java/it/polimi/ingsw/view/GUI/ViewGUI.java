@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 
 import java.io.IOException;
 import java.io.WriteAbortedException;
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class ViewGUI implements View, Runnable {
@@ -94,11 +95,11 @@ public class ViewGUI implements View, Runnable {
         gui.gameEnd();
     }
 
-    public ArrayList<Integer> showAvailableGames() throws ServerDisconnectedException, IOException, InterruptedException {
+    public ArrayList<Game> showAvailableGames() throws ServerDisconnectedException, IOException, InterruptedException {
         return client.getAvailableGames();
     }
 
-    public void joinGame(int gameId) throws ServerDisconnectedException {
+    public void joinGame(int gameId) throws ServerDisconnectedException, NotExistingPlayerException, RemoteException {
         this.game = client.joinGame(gameId, client.getUsername());
     }
 

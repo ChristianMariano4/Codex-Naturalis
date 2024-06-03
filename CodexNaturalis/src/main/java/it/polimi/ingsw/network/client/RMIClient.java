@@ -50,7 +50,7 @@ public class RMIClient extends Client {
     }
 
     @Override
-    public ArrayList<Integer> getAvailableGames() throws ServerDisconnectedException {
+    public ArrayList<Game> getAvailableGames() throws ServerDisconnectedException {
         try {
             return serverRMIInterface.getAvailableGames();
         } catch (RemoteException e) {
@@ -59,17 +59,17 @@ public class RMIClient extends Client {
     }
 
     @Override
-    public Game joinGame(int gameId, String username) throws ServerDisconnectedException {
+    public Game joinGame(int gameId, String username) throws ServerDisconnectedException, NotExistingPlayerException, RemoteException {
         this.gameId = gameId;
         try {
                 serverRMIInterface.subscribe(this, this.gameId);
-            return serverRMIInterface.addPlayerToGame(this.gameId, username, this);
+                return serverRMIInterface.addPlayerToGame(this.gameId, username, this);
             } catch (RemoteException e) {
                 throw new ServerDisconnectedException();
             } catch (GameAlreadyStartedException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+                return serverRMIInterface.reconnectPlayerToGame(this.gameId, username, this);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
         }
     }
 

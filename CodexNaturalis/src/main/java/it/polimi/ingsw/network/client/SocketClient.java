@@ -82,10 +82,10 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public ArrayList<Integer> getAvailableGames() throws IOException, InterruptedException, ServerDisconnectedException {
+    public ArrayList<Game> getAvailableGames() throws IOException, InterruptedException, ServerDisconnectedException {
         messageHandler.sendMessage(ClientMessageType.AVAILABLE_GAMES_REQUEST, null);
         try {
-            return (ArrayList<Integer>) messageHandlerQueue.take();
+            return (ArrayList<Game>) messageHandlerQueue.take();
         }
         catch (Exception e)
         {
