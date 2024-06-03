@@ -45,12 +45,24 @@ public class GUI extends Application {
     private double widthOld;
     private double heightOld;
     boolean rescalable;
+    private String macName = "Mac OS X";
+    private String windowsName = "Windows";
+
 
     public ViewGUI getViewGUI() {
         return viewGUI;
     }
     @Override
     public void start(Stage stage) throws IOException {
+
+        if(System.getProperty("os.name").equals(macName)) {
+            GameValues.WINDOW_HEIGHT = 546;
+            GameValues.WINDOW_WIDTH = 920;
+        } else if(System.getProperty("os.name").contains(windowsName)) {
+            GameValues.WINDOW_HEIGHT = 559;
+            GameValues.WINDOW_WIDTH = 936;
+        }
+
         this.viewGUI = new ViewGUI(this);
         primaryStage = new Stage();
         //loadAllScenes();
@@ -94,21 +106,39 @@ public class GUI extends Application {
 
             primaryStage.show();
 
-            widthOld = GameValues.WINDOW_WIDTH - 16;
-            heightOld = GameValues.WINDOW_HEIGHT - 41;
-            rescalable = true;
-            rescale(primaryStage.getWidth()- 16, primaryStage.getHeight() - 39);
+            if(System.getProperty("os.name").equals(macName)) {
+                widthOld = GameValues.WINDOW_WIDTH;
+                heightOld = GameValues.WINDOW_HEIGHT - 28;
+                rescalable = true;
+                rescale(primaryStage.getWidth(), primaryStage.getHeight() - 28);
 
-            this.primaryStage.widthProperty().addListener(
-                    (obs, oldVal, newVal) -> {
-                        rescale((double) newVal - 16, heightOld); // - 16
-                    }
-            );
-            this.primaryStage.heightProperty().addListener(
-                    (obs, oldVal, newVal) -> {
-                        rescale(widthOld, (double) newVal - 39); // -39
-                    }
-            );
+                this.primaryStage.widthProperty().addListener(
+                        (obs, oldVal, newVal) -> {
+                            rescale((double) newVal, heightOld); // - 16
+                        }
+                );
+                this.primaryStage.heightProperty().addListener(
+                        (obs, oldVal, newVal) -> {
+                            rescale(widthOld, (double) newVal - 28); // -39
+                        }
+                );
+            } else if(System.getProperty("os.name").contains(windowsName)) {
+                widthOld = GameValues.WINDOW_WIDTH - 16;
+                heightOld = GameValues.WINDOW_HEIGHT - 41;
+                rescalable = true;
+                rescale(primaryStage.getWidth()- 16, primaryStage.getHeight() - 39);
+
+                this.primaryStage.widthProperty().addListener(
+                        (obs, oldVal, newVal) -> {
+                            rescale((double) newVal - 16, heightOld); // - 16
+                        }
+                );
+                this.primaryStage.heightProperty().addListener(
+                        (obs, oldVal, newVal) -> {
+                            rescale(widthOld, (double) newVal - 39); // -39
+                        }
+                );
+            }
 
         }
         catch (Exception e)
