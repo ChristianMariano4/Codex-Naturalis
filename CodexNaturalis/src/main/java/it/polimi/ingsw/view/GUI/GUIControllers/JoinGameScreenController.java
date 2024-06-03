@@ -58,8 +58,12 @@ public class JoinGameScreenController extends GUIController {
         try
         { checkGames.cancel();
             viewGUI.joinGame(gameId);
+            if(viewGUI.getGame().getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
+                gui.switchScene(GUIScene.GAMELOBBY);
+            } else {
+                gui.switchScene(GUIScene.GAME);
+            }
 
-            gui.switchScene(GUIScene.GAMELOBBY);
         } catch (ServerDisconnectedException e) {
             throw new RuntimeException(e);
         } catch (NotExistingPlayerException e) {
