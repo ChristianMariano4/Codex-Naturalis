@@ -58,7 +58,11 @@ public class PositionalObjectiveCard extends ObjectiveCard implements Serializab
     public PositionalType getPositionalType() {
         return positionalType;
     }
-
+    /**
+     *
+     * @param visitor
+     * @return the cardInfo of the PositionalObjectiveCard
+     */
     @Override
     public CardInfo accept(CardVisitor visitor) {
         return visitor.visitPositionalObjectiveCard(this);

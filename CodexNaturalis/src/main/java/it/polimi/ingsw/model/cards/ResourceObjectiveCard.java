@@ -33,7 +33,11 @@ public class ResourceObjectiveCard extends ObjectiveCard implements Serializable
     {
         return cardResource;
     }
-
+    /**
+     *
+     * @param visitor
+     * @return the cardInfo of the ResourceObjectiveCard
+     */
     @Override
     public CardInfo accept(CardVisitor visitor) {
         return visitor.visitResourceObjectiveCard(this);

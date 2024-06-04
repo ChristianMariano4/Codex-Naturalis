@@ -47,6 +47,11 @@ public abstract class Card implements Serializable {
       return currentSide;
    }
 
+   /**
+    * Equals method
+    * @param obj the object
+    * @return true if the object passed is a card and the object cardId match the cardId of this.card
+    */
    @Override
    public boolean equals(Object obj) {
       if (obj instanceof Card) {

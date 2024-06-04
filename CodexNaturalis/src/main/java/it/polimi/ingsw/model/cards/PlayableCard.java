@@ -70,7 +70,11 @@ public abstract class PlayableCard extends Card implements Serializable {
     {
         return points;
     }
-
+    /**
+     * Getter
+     * @param angleOrientation enum of the angles of a card
+     * @return the angle of the card
+     */
     public Angle getAngle(AngleOrientation angleOrientation)
     {
         return angles.get(angleOrientation);

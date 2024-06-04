@@ -201,32 +201,65 @@ public class Player implements Serializable {
     public PlayerField getPlayerField() {
         return playerField;
     }
+
+    /**
+     * Getter
+     * @return the playerHand
+     */
     public PlayerHand getPlayerHand() { return playerHand; }
+
+    /**
+     * Setter
+     * @param secretObjective secret objective card to set
+     */
     public void setSecretObjective(ObjectiveCard secretObjective)
     {
         this.secretObjective = secretObjective;
     }
+
+    /**
+     * Getter
+     * @return the secret objective card
+     */
     public ObjectiveCard getSecretObjective()
     {
         return this.secretObjective;
     }
 
+    /**
+     * Getter
+     * @return the starter card
+     */
     public StarterCard getStarterCard() {
         return starterCard;
     }
 
+    /**
+     * Setter
+     * @param starterCard to set as player starter card
+     */
     public void setStarterCard(StarterCard starterCard) {
         this.starterCard = starterCard;
     }
 
+    /**
+     * Set isDisconnected at true
+     */
     public void setDisconnected(){
         this.isDisconneted = true;
     }
 
+    /**
+     * set isDisconnected at false
+     */
     public void setConnected(){
         this.isDisconneted = false;
     }
 
+    /**
+     * Getter
+     * @return isDisconnected value
+     */
     public boolean getIsDisconnected(){
         return this.isDisconneted;
     }

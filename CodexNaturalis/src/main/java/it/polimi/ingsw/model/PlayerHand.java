@@ -56,6 +56,12 @@ public class PlayerHand implements Serializable {
         }
     }
 
+    /**
+     * Return the card if the card have the right id
+     * @param cardId required
+     * @return the card required by the id
+     * @throws CardNotFoundException if the card is not found
+     */
     public PlayableCard getCardById(int cardId) throws CardNotFoundException {
         for(PlayableCard card: cardsInHand)
         {

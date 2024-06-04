@@ -109,41 +109,84 @@ public class Game implements Serializable {
     public TableTop getTableTop() {
         return tableTop;
     }
+
+    /**
+     * Shuffle the list of players
+     */
     public void shufflePlayers() {
         Collections.shuffle(listOfPlayers);
     }
 
+    /**
+     * Getter
+     * @return return the objective card deck
+     */
     public Deck<ObjectiveCard> getObjectiveCardDeck() {
         return objectiveCardDeck;
     }
 
+    /**
+     * Getter
+     * @return the available starter cards
+     */
     public Deck<StarterCard> getAvailableStarterCards() {
         return availableStarterCards;
     }
 
+    /**
+     * Getter
+     * @return the available markers
+     */
     public ArrayList<Marker> getAvailableMarkers() {
         return availableMarkers;
     }
 
+    /**
+     * Remove the selected marker
+     * @param marker to remove
+     */
     public void removeMarker(Marker marker) {
         this.availableMarkers.remove(marker);
     }
+
+    /**
+     * Getter
+     * @return the current player
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Setter
+     * @param currentPlayer to set as current player
+     */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     * Getter
+     * @return the game status
+     */
     public GameStatus getGameStatus() {
         return this.gameStatus;
     }
 
+    /**
+     * Setter
+     * @param gameStatus to set as gameStatus
+     */
     public void setGameStatus(GameStatus gameStatus){
         this.gameStatus = gameStatus;
     }
 
+    /**
+     * Getter
+     * @param username of the player
+     * @return the player with the right username
+     * @throws NotExistingPlayerException if the player with the passed username not exists
+     */
     public Player getPlayer(String username) throws NotExistingPlayerException{
         for(Player player : listOfPlayers) {
             if(player.getUsername().equals(username)) {
@@ -153,15 +196,28 @@ public class Game implements Serializable {
         throw new NotExistingPlayerException();
     }
 
+    /**
+     * Getter
+     * @return true if the game is ended, false otherwise
+     */
     public boolean getIsGameEnded()
     {
         return this.isGameEnded;
     }
+
+    /**
+     * Setter
+     * @param isGameEnded to set as isGameEnded value, true if the game is ended, false if is not ended
+     */
     public void setIsGameEnded(boolean isGameEnded)
     {
         this.isGameEnded = isGameEnded;
     }
 
+    /**
+     * Getter
+     * @return return true if the game is ended by a disconnection
+     */
     public boolean getIsGameEndedForDisconnection()
     {
         return this.isGameEndedForDisconnection;
@@ -171,6 +227,10 @@ public class Game implements Serializable {
         this.isGameEndedForDisconnection = isGameEndedForDisconnection;
     }
 
+    /**
+     * Remove a player from the game
+     * @param username of the player to remove
+     */
     public void removePlayer(String username) {
         for(Player player : listOfPlayers) {
             if(player.getUsername().equals(username)) {

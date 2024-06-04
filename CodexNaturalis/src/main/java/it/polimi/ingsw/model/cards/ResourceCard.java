@@ -29,7 +29,11 @@ public class ResourceCard extends PlayableCard implements Serializable {
     public ResourceCard(int cardId, Side currentSide, ArrayList<Resource> centralResource, HashMap<AngleOrientation, Angle> angles, Resource cardColor, int points) throws InvalidConstructorDataException {
         super(cardId, currentSide, centralResource, angles, cardColor, points);
     }
-
+    /**
+     *
+     * @param visitor
+     * @return the cardInfo of the ResourceCard
+     */
     @Override
     public CardInfo accept(CardVisitor visitor) {
         return visitor.visitResourceCard(this);

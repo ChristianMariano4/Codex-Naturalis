@@ -17,6 +17,11 @@ public class TripleObjectiveCard extends ObjectiveCard implements Serializable {
         super(cardId, currentSide, points);
     }
 
+    /**
+     *
+     * @param visitor
+     * @return the cardInfo of the TripleObjectiveCard
+     */
     @Override
     public CardInfo accept(CardVisitor visitor) {
         return visitor.visitTripleObjectiveCard(this);

@@ -27,8 +27,11 @@ public class StarterCard extends PlayableCard implements Serializable {
     public StarterCard(int cardId, Side currentSide, List<Resource> centralResources, Map<AngleOrientation, Angle> angles, Resource cardColor, int points) throws InvalidConstructorDataException {
         super(cardId, currentSide, centralResources, angles, cardColor, points);
     }
-
-
+    /**
+     *
+     * @param visitor
+     * @return the cardInfo of the StarterCard
+     */
     @Override
     public CardInfo accept(CardVisitor visitor) {
         return visitor.visitStarterCard(this);

@@ -69,6 +69,10 @@ public class GoldCard extends PlayableCard implements Visitable, Serializable {
         return goldPointCondition;
     }
 
+    /**
+     * Getter
+     * @return the requirements of the card
+     */
     public ArrayList<Pair<Resource, Integer>> getRequirementsPairList(){
         ArrayList<Pair<Resource, Integer>> requirementsPairList = new ArrayList<>();
         int counter1 = 0;

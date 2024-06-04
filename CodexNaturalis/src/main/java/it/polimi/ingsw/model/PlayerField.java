@@ -100,10 +100,21 @@ public class PlayerField implements Serializable {
         }
     }
 
+    /**
+     * Add the passed starterCard in the matrixField
+     * @param starterCard is the selected starterCard
+     */
     public void addCardToCell(StarterCard starterCard){
         matrixField[DEFAULT_MATRIX_SIZE/2][DEFAULT_MATRIX_SIZE/2] = starterCard;
         playedCards.add(new CardPosition(starterCard, DEFAULT_MATRIX_SIZE/2, DEFAULT_MATRIX_SIZE/2));
     }
+
+    /**
+     * Get a card from the playerFiled by its ID
+     * @param cardId is the id of the required card
+     * @return the card from the filed
+     * @throws CardNotFoundException if the card is not found
+     */
     public PlayableCard getCardById(int cardId) throws CardNotFoundException {
         for(int i = 0; i<DEFAULT_MATRIX_SIZE; i++)
         {
