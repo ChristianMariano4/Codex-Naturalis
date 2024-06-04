@@ -42,6 +42,7 @@ public class GameLobbyController extends GUIController {
     public Button setReadyButton;
     private Integer playerNum = 1;
     public Pane exitPane;
+    public Label gameIdLabel;
 
     @FXML
     public void rulebookButton() {
@@ -176,6 +177,9 @@ public class GameLobbyController extends GUIController {
 
     @Override
     public void sceneInitializer() {
+        gameIdLabel.setText("GameId: " + viewGUI.getGame().getGameId());
+        gameIdLabel.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
+
         synchronized (playerPanes) {
             this.names.add(p1name);
             this.names.add(p2name);

@@ -183,5 +183,10 @@
             </Pane>
          </children>
       </Pane>
+      <Label fx:id="gameIdLabel" layoutX="3.0" layoutY="3.0" textFill="WHITE">
+         <font>
+            <Font name="Serif Regular" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

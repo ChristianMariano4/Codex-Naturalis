@@ -21,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
+import java.awt.*;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -192,6 +193,7 @@ public class MainGameScreenController extends GUIController{
     private boolean finalTurn = false;
     private boolean inMyField = true;
     public Pane exitPane;
+    public Label gameIdLabel;
 
     private void markerPaneInitializer() {
 
@@ -404,6 +406,8 @@ public class MainGameScreenController extends GUIController{
 
     public void sceneInitializer() {
 
+        gameIdLabel.setText("GameId: " + viewGUI.getGame().getGameId());
+        gameIdLabel.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
         inspectedCardInfo = new InspectedCardInfo();
         if(viewGUI.getGame().getGameStatus().getStatusNumber() >= GameStatus.GAME_STARTED.getStatusNumber())
         {
