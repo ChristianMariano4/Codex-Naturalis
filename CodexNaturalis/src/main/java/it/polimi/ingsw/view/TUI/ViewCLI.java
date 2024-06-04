@@ -261,10 +261,8 @@ public class ViewCLI implements View, Runnable {
             } catch (InterruptedException e) {
                 // Handle the InterruptedException
                 Thread.currentThread().interrupt(); // Preserve the interrupt
-                System.out.println("Thread was interrupted, failed to complete operation");
             }
         }
-        //Why the block below is not reachable?
         if(game.getIsGameEndedForDisconnection()) {
             gameEndDisconnection();
         }else{
@@ -698,5 +696,4 @@ public class ViewCLI implements View, Runnable {
     public void gameEnd() {
         this.inGame = false;
     }
-
 }

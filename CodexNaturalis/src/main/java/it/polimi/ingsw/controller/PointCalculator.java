@@ -159,6 +159,13 @@ public class PointCalculator {
         return points;
     }
 
+    /**
+     * Calculate the points given by the playedCard
+     * @param player the player that played the card
+     * @param card the card played
+     * @param cardInfo the information of the card
+     * @return the total amount of points given by the card
+     */
     public static int calculatePlayedCardPoints(Player player, PlayableCard card, CardInfo cardInfo)
     {
         if(cardInfo.getCardType().equals(CardType.RESOURCE))

@@ -39,11 +39,10 @@ public class Server extends Thread implements ServerRMIInterface {
 
     @Override
     public void connect(ClientHandlerInterface client) throws IOException {
-        System.out.println("Connecting client to the server...");
         synchronized (this.clients) {
             this.clients.put(client, new ClientInfo(System.currentTimeMillis()));
         }
-        System.out.println("Client connected to the server successfully");
+        System.out.println("Client connected to the server successfully. Clients size: "+ clients.size());
 
         new Thread(() -> {
             while(true) {
@@ -51,7 +50,7 @@ public class Server extends Thread implements ServerRMIInterface {
                     Thread.sleep(GameValues.HEARTBEAT_INTERVAL);
                     if(System.currentTimeMillis() - clients.get(client).getLastHeartbeat() > GameValues.HEARTBEAT_TIMEOUT) {
                         disconnect(client);
-                        System.out.println("Client disconnected successfully");
+                        System.out.println("Client disconnected. Clients size: "+ clients.size()); //debugging
                         break;
                     }
                 } catch (InterruptedException | IOException | NotExistingPlayerException | NotAvailableMarkerException |
@@ -81,7 +80,6 @@ public class Server extends Thread implements ServerRMIInterface {
         synchronized (this.clients) {
             this.clients.remove(client);
         }
-        System.out.println("Client disconnected. Clients size: "+ clients.size()); //debugging
 
     }
 

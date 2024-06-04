@@ -22,13 +22,19 @@ public class Controller {
     private final CardHandler cardHandler;
     private final GameHandler gameHandler;
 
+
+    /**
+     * Constructor for the Controller class
+     * @param eventManager the eventManager of the server
+     * @param gameHandler the gameHandler of the server
+     */
     public Controller(EventManager eventManager, GameHandler gameHandler){
         this.cardHandler = new CardHandler();
         this.gameHandler = gameHandler;
     }
 
     /**
-     *
+     * Creates a new game
      * @return the Game the method create
      * @throws InvalidConstructorDataException if the ConstructorData are invalid
      * @throws CardNotImportedException if a card is not imported correctly
@@ -66,11 +72,6 @@ public class Controller {
         starterCardDeck.shuffleDeck();
         return new Game(gameId, drawingField, sharedObjectiveCards, objectiveCardDeck, starterCardDeck);
     }
-
-    /**
-     * Getter
-     * @return the game
-     */
 
     /**
      * Adds a player to the game specified by gameId
@@ -129,13 +130,19 @@ public class Controller {
         gameHandler.getGame().getAvailableMarkers().remove(marker);
     }
 
+    /**
+     * Give a starter card to the player
+     * @param player the player that has to receive the card
+     * @return the starter card given to the player
+     * @throws DeckIsEmptyException if the deck is empty
+     * @throws NotExistingPlayerException if the player doesn't exist
+     */
     public StarterCard giveStarterCard(Player player) throws DeckIsEmptyException, NotExistingPlayerException {
         Player playerObj =  gameHandler.getGame().getPlayer(player.getUsername());
         StarterCard starterCard = gameHandler.getGame().getAvailableStarterCards().getTopCard();
         playerObj.setStarterCard(starterCard);
         return starterCard;
     }
-
 
     /**
      * Give to the player the initial 3 cards in his hand
@@ -182,12 +189,18 @@ public class Controller {
         player.getPlayerHand().addCardToPlayerHand(gameHandler.getGame().getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
         player.getPlayerHand().addCardToPlayerHand(gameHandler.getGame().getTableTop().getDrawingField().drawCardFromResourceCardDeck(DrawPosition.FROMDECK));
     }
+
+    /**
+     * Set the secret objective card to the player
+     * @param player the player that has to receive the card
+     * @param chosenObjectiveCard the card chosen by the player
+     */
     public void setSecretObjectiveCard(Player player, ObjectiveCard chosenObjectiveCard) throws NotExistingPlayerException {
         Player playerObj = gameHandler.getPlayer(player.getUsername());
         playerObj.setSecretObjective(chosenObjectiveCard);
     }
 
-
+    //TODO: delete method if not useful
     public synchronized void update(UserMessageWrapper message) {
         switch(message.getType()) {
             case USERNAME_INSERTED -> {
@@ -196,6 +209,19 @@ public class Controller {
         }
     }
 
+    /**
+     * Play a card from the player hand to the player field
+     * @param player the player that has to play the card
+     * @param cardOnField the card on the field where the card has to be played
+     * @param cardInHand the card that has to be played from the hand
+     * @param orientation the angle where the card has to be played
+     * @return the player that has played the card
+     * @throws InvalidCardPositionException if the card position is invalid
+     * @throws CardTypeMismatchException if the card type doesn't match
+     * @throws RequirementsNotMetException if the requirements are not met
+     * @throws AngleAlreadyLinkedException if the angle is already linked
+     * @throws NotExistingPlayerException if the player doesn't exist
+     */
     public synchronized Player playCard(Player player, PlayableCard cardOnField, PlayableCard cardInHand, AngleOrientation orientation) throws InvalidCardPositionException, CardTypeMismatchException, RequirementsNotMetException, AngleAlreadyLinkedException, NotExistingPlayerException {
         Player playerObj = gameHandler.getPlayer(player.getUsername());
         if(cardHandler.checkRequirements(cardInHand, playerObj)) {
@@ -210,6 +236,12 @@ public class Controller {
         }
     }
 
+
+    /**
+     * Update the resources of the player after playing a card
+     * @param player the player that has played the card
+     * @param cardInHand the card that has been played
+     */
     private void updateResources(Player player, PlayableCard cardInHand)
     {
         for(Resource resource : cardInHand.getCentralResources())
@@ -255,9 +287,10 @@ public class Controller {
         }
     }
 
-
-
-
+    /**
+     * Calculate the final points of the players
+     * @throws CardTypeMismatchException if the card type doesn't match
+     */
     public synchronized void calculateAndUpdateFinalPoints() throws CardTypeMismatchException {
         Game game = gameHandler.getGame();
 
@@ -289,6 +322,15 @@ public class Controller {
         game.setIsGameEnded(true);
     }
 
+    /**
+     * Draw a card from the drawing field
+     * @param player the player that has to draw the card
+     * @param cardType the type of the card that has to be drawn
+     * @param drawPosition the position from where the card has to be drawn
+     * @throws DeckIsEmptyException if the deck is empty
+     * @throws AlreadyThreeCardsInHandException if the player already has three cards in his hand
+     * @throws NotExistingPlayerException if the player doesn't exist
+     */
     public synchronized void drawCard(Player player, CardType cardType, DrawPosition drawPosition) throws DeckIsEmptyException, AlreadyThreeCardsInHandException, NotExistingPlayerException {
         Player playerObj = gameHandler.getPlayer(player.getUsername());
         if(cardType == CardType.RESOURCE) {
@@ -299,10 +341,21 @@ public class Controller {
             playerObj.getPlayerHand().addCardToPlayerHand(card);
         }
     }
+
+    /**
+     * Get the cardHandler
+     * @return the gameHandler
+     */
     public CardHandler getCardHandler() {
         return cardHandler;
     }
 
+    /**
+     * Pass the turn to the next player.
+     * If a player is disconnected, the next player is the one after the disconnected player
+     * @param player the player that has to pass the turn
+     * @throws NotExistingPlayerException if the player doesn't exist
+     */
     public void nextTurn(Player player) throws NotExistingPlayerException {
         Player playerObj = gameHandler.getPlayer(player.getUsername());
         playerObj.setIsTurn(false);
@@ -320,6 +373,11 @@ public class Controller {
 
     }
 
+    /**
+     * Set the player as disconnected
+     * @param username the username of the player that has to be set as disconnected
+     * @throws NotExistingPlayerException if the player doesn't exist
+     */
     public void setPlayerDisconnected(String username) throws NotExistingPlayerException {
         gameHandler.getGame().getPlayer(username).setDisconnected();
     }

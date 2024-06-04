@@ -210,6 +210,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
             }
         }
     }
+
     public void serMarkerTurn(boolean turn)
     {
         this.markerTurn = turn;

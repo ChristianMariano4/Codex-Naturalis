@@ -355,6 +355,12 @@ public class CardHandler {
         }
         throw new CardTypeMismatchException();
     }
+
+    /**
+     * Get the PlayableCard with the selected cardId
+     * @param cardId is the id of the card
+     * @return the PlayableCard with the selected cardId
+     */
     public PlayableCard getPlayableCardById(int cardId)
     {
         return playableCards.stream().filter((c -> c.getCardsId() == cardId)).map(c -> {
@@ -365,6 +371,12 @@ public class CardHandler {
             }
         }).findFirst().orElseThrow();
     }
+
+    /**
+     * Get the CardInfo of the selected card
+     * @param card is the selected card
+     * @return the CardInfo of the selected card
+     */
     public CardInfo getCardInfo(Card card)
     {
         CardVisitor visitor = new CardVisitorImpl();
