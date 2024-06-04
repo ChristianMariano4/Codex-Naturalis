@@ -360,7 +360,20 @@
                   </Pane>
                   <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="rulebookButton" />
+                        <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0">
+                           <styleClass>
+                              <String fx:value="rulebookButton" />
+                              <String fx:value="clickableObject" />
+                           </styleClass></Button>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="865.0" layoutY="456.0" prefHeight="41.0" prefWidth="41.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#quitGame" prefHeight="41.0" prefWidth="42.0">
+                           <styleClass>
+                              <String fx:value="exitButton" />
+                              <String fx:value="clickableObject" />
+                           </styleClass></Button>
                      </children>
                   </Pane>
                   <Pane fx:id="objectiveCardsInspector" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
@@ -368,12 +381,16 @@
                         <Pane opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
                         <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#exitObjectiveButton" prefHeight="41.0" prefWidth="42.0" styleClass="closeButton" />
+                              <Button mnemonicParsing="false" onAction="#exitObjectiveButton" prefHeight="41.0" prefWidth="42.0">
+                                 <styleClass>
+                                    <String fx:value="closeButton" />
+                                    <String fx:value="clickableObject" />
+                                 </styleClass></Button>
                            </children>
                         </Pane>
-                        <Pane fx:id="showObjCard" layoutX="251.0" layoutY="120.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;">
+                        <Pane fx:id="showObjCard" layoutX="251.0" layoutY="120.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#showOtherSharedObjCardSide" opacity="0.0" prefHeight="280.0" prefWidth="420.0" text="Button" />
+                              <Button mnemonicParsing="false" onAction="#showOtherSharedObjCardSide" opacity="0.0" prefHeight="280.0" prefWidth="420.0" styleClass="clickableObject" text="Button" />
                            </children>
                         </Pane>
                      </children>
@@ -383,17 +400,25 @@
                         <Pane opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
                         <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#exitHandButton" prefHeight="41.0" prefWidth="42.0" styleClass="closeButton" />
+                              <Button mnemonicParsing="false" onAction="#exitHandButton" prefHeight="41.0" prefWidth="42.0">
+                                 <styleClass>
+                                    <String fx:value="closeButton" />
+                                    <String fx:value="clickableObject" />
+                                 </styleClass></Button>
                            </children>
                         </Pane>
-                        <Pane fx:id="handCardInspector" layoutX="251.0" layoutY="81.0" prefHeight="280.0" prefWidth="420.0">
+                        <Pane fx:id="handCardInspector" layoutX="251.0" layoutY="81.0" prefHeight="280.0" prefWidth="420.0" styleClass="clickableObject">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#showOtherCardInHandSide" opacity="0.0" prefHeight="280.0" prefWidth="420.0" text="Button" />
+                              <Button mnemonicParsing="false" onAction="#showOtherCardInHandSide" opacity="0.0" prefHeight="280.0" prefWidth="420.0" styleClass="clickableObject" text="Button" />
                            </children>
                         </Pane>
                         <Pane layoutX="395.0" layoutY="408.0" prefHeight="50.0" prefWidth="130.0">
                            <children>
-                              <Button fx:id="playCard" disable="true" mnemonicParsing="false" onAction="#playCardButton" prefHeight="50.0" prefWidth="130.0" styleClass="test" text="Play Card" visible="false" />
+                              <Button fx:id="playCard" disable="true" mnemonicParsing="false" onAction="#playCardButton" prefHeight="50.0" prefWidth="130.0" text="Play Card" visible="false">
+                                 <styleClass>
+                                    <String fx:value="test" />
+                                    <String fx:value="clickableObject" />
+                                 </styleClass></Button>
                            </children>
                         </Pane>
                      </children>
@@ -403,12 +428,16 @@
                         <Pane opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
                         <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#exitObjectiveSecretButton" prefHeight="41.0" prefWidth="42.0" styleClass="closeButton" />
+                              <Button mnemonicParsing="false" onAction="#exitObjectiveSecretButton" prefHeight="41.0" prefWidth="42.0">
+                                 <styleClass>
+                                    <String fx:value="closeButton" />
+                                    <String fx:value="clickableObject" />
+                                 </styleClass></Button>
                            </children>
                         </Pane>
-                        <Pane fx:id="showSObjCard" layoutX="251.0" layoutY="120.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;">
+                        <Pane fx:id="showSObjCard" layoutX="251.0" layoutY="120.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#showOtherSecretObjCardSide" opacity="0.0" prefHeight="280.0" prefWidth="420.0" text="Button" />
+                              <Button mnemonicParsing="false" onAction="#showOtherSecretObjCardSide" opacity="0.0" prefHeight="280.0" prefWidth="420.0" styleClass="clickableObject" text="Button" />
                            </children>
                         </Pane>
                      </children>
@@ -418,24 +447,27 @@
                         <Pane opacity="0.8" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
                         <Pane layoutX="865.0" layoutY="14.0" prefHeight="41.0" prefWidth="41.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#exitDrawingFieldButton" prefHeight="41.0" prefWidth="42.0" styleClass="closeButton" />
+                              <Button mnemonicParsing="false" onAction="#exitDrawingFieldButton" prefHeight="41.0" prefWidth="42.0">
+                                 <styleClass>
+                                    <String fx:value="closeButton" />
+                                    <String fx:value="clickableObject" />
+                                 </styleClass></Button>
                            </children>
                         </Pane>
-                        <Pane fx:id="drawingCardPane" layoutX="251.0" layoutY="81.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;">
+                        <Pane fx:id="drawingCardPane" layoutX="251.0" layoutY="81.0" prefHeight="280.0" prefWidth="420.0" style="-fx-background-color: white;" styleClass="clickableObject">
                            <children>
                               <Button mnemonicParsing="false" onAction="#showOtherDrawingCardSide" opacity="0.0" prefHeight="280.0" prefWidth="420.0" text="Button" />
                            </children>
                         </Pane>
                         <Pane layoutX="395.0" layoutY="408.0" prefHeight="50.0" prefWidth="130.0">
                            <children>
-                              <Button fx:id="drawCard" disable="true" mnemonicParsing="false" onAction="#drawCardButton" prefHeight="50.0" prefWidth="130.0" styleClass="test" text="Draw Card" visible="false" />
+                              <Button fx:id="drawCard" disable="true" mnemonicParsing="false" onAction="#drawCardButton" prefHeight="50.0" prefWidth="130.0" text="Draw Card" visible="false">
+                                 <styleClass>
+                                    <String fx:value="test" />
+                                    <String fx:value="clickableObject" />
+                                 </styleClass></Button>
                            </children>
                         </Pane>
-                     </children>
-                  </Pane>
-                  <Pane layoutX="865.0" layoutY="456.0" prefHeight="41.0" prefWidth="41.0">
-                     <children>
-                        <Button mnemonicParsing="false" onAction="#quitGame" prefHeight="41.0" prefWidth="42.0" styleClass="exitButton" />
                      </children>
                   </Pane>
                   <Pane fx:id="starterCardSide" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
@@ -509,7 +541,11 @@
                         <Font name="Serif Regular" size="25.0" />
                      </font>
                   </Label>
-                  <Button layoutX="122.0" layoutY="134.0" mnemonicParsing="false" onAction="#exitPopupButton" styleClass="test" text="Ok" />
+                  <Button layoutX="122.0" layoutY="134.0" mnemonicParsing="false" onAction="#exitPopupButton" text="Ok">
+                     <styleClass>
+                        <String fx:value="test" />
+                        <String fx:value="clickableObject" />
+                     </styleClass></Button>
                   <Label fx:id="finalRound" disable="true" layoutX="38.0" layoutY="74.0" prefHeight="23.0" prefWidth="222.0" text="The final round has begun" textAlignment="CENTER" visible="false">
                      <font>
                         <Font name="Serif Regular" size="20.0" />
@@ -610,12 +646,20 @@
                         </TabPane>
                         <Pane layoutX="120.0" layoutY="240.0" prefHeight="41.0" prefWidth="41.0">
                            <children>
-                              <Button fx:id="backButton" mnemonicParsing="false" onAction="#previousRulebookSlide" prefHeight="41.0" prefWidth="42.0" styleClass="backArrowButton" />
+                              <Button fx:id="backButton" mnemonicParsing="false" onAction="#previousRulebookSlide" prefHeight="41.0" prefWidth="42.0">
+                                 <styleClass>
+                                    <String fx:value="backArrowButton" />
+                                    <String fx:value="clickableObject" />
+                                 </styleClass></Button>
                            </children>
                         </Pane>
                         <Pane layoutX="750.0" layoutY="240.0" prefHeight="41.0" prefWidth="41.0">
                            <children>
-                              <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextRulebookSlide" prefHeight="41.0" prefWidth="42.0" styleClass="nextArrowButton" />
+                              <Button fx:id="nextButton" mnemonicParsing="false" onAction="#nextRulebookSlide" prefHeight="41.0" prefWidth="42.0">
+                                 <styleClass>
+                                    <String fx:value="nextArrowButton" />
+                                    <String fx:value="clickableObject" />
+                                 </styleClass></Button>
                            </children>
                         </Pane>
                      </children>
@@ -627,6 +671,32 @@
                               <String fx:value="rulebookButton" />
                               <String fx:value="clickableObject" />
                            </styleClass></Button>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane fx:id="exitPane" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
+               <children>
+                  <Pane opacity="0.6" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
+                  <Pane layoutX="310.0" layoutY="159.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                     <children>
+                        <Label layoutX="80.0" layoutY="71.0" text="Are you sure?">
+                           <font>
+                              <Font name="Serif Regular" size="25.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="62.0" layoutY="126.0" mnemonicParsing="false" onAction="#yesExitButton" text="Yes">
+                           <styleClass>
+                              <String fx:value="test" />
+                              <String fx:value="clickableObject" />
+                           </styleClass>
+                        </Button>
+                        <Button layoutX="178.0" layoutY="126.0" mnemonicParsing="false" onAction="#noExitButton" text="No">
+                           <styleClass>
+                              <String fx:value="test" />
+                              <String fx:value="clickableObject" />
+                           </styleClass>
+                        </Button>
                      </children>
                   </Pane>
                </children>

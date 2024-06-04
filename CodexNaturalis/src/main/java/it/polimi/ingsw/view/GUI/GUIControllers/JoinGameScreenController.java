@@ -41,6 +41,7 @@ public class JoinGameScreenController extends GUIController {
     ObservableList<String> items = FXCollections.observableArrayList();
     public Pane errorPane;
     private ScheduledService<Void> service;
+    public Pane exitPane;
 
     @FXML
     public void back() {
@@ -49,22 +50,21 @@ public class JoinGameScreenController extends GUIController {
 
     @FXML
     public void joinButton() {
-        if(gameList2.getSelectionModel().getSelectedItem() != null) {
+        if (gameList2.getSelectionModel().getSelectedItem() != null) {
             joinButton.setDisable(false);
             joinButton.setVisible(true);
         }
     }
+
     @FXML
-    public void join(ActionEvent event)
-    {
+    public void join(ActionEvent event) {
         int gameId;
         String choice = gameList2.getSelectionModel().getSelectedItem();
         choice = choice.replaceAll("\\D+", "");
         gameId = Integer.parseInt(choice);
-        try
-        {
-                viewGUI.joinGame(gameId);
-            if(viewGUI.getGame().getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
+        try {
+            viewGUI.joinGame(gameId);
+            if (viewGUI.getGame().getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
                 gui.switchScene(GUIScene.GAMELOBBY);
             } else {
                 gui.switchScene(GUIScene.GAME);
@@ -83,6 +83,7 @@ public class JoinGameScreenController extends GUIController {
             e.printStackTrace();
         }
     }
+
     @FXML
     public void exitFromErrorButton() {
         errorPane.setDisable(true);
@@ -103,12 +104,12 @@ public class JoinGameScreenController extends GUIController {
         gameList2.setItems(items);
         try {
             ArrayList<Game> games = viewGUI.showAvailableGames();
-            for(Game game: games) {
+            for (Game game : games) {
                 if (game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_JOINED.getStatusNumber()) {
                     items.add("GameID: " + game.getGameId());
-                } else if(game.getGameStatus().getStatusNumber() == GameStatus.ALL_PLAYERS_JOINED.getStatusNumber()) {
+                } else if (game.getGameStatus().getStatusNumber() == GameStatus.ALL_PLAYERS_JOINED.getStatusNumber()) {
                     items.add("GameID: " + game.getGameId() + " - FULL");
-                } else if(game.getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
+                } else if (game.getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
                     items.add("GameID: " + game.getGameId() + " - STARTED");
                 }
             }
@@ -121,5 +122,20 @@ public class JoinGameScreenController extends GUIController {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-     }
     }
+
+    @FXML
+    public void quitButton() {
+        exitPane.setDisable(false);
+        exitPane.setVisible(true);
+    }
+    @FXML
+    public void noExitButton(ActionEvent event) {
+        exitPane.setDisable(true);
+        exitPane.setVisible(false);
+    }
+    @FXML
+    public void yesExitButton(ActionEvent event) {
+        Platform.exit();
+    }
+}

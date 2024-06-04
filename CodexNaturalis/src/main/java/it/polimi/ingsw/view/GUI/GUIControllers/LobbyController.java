@@ -17,6 +17,7 @@ public class LobbyController extends GUIController{
     public Button createGame;
     public Button joinGame;
     public Pane numChoice;
+    public Pane exitPane;
 
 
     @FXML
@@ -94,6 +95,17 @@ public class LobbyController extends GUIController{
     }
     @FXML
     public void quit(ActionEvent event) {
+        exitPane.setDisable(false);
+        exitPane.setVisible(true);
+
+    }
+    @FXML
+    public void noExitButton(ActionEvent event) {
+        exitPane.setDisable(true);
+        exitPane.setVisible(false);
+    }
+    @FXML
+    public void yesExitButton(ActionEvent event) {
         Platform.exit();
     }
 }

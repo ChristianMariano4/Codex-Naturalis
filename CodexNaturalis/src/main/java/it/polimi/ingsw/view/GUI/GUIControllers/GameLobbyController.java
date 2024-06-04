@@ -6,6 +6,7 @@ import it.polimi.ingsw.exceptions.NotEnoughPlayersException;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -40,6 +41,7 @@ public class GameLobbyController extends GUIController {
     public Label readyPlayers;
     public Button setReadyButton;
     private Integer playerNum = 1;
+    public Pane exitPane;
 
     @FXML
     public void rulebookButton() {
@@ -151,8 +153,17 @@ public class GameLobbyController extends GUIController {
     }
 
     @FXML
-    public void quitGame()
-    {
+    public void quitGame() {
+        exitPane.setDisable(false);
+        exitPane.setVisible(true);
+    }
+    @FXML
+    public void noExitButton(ActionEvent event) {
+        exitPane.setDisable(true);
+        exitPane.setVisible(false);
+    }
+    @FXML
+    public void yesExitButton(ActionEvent event) {
         try {
             viewGUI.quitGame();
             viewGUI.initialize();

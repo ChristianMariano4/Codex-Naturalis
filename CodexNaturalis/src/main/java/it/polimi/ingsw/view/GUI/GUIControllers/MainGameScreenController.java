@@ -191,6 +191,7 @@ public class MainGameScreenController extends GUIController{
     public Label finalRound;
     private boolean finalTurn = false;
     private boolean inMyField = true;
+    public Pane exitPane;
 
     private void markerPaneInitializer() {
 
@@ -1889,8 +1890,12 @@ public class MainGameScreenController extends GUIController{
         });
     }
     @FXML
-    public void quitGame()
-    {
+    public void quitGame() {
+        exitPane.setDisable(false);
+        exitPane.setVisible(true);
+    }
+    @FXML
+    public void yesExitButton() {
         try
         {
             viewGUI.quitGame();
@@ -1901,7 +1906,11 @@ public class MainGameScreenController extends GUIController{
             throw new RuntimeException();
         }
     }
-
+    @FXML
+    public void noExitButton() {
+        exitPane.setDisable(true);
+        exitPane.setVisible(false);
+    }
 
 
     public void update(Object update)

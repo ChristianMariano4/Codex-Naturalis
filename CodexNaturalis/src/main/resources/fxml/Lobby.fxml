@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,20 +11,74 @@
    <children>
       <Pane fx:id="scalable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" styleClass="lobbyScreen" stylesheets="@../style.css">
          <children>
-            <Button fx:id="createGame" layoutX="384.0" layoutY="178.0" mnemonicParsing="false" onAction="#createGame" styleClass="test" stylesheets="@../style.css" text="Create Game" />
-            <Button fx:id="joinGame" layoutX="396.0" layoutY="238.0" mnemonicParsing="false" onAction="#joinGame" styleClass="test" stylesheets="@../style.css" text="Join Game" />
-            <Button layoutX="426.0" layoutY="295.0" mnemonicParsing="false" onAction="#quit" styleClass="test" stylesheets="@../style.css" text="Quit" />
+            <Button fx:id="createGame" layoutX="384.0" layoutY="178.0" mnemonicParsing="false" onAction="#createGame" stylesheets="@../style.css" text="Create Game">
+               <styleClass>
+                  <String fx:value="test" />
+                  <String fx:value="clickableObject" />
+               </styleClass></Button>
+            <Button fx:id="joinGame" layoutX="396.0" layoutY="238.0" mnemonicParsing="false" onAction="#joinGame" stylesheets="@../style.css" text="Join Game">
+               <styleClass>
+                  <String fx:value="test" />
+                  <String fx:value="clickableObject" />
+               </styleClass></Button>
+            <Button layoutX="426.0" layoutY="295.0" mnemonicParsing="false" onAction="#quit" stylesheets="@../style.css" text="Quit">
+               <styleClass>
+                  <String fx:value="test" />
+                  <String fx:value="clickableObject" />
+               </styleClass></Button>
             <Pane fx:id="numChoice" disable="true" layoutX="339.0" layoutY="206.0" prefHeight="186.0" prefWidth="243.0" visible="false">
                <children>
-                  <Button layoutY="30.0" mnemonicParsing="false" onAction="#twoPlayers" styleClass="test" text="2" />
-                  <Button layoutX="100.0" layoutY="30.0" mnemonicParsing="false" onAction="#threePlayers" styleClass="test" text="3" />
-                  <Button layoutX="200.0" layoutY="30.0" mnemonicParsing="false" onAction="#fourPlayers" styleClass="test" text="4" />
+                  <Button layoutY="30.0" mnemonicParsing="false" onAction="#twoPlayers" text="2">
+                     <styleClass>
+                        <String fx:value="test" />
+                        <String fx:value="clickableObject" />
+                     </styleClass></Button>
+                  <Button layoutX="100.0" layoutY="30.0" mnemonicParsing="false" onAction="#threePlayers" text="3">
+                     <styleClass>
+                        <String fx:value="test" />
+                        <String fx:value="clickableObject" />
+                     </styleClass></Button>
+                  <Button layoutX="200.0" layoutY="30.0" mnemonicParsing="false" onAction="#fourPlayers" text="4">
+                     <styleClass>
+                        <String fx:value="test" />
+                        <String fx:value="clickableObject" />
+                     </styleClass></Button>
                   <Label text="Choose max number of players">
                      <font>
                         <Font name="Serif Regular" size="20.0" />
                      </font>
                   </Label>
-                  <Button layoutX="102.0" layoutY="152.0" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="40.0" styleClass="backButton" />
+                  <Button layoutX="102.0" layoutY="152.0" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="40.0">
+                     <styleClass>
+                        <String fx:value="backButton" />
+                        <String fx:value="clickableObject" />
+                     </styleClass></Button>
+               </children>
+            </Pane>
+            <Pane fx:id="exitPane" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">
+               <children>
+                  <Pane opacity="0.6" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
+                  <Pane layoutX="310.0" layoutY="159.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                     <children>
+                        <Label layoutX="80.0" layoutY="71.0" text="Are you sure?">
+                           <font>
+                              <Font name="Serif Regular" size="25.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="62.0" layoutY="126.0" mnemonicParsing="false" onAction="#yesExitButton" text="Yes">
+                           <styleClass>
+                              <String fx:value="test" />
+                              <String fx:value="clickableObject" />
+                           </styleClass>
+                        </Button>
+                        <Button layoutX="178.0" layoutY="126.0" mnemonicParsing="false" onAction="#noExitButton" text="No">
+                           <styleClass>
+                              <String fx:value="test" />
+                              <String fx:value="clickableObject" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                  </Pane>
                </children>
             </Pane>
          </children>

@@ -24,6 +24,8 @@
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
 }
+
+
 .rulebookButton {
     -fx-background-color:
             linear-gradient(from 0% 93% to 0% 100%, #746216 0%, #746216 100%),
