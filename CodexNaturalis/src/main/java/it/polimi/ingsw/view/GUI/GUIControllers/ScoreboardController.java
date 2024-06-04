@@ -8,9 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 
 public class ScoreboardController extends GUIController{
@@ -27,30 +25,6 @@ public class ScoreboardController extends GUIController{
     public Label p3Label;
     private ArrayList<Label> labels = new ArrayList<>();
 
-
-/*
-    @Override
-    public void sceneInitializer()
-    {
-        StringBuilder points = new StringBuilder();
-        Game game = viewGUI.getGame();
-        ArrayList<Player> playersList = game.getListOfPlayers();
-        ArrayList<Integer> pPoints = new ArrayList<>();
-        for(Player player: playersList) {
-            if(!pPoints.contains(player.getPoints())) {
-                pPoints.add(player.getPoints());
-            }
-        }
-        pPoints.sort(Collections.reverseOrder());
-        for(Integer p: pPoints) {
-            for(Player player: playersList) {
-                if(p.equals(player.getPoints())) {
-                    points.append(player.getUsername()).append(": ").append(player.getPoints()).append("\n");
-                }
-            }
-        }
-        playerPoints.setText(points.toString());
-    }*/
     @Override
     public void sceneInitializer() {
         panes.add(p0);
@@ -63,21 +37,25 @@ public class ScoreboardController extends GUIController{
         labels.add(p3Label);
 
         Game game = viewGUI.getGame();
-        ArrayList<Player> playersList = game.getListOfPlayers();
-        ArrayList<Integer> pPoints = new ArrayList<>();
-        for(Player player: playersList) {
-            pPoints.add(player.getPoints());
+        LinkedHashMap<String, Integer> playersPlacement = new LinkedHashMap<>();
+        ArrayList<Player> sortedPlayers = new ArrayList<>();
+        List<Integer> points = new ArrayList<>(game.getListOfPlayers().stream().map(e -> e.getPoints()).toList());
+        Collections.sort(points);
+        Collections.reverse(points);
+        for(Integer point: points)
+        {
+            sortedPlayers.addAll(game.getListOfPlayers().stream().filter(e -> (e.getPoints() == point)).toList());
         }
-        pPoints.sort(Collections.reverseOrder());
-        for(int i = 0; i< viewGUI.getGame().getListOfPlayers().size(); i++) {
-            int p = pPoints.get(i);
-            for(Player player: playersList) {
-                if(player.getPoints() == p) {
-                    panes.get(i).setDisable(false);
-                    panes.get(i).setVisible(true);
-                    labels.get(i).setText(player.getUsername() + ": " + player.getPoints());
-                }
-            }
+        for(Player p : sortedPlayers) {
+            playersPlacement.put(p.getUsername(), p.getPoints());
+        }
+        int pane = 0;
+        for(String player : playersPlacement.keySet())
+        {
+            panes.get(pane).setDisable(false);
+            panes.get(pane).setVisible(true);
+            labels.get(pane).setText(player + ": " + playersPlacement.get(player));
+            pane++;
         }
 
     }

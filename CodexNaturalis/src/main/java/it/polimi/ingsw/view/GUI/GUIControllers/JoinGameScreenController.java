@@ -105,11 +105,11 @@ public class JoinGameScreenController extends GUIController {
             ArrayList<Game> games = viewGUI.showAvailableGames();
             for(Game game: games) {
                 if (game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_JOINED.getStatusNumber()) {
-                    items.add("GameID : " + game.getGameId());
+                    items.add("GameID: " + game.getGameId());
                 } else if(game.getGameStatus().getStatusNumber() == GameStatus.ALL_PLAYERS_JOINED.getStatusNumber()) {
-                    items.add("GameID : " + game.getGameId() + " - FULL");
+                    items.add("GameID: " + game.getGameId() + " - FULL");
                 } else if(game.getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
-                    items.add("GameID : " + game.getGameId() + " - STARTED");
+                    items.add("GameID: " + game.getGameId() + " - STARTED");
                 }
             }
             availableGames.clear();

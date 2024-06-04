@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.GUIControllers.ScoreboardController">
    <children>
@@ -20,50 +21,57 @@
                   </Pane>
                   <Pane prefHeight="340.0" prefWidth="768.0">
                      <children>
-                        <Pane fx:id="p2" layoutX="16.0" layoutY="200.0" prefHeight="140.0" prefWidth="160.0" style="-fx-background-color: rgb(64,173,84); -fx-background-radius: 20px 20px 0px 0px;">
+                        <Pane fx:id="p2" disable="true" layoutX="16.0" layoutY="200.0" prefHeight="140.0" prefWidth="160.0" style="-fx-background-color: rgb(64,173,84); -fx-background-radius: 20px 20px 0px 0px;" visible="false">
                            <children>
                               <HBox alignment="CENTER" layoutY="-30.0" prefWidth="160.0">
                                  <children>
-                                    <Label fx:id="p2Label" />
+                                    <Label fx:id="p2Label" textFill="WHITE">
+                                       <font>
+                                          <Font name="Serif Regular" size="20.0" />
+                                       </font></Label>
                                  </children>
                               </HBox>
                            </children>
                         </Pane>
-                        <Pane fx:id="p3" layoutX="592.0" layoutY="160.0" prefHeight="180.0" prefWidth="160.0" style="-fx-background-color: rgb(228, 50, 40); -fx-background-radius: 20px 20px 0px 0px;">
+                        <Pane fx:id="p3" disable="true" layoutX="592.0" layoutY="160.0" prefHeight="180.0" prefWidth="160.0" style="-fx-background-color: rgb(228, 50, 40); -fx-background-radius: 20px 20px 0px 0px;" visible="false">
                            <children>
                               <HBox alignment="CENTER" layoutY="-30.0" prefWidth="160.0">
                                  <children>
-                                    <Label fx:id="p3Label" />
+                                    <Label fx:id="p3Label" textFill="WHITE">
+                                       <font>
+                                          <Font name="Serif Regular" size="20.0" />
+                                       </font></Label>
                                  </children>
                               </HBox>
                            </children>
                         </Pane>
-                        <Pane fx:id="p1" layoutX="208.0" layoutY="120.0" prefHeight="220.0" prefWidth="160.0" style="-fx-background-color: rgb(0,159,154); -fx-background-radius: 20px 20px 0px 0px;">
+                        <Pane fx:id="p1" disable="true" layoutX="208.0" layoutY="120.0" prefHeight="220.0" prefWidth="160.0" style="-fx-background-color: rgb(0,159,154); -fx-background-radius: 20px 20px 0px 0px;" visible="false">
                            <children>
                               <HBox alignment="CENTER" layoutY="-30.0" prefWidth="160.0">
                                  <children>
-                                    <Label fx:id="p1Label" />
+                                    <Label fx:id="p1Label" textFill="WHITE">
+                                       <font>
+                                          <Font name="Serif Regular" size="20.0" />
+                                       </font></Label>
                                  </children>
                               </HBox>
                            </children>
                         </Pane>
-                        <Pane fx:id="p0" layoutX="400.0" layoutY="70.0" prefHeight="270.0" prefWidth="160.0" style="-fx-background-color: rgb(133,32,126); -fx-background-radius: 20px 20px 0px 0px;">
+                        <Pane fx:id="p0" disable="true" layoutX="400.0" layoutY="70.0" prefHeight="270.0" prefWidth="160.0" style="-fx-background-color: rgb(133,32,126); -fx-background-radius: 20px 20px 0px 0px;">
                            <children>
                               <HBox alignment="CENTER" layoutY="-30.0" prefWidth="160.0">
                                  <children>
-                                    <Label fx:id="p0Label" />
+                                    <Label fx:id="p0Label" textFill="WHITE">
+                                       <font>
+                                          <Font name="Serif Regular" size="20.0" />
+                                       </font></Label>
                                  </children>
                               </HBox>
-                              <Pane layoutX="59.0" layoutY="-70.0" prefHeight="30.0" prefWidth="42.0" styleClass="crown" />
+                              <Pane layoutX="53.0" layoutY="-60.0" prefHeight="30.0" prefWidth="42.0" styleClass="crown" />
                            </children>
                         </Pane>
                      </children>
                   </Pane>
-               </children>
-            </Pane>
-            <Pane layoutX="865.0" layoutY="456.0" prefHeight="41.0" prefWidth="41.0">
-               <children>
-                  <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="42.0" styleClass="exitButton" />
                </children>
             </Pane>
          </children>
