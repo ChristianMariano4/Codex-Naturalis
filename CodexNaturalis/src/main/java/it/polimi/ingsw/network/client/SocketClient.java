@@ -155,7 +155,15 @@ public class SocketClient extends Client {
 
     @Override
     public void quitGame() throws IOException, ServerDisconnectedException {
-        //TODO
+        messageHandler.sendMessage(ClientMessageType.QUIT_GAME, gameId);
+        try {
+            messageHandlerQueue.take();
+        } catch (NotExistingPlayerException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
     }
 
 

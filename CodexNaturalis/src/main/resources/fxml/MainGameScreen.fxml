@@ -435,7 +435,7 @@
                   </Pane>
                   <Pane layoutX="865.0" layoutY="456.0" prefHeight="41.0" prefWidth="41.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#rulebookButton" prefHeight="41.0" prefWidth="42.0" styleClass="exitButton" />
+                        <Button mnemonicParsing="false" onAction="#quitGame" prefHeight="41.0" prefWidth="42.0" styleClass="exitButton" />
                      </children>
                   </Pane>
                   <Pane fx:id="starterCardSide" disable="true" prefHeight="518.0" prefWidth="920.0" visible="false">

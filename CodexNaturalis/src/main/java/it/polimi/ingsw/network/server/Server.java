@@ -87,6 +87,10 @@ public class Server extends Thread implements ServerRMIInterface {
 
     public void removeGame(GameHandler game)
     {
+        for(ClientHandlerInterface client: clients.keySet().stream().filter(e-> game.getClients().contains(e)).toList())
+        {
+            clients.get(client).reset();
+        }
         gameHandlerMap.remove(game.getGame().getGameId(), game);
     }
 
@@ -128,9 +132,6 @@ public class Server extends Thread implements ServerRMIInterface {
         try {
 
             gameHandlerMap.get(gameId).getGame().getPlayer(username).setConnected();
-            addClientToGameHandler(gameId, client);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
         } catch (NotExistingPlayerException e) {
             throw new NotExistingPlayerException();
         }

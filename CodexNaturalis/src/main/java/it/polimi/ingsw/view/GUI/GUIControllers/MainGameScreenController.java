@@ -407,6 +407,8 @@ public class MainGameScreenController extends GUIController{
         if(viewGUI.getGame().getGameStatus().getStatusNumber() >= GameStatus.GAME_STARTED.getStatusNumber())
         {
             tabletopSetup();
+         //   rebuildMyField();
+
         }
         markerPanes.add(marker1);
         markerPanes.add(marker2);
@@ -1774,7 +1776,6 @@ public class MainGameScreenController extends GUIController{
             otherPlayers.add(player);
 
         }
-
         for(int i = 0; i < otherPlayers.size(); i++)
         {
             otherPlayerFields.get(i).setId(otherPlayers.get(i).getUsername());
@@ -1782,11 +1783,33 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    private void rebuildMyField()
+    {
+        try {
+            ArrayList<CardPosition> playedCards = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerField().getPlayedCards();
+            for (CardPosition cardToAdd: playedCards) {
+                Pane cardPane = fieldPanes[cardToAdd.getPositionX()][cardToAdd.getPositionY()];
+                cardPane.setDisable(false);
+                cardPane.setVisible(true);
+                cardPane.setOpacity(1);
+                cardPane.setStyle(getStyle(getCardUrl(cardToAdd.getCard(), cardToAdd.getCard().getCurrentSide())));
+                sorround(cardPane);
+            }
+            updateBounds(movingField, fieldBounds);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
+    }
+
+
     private void buildFieldFromPlayedCards(int index, ArrayList<CardPosition> playedCards)
     {
-        for(int i = 0; i < playedCards.size() - otherPlayerFields.get(index).getChildren().size(); i++)
+
+        for(int i = 0; i < playedCards.size() ; i++)
         {
-            CardPosition cardToAdd = playedCards.get(playedCards.size() - i - 1);
+            CardPosition cardToAdd = playedCards.get(i);
             int layoutX = cardToAdd.getPositionY() - DEFAULT_MATRIX_SIZE/2;
             int layoutY = cardToAdd.getPositionX() - DEFAULT_MATRIX_SIZE/2;
             Pane cardPane = new Pane();
@@ -1838,6 +1861,19 @@ public class MainGameScreenController extends GUIController{
                 finalRound.setVisible(true);
             }
         });
+    }
+    @FXML
+    public void quitGame()
+    {
+        try
+        {
+            viewGUI.quitGame();
+            viewGUI.initialize();
+            gui.switchScene(GUIScene.LOBBY);
+        }catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
     }
 
 

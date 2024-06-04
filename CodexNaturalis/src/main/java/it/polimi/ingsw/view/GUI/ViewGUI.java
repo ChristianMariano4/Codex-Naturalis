@@ -223,4 +223,7 @@ public class ViewGUI implements View, Runnable {
         this.game = null;
         client.resetClient();
     }
+    public void quitGame() throws ServerDisconnectedException, IOException {
+        client.quitGame();
+    }
 }

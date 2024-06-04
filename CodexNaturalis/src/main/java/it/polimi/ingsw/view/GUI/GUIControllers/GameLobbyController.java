@@ -135,7 +135,7 @@ public class GameLobbyController extends GUIController {
             HashMap<String, Boolean> readyStatus = viewGUI.getReadyStatus();
             Platform.runLater(new Runnable() {
                 @Override public void run() {
-                    readyPlayers.setText("Ready players: " + readyStatus.values().stream().filter(e -> e).toList().size() + "/" + readyStatus.size());
+                    readyPlayers.setText("Ready players: " + readyStatus.values().stream().filter(e -> e).toList().size() + "/" + playersInfo.get(0));
                     readyPlayers.setDisable(false);
                     readyPlayers.setVisible(true);
                     setReadyButton.setDisable(true);
@@ -148,6 +148,19 @@ public class GameLobbyController extends GUIController {
             //TODO: handle server disconnection
         }
 
+    }
+
+    @FXML
+    public void quitGame()
+    {
+        try {
+            viewGUI.quitGame();
+            viewGUI.initialize();
+            gui.switchScene(GUIScene.LOBBY);
+        }catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
     }
 
     @Override

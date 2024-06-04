@@ -127,6 +127,11 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                     {
                         sendMessage(ServerMessageType.READY_STATUS, server.getReadyStatus((int) message.getMessageContent()[0]));
                     }
+                    case QUIT_GAME ->
+                    {
+                        server.quitGame((int) message.getMessageContent()[0], this);
+                        sendMessage(ServerMessageType.SUCCESS, true);
+                    }
 
                 }
             }

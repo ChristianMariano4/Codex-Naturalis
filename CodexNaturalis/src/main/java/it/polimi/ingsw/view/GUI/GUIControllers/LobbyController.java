@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.GUI.GUIControllers;
 
 import it.polimi.ingsw.enumerations.GUIScene;
 import it.polimi.ingsw.exceptions.ServerDisconnectedException;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -93,6 +94,6 @@ public class LobbyController extends GUIController{
     }
     @FXML
     public void quit(ActionEvent event) {
-
+        Platform.exit();
     }
 }
