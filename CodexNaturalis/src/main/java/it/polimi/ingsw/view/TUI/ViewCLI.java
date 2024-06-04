@@ -256,7 +256,13 @@ public class ViewCLI implements View, Runnable {
                     }
                 }
             }
-            Thread.sleep(1);
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                // Handle the InterruptedException
+                Thread.currentThread().interrupt(); // Preserve the interrupt
+                System.out.println("Thread was interrupted, failed to complete operation");
+            }
         }
         //Why the block below is not reachable?
         if(game.getIsGameEndedForDisconnection()) {
