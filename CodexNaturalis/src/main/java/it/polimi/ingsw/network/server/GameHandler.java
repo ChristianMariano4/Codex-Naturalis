@@ -372,9 +372,8 @@ public class GameHandler implements Serializable {
             if (game.getPlayer(username).getSecretObjective() == null){
                 this.setSecretObjectiveCard(game.getPlayer(username), game.getObjectiveCardDeck().getTopCard());
             }
-            if (game.getPlayer(username).getStarterCard() == null){
-                this.setStarterCardSide(game.getPlayer(username), game.getPlayer(username).getStarterCard(), Side.FRONT);
-            }
+            //can't check if null because the card is assigned in game initialization so we just assign it anyway
+            this.setStarterCardSide(game.getPlayer(username), game.getPlayer(username).getStarterCard(), Side.FRONT);
         }
     }
 }

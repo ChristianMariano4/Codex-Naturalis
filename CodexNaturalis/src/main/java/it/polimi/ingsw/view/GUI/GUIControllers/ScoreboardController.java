@@ -39,12 +39,12 @@ public class ScoreboardController extends GUIController{
         Game game = viewGUI.getGame();
         LinkedHashMap<String, Integer> playersPlacement = new LinkedHashMap<>();
         ArrayList<Player> sortedPlayers = new ArrayList<>();
-        List<Integer> points = new ArrayList<>(game.getListOfPlayers().stream().map(e -> e.getPoints()).toList());
+        List<Integer> points = new ArrayList<>(game.getListOfPlayers().stream().filter(e -> !e.getIsDisconnected()).map(e -> e.getPoints()).toList());
         Collections.sort(points);
         Collections.reverse(points);
         for(Integer point: points)
         {
-            sortedPlayers.addAll(game.getListOfPlayers().stream().filter(e -> (e.getPoints() == point)).toList());
+            sortedPlayers.addAll(game.getListOfPlayers().stream().filter(e -> (e.getPoints() == point  && !e.getIsDisconnected())).toList());
         }
         for(Player p : sortedPlayers) {
             playersPlacement.put(p.getUsername(), p.getPoints());

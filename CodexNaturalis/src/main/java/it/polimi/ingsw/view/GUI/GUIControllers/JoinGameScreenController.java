@@ -74,13 +74,11 @@ public class JoinGameScreenController extends GUIController {
         } catch (NotExistingPlayerException e) {
             errorPane.setDisable(false);
             errorPane.setVisible(true);
-            e.printStackTrace();
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         } catch (GameNotFoundException e) {
             errorPane.setDisable(false);
             errorPane.setVisible(true);
-            e.printStackTrace();
         }
     }
 

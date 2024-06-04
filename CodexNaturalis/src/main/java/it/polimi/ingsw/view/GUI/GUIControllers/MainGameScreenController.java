@@ -34,6 +34,7 @@ public class MainGameScreenController extends GUIController{
     private InspectedCardInfo inspectedCardInfo;
     private boolean dragging = false;
     private boolean playingCard = false;
+    private boolean drawingCard = false;
     public Pane scalable;
     private boolean twentyPointsReached = false;
 
@@ -641,7 +642,6 @@ public class MainGameScreenController extends GUIController{
         starterCardSide.setVisible(false);
         chooseSecretObjective();
     }
-
     @FXML
     public void starterBackButton()
     {
@@ -675,6 +675,7 @@ public class MainGameScreenController extends GUIController{
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             throw new RuntimeException();
         }
     }
@@ -1337,6 +1338,7 @@ public class MainGameScreenController extends GUIController{
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             throw new RuntimeException();
         }
 
@@ -1667,6 +1669,7 @@ public class MainGameScreenController extends GUIController{
                             }
                         }
                         playingCard = false;
+                        drawingCard = true;
 
                         playCard.setDisable(true);
                         playCard.setVisible(false);
@@ -1763,6 +1766,7 @@ public class MainGameScreenController extends GUIController{
             DrawPosition drawPosition = inspectedCardInfo.getDrawPosition();
             CardType cardType = inspectedCardInfo.getCardType();
             viewGUI.drawCard(cardType, drawPosition);
+            drawingCard = false;
             viewGUI.endTurn();
         }
         catch (DeckIsEmptyException e)
@@ -1785,7 +1789,6 @@ public class MainGameScreenController extends GUIController{
             if(player.getUsername().equals(viewGUI.getUsername()))
                 continue;
             otherPlayers.add(player);
-
         }
         for(int i = 0; i < otherPlayers.size(); i++)
         {
@@ -1919,6 +1922,8 @@ public class MainGameScreenController extends GUIController{
 
     public void update(Object update)
     {
+        if(drawingCard)
+            return;
         if(inGame) {
             Platform.runLater(new Runnable() {
                 public void run() {
