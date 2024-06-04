@@ -407,7 +407,7 @@ public class MainGameScreenController extends GUIController{
         if(viewGUI.getGame().getGameStatus().getStatusNumber() >= GameStatus.GAME_STARTED.getStatusNumber())
         {
             tabletopSetup();
-         //   rebuildMyField();
+            rebuildMyField();
 
         }
         markerPanes.add(marker1);
@@ -1521,7 +1521,13 @@ public class MainGameScreenController extends GUIController{
                 }
             }
             throw new RuntimeException();
-        } catch (Exception e) {
+
+        } catch (IndexOutOfBoundsException e)
+        {
+            return;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException();
         }
 
@@ -1787,18 +1793,38 @@ public class MainGameScreenController extends GUIController{
     {
         try {
             ArrayList<CardPosition> playedCards = viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerField().getPlayedCards();
-            for (CardPosition cardToAdd: playedCards) {
-                Pane cardPane = fieldPanes[cardToAdd.getPositionX()][cardToAdd.getPositionY()];
+
+            for(int i = 1; i < playedCards.size() ; i++)
+            {
+                CardPosition cardToAdd = playedCards.get(i);
+                int layoutX = cardToAdd.getPositionY() - DEFAULT_MATRIX_SIZE/2;
+                int layoutY = cardToAdd.getPositionX() - DEFAULT_MATRIX_SIZE/2;
+                Pane cardPane = new Pane();
+                cardPane.setLayoutX(starterCard.getLayoutX() + layoutX * (CARD_WIDTH - ANGLE_WIDTH));
+                cardPane.setLayoutY(starterCard.getLayoutY() + layoutY * (CARD_HEIGHT - ANGLE_HEIGHT));
+                cardPane.setPrefWidth(CARD_WIDTH);
+                cardPane.setPrefHeight(CARD_HEIGHT);
                 cardPane.setDisable(false);
                 cardPane.setVisible(true);
                 cardPane.setOpacity(1);
+                cardPane.setId("full");
                 cardPane.setStyle(getStyle(getCardUrl(cardToAdd.getCard(), cardToAdd.getCard().getCurrentSide())));
-                sorround(cardPane);
+                fieldPanes[cardToAdd.getPositionX()][cardToAdd.getPositionY()] = cardPane;
+                movingField.getChildren().add(cardPane);
+            }
+            for(int i = 0; i< DEFAULT_MATRIX_SIZE; i++)
+            {
+                for (int j = 0; j< DEFAULT_MATRIX_SIZE; j++)
+                {
+                    if(fieldPanes[i][j] != null && fieldPanes[i][j].getId().equals("full"))
+                        sorround(fieldPanes[i][j]);
+                }
             }
             updateBounds(movingField, fieldBounds);
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             throw new RuntimeException();
         }
     }
