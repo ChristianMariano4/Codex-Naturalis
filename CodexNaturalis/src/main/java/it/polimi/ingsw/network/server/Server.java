@@ -234,6 +234,7 @@ public class Server extends Thread implements ServerRMIInterface {
         return true;
     }
 
+
     public void setSecretObjectiveCard(int gameId, Player player, ObjectiveCard objectiveCard) throws NotExistingPlayerException {
         GameHandler game = gameHandlerMap.get(gameId);
         game.setSecretObjectiveCard(player, objectiveCard);

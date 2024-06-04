@@ -111,7 +111,7 @@ public class GameHandler implements Serializable {
             clients.remove(client);
         }
         if(clients.size() == 1) {
-            if(game.getGameStatus().getStatusNumber() <= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) // waiting in lobby and a player leaves, we can just remove it from the game without handling reconnection
+            if(game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) // waiting in lobby and a player leaves, we can just remove it from the game without handling reconnection
                 return;
             new Thread(() -> {
                 boolean isReconnected = false;
