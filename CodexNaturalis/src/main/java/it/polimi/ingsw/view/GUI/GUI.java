@@ -47,6 +47,7 @@ public class GUI extends Application {
     boolean rescalable;
     private String macName = "Mac OS X";
     private String windowsName = "Windows";
+    private String windows11Name = "Windows 11";
 
 
     public ViewGUI getViewGUI() {
@@ -122,7 +123,24 @@ public class GUI extends Application {
                             rescale(widthOld, (double) newVal - 28); // -39
                         }
                 );
-            } else if(System.getProperty("os.name").contains(windowsName)) {
+            } else if(System.getProperty("os.name").equals(windows11Name)) {
+                widthOld = GameValues.WINDOW_WIDTH - 16;
+                heightOld = GameValues.WINDOW_HEIGHT - 41;
+                rescalable = true;
+                rescale(primaryStage.getWidth()- 14.4, primaryStage.getHeight() - 37);
+
+                this.primaryStage.widthProperty().addListener(
+                        (obs, oldVal, newVal) -> {
+                            rescale((double) newVal - 14.4, heightOld); // - 16
+                        }
+                );
+                this.primaryStage.heightProperty().addListener(
+                        (obs, oldVal, newVal) -> {
+                            rescale(widthOld, (double) newVal - 37); // -39
+                        }
+                );
+            }
+            else if(System.getProperty("os.name").contains(windowsName)) {
                 widthOld = GameValues.WINDOW_WIDTH - 16;
                 heightOld = GameValues.WINDOW_HEIGHT - 41;
                 rescalable = true;
