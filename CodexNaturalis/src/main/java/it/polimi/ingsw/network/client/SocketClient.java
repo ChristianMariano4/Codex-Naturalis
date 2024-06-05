@@ -125,7 +125,12 @@ public class SocketClient extends Client {
             {
                 throw new RuntimeException();
             }
-        } catch (Exception e)
+
+        } catch (GameNotFoundException e)
+        {
+            throw e;
+        }
+        catch (Exception e)
         {
             throw new RuntimeException();
         }

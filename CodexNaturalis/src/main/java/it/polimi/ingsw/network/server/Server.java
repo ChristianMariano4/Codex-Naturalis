@@ -71,12 +71,9 @@ public class Server extends Thread implements ServerRMIInterface {
                 gameHandlerMap.get(clients.get(client).getGameId()).setPlayerDisconnected(clients.get(client).getUsername());
                 gameHandlerMap.get(clients.get(client).getGameId()).unsubscribe(clients.get(client).getUsername());
                 gameHandlerMap.get(clients.get(client).getGameId()).removeClient(client);
-
+                clients.get(client).reset();
             }
-        }catch (NullPointerException e)
-        {
-
-        }
+        }catch (NullPointerException ignored) {}
         synchronized (this.clients) {
             this.clients.remove(client);
         }
@@ -130,6 +127,7 @@ public class Server extends Thread implements ServerRMIInterface {
         try {
             gameHandlerMap.get(gameId).getGame().getPlayer(username).setReconnecting();
             gameHandlerMap.get(gameId).getGame().getPlayer(username).setConnected();
+            clients.get(client).setGameId(gameId);
         } catch (NotExistingPlayerException e) {
             throw new NotExistingPlayerException();
         }
@@ -139,6 +137,7 @@ public class Server extends Thread implements ServerRMIInterface {
     @Override
     public void quitGame(int gameId, ClientHandlerInterface client) throws RemoteException, NotExistingPlayerException {
         try {
+
             if (gameHandlerMap.get(clients.get(client).getGameId()).getGame().getGameStatus().getStatusNumber() < GameStatus.GAME_STARTED.getStatusNumber() &&
                     gameHandlerMap.get(clients.get(client).getGameId()).getGame().getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
                 gameHandlerMap.get(clients.get(client).getGameId()).setRandomInitialization(clients.get(client).getUsername());
@@ -146,6 +145,7 @@ public class Server extends Thread implements ServerRMIInterface {
             gameHandlerMap.get(gameId).setPlayerDisconnected(client.getUsername());
             gameHandlerMap.get(gameId).unsubscribe(client.getUsername());
             gameHandlerMap.get(gameId).removeClient(client);
+            clients.get(client).reset();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (NotAvailableMarkerException e) {

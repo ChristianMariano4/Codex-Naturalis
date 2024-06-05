@@ -364,6 +364,8 @@ public class Controller {
         if(nextIndex>= gameHandler.getGame().getListOfPlayers().size())
             nextIndex = 0;
         while(gameHandler.getGame().getListOfPlayers().get(nextIndex).getIsDisconnected()) {
+            if(gameHandler.getGame().getListOfPlayers().stream().filter(e -> !e.getIsDisconnected()).toList().isEmpty())
+                return;
             nextIndex++;
             if(nextIndex>= gameHandler.getGame().getListOfPlayers().size())
                 nextIndex = 0;

@@ -63,6 +63,7 @@ public class JoinGameScreenController extends GUIController {
         choice = choice.replaceAll("\\D+", "");
         gameId = Integer.parseInt(choice);
         try {
+            viewGUI.initialize();
             viewGUI.joinGame(gameId);
             if (viewGUI.getGame().getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
                 gui.switchScene(GUIScene.GAMELOBBY);
