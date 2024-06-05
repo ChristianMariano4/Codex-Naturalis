@@ -299,6 +299,9 @@
     -fx-opacity: 0.6;
     -fx-background-position: center;
 }
-
+.corner {
+    -fx-background-color: rgb(203,181,89);
+    -fx-effect: dropshadow( gaussian , rgba(0, 0, 0, 0.75), 4,0,0,1 );
+}
 
 

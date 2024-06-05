@@ -195,6 +195,7 @@ public class MainGameScreenController extends GUIController{
     private boolean inMyField = true;
     public Pane exitPane;
     public Label gameIdLabel;
+    public Pane borderFieldPane;
 
     private void markerPaneInitializer() {
 
@@ -845,6 +846,8 @@ public class MainGameScreenController extends GUIController{
         cardsInHandInspector.setVisible(true);
         playerField.setDisable(true);
         playerField.setVisible(false);
+        borderFieldPane.setDisable(true);
+        borderFieldPane.setVisible(false);
 
         try {
             handCardInspector.setStyle(getStyle(getCardUrl(game.getPlayer(viewGUI.getUsername()).getPlayerHand().getCardsInHand().get(inspectedCardInfo.getCardInHandSelected()), inspectedCardInfo.getSide())));
@@ -858,6 +861,8 @@ public class MainGameScreenController extends GUIController{
         cardsInHandInspector.setVisible(false);
         playerField.setDisable(false);
         playerField.setVisible(true);
+        borderFieldPane.setDisable(false);
+        borderFieldPane.setVisible(true);
         playingCard = true;
 
         setAdditionalPanesVisibility(true);
@@ -889,6 +894,8 @@ public class MainGameScreenController extends GUIController{
         cardsInHandInspector.setVisible(false);
         playerField.setDisable(false);
         playerField.setVisible(true);
+        borderFieldPane.setDisable(false);
+        borderFieldPane.setVisible(true);
         inspectedCardInfo.setCardInHandSelected(3);
         inspectedCardInfo.setFrontSide(true);
         //inspectedCardInfo reset to default values
@@ -929,6 +936,8 @@ public class MainGameScreenController extends GUIController{
         objectiveCardsInspector.setVisible(true);
         playerField.setDisable(true);
         playerField.setVisible(false);
+        borderFieldPane.setDisable(true);
+        borderFieldPane.setVisible(false);
 
         try {
             ArrayList<ObjectiveCard> sharedObjectiveCards = viewGUI.getSharedObjectiveCards();
@@ -943,6 +952,8 @@ public class MainGameScreenController extends GUIController{
         objectiveCardsInspector.setVisible(false);
         playerField.setDisable(false);
         playerField.setVisible(true);
+        borderFieldPane.setDisable(false);
+        borderFieldPane.setVisible(true);
         inspectedCardInfo.setSharedObjChoice(2);
         inspectedCardInfo.setFrontSide(true);
     }
@@ -970,6 +981,8 @@ public class MainGameScreenController extends GUIController{
         secretObjCardsInspector.setVisible(true);
         playerField.setDisable(true);
         playerField.setVisible(false);
+        borderFieldPane.setDisable(true);
+        borderFieldPane.setVisible(false);
 
         try {
             showSObjCard.setStyle(getStyle(getCardUrl(viewGUI.getSecretObjectiveCard(), inspectedCardInfo.getSide())));
@@ -983,6 +996,8 @@ public class MainGameScreenController extends GUIController{
         secretObjCardsInspector.setVisible(false);
         playerField.setDisable(false);
         playerField.setVisible(true);
+        borderFieldPane.setDisable(false);
+        borderFieldPane.setVisible(true);
         inspectedCardInfo.setFrontSide(true);
     }
     //SHOW DRAWING FIELD CARD
@@ -1054,6 +1069,8 @@ public class MainGameScreenController extends GUIController{
         drawingCardsInspector.setVisible(true);
         playerField.setDisable(true);
         playerField.setVisible(false);
+        borderFieldPane.setDisable(true);
+        borderFieldPane.setVisible(false);
 
         try {
             if(inspectedCardInfo.getFromDeck()) {
@@ -1089,6 +1106,8 @@ public class MainGameScreenController extends GUIController{
         drawingCardsInspector.setVisible(false);
         playerField.setDisable(false);
         playerField.setVisible(true);
+        borderFieldPane.setDisable(false);
+        borderFieldPane.setVisible(true);
         frontSide = true;
     }
 
@@ -1271,9 +1290,12 @@ public class MainGameScreenController extends GUIController{
 
     private void initializePlayerField()
     {
+        borderFieldPane.setDisable(false);
+        borderFieldPane.setVisible(true);
+
         Rectangle fieldCut = new Rectangle();
         fieldCut.setLayoutX(288.0f); //298.0f
-        fieldCut.setLayoutY(60.0f); //70.0f
+        fieldCut.setLayoutY(65.0f);
         fieldCut.setWidth(350.0f);
         fieldCut.setHeight(350.0f);
         fieldCut.setStyle("-fx-border-radius: 20px"); //TODO: rounded border doesn't work
@@ -1328,6 +1350,8 @@ public class MainGameScreenController extends GUIController{
         playerField.setStyle(getStyle("images/Backgrounds/yellow.jpg"));
         playerField.setDisable(false);
         playerField.setVisible(true);
+        borderFieldPane.setDisable(false);
+        borderFieldPane.setVisible(true);
         //scalable.setStyle(getStyle("images/Backgounds/woodCut.png"));
 
         try {
@@ -1761,6 +1785,8 @@ public class MainGameScreenController extends GUIController{
 
         playerField.setDisable(false);
         playerField.setVisible(true);
+        borderFieldPane.setDisable(false);
+        borderFieldPane.setVisible(true);
         try {
 
             DrawPosition drawPosition = inspectedCardInfo.getDrawPosition();
