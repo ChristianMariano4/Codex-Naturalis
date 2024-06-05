@@ -218,24 +218,31 @@ public class GameHandler implements Serializable {
     {
         synchronized (this)
         {
-            Random random = new Random();
-            DrawPosition drawPosition = DrawPosition.values()[random.nextInt(0, 3)];
-            CardType[] cardTypes = new CardType[2];
-            cardTypes[0] = CardType.RESOURCE;
-            cardTypes[1] = CardType.GOLD;
-            CardType cardType = cardTypes[random.nextInt(0,2)];
-            try {
-                drawCard(username,cardType,drawPosition);
-            } catch (NotExistingPlayerException e) {
-                throw new RuntimeException(e);
-            } catch (AlreadyThreeCardsInHandException e) {
-                throw new RuntimeException(e);
-            } catch (DeckIsEmptyException e) {
-                throw new RuntimeException(e);
+            for(DrawPosition position: DrawPosition.values())
+            {
+                try
+                {
+                    drawCard(username, CardType.RESOURCE,position);
+                    return;
+                }catch (DeckIsEmptyException e)
+                {
+                } catch (NotExistingPlayerException | AlreadyThreeCardsInHandException e) {
+                    throw new RuntimeException(e);
+                }
+
+                try
+                {
+                    drawCard(username, CardType.GOLD,position);
+                    return;
+                }catch (DeckIsEmptyException e)
+                {
+                } catch (NotExistingPlayerException | AlreadyThreeCardsInHandException e) {
+                    throw new RuntimeException(e);
+                }
             }
+            //TODO: call game end method because all decks are empty
         }
     }
-
     public List<ClientHandlerInterface> getClients() {
         synchronized (this) {
             return clients;
