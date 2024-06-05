@@ -26,6 +26,7 @@ public class EventManager {
         if (eventListeners != null && listener != null) {
             eventListeners.remove(listener);
         }
+        System.out.println("Listener removed: " + listeners.get(eventType).size());
 
     }
 

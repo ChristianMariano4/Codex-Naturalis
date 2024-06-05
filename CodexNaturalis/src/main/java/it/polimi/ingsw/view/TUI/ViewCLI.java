@@ -263,11 +263,6 @@ public class ViewCLI implements View, Runnable {
                 Thread.currentThread().interrupt(); // Preserve the interrupt
             }
         }
-        if(game.getIsGameEndedForDisconnection()) {
-            gameEndDisconnection();
-        }else{
-            showEndGameScreen();
-        }
     }
 
     private void showScoreboard() {
@@ -695,5 +690,10 @@ public class ViewCLI implements View, Runnable {
     @Override
     public void gameEnd() {
         this.inGame = false;
+        if(game.getIsGameEndedForDisconnection()) {
+            gameEndDisconnection();
+        }else{
+            showEndGameScreen();
+        }
     }
 }
