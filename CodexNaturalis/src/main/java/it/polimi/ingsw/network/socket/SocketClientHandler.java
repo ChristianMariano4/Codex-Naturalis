@@ -132,6 +132,10 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         server.quitGame((int) message.getMessageContent()[0], this);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
+                    case GET_CARD_BY_ID ->
+                    {
+                       sendMessage(ServerMessageType.REQUESTED_CARD,server.getPlayableCardById((int) message.getMessageContent()[0], (int) message.getMessageContent()[1]));
+                    }
 
                 }
             }

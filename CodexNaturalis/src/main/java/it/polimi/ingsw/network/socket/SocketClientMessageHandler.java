@@ -98,6 +98,10 @@ public class SocketClientMessageHandler implements Runnable {
                     {
                         messageQueue.put(message.getMessageContent()[0]);
                     }
+                    case REQUESTED_CARD ->
+                    {
+                        messageQueue.put(message.getMessageContent()[0]);
+                    }
 
                 }
             }

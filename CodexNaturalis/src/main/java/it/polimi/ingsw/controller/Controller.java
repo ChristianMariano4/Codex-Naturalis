@@ -17,7 +17,6 @@ import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
  * MainServer controller class
  */
 public class Controller {
-    //TODO: metodi per giocare le carte e per pescare le carte
     public String testUsername;
     private final CardHandler cardHandler;
     private final GameHandler gameHandler;
@@ -200,14 +199,6 @@ public class Controller {
         playerObj.setSecretObjective(chosenObjectiveCard);
     }
 
-    //TODO: delete method if not useful
-    public synchronized void update(UserMessageWrapper message) {
-        switch(message.getType()) {
-            case USERNAME_INSERTED -> {
-                testUsername = message.getMessage().getUsername();
-            }
-        }
-    }
 
     /**
      * Play a card from the player hand to the player field

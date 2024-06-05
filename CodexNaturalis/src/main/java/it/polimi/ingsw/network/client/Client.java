@@ -206,7 +206,6 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                 this.viewThread.start();
                 this.viewThread.join();
                 resetClient(); //resetting the client after end of game
-                //TODO: add server side reset
             }
         }
     }
@@ -244,7 +243,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
 
 
     public abstract void setUsername(String username) throws IOException, ServerDisconnectedException, InvalidUsernameException;
-    public abstract PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException, ServerDisconnectedException;
+    public abstract PlayableCard getPlayableCardById(int gameId, int cardId) throws IOException, ServerDisconnectedException;
     public abstract PlayableCard getOtherSideCard(int gameId, PlayableCard playableCard) throws IOException, ServerDisconnectedException;
     public abstract StarterCard getOtherSideCard(int gameId , StarterCard starterCard) throws IOException, ServerDisconnectedException;
     public abstract CardInfo getCardInfo(Card card, int gameId) throws IOException, ServerDisconnectedException;

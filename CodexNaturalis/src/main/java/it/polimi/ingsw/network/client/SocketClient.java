@@ -173,8 +173,16 @@ public class SocketClient extends Client {
 
 
     @Override
-    public PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException {
-        return null;//TODO!
+    public PlayableCard getPlayableCardById(int gameId, int cardId) throws IOException, ServerDisconnectedException {
+        messageHandler.sendMessage(ClientMessageType.GET_CARD_BY_ID,gameId, cardId);
+        try
+        {
+            return (PlayableCard) messageHandlerQueue.take();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
     }
 
     @Override

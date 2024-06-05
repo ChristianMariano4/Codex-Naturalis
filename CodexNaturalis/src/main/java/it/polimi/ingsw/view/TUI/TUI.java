@@ -259,7 +259,6 @@ public class TUI extends UI {
     }
 
     public void showEndGameScreen(LinkedHashMap<String, Integer> playersPlacement) {
-        //TODO: improve the scoreboard
         new PrintStream(System.out, true, System.console() != null
                 ? System.console().charset()
                 : Charset.defaultCharset())
@@ -284,7 +283,7 @@ public class TUI extends UI {
     }
 
     private void asciiCardCreator(PlayableCard card, Boolean isStarter) {
-    //TODO: extends the method for all unlinked angles during the game
+
         String res;
         Ansi.Color color = WHITE;
         switch (card.getCardColor()) {
@@ -759,7 +758,7 @@ public class TUI extends UI {
             System.out.println("SCREEN CLEAN");
         }
     }
-    public void showAllCommands()  { //TODO: all commands
+    public void showAllCommands()  {
         System.out.println("""
                 All commands:
                    1 - type showPlayers to see all players in the game

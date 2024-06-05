@@ -1316,7 +1316,7 @@ public class MainGameScreenController extends GUIController{
         fieldCut.setLayoutY(65.0f);
         fieldCut.setWidth(350.0f);
         fieldCut.setHeight(350.0f);
-        fieldCut.setStyle("-fx-border-radius: 20px"); //TODO: rounded border doesn't work
+        fieldCut.setStyle("-fx-border-radius: 20px");
 
 
         Pane field1 = new Pane();

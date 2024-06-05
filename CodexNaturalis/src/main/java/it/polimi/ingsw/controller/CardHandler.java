@@ -343,7 +343,6 @@ public class CardHandler {
             for(Resource resource : cardInfo.getRequirements())
             {
                 //merge adds 1 if key exists otherwise sets value to 1
-                //TODO: check correct
                 requirementsResourceAmount.merge(resource, 1, Integer::sum);
             }
             for(Resource resource : requirementsResourceAmount.keySet())

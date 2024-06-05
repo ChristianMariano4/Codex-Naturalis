@@ -24,7 +24,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameHandler implements Serializable {
-    //TODO: check se il client ha i permessi giusti
     private Game game;
     private final Controller controller;
     private int readyPlayers = 0;
@@ -88,7 +87,6 @@ public class GameHandler implements Serializable {
             } catch (AlreadyExistingPlayerException e) {
                 throw new RuntimeException(e);
             } catch (AlreadyMaxNumberOfPlayersException e) {
-                //TODO: avvisare il client che non può entrare in questo game
                 throw new RuntimeException(e);
             }
             eventManager.notify(GameEvent.NEW_PLAYER, this.game);
@@ -277,11 +275,6 @@ public class GameHandler implements Serializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void run(){
-        //TODO: start listening for user input and then invoke a method in the controller
-        //each instance of gameHandler is a listener, i.e. is subscribed in the Listeners HashMap in EventManager
     }
 
 

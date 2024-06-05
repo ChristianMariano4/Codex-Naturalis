@@ -49,7 +49,6 @@ public class Deck<T extends Card> implements Serializable{
      *
      * @return true if the deck is empty, false otherwise
      */
-    //TODO: check if isEmpty value is updated
     public boolean isEmpty()
     {
         return this.deck.isEmpty();
