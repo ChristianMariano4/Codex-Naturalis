@@ -252,13 +252,5 @@ public class RMIClient extends Client {
         }
     }
 
-    @Override
-    public void setLastHeatbeat(long time) throws RemoteException {
-        this.lastHeartbeat = time;
-    }
 
-    @Override
-    public long getLastHeartbeat() throws RemoteException {
-        return this.lastHeartbeat;
-    }
 }

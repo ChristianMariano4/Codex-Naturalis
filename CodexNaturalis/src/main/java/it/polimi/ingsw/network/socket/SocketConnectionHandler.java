@@ -8,16 +8,34 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * This class is used by the server to accept SocketConnections
+ */
 public class SocketConnectionHandler implements Runnable{
+    /**
+     * The ServerSocket of the server
+     */
     private ServerSocket serverSocket;
+    /**
+     * A reference to the server
+     */
     private Server server;
+
+    /**
+     * Constructor of the SocketConnectionHandler class
+     * @param serverSocket the ServerSocket of the server
+     * @param server a reference to the server
+     */
     public SocketConnectionHandler(ServerSocket serverSocket, Server server)
     {
         this.serverSocket = serverSocket;
-
         this.server = server;
     }
 
+    /**
+     * This method runs the SocketConnectionHandler and waits for incoming socket connections
+     * It then starts a new thread of socketClientHandler
+     */
     @Override
     public void run() {
         ExecutorService executor = Executors.newCachedThreadPool();

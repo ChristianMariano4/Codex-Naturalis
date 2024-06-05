@@ -367,14 +367,4 @@ public class SocketClient extends Client {
 
 
     }
-
-    @Override
-    public void setLastHeatbeat(long time) throws RemoteException {
-
-    }
-
-    @Override
-    public long getLastHeartbeat() throws RemoteException {
-        return 0;
-    }
 }

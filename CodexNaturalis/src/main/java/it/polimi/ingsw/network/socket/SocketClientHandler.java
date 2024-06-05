@@ -19,38 +19,75 @@ import java.rmi.RemoteException;
 
 import static java.lang.Thread.sleep;
 
-//oggetto che fa da interfaccia con il client
-//tramite cui mando i miei updates al client (come lo stub del client in RMI)
+
+/**
+ * Server side Class used to receive messages and sent messages to the SocketClient
+ * Each SocketClient has its own thread of SocketClientHandler
+ * This class implements ClientHandlerInterface, so it is effectively treated by the server as an instance of a client
+ */
 public class SocketClientHandler implements Runnable, ClientHandlerInterface {
 
+    /**
+     * Socket ObjectInputStream to receive messages from the SocketClient
+     */
     private ObjectInputStream inputStream;
+    /**
+     * Socket ObjectOutputStream to send messages to the SocketClient
+     */
     private ObjectOutputStream outputStream;
+    /**
+     * A reference to the server
+     */
     private Server server;
+    /**
+     * The unique username associated with the SocketClient
+     */
     private String username = null;
 
+    /**
+     * Constructor method
+     *
+     * @param socket the socket passed by the server
+     * @param server the server
+     * @throws IOException when ObjectOutputStream and ObjectInputStream can't be created
+     */
     public SocketClientHandler(Socket socket, Server server) throws IOException {
-
         this.outputStream = new ObjectOutputStream(socket.getOutputStream());
         this.inputStream = new ObjectInputStream(socket.getInputStream());
         this.server = server;
     }
 
 
+    /**
+     * This runs the instance of SocketClientHandler and waits for incoming messages
+     */
     @Override
     public void run() {
-        try {
-           while(true)
-           {
-               ClientMessage message = (ClientMessage) inputStream.readObject();
-               parseMessage(message);
-           }
-
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            while (true) {
+                try {
+                ClientMessage message = (ClientMessage) inputStream.readObject();
+                parseMessage(message);
+                }
+                catch (IOException | ClassNotFoundException e) {
+                    try {
+                        inputStream.close();
+                        outputStream.close();
+                    } catch (IOException ex) {
+                        break;
+                    }
+                    break;
+                }
+            }
         }
 
-
-    }
+    /**
+     * After receiving a message the message type is interpreted and used to choose the correct method call to the server
+     * This method then calls the sendMessage method to send a reply to the SocketClient
+     * When the server throws an exception, an error message is sent
+     *
+     * @param message the message received containing both its type and content
+     * @throws IOException when a reply can't be sent back
+     */
     private void parseMessage(ClientMessage message) throws IOException {
         ClientMessageType messageType = message.getMessageType();
         synchronized (this) {
@@ -118,68 +155,55 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         server.endTurn((int) message.getMessageContent()[0], (String) message.getMessageContent()[1]);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
-                    case RECONNECT_PLAYER ->
-                    {
+                    case RECONNECT_PLAYER -> {
                         sendMessage(ServerMessageType.SUCCESS, server.reconnectPlayerToGame((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], this));
 
                     }
-                    case GET_READY_STATUS ->
-                    {
+                    case GET_READY_STATUS -> {
                         sendMessage(ServerMessageType.READY_STATUS, server.getReadyStatus((int) message.getMessageContent()[0]));
                     }
-                    case QUIT_GAME ->
-                    {
+                    case QUIT_GAME -> {
                         server.quitGame((int) message.getMessageContent()[0], this);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
-                    case GET_CARD_BY_ID ->
-                    {
-                       sendMessage(ServerMessageType.REQUESTED_CARD,server.getPlayableCardById((int) message.getMessageContent()[0], (int) message.getMessageContent()[1]));
+                    case GET_CARD_BY_ID -> {
+                        sendMessage(ServerMessageType.REQUESTED_CARD, server.getPlayableCardById((int) message.getMessageContent()[0], (int) message.getMessageContent()[1]));
                     }
 
                 }
-            }
-            catch (GameNotFoundException e)
-            {
+            } catch (GameNotFoundException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.GAME_NOT_FOUND);
-            }
-            catch (InvalidCardPositionException e)
-            {
+            } catch (InvalidCardPositionException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.INVALID_CARD_POSITION);
-            }
-            catch (GameAlreadyStartedException e)
-            {
+            } catch (GameAlreadyStartedException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.GAME_ALREADY_STARTED);
-            }
-            catch (NotExistingPlayerException e)
-            {
+            } catch (NotExistingPlayerException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.NOT_EXISTING_PLAYER);
-            }
-            catch (RequirementsNotMetException e)
-            {
+            } catch (RequirementsNotMetException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.REQUIREMENTS_NOT_MET);
-            }
-            catch (NotEnoughPlayersException e) {
+            } catch (NotEnoughPlayersException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.NOT_ENOUGH_PLAYERS);
-            }
-             catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } catch (DeckIsEmptyException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.DECK_IS_EMPTY);
 
-            }
-            catch (InvalidUsernameException e)
-            {
+            } catch (InvalidUsernameException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.INVALID_USERNAME);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.UNSPECIFIED);
             }
-
         }
-
     }
-    public void sendMessage(ServerMessageType messageType, Object ... messageContent) throws IOException {
+
+    /**
+     * This sends a message to the SocketClient through the ObjectOutputStream
+     *
+     * @param messageType    the type of server message to be sent
+     * @param messageContent the content of the message to be sent
+     * @throws IOException when the message can't be sent through the ObjectOutputStream
+     */
+    public void sendMessage(ServerMessageType messageType, Object... messageContent) throws IOException {
         synchronized (this) {
             outputStream.reset();
             outputStream.writeObject(new ServerMessage(messageType, messageContent));
@@ -187,24 +211,27 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
     }
 
 
-
+    /**
+     * When the server sends an update to a SocketClient it is done through this method, which sends a message with the UPDATE type
+     *
+     * @param event      the GameEvent the update refers to
+     * @param gameUpdate the content of the update
+     * @throws IOException                when the message can't be sent through
+     * @throws InterruptedException       thrown by superclass
+     * @throws NotExistingPlayerException thrown by superclass
+     */
     @Override
     public void update(GameEvent event, Object gameUpdate) throws IOException, InterruptedException, NotExistingPlayerException {
         sendMessage(ServerMessageType.UPDATE, event, gameUpdate);
     }
 
+    /**
+     * Getter
+     * @return the unique username associated with the client
+     * @throws IOException thrown by superclass
+     */
     @Override
     public String getUsername() throws IOException {
         return this.username;
-    }
-
-    @Override
-    public void setLastHeatbeat(long time) throws RemoteException {
-
-    }
-
-    @Override
-    public long getLastHeartbeat() throws RemoteException {
-        return 0;
     }
 }

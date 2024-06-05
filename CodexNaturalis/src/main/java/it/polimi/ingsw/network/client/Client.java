@@ -69,7 +69,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     public abstract void quitGame() throws IOException, ServerDisconnectedException;
     @Override
     @SuppressWarnings("unchecked")
-    public synchronized void update(GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException, NotExistingPlayerException {
+    public synchronized void update(GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException{
 
             switch (event) {
                 case BOARD_UPDATED -> {
@@ -103,10 +103,16 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                 {
                     Game game = (Game) gameUpdate;
                     view.update(game);
-                    if(!this.markerTurn && game.getPlayer(username).getMarker() == null) {
-                        String currentMarkerChoice = game.getListOfPlayers().get(4 - game.getAvailableMarkers().size()).getUsername(); //how many markers have already been chosen
-                        if (username.equals(currentMarkerChoice))
-                            this.markerTurn = true;
+                    try {
+                        if (!this.markerTurn && game.getPlayer(username).getMarker() == null) {
+                            String currentMarkerChoice = game.getListOfPlayers().get(4 - game.getAvailableMarkers().size()).getUsername(); //how many markers have already been chosen
+                            if (username.equals(currentMarkerChoice))
+                                this.markerTurn = true;
+                        }
+                    }
+                    catch (NotExistingPlayerException e)
+                    {
+                        throw new RuntimeException();
                     }
                 }
                 case MARKER_DONE ->

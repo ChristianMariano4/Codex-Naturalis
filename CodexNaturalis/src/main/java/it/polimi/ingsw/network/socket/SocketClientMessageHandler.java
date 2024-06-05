@@ -12,12 +12,36 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class SocketClientMessageHandler implements Runnable {
 
+/**
+ * Client side Class used to receive messages and sent messages to the Server
+ * Each SocketClient has its own thread of SocketClientMessageHandler
+ */
+public class SocketClientMessageHandler implements Runnable {
+    /**
+     * A reference to the SocketClient object this SocketClientMessageHandler is connected to
+     */
     private final SocketClient client;
-    private ObjectInputStream inputStream;
-    private ObjectOutputStream outputStream;
-    private ErrorAwareQueue messageQueue;
+    /**
+     * Socket ObjectInputStream to receive messages from the Server
+     */
+    private final ObjectInputStream inputStream;
+    /**
+     * Socket ObjectOutputStream to send messages to the Server
+     */
+    private final ObjectOutputStream outputStream;
+    /**
+     * A reference to the queue used to send and receive messages
+     */
+    private final ErrorAwareQueue messageQueue;
+
+    /**
+     * Constructor of the SocketClientMessageHandler class
+     * @param client the SocketClient
+     * @param inputStream the ObjectInputStream
+     * @param outputStream the ObjectOutputStream
+     * @param messageQueue the ErrorAwareQueue
+     */
     public SocketClientMessageHandler(SocketClient client, ObjectInputStream inputStream, ObjectOutputStream outputStream, ErrorAwareQueue messageQueue)
     {
         this.client = client;
@@ -25,7 +49,13 @@ public class SocketClientMessageHandler implements Runnable {
         this.outputStream = outputStream;
         this.messageQueue = messageQueue;
     }
-
+    /**
+     * This sends a message to the Server through the ObjectOutputStream
+     *
+     * @param messageType the type of client message to be sent
+     * @param messageContent the content of the message to be sent
+     * @throws IOException when the message can't be sent through the ObjectOutputStream
+     */
     public void sendMessage(ClientMessageType messageType, Object ... messageContent) throws IOException, ServerDisconnectedException {
         synchronized (this) {
             try {
@@ -35,8 +65,10 @@ public class SocketClientMessageHandler implements Runnable {
                 throw new ServerDisconnectedException();
             }
         }
-
     }
+    /**
+     * This runs the instance of SocketClientMessageHandler and waits for incoming messages
+     */
     @Override
     public void run() {
         while(true)
@@ -44,9 +76,7 @@ public class SocketClientMessageHandler implements Runnable {
             try {
                 ServerMessage message = (ServerMessage) this.inputStream.readObject();
                 parseMessage(message);
-
-
-            } catch (IOException | ClassNotFoundException | InterruptedException | NotExistingPlayerException e) {
+            } catch (IOException | ClassNotFoundException | InterruptedException e) {
                 try {
                     inputStream.close();
                     outputStream.close();
@@ -57,7 +87,15 @@ public class SocketClientMessageHandler implements Runnable {
             }
         }
     }
-    private void parseMessage(ServerMessage message) throws InterruptedException, IOException, NotExistingPlayerException {
+
+    /**
+     * After receiving a message the message type is interpreted and used to choose to either update the SocketClient or to put the message in the queue
+     *
+     * @param message the message received containing both its type and content
+     * @throws InterruptedException thrown by superclass
+     * @throws IOException when a reply can't be sent back
+     */
+    private void parseMessage(ServerMessage message) throws InterruptedException, IOException {
             synchronized (this) {
                 switch (message.getMessageType()) {
                     case UPDATE -> {
@@ -105,7 +143,5 @@ public class SocketClientMessageHandler implements Runnable {
 
                 }
             }
-
     }
-
 }
