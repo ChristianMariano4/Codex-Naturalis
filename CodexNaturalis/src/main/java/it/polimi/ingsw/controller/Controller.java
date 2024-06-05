@@ -4,30 +4,24 @@ import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
-import it.polimi.ingsw.network.observer.EventManager;
-import it.polimi.ingsw.network.messages.clientMessages.UserMessageWrapper;
 import it.polimi.ingsw.network.server.GameHandler;
 
 import java.io.IOException;
 import java.util.*;
 
-import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
-
 /**
  * MainServer controller class
  */
 public class Controller {
-    public String testUsername;
     private final CardHandler cardHandler;
     private final GameHandler gameHandler;
 
 
     /**
      * Constructor for the Controller class
-     * @param eventManager the eventManager of the server
      * @param gameHandler the gameHandler of the server
      */
-    public Controller(EventManager eventManager, GameHandler gameHandler){
+    public Controller(GameHandler gameHandler){
         this.cardHandler = new CardHandler();
         this.gameHandler = gameHandler;
     }

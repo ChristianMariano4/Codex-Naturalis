@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.server;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
@@ -15,7 +14,6 @@ import it.polimi.ingsw.network.observer.EventManager;
 import it.polimi.ingsw.network.observer.GameListener;
 import it.polimi.ingsw.network.messages.GameEvent;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -42,7 +40,7 @@ public class GameHandler implements Serializable {
     public GameHandler(int gameId, Server server, int desiredNumberOfPlayers){
         this.server = server;
         this.eventManager = new EventManager();
-        this.controller = new Controller(eventManager, this);
+        this.controller = new Controller(this);
         try {
             this.game = controller.createGame(gameId);
         } catch (InvalidConstructorDataException | CardNotImportedException | CardTypeMismatchException |

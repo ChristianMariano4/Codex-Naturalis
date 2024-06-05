@@ -41,7 +41,6 @@ public class GUI extends Application {
     Stage primaryStage;
     ViewGUI viewGUI;
     private static boolean isRMI;
-    HashMap<GUIScene, SceneData> scenes;
     private double widthOld;
     private double heightOld;
     boolean rescalable;

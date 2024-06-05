@@ -38,49 +38,50 @@
                   <String fx:value="refreshButton" />
                   <String fx:value="clickableObject" />
                </styleClass></Button>
-         </children>
-      </Pane>
-      <Pane fx:id="errorPane" disable="true" prefHeight="518.0" prefWidth="920.0" stylesheets="@../style.css" visible="false">
-         <children>
-            <Pane opacity="0.6" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
-            <Pane layoutX="310.0" layoutY="159.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+            <Pane fx:id="errorPane" disable="true" prefHeight="518.0" prefWidth="920.0" stylesheets="@../style.css" visible="false">
                <children>
-                  <Button layoutX="119.0" layoutY="135.0" mnemonicParsing="false" onAction="#exitFromErrorButton" text="Ok">
-                     <styleClass>
-                        <String fx:value="test" />
-                        <String fx:value="clickableObject" />
-                     </styleClass></Button>
-                  <Label layoutX="37.0" layoutY="77.0" text="Unable to enter in this game">
-                     <font>
-                        <Font name="Serif Regular" size="20.0" />
-                     </font>
-                  </Label>
+                  <Pane opacity="0.6" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
+                  <Pane layoutX="310.0" layoutY="159.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                     <children>
+                        <Button layoutX="119.0" layoutY="135.0" mnemonicParsing="false" onAction="#exitFromErrorButton" text="Ok">
+                           <styleClass>
+                              <String fx:value="test" />
+                              <String fx:value="clickableObject" />
+                           </styleClass>
+                        </Button>
+                        <Label layoutX="37.0" layoutY="77.0" text="Unable to enter in this game">
+                           <font>
+                              <Font name="Serif Regular" size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
                </children>
             </Pane>
-         </children>
-      </Pane>
-      <Pane fx:id="exitPane" disable="true" prefHeight="518.0" prefWidth="920.0" stylesheets="@../style.css" visible="false">
-         <children>
-            <Pane opacity="0.6" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
-            <Pane layoutX="310.0" layoutY="159.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+            <Pane fx:id="exitPane" disable="true" prefHeight="518.0" prefWidth="920.0" stylesheets="@../style.css" visible="false">
                <children>
-                  <Label layoutX="80.0" layoutY="71.0" text="Are you sure?">
-                     <font>
-                        <Font name="Serif Regular" size="25.0" />
-                     </font>
-                  </Label>
-                  <Button layoutX="62.0" layoutY="126.0" mnemonicParsing="false" onAction="#yesExitButton" text="Yes">
-                     <styleClass>
-                        <String fx:value="test" />
-                        <String fx:value="clickableObject" />
-                     </styleClass>
-                  </Button>
-                  <Button layoutX="178.0" layoutY="126.0" mnemonicParsing="false" onAction="#noExitButton" text="No">
-                     <styleClass>
-                        <String fx:value="test" />
-                        <String fx:value="clickableObject" />
-                     </styleClass>
-                  </Button>
+                  <Pane opacity="0.6" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
+                  <Pane layoutX="310.0" layoutY="159.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                     <children>
+                        <Label layoutX="80.0" layoutY="71.0" text="Are you sure?">
+                           <font>
+                              <Font name="Serif Regular" size="25.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="62.0" layoutY="126.0" mnemonicParsing="false" onAction="#yesExitButton" text="Yes">
+                           <styleClass>
+                              <String fx:value="test" />
+                              <String fx:value="clickableObject" />
+                           </styleClass>
+                        </Button>
+                        <Button layoutX="178.0" layoutY="126.0" mnemonicParsing="false" onAction="#noExitButton" text="No">
+                           <styleClass>
+                              <String fx:value="test" />
+                              <String fx:value="clickableObject" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                  </Pane>
                </children>
             </Pane>
          </children>

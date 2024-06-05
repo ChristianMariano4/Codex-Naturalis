@@ -1,8 +1,6 @@
 package it.polimi.ingsw.network.messages.serverMessages;
 
-import it.polimi.ingsw.enumerations.ClientMessageType;
 import it.polimi.ingsw.enumerations.ServerMessageType;
-import it.polimi.ingsw.enumerations.Side;
 
 import java.io.Serializable;
 
