@@ -50,7 +50,7 @@ public class Server extends Thread implements ServerRMIInterface {
                     Thread.sleep(GameValues.HEARTBEAT_INTERVAL);
                     if(System.currentTimeMillis() - clients.get(client).getLastHeartbeat() > GameValues.HEARTBEAT_TIMEOUT) {
                         disconnect(client);
-                        System.out.println("Client disconnected. Clients size: "+ clients.size()); //debugging
+                        System.out.println("Client disconnected. Clients size: "+ clients.size());
                         break;
                     }
                 } catch (InterruptedException | IOException | NotExistingPlayerException | NotAvailableMarkerException |

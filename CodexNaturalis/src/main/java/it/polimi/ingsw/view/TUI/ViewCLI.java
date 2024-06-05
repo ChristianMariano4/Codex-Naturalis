@@ -170,10 +170,15 @@ public class ViewCLI implements View, Runnable {
         {
             boolean isTurn = game.getPlayer(client.getUsername()).getIsTurn();
             String playerPlaying = game.getCurrentPlayer().getUsername();
-            if(!game.getIsGameEnded() && !game.getIsGameEndedForDisconnection()){
-                ui.showTurnScreen(playerPlaying, client.getUsername());
+            if(game.getGameStatus().getStatusNumber() < GameStatus.GAME_STARTED.getStatusNumber() && game.getPlayer(client.getUsername()).getIsReconnecting()) {
+                ui.waitingForGameBegin();
+                while (game.getGameStatus().getStatusNumber() < GameStatus.GAME_STARTED.getStatusNumber()) {
+                    Thread.sleep(10);
+                }
             }
-            else if (game.getIsGameEndedForDisconnection()) {
+            if(!game.getIsGameEnded() && !game.getIsGameEndedForDisconnection()) {
+                ui.showTurnScreen(playerPlaying, client.getUsername());
+            }else if (game.getIsGameEndedForDisconnection()) {
                 gameEndDisconnection();
             } else {
                 showEndGameScreen();
