@@ -25,7 +25,8 @@ public class Player implements Serializable {
     private Game game;
     private ObjectiveCard secretObjective;
     private StarterCard starterCard;
-    private boolean isDisconneted;
+    private boolean isDisconnected;
+    private boolean isReconnecting = false;
 
     /**
      * Constructor
@@ -35,7 +36,7 @@ public class Player implements Serializable {
     //controller crates player -> player creates empty playerhand -> controller adds cards to playerhand from deck
     public Player(String username) throws InvalidConstructorDataException {
         this.username = username;
-        this.isDisconneted = false;
+        this.isDisconnected = false;
         this.playerHand  = new PlayerHand();
         this.playerField = new PlayerField();
         this.points = 0;
@@ -246,14 +247,14 @@ public class Player implements Serializable {
      * Set isDisconnected at true
      */
     public void setDisconnected(){
-        this.isDisconneted = true;
+        this.isDisconnected = true;
     }
 
     /**
      * set isDisconnected at false
      */
     public void setConnected(){
-        this.isDisconneted = false;
+        this.isDisconnected = false;
     }
 
     /**
@@ -261,7 +262,22 @@ public class Player implements Serializable {
      * @return isDisconnected value
      */
     public boolean getIsDisconnected(){
-        return this.isDisconneted;
+        return this.isDisconnected;
+    }
+
+    /**
+     * set isReconnecting to true
+     */
+    public void setReconnecting(){
+        this.isReconnecting = true;
+    }
+
+    /**
+     * Getter
+     * @return isReconnecting value
+     */
+    public boolean getIsReconnecting(){
+        return this.isReconnecting;
     }
 
 }

@@ -2,10 +2,7 @@ package it.polimi.ingsw.network.server;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.enumerations.AngleOrientation;
-import it.polimi.ingsw.enumerations.GameStatus;
-import it.polimi.ingsw.enumerations.Marker;
-import it.polimi.ingsw.enumerations.Side;
+import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
@@ -40,6 +37,7 @@ public class GameHandler implements Serializable {
     private boolean finalRound = false;
     private final int desiredNumberOfPlayers;
     HashMap<String, Boolean> readyStatus = new HashMap<>();
+    HashMap<String, ArrayList<ObjectiveCard>> assignedObjectiveCards = new HashMap<>();
 
 
     public GameHandler(int gameId, Server server, int desiredNumberOfPlayers){
@@ -165,6 +163,7 @@ public class GameHandler implements Serializable {
                 eventManager.notify(GameEvent.GAME_INITIALIZED, this.game);
                 for (Player player : game.getListOfPlayers()) {
                     ArrayList<ObjectiveCard> objectiveCardsToChoose = controller.takeTwoObjectiveCards();
+                    assignedObjectiveCards.put(player.getUsername(), objectiveCardsToChoose);
                     HashMap<ClientHandlerInterface, String> usernames = new HashMap<>();
                     for (ClientHandlerInterface client : clients) {
                         usernames.put(client, client.getUsername());
@@ -207,6 +206,44 @@ public class GameHandler implements Serializable {
             return controller.playCard(player, card, otherCard, orientation);
         }
     }
+
+    public void drawCard(String username, CardType cardType, DrawPosition drawPosition) throws NotExistingPlayerException, AlreadyThreeCardsInHandException, DeckIsEmptyException {
+        synchronized (this) {
+            controller.drawCard(game.getPlayer(username), cardType, drawPosition);
+            //TODO: add deck empty game end logic
+        }
+    }
+
+    public void drawRandomCard(String username)
+    {
+        synchronized (this)
+        {
+            for(DrawPosition position: DrawPosition.values())
+            {
+                try
+                {
+                    drawCard(username, CardType.RESOURCE,position);
+                    return;
+                }catch (DeckIsEmptyException e)
+                {
+                } catch (NotExistingPlayerException | AlreadyThreeCardsInHandException e) {
+                    throw new RuntimeException(e);
+                }
+
+                try
+                {
+                    drawCard(username, CardType.GOLD,position);
+                    return;
+                }catch (DeckIsEmptyException e)
+                {
+                } catch (NotExistingPlayerException | AlreadyThreeCardsInHandException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            //TODO: call game end method because all decks are empty
+        }
+    }
+
     public List<ClientHandlerInterface> getClients() {
         synchronized (this) {
             return clients;
@@ -349,11 +386,13 @@ public class GameHandler implements Serializable {
                     if(readyStatus.get(username) == true)
                         readyPlayers--;
                     readyStatus.remove(username);
-                    //TODO: ready players
                     game.removePlayer(username);
                 } else if (game.getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
                     if(game.getPlayer(username).getIsTurn()){
-//                        controller.finishTurn(game.getPlayer(username));
+                        if(game.getPlayer(username).getPlayerHand().getCardsInHand().size() != 3)
+                        {
+                            drawRandomCard(username);
+                        }
                         controller.nextTurn(game.getPlayer(username));
                         eventManager.notify(GameEvent.TURN_EVENT, game);
                     }
@@ -366,14 +405,33 @@ public class GameHandler implements Serializable {
 
     public void setRandomInitialization(String username) throws NotExistingPlayerException, NotAvailableMarkerException, DeckIsEmptyException {
     synchronized (this) {
-            if (game.getPlayer(username).getMarker() == null){
-                this.setMarker(game.getPlayer(username), game.getAvailableMarkers().getFirst());
+            if (game.getPlayer(username).getMarker() == null) { //wait for my turn then select the marker
+                new Thread(() ->
+                {
+                    while(true)
+                    {
+                        String currentMarkerChoice = game.getListOfPlayers().get(4 - game.getAvailableMarkers().size()).getUsername(); //how many markers have already been chosen
+                        if (username.equals(currentMarkerChoice)) {
+                            try {
+                                this.setMarker(game.getPlayer(username), game.getAvailableMarkers().getFirst());
+                            } catch (NotAvailableMarkerException e) {
+                                throw new RuntimeException(e);
+                            } catch (NotExistingPlayerException e) {
+                                throw new RuntimeException(e);
+                            }
+                            break;
+                        }
+                    }
+
+
+                }).start();
             }
-            if (game.getPlayer(username).getSecretObjective() == null){
-                this.setSecretObjectiveCard(game.getPlayer(username), game.getObjectiveCardDeck().getTopCard());
+            if (game.getPlayer(username).getSecretObjective() == null) {
+                this.setSecretObjectiveCard(game.getPlayer(username), assignedObjectiveCards.get(username).getFirst()); //assigning one of the two already selected objective cards for that player so that objective card deck cannot be empty
             }
             //can't check if null because the card is assigned in game initialization so we just assign it anyway
-            this.setStarterCardSide(game.getPlayer(username), game.getPlayer(username).getStarterCard(), Side.FRONT);
+        this.setStarterCardSide(game.getPlayer(username), game.getPlayer(username).getStarterCard(), Side.FRONT);
+
         }
     }
 }

@@ -103,7 +103,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                 {
                     Game game = (Game) gameUpdate;
                     view.update(game);
-                    if(!this.markerTurn) {
+                    if(!this.markerTurn && game.getPlayer(username).getMarker() == null) {
                         String currentMarkerChoice = game.getListOfPlayers().get(4 - game.getAvailableMarkers().size()).getUsername(); //how many markers have already been chosen
                         if (username.equals(currentMarkerChoice))
                             this.markerTurn = true;

@@ -38,6 +38,8 @@ public class MainGameScreenController extends GUIController{
     public Pane scalable;
     private boolean twentyPointsReached = false;
 
+    private Thread waitThread;
+
     private PlayableCard cardJustPlayed = null;
     private Player playerUpdated = null;
 
@@ -407,21 +409,30 @@ public class MainGameScreenController extends GUIController{
     }
 
     public void sceneInitializer() {
+        try {
+            gameIdLabel.setText("GameId: " + viewGUI.getGame().getGameId());
+            gameIdLabel.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
+            inspectedCardInfo = new InspectedCardInfo();
+            if (viewGUI.getGame().getGameStatus().getStatusNumber() >= GameStatus.GAME_STARTED.getStatusNumber()) { //game already started
+                tabletopSetup();
+                rebuildMyField();
 
-        gameIdLabel.setText("GameId: " + viewGUI.getGame().getGameId());
-        gameIdLabel.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
-        inspectedCardInfo = new InspectedCardInfo();
-        if(viewGUI.getGame().getGameStatus().getStatusNumber() >= GameStatus.GAME_STARTED.getStatusNumber())
-        {
-            tabletopSetup();
-            rebuildMyField();
-
+            } else if (viewGUI.getGame().getPlayer(viewGUI.getUsername()).getIsReconnecting()) //reconnection before game begins, we do not allow any choice
+            {
+                waitForGameBegin();
+            }
+            else { //joining normally
+                markerPanes.add(marker1);
+                markerPanes.add(marker2);
+                markerPanes.add(marker3);
+                markerPanes.add(marker4);
+                preGame();
+            }
         }
-        markerPanes.add(marker1);
-        markerPanes.add(marker2);
-        markerPanes.add(marker3);
-        markerPanes.add(marker4);
-        preGame();
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
     }
     private String  getCardUrl(Card card, Side side)
     {
@@ -449,6 +460,8 @@ public class MainGameScreenController extends GUIController{
         try {
             while (!viewGUI.getMarkerTurn()) {
                 Thread.sleep(1);
+                if(Thread.interrupted())
+                    return;
             }
             Platform.runLater(new Runnable() {
 
@@ -461,7 +474,6 @@ public class MainGameScreenController extends GUIController{
                     int i = 0;
                     for(Marker marker: viewGUI.getGame().getAvailableMarkers())
                     {
-
                         markerPanes.get(i).setStyle(getStyle(marker.getPath()));
                         markerPanes.get(i).setDisable(false);
                         markerPanes.get(i).setVisible(true);
@@ -473,12 +485,13 @@ public class MainGameScreenController extends GUIController{
         }
         catch (Exception e)
         {
-            throw new RuntimeException();
+            return;
         }
     };
     private void preGame()
     {
-        new Thread(markerThread).start();
+        waitThread = new Thread(markerThread);
+        waitThread.start();
     }
     @FXML
     private void markerOne()
@@ -587,6 +600,8 @@ public class MainGameScreenController extends GUIController{
         try {
             while (!viewGUI.getGameBegin()) {
                 Thread.sleep(1);
+                if(Thread.interrupted())
+                    return;
             }
             Platform.runLater(new Runnable() {
 
@@ -600,14 +615,17 @@ public class MainGameScreenController extends GUIController{
         }
         catch (Exception e)
         {
-            throw new RuntimeException();
+            return;
         }
     };
 
     public void waitForGameBegin()
     {
+        markerSelection.setDisable(true);
+        markerSelection.setVisible(false);
         waitForBegin.setDisable(false);
         waitForBegin.setVisible(true);
+
         new Thread(waitGameBeginThread).start();
 
     }
@@ -1931,6 +1949,8 @@ public class MainGameScreenController extends GUIController{
     public void yesExitButton() {
         try
         {
+            if(waitThread != null && waitThread.isAlive())
+                waitThread.interrupt();
             viewGUI.quitGame();
             viewGUI.initialize();
             gui.switchScene(GUIScene.LOBBY);
@@ -1948,6 +1968,7 @@ public class MainGameScreenController extends GUIController{
 
     public void update(Object update)
     {
+
         if(drawingCard)
             return;
         if(inGame) {

@@ -103,6 +103,7 @@ public class GUI extends Application {
             controller.setView(viewGUI);
             controller.setGUI(this);
             controller.setStage(primaryStage);
+            Thread.sleep(1);
             controller.sceneInitializer();
 
             primaryStage.show();

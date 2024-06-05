@@ -128,7 +128,7 @@ public class Server extends Thread implements ServerRMIInterface {
     @Override
     public Game reconnectPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException, NotExistingPlayerException {
         try {
-
+            gameHandlerMap.get(gameId).getGame().getPlayer(username).setReconnecting();
             gameHandlerMap.get(gameId).getGame().getPlayer(username).setConnected();
         } catch (NotExistingPlayerException e) {
             throw new NotExistingPlayerException();
@@ -139,10 +139,18 @@ public class Server extends Thread implements ServerRMIInterface {
     @Override
     public void quitGame(int gameId, ClientHandlerInterface client) throws RemoteException, NotExistingPlayerException {
         try {
+            if (gameHandlerMap.get(clients.get(client).getGameId()).getGame().getGameStatus().getStatusNumber() < GameStatus.GAME_STARTED.getStatusNumber() &&
+                    gameHandlerMap.get(clients.get(client).getGameId()).getGame().getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
+                gameHandlerMap.get(clients.get(client).getGameId()).setRandomInitialization(clients.get(client).getUsername());
+            }
             gameHandlerMap.get(gameId).setPlayerDisconnected(client.getUsername());
             gameHandlerMap.get(gameId).unsubscribe(client.getUsername());
             gameHandlerMap.get(gameId).removeClient(client);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (NotAvailableMarkerException e) {
+            throw new RuntimeException(e);
+        } catch (DeckIsEmptyException e) {
             throw new RuntimeException(e);
         }
     }
@@ -316,11 +324,12 @@ public class Server extends Thread implements ServerRMIInterface {
         GameHandler game = gameHandlerMap.get(gameId);
         if(game.getGame().getCurrentPlayer().equals(game.getPlayer(username)))
         {
-           game.getController().drawCard(game.getPlayer(username), cardType, drawPosition);
+           game.drawCard(username, cardType, drawPosition);
            return;
         }
         throw new NotTurnException();
     }
+
     public void endTurn(int gameId, String username) throws RemoteException, NotExistingPlayerException, CardTypeMismatchException {
         GameHandler game = gameHandlerMap.get(gameId);
         game.turnEvent(username);
