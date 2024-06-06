@@ -16,9 +16,15 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
 
+/**
+ * The main class of the Client
+ */
 public class MainClient {
 
-
+    /**
+     * The main method of the class
+     * @param args not used
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         do {
@@ -64,6 +70,11 @@ public class MainClient {
 
 
     }
+
+    /**
+     * Method used to start the Socket connection and the TUI
+     * @throws ServerDisconnectedException if the server is disconnected
+     */
     private static void SocketTUI() throws ServerDisconnectedException {
         System.out.println("Insert server IP address, leave empty for localhost: ");
         Scanner scanner = new Scanner(System.in);
@@ -101,6 +112,11 @@ public class MainClient {
 //        }
 //        return;
     }
+
+    /**
+     * Method used to start the RMI connection and the TUI
+     * @throws ServerDisconnectedException if the server is disconnected
+     */
     private static void RMITUI() throws ServerDisconnectedException {
         System.out.println("Insert server IP address, leave empty for localhost: ");
         Scanner scanner = new Scanner(System.in);
@@ -144,6 +160,10 @@ public class MainClient {
 //
 //        return;
     }
+
+    /**
+     * Method used to launch the Socket connection and the GUI
+     */
     private static void SocketGUI()
     {
         GUI.setConnectionType(false);
@@ -151,6 +171,10 @@ public class MainClient {
         System.exit(0);
 
     }
+
+    /**
+     * Method used to launch the RMI connection and the GUI
+     */
     private static void RMIGUI()
     {
         GUI.setConnectionType(true);
