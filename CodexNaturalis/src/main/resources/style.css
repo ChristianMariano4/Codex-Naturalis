@@ -25,6 +25,32 @@
     -fx-background-size: cover;
 }
 
+.enterButton {
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #746216 0%, #746216 100%),
+            #746216,
+            #746216,
+            radial-gradient(center 50% 50%, radius 100%, #c1aa50, #746218);
+    -fx-effect: dropshadow( gaussian , rgba(0, 0, 0, 0.75), 4,0,0,1 );
+    -fx-font-size:15;
+    -fx-font-family: serif;
+    -fx-background-radius: 5em;
+}
+.loginScreen {
+    -fx-background-image: url("images/Backgrounds/loginBackground.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.lobbyScreen {
+    -fx-background-image: url("images/Backgrounds/gameCreationBackground.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+.codexBackground {
+    -fx-background-image: url("images/Backgrounds/Slider-Codex-2-1920x1080.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
 
 .rulebookButton {
     -fx-background-color:
@@ -195,13 +221,14 @@
     -fx-border-color: #EEE5BC;
     -fx-background-color: #EEE5BC;
 }
+/*
 .list-cell {
     -fx-background-color: #EEE5BC;
     -fx-border-color: #EEE5BC;
     -fx-text-fill: black;
     -fx-font-family: Serif;
     -fx-font-size: 16px;
-}
+}*/
 .list-cell:focused {
     -fx-background-color: #EEE5BC;
     -fx-border-color: #EEE5BC;
@@ -260,23 +287,25 @@
 }
 
 .text-area {
-    -fx-background-color: #EEE5BC;
+    -fx-background: transparent;
     -fx-effect: none;
+    -fx-border-color: none;
     -fx-text-align: center;
-    -fx-text-fill: #736119;
-    -fx-font-size: 25px;
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
     -fx-font-family: Serif;
     /*-fx-font-weight: bold;*/
 }
 .text-area .content {
-    -fx-background-color: #EEE5BC;
+    -fx-background-color: transparent;
 }
 .text-area *.text {
     -fx-text-alignment: center;
 }
 .text-area:focused .content {
-    -fx-background-color: #EEE5BC;
+    -fx-background-color: transparent;
 }
+
 .clickableObject:hover {
     /*-fx-opacity: 0.6;*/
     -fx-effect: dropshadow(three-pass-box, rgba(203,181,89,0.8), 10, 0, 0, 0);
@@ -303,5 +332,32 @@
     -fx-background-color: rgb(203,181,89);
     -fx-effect: dropshadow( gaussian , rgba(0, 0, 0, 0.75), 4,0,0,1 );
 }
+.chatButton {
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #746216 0%, #746216 100%),
+            #746216,
+            #746216,
+            radial-gradient(center 50% 50%, radius 100%, #c1aa50, #746218);
+    -fx-effect: dropshadow( gaussian , rgba(0, 0, 0, 0.75), 4,0,0,1 );
+    -fx-background-radius: 5em;
+    -fx-background-image: url("images/Icons/chatIcon.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 60%;
+    -fx-background-position: center;
+}
+
+.chatListView {
+    -fx-background-color: transparent;
+    -fx-border-color: red;
+}
+.chatListView .list-cell {
+    -fx-background-color: red;
+    -fx-border-color: red;
+    -fx-text-fill: black;
+    -fx-font-family: Serif;
+    -fx-font-size: 16px;
+}
+
+
 
 
