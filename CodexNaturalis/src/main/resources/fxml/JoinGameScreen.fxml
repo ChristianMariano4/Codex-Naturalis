@@ -30,7 +30,7 @@
                </styleClass></Button>
             <TextFlow layoutX="353.0" layoutY="161.0" prefHeight="130.0" prefWidth="215.0" stylesheets="@../style.css">
                <children>
-                  <ListView fx:id="gameList2" onMouseClicked="#joinButton" prefHeight="129.0" prefWidth="215.0" />
+                  <ListView fx:id="gameList2" onMouseClicked="#joinButton" prefHeight="129.0" prefWidth="215.0" styleClass="gameList" />
                </children>
             </TextFlow>
             <Button layoutX="440.0" layoutY="307.0" mnemonicParsing="false" onAction="#refresh" prefHeight="40.0" prefWidth="42.0">

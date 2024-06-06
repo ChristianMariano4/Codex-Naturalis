@@ -217,25 +217,24 @@
     -fx-background-size: 100%;
 }
 /*LIST VIEW*/
-.list-view {
+.gameList {
     -fx-border-color: #EEE5BC;
     -fx-background-color: #EEE5BC;
 }
-/*
-.list-cell {
+.gameList .list-cell {
     -fx-background-color: #EEE5BC;
     -fx-border-color: #EEE5BC;
     -fx-text-fill: black;
     -fx-font-family: Serif;
     -fx-font-size: 16px;
-}*/
-.list-cell:focused {
+}
+.gameList .list-cell:focused {
     -fx-background-color: #EEE5BC;
     -fx-border-color: #EEE5BC;
     -fx-text-fill: black;
     -fx-font-family: Serif;
 }
-.list-cell:selected {
+.gameList .list-cell:selected {
     -fx-font-family: Serif;
     -fx-background-color: #746216;
     -fx-text-fill: white;
@@ -348,14 +347,25 @@
 
 .chatListView {
     -fx-background-color: transparent;
-    -fx-border-color: red;
+    /*-fx-border-color: red;*/
 }
 .chatListView .list-cell {
-    -fx-background-color: red;
-    -fx-border-color: red;
-    -fx-text-fill: black;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
     -fx-font-family: Serif;
-    -fx-font-size: 16px;
+    -fx-font-size: 14px;
+}
+.chatListView .list-cell:focused {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: Serif;
+    -fx-font-size: 14px;
+}
+.chatListView .list-cell:selected {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: Serif;
+    -fx-font-size: 14px;
 }
 
 
