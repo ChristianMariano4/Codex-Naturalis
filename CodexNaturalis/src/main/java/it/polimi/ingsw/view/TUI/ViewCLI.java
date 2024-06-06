@@ -710,4 +710,9 @@ public class ViewCLI implements View, Runnable {
         //TODO: check if for win without disconnection the readerThread.isAlive() logic is needed
     }
 
+    @Override
+    public void chatMessage(String message) {
+
+    }
+
 }

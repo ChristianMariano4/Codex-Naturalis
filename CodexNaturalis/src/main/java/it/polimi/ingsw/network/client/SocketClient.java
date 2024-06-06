@@ -341,6 +341,19 @@ public class SocketClient extends Client {
         }
     }
 
+    @Override
+    public void sendChatMessage(int gameId, String message) throws ServerDisconnectedException, IOException {
+        messageHandler.sendMessage(ClientMessageType.SEND_CHAT_MESSAGE, gameId, message);
+        try
+        {
+            messageHandlerQueue.take();
+        }
+        catch(Exception e)
+        {
+            throw new RuntimeException();
+        }
+    }
+
 
     public void run()
     {

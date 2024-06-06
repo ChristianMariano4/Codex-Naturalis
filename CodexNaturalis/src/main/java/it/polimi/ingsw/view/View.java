@@ -21,4 +21,5 @@ public interface View  {
     void finalRound();
     void gameEndDisconnection();
     void gameEnd();
+    void chatMessage(String message);
 }

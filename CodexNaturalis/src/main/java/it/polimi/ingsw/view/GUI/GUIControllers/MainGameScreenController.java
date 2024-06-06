@@ -9,20 +9,23 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.view.GUI.InspectedCardInfo;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.util.Callback;
 
-import java.awt.*;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -37,6 +40,12 @@ public class MainGameScreenController extends GUIController{
     private boolean drawingCard = false;
     public Pane scalable;
     private boolean twentyPointsReached = false;
+
+    public Pane chatPane;
+    public Pane chatButtonPane;
+    public ListView<String> chatList;
+    public TextField chatField;
+    ObservableList<String> chatMessages = FXCollections.observableArrayList();
 
     private Thread waitThread;
 
@@ -409,6 +418,7 @@ public class MainGameScreenController extends GUIController{
     }
 
     public void sceneInitializer() {
+
         try {
             gameIdLabel.setText("GameId: " + viewGUI.getGame().getGameId());
             gameIdLabel.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
@@ -690,6 +700,7 @@ public class MainGameScreenController extends GUIController{
             markerPaneInitializer();
             resourceInitializer();
             setTurn();
+            initializeChat();
             inGame = true;
         }
         catch (Exception e)
@@ -698,6 +709,45 @@ public class MainGameScreenController extends GUIController{
             throw new RuntimeException();
         }
     }
+
+    public void initializeChat()
+    {
+        chatButtonPane.setDisable(false);
+        chatButtonPane.setVisible(true);
+        chatList.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+        @Override
+        public ListCell<String> call(ListView<String> list) {
+            final ListCell cell = new ListCell() {
+                private Text text;
+
+                @Override
+                public void updateItem(Object item, boolean empty) {
+                    super.updateItem(item, empty || item == null);
+                    if (!isEmpty()) {
+                        setPrefWidth(chatList.getPrefWidth() - 5);
+                        setTextFill(Color.WHITE);
+                        setWrapText(true);
+                        setText(item.toString());
+
+
+
+                       /* text = new Text(item.toString());
+                        text.setWrappingWidth(chatList.getPrefWidth() - 18);
+                        text.setStyle("-fx-text-fill: white; -fx-font-size: 12");
+                        setGraphic(text);*/
+
+                    }
+                }
+
+            };
+
+            return cell;
+        }
+    });
+        chatList.setItems(chatMessages);
+        chatMessages.add("Write a public message or /[player's username] to send a private message");
+    }
+
 
     private void resourceInitializer()
     {
@@ -1964,6 +2014,41 @@ public class MainGameScreenController extends GUIController{
         exitPane.setDisable(true);
         exitPane.setVisible(false);
     }
+    @FXML
+    public void showChat()
+    {
+
+        chatPane.setDisable(!chatPane.isDisable());
+        chatPane.setVisible(!chatPane.isVisible());
+    }
+
+    @Override
+    public void chatMessage(String message)
+    {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+
+                chatMessages.add(message);
+                chatList.scrollTo(chatMessages.getLast());
+            }
+        });
+    }
+
+    public void sendChatMessage()
+    {
+        try {
+            String message = chatField.getText();
+            if(message.isBlank())
+                return;
+            viewGUI.sendChatMessage(message);
+            chatField.clear();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException();
+        }
+    }
 
 
     public void update(Object update)
@@ -1996,5 +2081,8 @@ public class MainGameScreenController extends GUIController{
         }
 
     }
+
+
+
 
 }

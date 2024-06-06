@@ -34,4 +34,8 @@ public abstract class GUIController {
     public void twentyPoints(String username) {
 
     }
+    public void chatMessage(String message)
+    {
+
+    }
 }

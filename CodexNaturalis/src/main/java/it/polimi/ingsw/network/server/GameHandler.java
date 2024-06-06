@@ -430,4 +430,32 @@ public class GameHandler implements Serializable {
 
         }
     }
+    public void sendChatMessage(String message, String sender)
+    {
+        Calendar rightNow = Calendar.getInstance();
+        int hour = rightNow.get(Calendar.HOUR_OF_DAY);
+        int minute = rightNow.get(Calendar.MINUTE);
+        if(message.charAt(0) == '/')
+        {
+            ArrayList<String> players = new ArrayList<>(game.getListOfPlayers().stream().filter(e -> !e.getIsDisconnected() && !e.getUsername().equals(sender)).map(e -> e.getUsername()).toList());
+            for(String player : players)
+            {
+                try {
+                    if (message.substring(1, player.length() + 2).equals(player + " ")) {
+                        if(message.substring(player.length() + 2).length() == 0)
+                            break;
+                        String chatMessage = "[PRIVATE] " + hour + ":" + minute + " " + sender + " to " + player + ": " + message.substring(player.length() + 2);
+                        server.sendPrivateChatMessage(sender, player, chatMessage);
+                        return;
+                    }
+                }
+                catch (IndexOutOfBoundsException e)
+                {
+                    break;
+                }
+            }
+        }
+        String chatMessage = "[PUBLIC] " + hour + ":" + minute + " " + sender +": " + message;
+        eventManager.notify(GameEvent.CHAT_MESSAGE, chatMessage);
+    }
 }

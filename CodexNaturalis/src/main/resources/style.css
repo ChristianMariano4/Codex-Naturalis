@@ -368,6 +368,11 @@
     -fx-font-size: 10px;
 }
 
+.chatListView .scroll-bar:horizontal {
+    -fx-scale-x: 0;
+}
+
+
 
 
 

@@ -157,6 +157,10 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                         this.viewThread.interrupt();
                     }
                 }
+                case CHAT_MESSAGE ->
+                {
+                    view.chatMessage((String) gameUpdate);
+                }
             }
     }
 
@@ -260,4 +264,5 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     public abstract void setMarker(Player player, int gameId, Marker chosenMarker) throws NotExistingPlayerException, IOException, NotAvailableMarkerException, ServerDisconnectedException;
     public abstract void setStarterCardSide(int gameId, Player player, StarterCard cardFront, Side side) throws NotExistingPlayerException, IOException, ServerDisconnectedException;
     public abstract HashMap<String, Boolean> getReadyStatus() throws ServerDisconnectedException, IOException;
+    public abstract void sendChatMessage(int gameId, String message) throws ServerDisconnectedException, IOException;
 }

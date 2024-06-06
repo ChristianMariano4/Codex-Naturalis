@@ -169,6 +169,11 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                     case GET_CARD_BY_ID -> {
                         sendMessage(ServerMessageType.REQUESTED_CARD, server.getPlayableCardById((int) message.getMessageContent()[0], (int) message.getMessageContent()[1]));
                     }
+                    case SEND_CHAT_MESSAGE ->
+                    {
+                        server.sendChatMessage((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], username);
+                        sendMessage(ServerMessageType.SUCCESS, true);
+                    }
 
                 }
             } catch (GameNotFoundException e) {

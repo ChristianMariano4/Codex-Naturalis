@@ -395,6 +395,28 @@ public class Server extends Thread implements ServerRMIInterface {
         return gameHandlerMap.get(gameId).getController().getCardHandler().getOtherSideCard(card);
 
     }
+    public void sendChatMessage(int gameId, String message, String sender) throws RemoteException
+    {
+        gameHandlerMap.get(gameId).sendChatMessage(message, sender);
+    }
+    public void sendPrivateChatMessage(String sender, String receiver, String chatMessage)
+    {
+        ClientHandlerInterface receiverClient = clients.keySet().stream().filter(e -> clients.get(e).getUsername().equals(receiver)).findFirst().orElse(null);
+        ClientHandlerInterface senderClient = clients.keySet().stream().filter(e -> clients.get(e).getUsername().equals(sender)).findFirst().orElse(null);
+
+        if(receiverClient == null || senderClient == null)
+            return;
+        try {
+            updateClient(receiverClient, GameEvent.CHAT_MESSAGE, chatMessage);
+            updateClient(senderClient, GameEvent.CHAT_MESSAGE, chatMessage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (NotExistingPlayerException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void run(){
         startSocketServer();

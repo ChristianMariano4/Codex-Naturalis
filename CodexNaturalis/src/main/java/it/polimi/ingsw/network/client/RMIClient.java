@@ -321,6 +321,16 @@ public class RMIClient extends Client {
         throw new ServerDisconnectedException();
         }
     }
+    public void sendChatMessage(int gameId, String message) throws ServerDisconnectedException
+    {
+        try {
+            serverRMIInterface.sendChatMessage(gameId,  message,  username);
+        }
+        catch (RemoteException e)
+        {
+            throw new ServerDisconnectedException();
+        }
+    }
 
 
 

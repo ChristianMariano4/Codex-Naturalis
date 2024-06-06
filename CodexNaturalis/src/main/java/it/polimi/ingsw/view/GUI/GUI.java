@@ -239,4 +239,8 @@ public class GUI extends Application {
             }
         });
     }
+    public void chatMessage(String message)
+    {
+        controller.chatMessage(message);
+    }
 }

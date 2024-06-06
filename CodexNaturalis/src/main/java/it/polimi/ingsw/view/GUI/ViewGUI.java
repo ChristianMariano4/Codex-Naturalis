@@ -95,6 +95,11 @@ public class ViewGUI implements View, Runnable {
         gui.gameEnd();
     }
 
+    @Override
+    public void chatMessage(String message) {
+        gui.chatMessage(message);
+    }
+
     public ArrayList<Game> showAvailableGames() throws ServerDisconnectedException, IOException, InterruptedException {
         return client.getAvailableGames();
     }
@@ -226,5 +231,8 @@ public class ViewGUI implements View, Runnable {
     public void quitGame() throws ServerDisconnectedException, IOException {
 
         client.quitGame();
+    }
+    public void sendChatMessage(String message) throws ServerDisconnectedException, IOException {
+        client.sendChatMessage(game.getGameId(), message);
     }
 }
