@@ -22,9 +22,9 @@ public class CardInfo implements Serializable {
 
     /**
      * GoldCard CardInfo constructor
-     * @param cardType
-     * @param requirements
-     * @param goldPointCondition
+     * @param cardType the type of the card
+     * @param requirements the list of the requirements of the card
+     * @param goldPointCondition the gold point condition of the card
      */
     public CardInfo(CardType cardType, ArrayList<Resource> requirements, GoldPointCondition goldPointCondition)
     {
@@ -55,7 +55,7 @@ public class CardInfo implements Serializable {
 
     /**
      * ResourceCard and TripleObjectiveCard and StarterCard CardInfo constructor
-     * @param cardType
+     * @param cardType the type of the card
      */
     public CardInfo(CardType cardType)
     {
@@ -78,8 +78,8 @@ public class CardInfo implements Serializable {
 
     /**
      * ResourceObjectiveCard CardInfo constructor
-     * @param cardType
-     * @param cardResource
+     * @param cardType the type of the card
+     * @param cardResource the resource of the card
      */
     public CardInfo(CardType cardType, Resource cardResource)
     {
@@ -97,10 +97,10 @@ public class CardInfo implements Serializable {
 
     /**
      * PositionalObjectiveCard CardInfo constructor
-     * @param cardType
-     * @param cardColor
-     * @param orientation
-     * @param positionalType
+     * @param cardType the type of the card
+     * @param cardColor the resource of the card
+     * @param orientation the orientation of the positional type
+     * @param positionalType the positional type of the ObjectiveCard
      */
     public CardInfo(CardType cardType, Resource cardColor, AngleOrientation orientation, PositionalType positionalType)
     {
