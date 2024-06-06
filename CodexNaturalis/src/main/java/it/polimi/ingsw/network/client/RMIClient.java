@@ -10,13 +10,14 @@ import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 import it.polimi.ingsw.view.GUI.GUI;
 
 import java.io.IOException;
+import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -24,22 +25,23 @@ import java.util.concurrent.TimeUnit;
 public class RMIClient extends Client {
     private ServerRMIInterface serverRMIInterface;
 
-    public RMIClient(ServerRMIInterface serverRMIInterface) throws RemoteException {
-        super(true);
-        this.serverRMIInterface = serverRMIInterface;
-        this.isGUI = false;
-    }
-    public RMIClient() throws RemoteException {
-        super(true);
+//    public RMIClient(ServerRMIInterface serverRMIInterface, String serverIP) throws RemoteException {
+//        super(true, serverIP);
+//        this.serverRMIInterface = serverRMIInterface;
+//        this.isGUI = false;
+//    }
+    public RMIClient(String serverIP) throws RemoteException {
+        super(true, serverIP);
         this.isGUI = false;
     }
 
-    public RMIClient(ServerRMIInterface serverRMIInterface, GUI gui) throws RemoteException {
-        super(true);
-        this.serverRMIInterface = serverRMIInterface;
+    public RMIClient(GUI gui, String serverIP) throws RemoteException {
+        super(true, serverIP);
         this.view = gui.getViewGUI();
         this.isGUI = true;
     }
+
+
 
     @Override
     public Game createGame(String username, int numberOfPlayers) throws ServerDisconnectedException {
@@ -119,11 +121,11 @@ public class RMIClient extends Client {
     }
 
     @Override
-    public void connectToServer(String serverIP) throws ServerDisconnectedException {
+    public void connectToServer() throws ServerDisconnectedException {
 
         try {
 
-            Registry registry = LocateRegistry.getRegistry(serverIP,  GameValues.RMI_SERVER_PORT);
+            Registry registry = LocateRegistry.getRegistry(this.serverIP,  GameValues.RMI_SERVER_PORT);
             //RMIClient client = new RMIClient(server);
             this.serverRMIInterface = (ServerRMIInterface) registry.lookup(GameValues.SERVER_NAME);
             Thread clientThread = new Thread(this);
@@ -169,6 +171,7 @@ public class RMIClient extends Client {
             return;
         }
     }
+
     @Override
     public void setUsername(String username) throws IOException, ServerDisconnectedException, InvalidUsernameException {
         try {

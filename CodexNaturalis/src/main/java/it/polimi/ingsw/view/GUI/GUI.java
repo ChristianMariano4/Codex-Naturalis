@@ -176,47 +176,36 @@ public class GUI extends Application {
 
     public void serverInit() throws ServerDisconnectedException {
         if(isRMI) {
-            String serverName = "Server";
-
+            System.out.println("Insert server IP address, leave empty for localhost: ");
+            Scanner scanner = new Scanner(System.in);
+            String serverIP = scanner.nextLine();
+            if (serverIP.isEmpty())
+                serverIP = "localhost";
+            System.out.println("Connecting to RMI server...");
+            RMIClient client = null;
             try {
-                System.out.println("Insert server IP address, leave empty for localhost: ");
-                Scanner scanner = new Scanner(System.in);
-                String serverIP = scanner.nextLine();
-                if (serverIP.equals(""))
-                    serverIP = "localhost";
-                System.out.println("Connecting to RMI server...");
-                Registry registry = LocateRegistry.getRegistry(serverIP, GameValues.RMI_SERVER_PORT);
-                ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);
-
-                RMIClient client = new RMIClient(server, this);
-                Thread clientThread = new Thread(client);
-                clientThread.start();
-
+                client = new RMIClient(this, serverIP);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
-            } catch (NotBoundException e) {
-                throw new RuntimeException(e);
             }
+
+            client.connectToServer();
         }
         else {
+            System.out.println("Insert server IP address, leave empty for localhost: ");
+            Scanner scanner = new Scanner(System.in);
+            String serverIP = scanner.nextLine();
+            if(serverIP.equals(""))
+                serverIP = "localhost";
+            SocketClient client = null;
             try {
-                System.out.println("Insert server IP address, leave empty for localhost: ");
-                Scanner scanner = new Scanner(System.in);
-                String serverIP = scanner.nextLine();
-                if(serverIP.equals(""))
-                    serverIP = "localhost";
-                Socket serverSocket = new Socket(serverIP, GameValues.SOCKET_SERVER_PORT);
-                System.out.println("Connected to sever successfully");
-
-                SocketClient client = new SocketClient(serverSocket, this);
-                Thread clientThread = new Thread(client);
-                clientThread.start();
-
+                client = new SocketClient(this, serverIP);
             }
             catch(IOException e) {
                 System.err.println("Couldn't connect to server");
                 throw new ServerDisconnectedException();
             }
+            client.connectToServer();
         }
     }
     public  void rescale(double width, double height) {

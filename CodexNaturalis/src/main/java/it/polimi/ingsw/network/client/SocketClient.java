@@ -17,7 +17,6 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.*;
 
 public class SocketClient extends Client {
@@ -26,21 +25,29 @@ public class SocketClient extends Client {
     Thread messageHandlerThread;
     ErrorAwareQueue messageHandlerQueue = new ErrorAwareQueue(new LinkedBlockingQueue<>());
 
-    public SocketClient(Socket serverSocket) throws RemoteException {
-        super(false);
+    public SocketClient(Socket serverSocket, String serverIP) throws RemoteException {
+        super(false, serverIP);
         this.serverSocket = serverSocket;
     }
 
-    public SocketClient() throws RemoteException {
-        super(false);
+    public SocketClient(String serverIP) throws RemoteException {
+        super(false, serverIP);
     }
 
-    public SocketClient(Socket serverSocket, GUI gui) throws RemoteException {
-        super(false);
-        this.serverSocket = serverSocket;
+//    public SocketClient(Socket serverSocket, GUI gui, String serverIP) throws RemoteException {
+//        super(false, serverIP);
+//        this.serverSocket = serverSocket;
+//        this.view = gui.getViewGUI();
+//        this.isGUI = true;
+//    }
+
+    public SocketClient(GUI gui, String serverIP) throws RemoteException {
+        super(false, serverIP);
         this.view = gui.getViewGUI();
         this.isGUI = true;
     }
+
+
     @Override
     public void setUsername(String username) throws IOException, ServerDisconnectedException, InvalidUsernameException {
         try
@@ -175,9 +182,9 @@ public class SocketClient extends Client {
     }
 
     @Override
-    public void connectToServer(String serverIP) throws ServerDisconnectedException {
+    public void connectToServer() throws ServerDisconnectedException {
         try {
-            this.serverSocket = new Socket(serverIP, GameValues.SOCKET_SERVER_PORT);
+            this.serverSocket = new Socket(this.serverIP, GameValues.SOCKET_SERVER_PORT);
             System.out.println("Connected to sever successfully");
             Thread clientThread = new Thread(this);
             clientThread.start();

@@ -16,7 +16,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public abstract class Client extends UnicastRemoteObject implements ClientRMIInterface, Runnable {
     protected String username = null;
@@ -33,6 +32,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     protected ArrayList<ObjectiveCard> objectiveCardsToChoose = null;
     protected boolean gameBegin = false;
     public long lastHeartbeat = System.currentTimeMillis();
+    protected final String serverIP;
 
 
     /**
@@ -42,9 +42,10 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
      */
 
 
-    public Client(boolean isRMI) throws RemoteException {
+    public Client(boolean isRMI, String serverIP) throws RemoteException {
         super();
         this.isRMI = isRMI;
+        this.serverIP = serverIP;
     }
     public boolean isRMI()
     {
@@ -247,7 +248,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     }
 
 
-    public abstract void connectToServer(String serverIP) throws ServerDisconnectedException;
+    public abstract void connectToServer() throws ServerDisconnectedException;
     public abstract void setUsername(String username) throws IOException, ServerDisconnectedException, InvalidUsernameException;
     public abstract PlayableCard getPlayableCardById(int gameId, int cardId) throws IOException, ServerDisconnectedException;
     public abstract PlayableCard getOtherSideCard(int gameId, PlayableCard playableCard) throws IOException, ServerDisconnectedException;

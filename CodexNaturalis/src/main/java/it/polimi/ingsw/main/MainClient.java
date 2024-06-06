@@ -72,11 +72,11 @@ public class MainClient {
             serverIP = "localhost";
         SocketClient client = null;
         try {
-            client = new SocketClient();
+            client = new SocketClient(serverIP);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        client.connectToServer(serverIP);
+        client.connectToServer();
 
 
 //        try {
@@ -110,11 +110,11 @@ public class MainClient {
         System.out.println("Connecting to RMI server...");
         RMIClient client = null;
         try {
-            client = new RMIClient();
+            client = new RMIClient(serverIP);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        client.connectToServer(serverIP);
+        client.connectToServer();
 
 
 //        String serverName = "Server";

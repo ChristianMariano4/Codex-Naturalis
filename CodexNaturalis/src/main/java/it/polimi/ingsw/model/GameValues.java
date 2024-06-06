@@ -10,7 +10,9 @@ public class GameValues {
     public static final int DEFAULT_MATRIX_SIZE = 81;
     public static final int RMI_SERVER_PORT = 1234;
     public static final int SOCKET_SERVER_PORT = 4567;
-    public static String SERVER_NAME = "CodexNaturalisServer";
+    public static final String SERVER_NAME = "CodexNaturalisServer";
+    public static final String SERVER_IP = "localhost";
+    public static final int MAX_ATTEMPTS_RECONNECTION = 5;
     public static final double DEFAULT_SCALE_FACTOR = 1.1;
     public static double WINDOW_WIDTH = 936;
     public static double WINDOW_HEIGHT = 559;
@@ -22,5 +24,7 @@ public class GameValues {
     public static final double CARD_HEIGHT = 60.0;
     public static double ANGLE_WIDTH = 20.0;
     public static double ANGLE_HEIGHT = 24.0;
+
+
 //    TODO: reset timeouts to meaningful values after testing is finished
 }
