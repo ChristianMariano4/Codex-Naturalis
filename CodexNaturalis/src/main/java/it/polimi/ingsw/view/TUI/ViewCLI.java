@@ -22,7 +22,7 @@ public class ViewCLI implements View, Runnable {
     private String playerId;
     TUI ui = new TUI();
     private boolean inGame = true;
-
+    public Thread readerThread;
 
     public void setUsername() throws IOException, InterruptedException, ServerDisconnectedException {
         //TODO: remove println from view methods
@@ -69,7 +69,7 @@ public class ViewCLI implements View, Runnable {
                         }
                     }while(true);
                     this.game = client.createGame(this.client.getUsername(), numberOfPlayers);
-                    System.out.println("Game created.");
+                    System.out.println("Game created with id " + game.getGameId() + ".");
                     break;
                 }
                 else if (choice == 2) {
@@ -163,7 +163,7 @@ public class ViewCLI implements View, Runnable {
         Object lock = new Object();
         BlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>();
         AsyncReader reader = new AsyncReader(lock, blockingQueue);
-        Thread readerThread = new Thread(reader);
+        readerThread = new Thread(reader);
         readerThread.start();
         while(inGame)
         {
@@ -195,65 +195,66 @@ public class ViewCLI implements View, Runnable {
                             return;
                         }
 
-                        switch (command) {
-                            case "q", "quit":
-                                client.quitGame();
-                                readerThread.interrupt();
-                                lock.notifyAll();
-                                return;
-                            case "showPlayers":
-                                showAllPlayers();
-                                break;
-                            case "myHand":
-                                showPlayerHand();
-                                break;
-                            case "myResources":
-                                showMyResources();
-                                break;
-                            case "showMyField":
-                                showPlayerField();
-                                break;
-                            case "showOtherField":
-                                showOtherPlayerField();
-                                break;
-                            case "scoreboard":
-                                showScoreboard();
-                                break;
-                            case "showSharedObjectiveCards":
-                                showSharedObjectiveCards();
-                                break;
-                            case "showSecretObjectiveCard":
-                                showSecretObjectiveCard();
-                                break;
-                            case "playTurn":
-                                if (isTurn) {
+                        if(inGame) {
+                            switch (command) {
+                                case "q", "quit":
+                                    client.quitGame();
+                                    readerThread.interrupt();
+                                    lock.notifyAll();
+                                    return;
+                                case "showPlayers":
+                                    showAllPlayers();
+                                    break;
+                                case "myHand":
+                                    showPlayerHand();
+                                    break;
+                                case "myResources":
+                                    showMyResources();
+                                    break;
+                                case "showMyField":
+                                    showPlayerField();
+                                    break;
+                                case "showOtherField":
+                                    showOtherPlayerField();
+                                    break;
+                                case "scoreboard":
+                                    showScoreboard();
+                                    break;
+                                case "showSharedObjectiveCards":
+                                    showSharedObjectiveCards();
+                                    break;
+                                case "showSecretObjectiveCard":
+                                    showSecretObjectiveCard();
+                                    break;
+                                case "playTurn":
+                                    if (isTurn) {
                                         playCard();
                                         drawCard();
                                         endTurn();
-                                } else
-                                    notYourTurn();
-                                break;
-                            case null:
-                                break;
-                            default:
-                                try
-                                {
-                                    int cardId = Integer.parseInt(command);
-                                    PlayableCard cardFront = client.getPlayableCardById(game.getGameId(), cardId);
-                                    PlayableCard cardBack = client.getOtherSideCard(game. getGameId(), cardFront);
-                                    ui.showCardInfo(cardFront, client.getCardInfo(cardFront, game.getGameId()));
-                                    ui.showCardInfo(cardBack, client.getCardInfo(cardBack, game.getGameId()));
+                                    } else
+                                        notYourTurn();
+                                    break;
+                                case null:
+                                    break;
+                                default:
+                                    try {
+                                        int cardId = Integer.parseInt(command);
+                                        PlayableCard cardFront = client.getPlayableCardById(game.getGameId(), cardId);
+                                        PlayableCard cardBack = client.getOtherSideCard(game.getGameId(), cardFront);
+                                        ui.showCardInfo(cardFront, client.getCardInfo(cardFront, game.getGameId()));
+                                        ui.showCardInfo(cardBack, client.getCardInfo(cardBack, game.getGameId()));
 
-                                }
-                                catch(ServerDisconnectedException se)
-                                {
-                                    throw se;
-                                }
-                                catch (Exception e)
-                                {
-                                    ui.commandNotFound();
-                                }
-                                break;
+                                    } catch (ServerDisconnectedException se) {
+                                        throw se;
+                                    } catch (Exception e) {
+                                        ui.commandNotFound();
+                                    }
+                                    break;
+                            }
+                        } else {
+                            readerThread.interrupt();
+                            lock.notifyAll();
+                            return;
                         }
                         lock.notifyAll();
                     }
@@ -688,15 +689,25 @@ public class ViewCLI implements View, Runnable {
     {
         ui.printWinner();
         ui.gameEndDisconnection();
+        while(readerThread.isAlive()){
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
     public void gameEnd() {
         this.inGame = false;
+        game.setIsGameEnded(true);
         if(game.getIsGameEndedForDisconnection()) {
             gameEndDisconnection();
         }else{
             showEndGameScreen();
         }
+        //TODO: check if for win without disconnection the readerThread.isAlive() logic is needed
     }
+
 }

@@ -853,7 +853,8 @@ public class TUI extends UI {
     }
 
     public void gameEndDisconnection() {
-        System.out.println("You were the only player left in the game. The game has ended.");
+        System.out.println("You were the only player left in the game. The game has ended.\n" +
+                "Press any key to exit the game.");
     }
 
 }

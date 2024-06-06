@@ -161,6 +161,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     }
 
     boolean preGameStart(ViewCLI viewCLI) throws InterruptedException, NotExistingPlayerException, IOException, ServerDisconnectedException {
+
         int choice = viewCLI.setChoiceGame();
         if (choice == 0)
             return false;
@@ -207,13 +208,11 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         view = new ViewCLI(this);
         ViewCLI viewCLI = (ViewCLI) view;
         viewCLI.setUsername();
-        while(true){
-            while (preGameStart(viewCLI)) {
-                this.viewThread = new Thread(viewCLI); //game loop actually begins here
-                this.viewThread.start();
-                this.viewThread.join();
-                resetClient(); //resetting the client after end of game
-            }
+        while (preGameStart(viewCLI)) {
+            this.viewThread = new Thread(viewCLI); //game loop actually begins here
+            this.viewThread.start();
+            this.viewThread.join();
+            resetClient(); //resetting the client after end of game
         }
     }
 

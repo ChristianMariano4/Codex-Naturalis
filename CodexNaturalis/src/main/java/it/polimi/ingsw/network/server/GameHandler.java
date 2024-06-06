@@ -122,7 +122,6 @@ public class GameHandler implements Serializable {
                                 game.setIsGameEndedForDisconnection(true);
                                 eventManager.notify(GameEvent.GAME_END, game);
                                 server.removeGame(this);  // whenever GAME_END is sent the gamehandler has to be removed from the list otherwise players can still join a finished game
-
                             }
                             catch (NullPointerException e)
                             {
