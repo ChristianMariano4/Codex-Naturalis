@@ -17,6 +17,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -209,6 +211,7 @@ public class MainGameScreenController extends GUIController{
     public Pane exitPane;
     public Label gameIdLabel;
     public Pane borderFieldPane;
+    public Pane chatBackground;
 
     private void markerPaneInitializer() {
 
@@ -418,7 +421,6 @@ public class MainGameScreenController extends GUIController{
         rulebookTabPane.getSelectionModel().select(rulebookTabPane.getSelectionModel().getSelectedIndex()-1);
         backButton.disableProperty().bind(rulebookTabPane.getSelectionModel().selectedIndexProperty().lessThanOrEqualTo(0));
     }
-
     public void sceneInitializer() {
 
         try {

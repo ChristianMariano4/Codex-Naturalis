@@ -257,8 +257,8 @@
                   </Pane>
                   <Pane fx:id="chatPane" disable="true" layoutX="655.0" layoutY="70.0" prefHeight="360.0" prefWidth="255.0" visible="false">
                      <children>
-                        <Pane opacity="0.4" prefHeight="360.0" prefWidth="255.0" style="-fx-background-color: black; -fx-background-radius: 20;" />
-                        <ListView fx:id="chatList" layoutX="10.0" layoutY="10.0" prefHeight="300.0" prefWidth="235.0" styleClass="chatListView" />
+                        <Pane fx:id="chatBackground" opacity="0.6" prefHeight="360.0" prefWidth="255.0" style="-fx-background-color: black; -fx-background-radius: 20;" />
+                        <ListView fx:id="chatList" layoutX="10.0" layoutY="12.0" prefHeight="300.0" prefWidth="235.0" styleClass="chatListView" />
                         <TextField fx:id="chatField" layoutX="16.0" layoutY="321.0" promptText="Enter a message..." />
                         <Button layoutX="183.0" layoutY="320.0" mnemonicParsing="false" onAction="#sendChatMessage" prefHeight="28.0" prefWidth="60.0" styleClass="enterButton" text="Send" />
                      </children>
