@@ -129,8 +129,8 @@ public class GameLobbyController extends GUIController {
                     }
                 }
             }
-
     }
+
     @FXML
     public void setReadyButton() {
         try {

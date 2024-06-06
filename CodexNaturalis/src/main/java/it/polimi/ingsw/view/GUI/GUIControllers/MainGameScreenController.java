@@ -11,19 +11,15 @@ import it.polimi.ingsw.view.GUI.InspectedCardInfo;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -44,12 +40,14 @@ public class MainGameScreenController extends GUIController{
     public Pane scalable;
     private boolean twentyPointsReached = false;
 
+
     public Pane chatPane;
     public Pane chatButtonPane;
     public ListView<String> chatList;
     public TextField chatField;
     ObservableList<String> chatMessages = FXCollections.observableArrayList();
     public Circle newMessage;
+    private ScrollBar chatScrollBar;
 
     private Thread waitThread;
 
@@ -740,14 +738,19 @@ public class MainGameScreenController extends GUIController{
                 return cell;
             }
         });
+        chatMessages.clear();
         chatList.setItems(chatMessages);
         chatMessages.add("Write a public message or /[player's username] to send a private message");
-        Node node = chatList.lookup(".scroll-bar:vertical");
-        if (node instanceof ScrollBar) {
-            scrollBar = (ScrollBar) node;
-        }
-        scrollBar.visibleAmountProperty().addListener(e ->
-                chatList.scrollTo(chatMessages.getLast()));
+            new Thread(() -> { //this thread solved a bug with lookup
+                while (chatList.lookup(".scroll-bar:vertical") == null);
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            chatScrollBar = (ScrollBar) chatList.lookup(".scroll-bar:vertical");
+                            chatScrollBar.visibleAmountProperty().addListener(e -> chatList.scrollTo(chatMessages.getLast()));
+                        }
+                    });
+            }).start();
     }
 
 
@@ -2019,13 +2022,11 @@ public class MainGameScreenController extends GUIController{
     @FXML
     public void showChat()
     {
-
         newMessage.setDisable(true);
         newMessage.setVisible(false);
         chatPane.setDisable(!chatPane.isDisable());
         chatPane.setVisible(!chatPane.isVisible());
     }
-    private ScrollBar scrollBar;
 
     @Override
     public void chatMessage(String message)
@@ -2060,7 +2061,6 @@ public class MainGameScreenController extends GUIController{
 
     public void update(Object update)
     {
-
         if(drawingCard)
             return;
         if(inGame) {
@@ -2086,10 +2086,5 @@ public class MainGameScreenController extends GUIController{
                 }
             });
         }
-
     }
-
-
-
-
 }
