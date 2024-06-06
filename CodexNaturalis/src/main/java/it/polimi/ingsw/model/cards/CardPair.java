@@ -5,6 +5,10 @@ import it.polimi.ingsw.exceptions.UnlinkedCardException;
 
 import java.io.Serializable;
 
+/**
+ * This class is used to link the front and the back of the same card
+ * @param <T> Need the class of the card, allow to use the same class for all card types
+ */
 public class CardPair<T extends Card> implements Serializable {
     private final T cardFront;
     private final T cardBack;

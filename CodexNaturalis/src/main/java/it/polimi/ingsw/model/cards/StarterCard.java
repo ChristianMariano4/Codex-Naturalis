@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The class represent the starter card, witch the player have as first card in the playerField
+ */
 public class StarterCard extends PlayableCard implements Serializable {
     /**
      * Constructor

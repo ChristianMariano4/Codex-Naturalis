@@ -5,6 +5,9 @@ import it.polimi.ingsw.enumerations.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Is the class that contains all card information needed during the game
+ */
 public class CardInfo implements Serializable {
     private final CardType cardType;
     //PlayableCard attributes

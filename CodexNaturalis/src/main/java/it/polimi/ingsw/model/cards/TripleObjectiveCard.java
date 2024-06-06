@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.CardVisitor;
 
 import java.io.Serializable;
 
+/**
+ * The class represent the ObjectiveCard with 3 different resources
+ */
 public class TripleObjectiveCard extends ObjectiveCard implements Serializable {
     /**
      * Constructor

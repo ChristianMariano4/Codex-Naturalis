@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.cards.*;
 
 import java.io.Serializable;
 
+/**
+ * The implementation of the CardVisitor used to implement the Visitor Design Pattern
+ */
 public class CardVisitorImpl implements CardVisitor, Serializable {
     /**
      * Visitor

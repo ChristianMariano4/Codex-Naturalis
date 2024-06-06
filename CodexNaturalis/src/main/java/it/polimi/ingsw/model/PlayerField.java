@@ -19,6 +19,9 @@ import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
  * This class is responsible for adding cards to the player field.
  */
 public class PlayerField implements Serializable {
+    /**
+     * Matrix of playableCards used to save the playerFiled
+     */
     private final PlayableCard[][] matrixField;
     private final ArrayList<CardPosition> playedCards = new ArrayList<>();
 

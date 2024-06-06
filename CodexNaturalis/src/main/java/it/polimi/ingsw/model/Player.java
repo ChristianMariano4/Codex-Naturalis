@@ -18,6 +18,9 @@ public class Player implements Serializable {
     private boolean isTurn;
     private boolean isFirst;
     private Marker marker;
+    /**
+     * HashMap of all resources obtained by the player during the game
+     */
     private final HashMap<Resource, Integer>  resourceAmount;
     private int points;
     private final PlayerHand playerHand;
@@ -103,6 +106,11 @@ public class Player implements Serializable {
     public Marker getMarker() {
         return marker;
     }
+
+    /**
+     * Setter
+     * @param marker The marker selected by the player during the pre-game
+     */
     public void setMarker(Marker marker) {
         this.marker = marker;
     }
