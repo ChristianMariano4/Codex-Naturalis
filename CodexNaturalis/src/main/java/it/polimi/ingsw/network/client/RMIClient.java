@@ -153,6 +153,8 @@ public class RMIClient extends Client {
                     serverRMIInterface.sendHeartbeat(System.currentTimeMillis(), this);
                 } catch (RemoteException e) {
                     System.err.println("Failed to send heartbeat to server");
+                    recontactServer();
+
                     throw new RuntimeException(e);
                 }
             }, 0, GameValues.HEARTBEAT_INTERVAL, TimeUnit.MILLISECONDS);
@@ -166,24 +168,45 @@ public class RMIClient extends Client {
             throw new RuntimeException(e);
         } catch (ServerDisconnectedException e) {
             System.err.println("Disconnected from server");
+            System.exit(0);
 
-            this.serverRMIInterface = null;
-            for(int i = 0; i<GameValues.MAX_ATTEMPTS_RECONNECTION; i++) {
+//            this.serverRMIInterface = null;
+//            for(int i = 0; i<GameValues.MAX_ATTEMPTS_RECONNECTION; i++) {
+//                try {
+//                    Thread.sleep(1000);
+//                    connectToServer();
+//                    break;
+//                } catch (InterruptedException ex) {
+//                    throw new RuntimeException(ex);
+//                } catch (ServerDisconnectedException ex) {
+//                    continue;
+//                }
+//            }
+//            if(this.serverRMIInterface == null) {
+//                System.err.println("Failed to reconnect to server. Try again later.");
+//                System.exit(0);
+//            }
+//            return;
+        }
+    }
+
+    private void recontactServer() {
+        for(int i = 0; i<GameValues.MAX_ATTEMPTS_RECONNECTION; i++) {
+            try {
+                serverRMIInterface.sendHeartbeat(System.currentTimeMillis(), this);
+                break;
+            } catch (RemoteException e) {
+                System.err.println("Failed to send heartbeat to server");
+                if(i == GameValues.MAX_ATTEMPTS_RECONNECTION - 1) {
+                    System.err.println("Failed to reconnect to server. Try again later.");
+                    System.exit(0);
+                }
                 try {
-                    Thread.sleep(1000); //TODO change time
-                    connectToServer();
-                    break;
+                    Thread.sleep(1000); //TODO set the time
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
-                } catch (ServerDisconnectedException ex) {
-                    continue;
                 }
             }
-            if(this.serverRMIInterface == null) {
-                System.err.println("Failed to reconnect to server. Try again later.");
-                System.exit(0);
-            }
-            return;
         }
     }
 
