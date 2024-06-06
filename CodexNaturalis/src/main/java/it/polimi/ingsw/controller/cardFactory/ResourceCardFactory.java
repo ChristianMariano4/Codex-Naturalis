@@ -10,8 +10,20 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * This class is responsible for creating a list of ResourceCard instances.
+ * It extends the CardFactory class with a type parameter of ResourceCard.
+ */
 public class ResourceCardFactory extends CardFactory<ResourceCard> {
 
+    /**
+     * This method creates a list of ResourceCard instances.
+     * It reads the card data from a JSON file and uses Gson to parse the JSON data into ResourceCard objects.
+     * If an IOException occurs during this process, it throws a CardNotImportedException.
+     *
+     * @return An ArrayList of ResourceCard instances.
+     * @throws CardNotImportedException if there is an error reading the card data from the JSON file.
+     */
     public ArrayList<ResourceCard> createCardList() throws CardNotImportedException {
         ResourceCard[] resourceCardArray;
         Gson gson = new Gson();

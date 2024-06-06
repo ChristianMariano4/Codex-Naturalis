@@ -97,7 +97,6 @@ public class ViewCLI implements View, Runnable {
                 ui.invalidInput();
             }
         }while(true);
-
         return 1;
     }
 
