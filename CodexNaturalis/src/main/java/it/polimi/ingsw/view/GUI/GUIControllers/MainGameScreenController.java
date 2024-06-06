@@ -731,13 +731,6 @@ public class MainGameScreenController extends GUIController{
                         setWrapText(true);
                         setText(item.toString());
 
-
-
-                       /* text = new Text(item.toString());
-                        text.setWrappingWidth(chatList.getPrefWidth() - 18);
-                        text.setStyle("-fx-text-fill: white; -fx-font-size: 12");
-                        setGraphic(text);*/
-
                     }
                 }
 

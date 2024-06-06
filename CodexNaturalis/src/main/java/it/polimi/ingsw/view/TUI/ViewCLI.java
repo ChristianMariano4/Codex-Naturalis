@@ -22,7 +22,9 @@ public class ViewCLI implements View, Runnable {
     private String playerId;
     TUI ui = new TUI();
     private boolean inGame = true;
-    public Thread readerThread;
+    private Thread readerThread;
+    private String chatHistory;
+    private Thread chatThread;
 
     public void setUsername() throws IOException, InterruptedException, ServerDisconnectedException {
         //TODO: remove println from view methods
@@ -190,6 +192,8 @@ public class ViewCLI implements View, Runnable {
                         command = blockingQueue.take();
                         if(game.getIsGameEnded())
                         {
+                            if(chatThread != null)
+                                chatThread.interrupt();
                             readerThread.interrupt();
                             lock.notifyAll();
                             return;
@@ -234,6 +238,9 @@ public class ViewCLI implements View, Runnable {
                                     } else
                                         notYourTurn();
                                     break;
+                                case "chat":
+                                    chat();
+                                    break;
                                 case null:
                                     break;
                                 default:
@@ -268,6 +275,47 @@ public class ViewCLI implements View, Runnable {
             }
         }
     }
+    @Override
+    public void chatMessage(String message) {
+        chatHistory += message + "\n";
+    }
+
+    private void chat() throws ServerDisconnectedException, IOException {
+        ui.showChat(chatHistory);
+        chatThread = new Thread(() ->
+        {
+            String oldChatHistory = this.chatHistory;
+            while (!Thread.interrupted())
+            {
+                if(oldChatHistory.equals(chatHistory))
+                {
+                    try {
+                        Thread.sleep(1);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                    continue;
+                }
+                else {
+                    ui.showNewMessage(chatHistory.substring(oldChatHistory.length()));
+                    oldChatHistory = chatHistory;
+                }
+            }
+        });
+        chatThread.start();
+        while(true) {
+            String message = scanner.nextLine();
+            //TODO: end chat if game ends
+            if (message.equals("/exit")) {
+                chatThread.interrupt();
+                return;
+            }
+            if (!message.isBlank()) {
+                client.sendChatMessage(game.getGameId(), message);
+            }
+        }
+    }
+
 
     private void showScoreboard() {
         ui.scoreboardTitle();
@@ -671,6 +719,7 @@ public class ViewCLI implements View, Runnable {
     @Override
     public void run() {
         try {
+            chatHistory = "Write a public message or /[player's username] to send a private message. Write /exit to exit chat.\n";
             this.gameLoop();
         } catch (RemoteException | NotExistingPlayerException e) {
             throw new RuntimeException(e);
@@ -710,9 +759,6 @@ public class ViewCLI implements View, Runnable {
         //TODO: check if for win without disconnection the readerThread.isAlive() logic is needed
     }
 
-    @Override
-    public void chatMessage(String message) {
 
-    }
 
 }

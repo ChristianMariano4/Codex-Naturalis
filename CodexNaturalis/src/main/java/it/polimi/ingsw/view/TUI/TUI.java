@@ -857,4 +857,15 @@ public class TUI extends UI {
                 "Press any key to exit the game.");
     }
 
+    public void showChat(String chatHistory)
+    {
+        //TODO: title
+        System.out.println(chatHistory);
+    }
+
+    public void showNewMessage(String message) {
+        System.out.println(message);
+
+    }
+
 }
