@@ -22,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
@@ -46,6 +47,7 @@ public class MainGameScreenController extends GUIController{
     public ListView<String> chatList;
     public TextField chatField;
     ObservableList<String> chatMessages = FXCollections.observableArrayList();
+    public Circle newMessage;
 
     private Thread waitThread;
 
@@ -2018,6 +2020,8 @@ public class MainGameScreenController extends GUIController{
     public void showChat()
     {
 
+        newMessage.setDisable(true);
+        newMessage.setVisible(false);
         chatPane.setDisable(!chatPane.isDisable());
         chatPane.setVisible(!chatPane.isVisible());
     }
@@ -2028,7 +2032,10 @@ public class MainGameScreenController extends GUIController{
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-
+                if(!chatPane.isVisible()) {
+                    newMessage.setDisable(false);
+                    newMessage.setVisible(true);
+                }
                 chatMessages.add(message);
                 chatList.scrollTo(chatMessages.getLast());
             }
