@@ -10,7 +10,10 @@ import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 import it.polimi.ingsw.view.GUI.GUI;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,11 +22,15 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class RMIClient extends Client {
-    private final ServerRMIInterface serverRMIInterface;
+    private ServerRMIInterface serverRMIInterface;
 
     public RMIClient(ServerRMIInterface serverRMIInterface) throws RemoteException {
         super(true);
         this.serverRMIInterface = serverRMIInterface;
+        this.isGUI = false;
+    }
+    public RMIClient() throws RemoteException {
+        super(true);
         this.isGUI = false;
     }
 
@@ -109,6 +116,28 @@ public class RMIClient extends Client {
         } catch (NotExistingPlayerException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void connectToServer(String serverIP) throws ServerDisconnectedException {
+
+        try {
+
+            Registry registry = LocateRegistry.getRegistry(serverIP,  GameValues.RMI_SERVER_PORT);
+            //RMIClient client = new RMIClient(server);
+            this.serverRMIInterface = (ServerRMIInterface) registry.lookup(GameValues.SERVER_NAME);
+            Thread clientThread = new Thread(this);
+            clientThread.start();
+            clientThread.join();
+            //System.exit(0);
+        } catch (RemoteException e) {
+            System.err.println("Couldn't connect to server");
+            throw new ServerDisconnectedException();
+        } catch (NotBoundException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        return;
     }
 
     public void run()
@@ -251,6 +280,8 @@ public class RMIClient extends Client {
         throw new ServerDisconnectedException();
         }
     }
+
+
 
 
 }

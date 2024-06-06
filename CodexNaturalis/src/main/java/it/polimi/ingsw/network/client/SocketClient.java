@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class SocketClient extends Client {
-    private final Socket serverSocket;
+    private Socket serverSocket;
     SocketClientMessageHandler messageHandler;
     Thread messageHandlerThread;
     ErrorAwareQueue messageHandlerQueue = new ErrorAwareQueue(new LinkedBlockingQueue<>());
@@ -29,7 +29,10 @@ public class SocketClient extends Client {
     public SocketClient(Socket serverSocket) throws RemoteException {
         super(false);
         this.serverSocket = serverSocket;
+    }
 
+    public SocketClient() throws RemoteException {
+        super(false);
     }
 
     public SocketClient(Socket serverSocket, GUI gui) throws RemoteException {
@@ -168,6 +171,19 @@ public class SocketClient extends Client {
         } catch (Exception e)
         {
             throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public void connectToServer(String serverIP) throws ServerDisconnectedException {
+        try {
+            this.serverSocket = new Socket(serverIP, GameValues.SOCKET_SERVER_PORT);
+            System.out.println("Connected to sever successfully");
+            Thread clientThread = new Thread(this);
+            clientThread.start();
+            clientThread.join();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -257,12 +257,12 @@ public class Server extends Thread implements ServerRMIInterface {
         //creating server stub
         //ServerRMIInterface server = this;
 
-        final String serverName = "Server"; //name of the server used to register itself
+        //final String serverName = "Server"; //name of the server used to register itself
         ServerRMIInterface stub = null;
         try {
             stub = (ServerRMIInterface) UnicastRemoteObject.exportObject(this, 0);
             Registry registry = LocateRegistry.createRegistry(1234);
-            registry.rebind(serverName, stub);
+            registry.rebind(GameValues.SERVER_NAME, stub);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

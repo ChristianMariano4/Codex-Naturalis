@@ -247,7 +247,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     }
 
 
-
+    public abstract void connectToServer(String serverIP) throws ServerDisconnectedException;
     public abstract void setUsername(String username) throws IOException, ServerDisconnectedException, InvalidUsernameException;
     public abstract PlayableCard getPlayableCardById(int gameId, int cardId) throws IOException, ServerDisconnectedException;
     public abstract PlayableCard getOtherSideCard(int gameId, PlayableCard playableCard) throws IOException, ServerDisconnectedException;
