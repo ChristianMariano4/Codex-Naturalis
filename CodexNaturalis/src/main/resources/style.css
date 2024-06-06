@@ -353,19 +353,19 @@
     -fx-background-color: transparent;
     -fx-text-fill: white;
     -fx-font-family: Serif;
-    -fx-font-size: 14px;
+    -fx-font-size: 10px;
 }
 .chatListView .list-cell:focused {
     -fx-background-color: transparent;
     -fx-text-fill: white;
     -fx-font-family: Serif;
-    -fx-font-size: 14px;
+    -fx-font-size: 10px;
 }
 .chatListView .list-cell:selected {
     -fx-background-color: transparent;
     -fx-text-fill: white;
     -fx-font-family: Serif;
-    -fx-font-size: 14px;
+    -fx-font-size: 10px;
 }
 
 
