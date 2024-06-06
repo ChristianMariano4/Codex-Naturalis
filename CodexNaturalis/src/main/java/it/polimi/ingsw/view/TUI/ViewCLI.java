@@ -184,7 +184,6 @@ public class ViewCLI implements View, Runnable {
             } else {
                 showEndGameScreen();
             }
-
             while(!Thread.interrupted()) {
                 String command = null;
                 if(!blockingQueue.isEmpty()) {
@@ -284,28 +283,33 @@ public class ViewCLI implements View, Runnable {
         ui.showChat(chatHistory);
         chatThread = new Thread(() ->
         {
-            String oldChatHistory = this.chatHistory;
-            while (!Thread.interrupted())
-            {
-                if(oldChatHistory.equals(chatHistory))
-                {
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException e) {
-                        break;
+            try {
+                String oldChatHistory = this.chatHistory;
+                while (!Thread.interrupted()) {
+                    if (oldChatHistory.equals(chatHistory)) {
+                        try {
+                            Thread.sleep(1);
+                        } catch (InterruptedException e) {
+                            break;
+                        }
+                        continue;
+                    } else {
+                        ui.showNewMessage(chatHistory.substring(oldChatHistory.length()));
+                        oldChatHistory = chatHistory;
                     }
-                    continue;
                 }
-                else {
-                    ui.showNewMessage(chatHistory.substring(oldChatHistory.length()));
-                    oldChatHistory = chatHistory;
-                }
+            }
+            catch (Exception e)
+            {
+                return;
             }
         });
         chatThread.start();
         while(true) {
             String message = scanner.nextLine();
             //TODO: end chat if game ends
+            if(game.getIsGameEnded())
+                return;
             if (message.equals("/exit")) {
                 chatThread.interrupt();
                 return;

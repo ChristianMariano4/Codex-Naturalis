@@ -143,7 +143,6 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                 }
                 case GAME_END ->
                 {
-
                     view.update((Game) gameUpdate);
                     view.gameEnd();
                     if (this.viewThread != null) {

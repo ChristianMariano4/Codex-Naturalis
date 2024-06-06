@@ -714,35 +714,40 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
-    public void initializeChat()
-    {
+    public void initializeChat() {
         chatButtonPane.setDisable(false);
         chatButtonPane.setVisible(true);
         chatList.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
-        @Override
-        public ListCell<String> call(ListView<String> list) {
-            final ListCell cell = new ListCell() {
-                private Text text;
+            @Override
+            public ListCell<String> call(ListView<String> list) {
+                final ListCell cell = new ListCell() {
+                    private Text text;
 
-                @Override
-                public void updateItem(Object item, boolean empty) {
-                    super.updateItem(item, empty || item == null);
-                    if (!isEmpty()) {
-                        setPrefWidth(chatList.getPrefWidth() - 5);
-                        setTextFill(Color.WHITE);
-                        setWrapText(true);
-                        setText(item.toString());
+                    @Override
+                    public void updateItem(Object item, boolean empty) {
+                        super.updateItem(item, empty || item == null);
+                        if (!isEmpty()) {
+                            setPrefWidth(chatList.getPrefWidth() - 5);
+                            setTextFill(Color.WHITE);
+                            setWrapText(true);
+                            setText(item.toString());
 
+                        }
                     }
-                }
 
-            };
+                };
 
-            return cell;
-        }
-    });
+                return cell;
+            }
+        });
         chatList.setItems(chatMessages);
         chatMessages.add("Write a public message or /[player's username] to send a private message");
+        Node node = chatList.lookup(".scroll-bar:vertical");
+        if (node instanceof ScrollBar) {
+            scrollBar = (ScrollBar) node;
+        }
+        scrollBar.visibleAmountProperty().addListener(e ->
+                chatList.scrollTo(chatMessages.getLast()));
     }
 
 
@@ -2020,6 +2025,7 @@ public class MainGameScreenController extends GUIController{
         chatPane.setDisable(!chatPane.isDisable());
         chatPane.setVisible(!chatPane.isVisible());
     }
+    private ScrollBar scrollBar;
 
     @Override
     public void chatMessage(String message)
@@ -2032,7 +2038,6 @@ public class MainGameScreenController extends GUIController{
                     newMessage.setVisible(true);
                 }
                 chatMessages.add(message);
-                chatList.scrollTo(chatMessages.getLast());
             }
         });
     }
