@@ -25,7 +25,7 @@ public class AsyncReader implements Runnable{
                 try {
                     lock.wait();
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    return;
                 }
             }
         }

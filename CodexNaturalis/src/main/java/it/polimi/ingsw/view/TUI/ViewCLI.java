@@ -25,6 +25,7 @@ public class ViewCLI implements View, Runnable {
     private Thread readerThread;
     private String chatHistory;
     private Thread chatThread;
+    private boolean inScanner = false;
 
     public void setUsername() throws IOException, InterruptedException, ServerDisconnectedException {
         //TODO: remove println from view methods
@@ -171,6 +172,7 @@ public class ViewCLI implements View, Runnable {
         {
             boolean isTurn = game.getPlayer(client.getUsername()).getIsTurn();
             String playerPlaying = game.getCurrentPlayer().getUsername();
+            boolean isStopped = game.getListOfPlayers().stream().filter(e -> !e.getUsername().equals(client.getUsername()) && !e.getIsDisconnected()).toList().isEmpty();
             if(game.getGameStatus().getStatusNumber() < GameStatus.GAME_STARTED.getStatusNumber() && game.getPlayer(client.getUsername()).getIsReconnecting()) {
                 ui.waitingForGameBegin();
                 while (game.getGameStatus().getStatusNumber() < GameStatus.GAME_STARTED.getStatusNumber()) {
@@ -178,7 +180,7 @@ public class ViewCLI implements View, Runnable {
                 }
             }
             if(!game.getIsGameEnded() && !game.getIsGameEndedForDisconnection()) {
-                ui.showTurnScreen(playerPlaying, client.getUsername());
+                ui.showTurnScreen(playerPlaying, client.getUsername(), isStopped);
             }else if (game.getIsGameEndedForDisconnection()) {
                 gameEndDisconnection();
             } else {
@@ -231,9 +233,14 @@ public class ViewCLI implements View, Runnable {
                                     break;
                                 case "playTurn":
                                     if (isTurn) {
-                                        playCard();
-                                        drawCard();
-                                        endTurn();
+                                        if(!isStopped) {
+                                            playCard();
+                                            drawCard();
+                                            endTurn();
+                                        }
+                                        else {
+                                            ui.gameIsStopped();
+                                        }
                                     } else
                                         notYourTurn();
                                     break;
@@ -306,11 +313,10 @@ public class ViewCLI implements View, Runnable {
         });
         chatThread.start();
         while(true) {
+            inScanner = true;
             String message = scanner.nextLine();
-            //TODO: end chat if game ends
-            if(game.getIsGameEnded())
-                return;
-            if (message.equals("/exit")) {
+            inScanner = false;
+            if (message.equals("/exit") || game.getIsGameEnded()) {
                 chatThread.interrupt();
                 return;
             }
@@ -368,7 +374,11 @@ public class ViewCLI implements View, Runnable {
 
         do{
             try{
+                inScanner = true;
                 int choice = Integer.parseInt(scanner.nextLine());
+                inScanner = false;
+                if(game.getIsGameEnded())
+                    return;
                 CardType cardType = null;
                 DrawPosition drawPosition = null;
                 switch(choice)
@@ -428,7 +438,11 @@ public class ViewCLI implements View, Runnable {
                 int cardId = Integer.parseInt(scanner.nextLine());
                 PlayableCard card = game.getPlayer(client.getUsername()).getPlayerHand().getCardById(cardId);
                 ui.chooseSide();
+                inScanner = true;
                 int side = Integer.parseInt(scanner.nextLine());
+                inScanner = false;
+                if(game.getIsGameEnded())
+                    return;
                 switch(side)
                 {
                     case 1:
@@ -440,20 +454,32 @@ public class ViewCLI implements View, Runnable {
                         throw new NumberFormatException();
                 }
                 ui.chooseWhereToPlay();
+                inScanner = true;
                 int cardIdOnBoard = Integer.parseInt(scanner.nextLine());
+                inScanner = false;
+                if(game.getIsGameEnded())
+                    return;
                 PlayableCard cardOnBoard;
                 do {
                     cardOnBoard = game.getPlayer(client.getUsername()).getPlayerField().getCardById(cardIdOnBoard);
                     ui.showCardInfo(cardOnBoard, client.getCardInfo(cardOnBoard, game.getGameId()));
                     ui.areYouSure();
+                    inScanner = true;
                     String newChoice = scanner.nextLine();
+                    inScanner = false;
+                    if(game.getIsGameEnded())
+                        return;
                     if(newChoice.equals("y"))
                         break;
                     cardIdOnBoard = Integer.parseInt(newChoice);
                 }while(true);
 
                 ui.chooseAngle();
+                inScanner = true;
                 int choice = Integer.parseInt(scanner.nextLine());
+                inScanner = false;
+                if(game.getIsGameEnded())
+                    return;
                 AngleOrientation orientation = switch (choice) {
                     case 1 -> AngleOrientation.TOPRIGHT;
                     case 2 -> AngleOrientation.TOPLEFT;
@@ -580,7 +606,11 @@ public class ViewCLI implements View, Runnable {
         Player player;
         do {
             try {
+                inScanner = true;
                 String username = scanner.nextLine();
+                inScanner = false;
+                if(game.getIsGameEnded())
+                    return;
                 player = game.getListOfPlayers().stream().filter(p1 -> p1.getUsername().equals(username)).findFirst().orElseThrow();
                 break;
             }
@@ -589,6 +619,7 @@ public class ViewCLI implements View, Runnable {
                 ui.wrongUsername();
             }
         } while(true);
+
 
         ui.showPlayerField(createMatrixFromField(player.getPlayerField()));
     }
@@ -742,11 +773,12 @@ public class ViewCLI implements View, Runnable {
     {
         ui.printWinner();
         ui.gameEndDisconnection();
-        while(readerThread.isAlive()){
+
+        while(readerThread.isAlive() || inScanner){
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                return;
             }
         }
     }

@@ -34,30 +34,40 @@ public class TUI extends UI {
         //this.showAllPlayers();
     }
 
-    public void showTurnScreen(String playerPlaying, String client) {
-        //this.clearScreen();
+    public void gameIsStopped()
+    {
+        System.out.println("You are the ony player left, the game is paused");
+    }
 
-        if(playerPlaying.equals(client)) {
-            new PrintStream(System.out, true, System.console() != null
-                    ? System.console().charset()
-                    : Charset.defaultCharset())
-                    .println(ansi().fg(GREEN).a("""
+    public void showTurnScreen(String playerPlaying, String client, boolean isStopped) {
 
-                            █▄█ █▀█ █░█ █▀█   ▀█▀ █░█ █▀█ █▄░█
-                            ░█░ █▄█ █▄█ █▀▄   ░█░ █▄█ █▀▄ █░▀█""").reset());
-            System.out.println("\nIt is currently your turn, write playTurn to play.");
-        } else {
-            new PrintStream(System.out, true, System.console() != null
-                    ? System.console().charset()
-                    : Charset.defaultCharset())
-                    .println(ansi().fg(GREEN).a("""
-
-                            █▄░█ █▀█ ▀█▀   █▄█ █▀█ █░█ █▀█   ▀█▀ █░█ █▀█ █▄░█
-                            █░▀█ █▄█ ░█░   ░█░ █▄█ █▄█ █▀▄   ░█░ █▄█ █▀▄ █░▀█""").reset());
-            System.out.println("\nIt is currently "+ playerPlaying+"'s turn.");
+        if(isStopped)
+        {
+           gameIsStopped();
         }
-        this.showAllCommands();
-        System.out.println("Waiting for input");
+        else {
+            if (playerPlaying.equals(client)) {
+                new PrintStream(System.out, true, System.console() != null
+                        ? System.console().charset()
+                        : Charset.defaultCharset())
+                        .println(ansi().fg(GREEN).a("""
+
+                                █▄█ █▀█ █░█ █▀█   ▀█▀ █░█ █▀█ █▄░█
+                                ░█░ █▄█ █▄█ █▀▄   ░█░ █▄█ █▀▄ █░▀█""").reset());
+                System.out.println("\nIt is currently your turn, write playTurn to play.");
+            } else {
+                new PrintStream(System.out, true, System.console() != null
+                        ? System.console().charset()
+                        : Charset.defaultCharset())
+                        .println(ansi().fg(GREEN).a("""
+
+                                █▄░█ █▀█ ▀█▀   █▄█ █▀█ █░█ █▀█   ▀█▀ █░█ █▀█ █▄░█
+                                █░▀█ █▄█ ░█░   ░█░ █▄█ █▄█ █▀▄   ░█░ █▄█ █▀▄ █░▀█""").reset());
+                System.out.println("\nIt is currently " + playerPlaying + "'s turn.");
+            }
+            this.showAllCommands();
+            System.out.println("Waiting for input");
+        }
     }
 
     public void showMainScreen() {

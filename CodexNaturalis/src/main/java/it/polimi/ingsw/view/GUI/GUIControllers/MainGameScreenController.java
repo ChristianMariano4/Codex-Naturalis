@@ -819,31 +819,43 @@ public class MainGameScreenController extends GUIController{
     private void setTurn()
     {
         try {
-            if (viewGUI.getIsTurn()) {
-                turnLabel.setText("It is currently your turn,\n select a card from your hand to Play");
-                turnLHbox.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
-                //turnLHbox.setLayoutY(12);
-                setBorderPane(playerHandBackground, false);
-
-                playCard.setDisable(false);
-                playCard.setVisible(true);
-
-                setMyField();
-
-            }
-            else {
-
-                turnLabel.setText("It is currently " + viewGUI.getGame().getCurrentPlayer().getUsername() + "'s turn");
-                turnLHbox.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
-                //turnLHbox.setLayoutY(19);
+            if(viewGUI.getGame().getListOfPlayers().stream().filter(e -> !e.getUsername().equals(viewGUI.getUsername()) && !e.getIsDisconnected()).toList().isEmpty())
+            {
+                turnLabel.setText("You are the ony player left,\nthe game is paused");
                 playCard.setDisable(true);
                 playCard.setVisible(false);
 
                 drawCard.setDisable(true);
                 drawCard.setVisible(false);
+
+                playingCard = false;
             }
-            turnLabel.setDisable(false);
-            turnLabel.setVisible(true);
+            else {
+                if (viewGUI.getIsTurn()) {
+                    turnLabel.setText("It is currently your turn,\n select a card from your hand to Play");
+                    turnLHbox.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
+                    //turnLHbox.setLayoutY(12);
+                    setBorderPane(playerHandBackground, false);
+
+                    playCard.setDisable(false);
+                    playCard.setVisible(true);
+
+                    setMyField();
+
+                } else {
+
+                    turnLabel.setText("It is currently " + viewGUI.getGame().getCurrentPlayer().getUsername() + "'s turn");
+                    turnLHbox.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
+                    //turnLHbox.setLayoutY(19);
+                    playCard.setDisable(true);
+                    playCard.setVisible(false);
+
+                    drawCard.setDisable(true);
+                    drawCard.setVisible(false);
+                }
+                turnLabel.setDisable(false);
+                turnLabel.setVisible(true);
+            }
         }
         catch (Exception e)
         {

@@ -125,8 +125,7 @@ public class Server extends Thread implements ServerRMIInterface {
     @Override
     public Game reconnectPlayerToGame(int gameId, String username, ClientHandlerInterface client) throws RemoteException, NotExistingPlayerException {
         try {
-            gameHandlerMap.get(gameId).getGame().getPlayer(username).setReconnecting();
-            gameHandlerMap.get(gameId).getGame().getPlayer(username).setConnected();
+            gameHandlerMap.get(gameId).reconnectPlayerToGame(username);
             clients.get(client).setGameId(gameId);
         } catch (NotExistingPlayerException e) {
             throw new NotExistingPlayerException();

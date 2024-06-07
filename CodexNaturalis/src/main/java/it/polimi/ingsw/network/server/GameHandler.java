@@ -465,4 +465,12 @@ public class GameHandler implements Serializable {
         String chatMessage = "[PUBLIC] " + hour + ":" + minute + " " + sender +": " + message;
         eventManager.notify(GameEvent.CHAT_MESSAGE, chatMessage);
     }
+
+    public void reconnectPlayerToGame(String username) throws NotExistingPlayerException {
+
+            game.getPlayer(username).setReconnecting();
+            game.getPlayer(username).setConnected();
+            eventManager.notify(GameEvent.PLAYER_RECONNECTED, game);
+
+    }
 }

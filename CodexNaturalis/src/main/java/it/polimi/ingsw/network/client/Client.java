@@ -156,6 +156,13 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                         this.viewThread.interrupt();
                     }
                 }
+                case PLAYER_RECONNECTED ->
+                {
+                    view.update((Game) gameUpdate);
+                    if (this.viewThread != null) {
+                        this.viewThread.interrupt();
+                    }
+                }
                 case CHAT_MESSAGE ->
                 {
                     view.chatMessage((String) gameUpdate);
