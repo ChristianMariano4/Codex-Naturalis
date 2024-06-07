@@ -29,8 +29,8 @@ public class LoginScreenController extends GUIController {
     public void connectButton() throws IOException, InterruptedException, ServerDisconnectedException {
         try
         {
-            soundController = new SoundController();
-            soundController.buttonClick();
+           // soundController = new SoundController();
+            //soundController.buttonClick();
             viewGUI.setUsername(username.getText());
             gui.switchScene(GUIScene.LOBBY);
         }
@@ -38,7 +38,6 @@ public class LoginScreenController extends GUIController {
         {
             errorMessage.setDisable(false);
             errorMessage.setVisible(true);
-             //send feedback to GUI by calling gui method
         }
 
     }

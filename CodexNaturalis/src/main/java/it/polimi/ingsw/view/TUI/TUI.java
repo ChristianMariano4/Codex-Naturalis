@@ -870,7 +870,13 @@ public class TUI extends UI {
 
     public void showChat(String chatHistory)
     {
-        //TODO: title
+        new PrintStream(System.out, true, System.console() != null
+                ? System.console().charset()
+                : Charset.defaultCharset())
+                .println(ansi().fg(GREEN).a("""
+
+                        █▀▀ █░█ ▄▀█ ▀█▀
+                        █▄▄ █▀█ █▀█ ░█░""").reset());
         System.out.println(chatHistory);
     }
 
