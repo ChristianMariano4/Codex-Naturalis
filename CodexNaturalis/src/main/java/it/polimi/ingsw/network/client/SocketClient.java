@@ -115,7 +115,7 @@ public class SocketClient extends Client {
             }
             return (Game) messageHandlerQueue.take();
         }
-        catch (ServerDisconnectedException e)
+        catch (ServerDisconnectedException | GameNotFoundException e)
         {
             throw e;
         }catch (GameAlreadyStartedException e) {
@@ -136,11 +136,7 @@ public class SocketClient extends Client {
                 throw new RuntimeException();
             }
 
-        } catch (GameNotFoundException e)
-        {
-            throw e;
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             throw new RuntimeException();
         }
