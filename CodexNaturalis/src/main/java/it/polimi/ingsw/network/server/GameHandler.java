@@ -433,8 +433,15 @@ public class GameHandler implements Serializable {
     public void sendChatMessage(String message, String sender)
     {
         Calendar rightNow = Calendar.getInstance();
-        int hour = rightNow.get(Calendar.HOUR_OF_DAY);
-        int minute = rightNow.get(Calendar.MINUTE);
+        int hourValue = rightNow.get(Calendar.HOUR_OF_DAY);
+        int minuteValue = rightNow.get(Calendar.MINUTE);
+        String hour = String.valueOf(hourValue);
+        String minute = String.valueOf(minuteValue);
+        if(hourValue < 10)
+            hour = "0"+ hour;
+        if(minuteValue < 10)
+            minute = "0" + minute;
+
         if(message.charAt(0) == '/')
         {
             ArrayList<String> players = new ArrayList<>(game.getListOfPlayers().stream().filter(e -> !e.getIsDisconnected() && !e.getUsername().equals(sender)).map(e -> e.getUsername()).toList());

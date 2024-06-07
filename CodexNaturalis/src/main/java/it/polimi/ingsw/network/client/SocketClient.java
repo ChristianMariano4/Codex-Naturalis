@@ -346,6 +346,7 @@ public class SocketClient extends Client {
         }
         catch(Exception e)
         {
+            e.printStackTrace();
             throw new RuntimeException();
         }
     }

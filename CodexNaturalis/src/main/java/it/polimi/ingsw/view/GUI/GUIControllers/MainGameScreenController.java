@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -743,14 +744,22 @@ public class MainGameScreenController extends GUIController{
         chatMessages.add("Write a public message or /[player's username] to send a private message");
             new Thread(() -> { //this thread solved a bug with lookup
                 while (chatList.lookup(".scroll-bar:vertical") == null);
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            chatScrollBar = (ScrollBar) chatList.lookup(".scroll-bar:vertical");
-                            chatScrollBar.visibleAmountProperty().addListener(e -> chatList.scrollTo(chatMessages.getLast()));
-                        }
-                    });
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        chatScrollBar = (ScrollBar) chatList.lookup(".scroll-bar:vertical");
+                        chatScrollBar.visibleAmountProperty().addListener(e -> chatList.scrollTo(chatMessages.getLast()));
+                    }
+                });
             }).start();
+
+            chatField.setOnKeyPressed(e ->
+            {
+                if(e.getCode().equals(KeyCode.ENTER))
+                {
+                    sendChatMessage();
+                }
+            });
     }
 
 
@@ -2043,6 +2052,7 @@ public class MainGameScreenController extends GUIController{
         });
     }
 
+    @FXML
     public void sendChatMessage()
     {
         try {
@@ -2054,6 +2064,7 @@ public class MainGameScreenController extends GUIController{
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             throw new RuntimeException();
         }
     }

@@ -161,6 +161,7 @@ public class Server extends Thread implements ServerRMIInterface {
             addClientToGameHandler(gameId, client);
             clients.get(client).setGameId(gameId);
             clients.get(client).setUsername(username);
+
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -222,13 +223,14 @@ public class Server extends Thread implements ServerRMIInterface {
 
     }
     public void setUsername(String username) throws IOException, InvalidUsernameException {
-        if(checkUsername(username))
+        if(checkUsername(username)) {
             return;
+        }
         throw new InvalidUsernameException();
 
     }
     public boolean checkUsername(String username) throws IOException {
-        if (username.equals(""))
+        if (username.equals("") || username.equals("exit")) //exit is banned as a username so that TUI can quit chat with the /exit command
             return false;
         for(ClientHandlerInterface client : clients.keySet())
         {
@@ -401,8 +403,8 @@ public class Server extends Thread implements ServerRMIInterface {
     }
     public void sendPrivateChatMessage(String sender, String receiver, String chatMessage)
     {
-        ClientHandlerInterface receiverClient = clients.keySet().stream().filter(e -> clients.get(e).getUsername().equals(receiver)).findFirst().orElse(null);
-        ClientHandlerInterface senderClient = clients.keySet().stream().filter(e -> clients.get(e).getUsername().equals(sender)).findFirst().orElse(null);
+        ClientHandlerInterface receiverClient = clients.keySet().stream().filter(e -> clients.get(e).getUsername() != null && clients.get(e).getUsername().equals(receiver)).findFirst().orElse(null);
+        ClientHandlerInterface senderClient = clients.keySet().stream().filter(e -> clients.get(e).getUsername() != null && clients.get(e).getUsername().equals(sender)).findFirst().orElse(null);
 
         if(receiverClient == null || senderClient == null)
             return;
