@@ -836,7 +836,7 @@ public class TUI extends UI {
     }
 
     public void setReady() {
-        System.out.println("Press 1 when you are ready to start the game.");
+        System.out.println("Press 1 when you are ready to start the game or 0 to quit.");
     }
 
     public void readyConfirmation() {

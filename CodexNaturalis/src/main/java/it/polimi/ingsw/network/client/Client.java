@@ -177,7 +177,10 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
             return false;
         if (choice == 2)
             return true;
-        viewCLI.setReady();
+        if(!viewCLI.setReady()) {
+            this.playing = false;
+            return true;
+        }
         while (!this.playing) {
             Thread.sleep(10);
         }
@@ -186,10 +189,6 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
             Thread.sleep(10);
         }
         viewCLI.markerSelection();
-        this.markerDone = !viewCLI.waitingForOthers();
-        while (!this.markerDone) {
-            Thread.sleep(10);
-        }
 
         viewCLI.chooseStarterCardSide();
         while (this.objectiveCardsToChoose == null) {
@@ -218,10 +217,13 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         view = new ViewCLI(this);
         ViewCLI viewCLI = (ViewCLI) view;
         viewCLI.setUsername();
-        while (preGameStart(viewCLI)) {
-            this.viewThread = new Thread(viewCLI); //game loop actually begins here
-            this.viewThread.start();
-            this.viewThread.join();
+        while (preGameStart(viewCLI))
+        {
+            if(playing) {
+                this.viewThread = new Thread(viewCLI); //game loop actually begins here
+                this.viewThread.start();
+                this.viewThread.join();
+            }
             resetClient(); //resetting the client after end of game
         }
     }

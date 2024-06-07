@@ -103,7 +103,7 @@ public class ViewCLI implements View, Runnable {
         return 1;
     }
 
-    public void setReady() throws ServerDisconnectedException{
+    public boolean setReady() throws ServerDisconnectedException{
         ArrayList<Integer> playersInfo = null;
         do{
             try {
@@ -122,6 +122,11 @@ public class ViewCLI implements View, Runnable {
                         ui.notEnoughPlayers();
                     }
                 }
+                else if(choice == 0)
+                {
+                    client.quitGame();
+                    return false;
+                }
                 else {
                     throw new NumberFormatException();
                 }
@@ -138,6 +143,7 @@ public class ViewCLI implements View, Runnable {
         if(!Objects.equals(playersInfo.getFirst(), playersInfo.get(1))){
             ui.readyConfirmation();
         }
+        return true;
     }
 
     public ViewCLI(Client client) {
@@ -773,9 +779,12 @@ public class ViewCLI implements View, Runnable {
     {
         ui.printWinner();
         ui.gameEndDisconnection();
+        if(chatThread != null)
+            chatThread.interrupt();
 
         while(readerThread.isAlive() || inScanner){
             try {
+                readerThread.interrupt();
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 return;
