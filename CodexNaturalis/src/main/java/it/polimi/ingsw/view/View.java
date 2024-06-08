@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
+import it.polimi.ingsw.exceptions.GameNotFoundException;
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.exceptions.ServerDisconnectedException;
 import it.polimi.ingsw.model.Game;
@@ -17,7 +18,7 @@ public interface View  {
     void newPlayer(Game gameUpdated);
     void update(Game gameUpdated);
     void twentyPoints(String username);
-    void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose) throws ServerDisconnectedException;
+    void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose) throws ServerDisconnectedException, GameNotFoundException;
     void finalRound();
     void gameEndDisconnection();
     void gameEnd();

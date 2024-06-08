@@ -193,17 +193,21 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
 
         try {
             viewCLI.markerSelection();
+            viewCLI.chooseStarterCardSide();
         } catch (GameNotFoundException e) {
             return true;
         }
 
 
-        viewCLI.chooseStarterCardSide();
         while (this.objectiveCardsToChoose == null) {
             Thread.sleep(10);
         }
         viewCLI.showSharedObjectiveCards();
-        viewCLI.chooseObjectiveCard(this.objectiveCardsToChoose);
+        try {
+            viewCLI.chooseObjectiveCard(this.objectiveCardsToChoose);
+        } catch (GameNotFoundException e) {
+            return true;
+        }
         viewCLI.waitingForGameBegin();
         while (!this.gameBegin) {
             Thread.sleep(10);

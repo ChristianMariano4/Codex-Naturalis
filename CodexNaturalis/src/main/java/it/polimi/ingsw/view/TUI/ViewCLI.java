@@ -549,7 +549,7 @@ public class ViewCLI implements View, Runnable {
         ui.showSharedObjectiveCard(sharedObjectiveCards);
     }
 
-    public void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose) throws ServerDisconnectedException {
+    public void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose) throws ServerDisconnectedException, GameNotFoundException {
             ui.secretObjectiveCardTitle();
             try {
                 ui.showCardInfo(objectiveCardsToChoose.get(0), client.getCardInfo(objectiveCardsToChoose.get(0), game.getGameId()));
@@ -580,6 +580,8 @@ public class ViewCLI implements View, Runnable {
                     }
                     catch(Exception e)
                     {
+                        if (game.getIsGameEnded())
+                            throw new GameNotFoundException();
                         ui.invalidInput();
                     }
                 }while(true);
@@ -588,10 +590,14 @@ public class ViewCLI implements View, Runnable {
             {
                 throw se;
             }
-        catch (Exception e)
-        {
-            ui.somethingWentWrong();
-        }
+            catch (GameNotFoundException e)
+            {
+                throw new GameNotFoundException();
+            }
+            catch (Exception e)
+            {
+                ui.somethingWentWrong();
+            }
     }
 
     public void showPlayerHand() throws IOException, NotExistingPlayerException, ServerDisconnectedException {
@@ -727,7 +733,7 @@ public class ViewCLI implements View, Runnable {
         ui.waitingForGameBegin();
     }
 
-    public void chooseStarterCardSide() throws NotExistingPlayerException, IOException, ServerDisconnectedException {
+    public void chooseStarterCardSide() throws NotExistingPlayerException, IOException, ServerDisconnectedException, GameNotFoundException {
         StarterCard cardFront = game.getPlayer(client.getUsername()).getStarterCard();
         StarterCard cardBack = client.getOtherSideCard(game.getGameId(), cardFront);
 
@@ -755,6 +761,8 @@ public class ViewCLI implements View, Runnable {
             }
             catch(Exception e)
             {
+                if(game.getIsGameEnded())
+                    throw new GameNotFoundException();
                 ui.invalidInput();
             }
         }while(true);
