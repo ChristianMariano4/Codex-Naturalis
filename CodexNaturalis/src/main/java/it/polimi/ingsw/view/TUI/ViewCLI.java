@@ -85,7 +85,7 @@ public class ViewCLI implements View, Runnable {
                 }
                 else if(choice == 0)
                 {
-                    System.exit(0);
+                    return 0;
                 }
                 else
                     throw new NumberFormatException();
@@ -103,6 +103,11 @@ public class ViewCLI implements View, Runnable {
         return 1;
     }
 
+    /**
+     * This method is used to set the ready status of the player
+     * @return true if the player is ready, false if the player quits the game
+     * @throws ServerDisconnectedException if the server disconnects
+     */
     public boolean setReady() throws ServerDisconnectedException{
         ArrayList<Integer> playersInfo = null;
         do{
@@ -629,7 +634,7 @@ public class ViewCLI implements View, Runnable {
 
         ui.showPlayerField(createMatrixFromField(player.getPlayerField()));
     }
-    public void markerSelection() throws ServerDisconnectedException {
+    public void markerSelection() throws ServerDisconnectedException, GameNotFoundException {
         ArrayList<Marker> markerList = game.getAvailableMarkers();
         ui.showAvailableMarkers(markerList);
         do{
@@ -655,6 +660,9 @@ public class ViewCLI implements View, Runnable {
             }
             catch(Exception e)
             {
+                if(game.getIsGameEnded()) {
+                    throw new GameNotFoundException();
+                }
                 ui.invalidInput();
             }
 
@@ -781,15 +789,17 @@ public class ViewCLI implements View, Runnable {
         ui.gameEndDisconnection();
         if(chatThread != null)
             chatThread.interrupt();
-
-        while(readerThread.isAlive() || inScanner){
-            try {
-                readerThread.interrupt();
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                return;
+        if(readerThread != null){
+            while(readerThread.isAlive() || inScanner){
+                try {
+                    readerThread.interrupt();
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    return;
+                }
             }
         }
+
     }
 
     @Override
@@ -805,5 +815,11 @@ public class ViewCLI implements View, Runnable {
     }
 
 
+    public void gameQuit() {
+        ui.showGameQuitScreen();
+    }
 
+    public Thread getAsyncReader() {
+        return readerThread;
+    }
 }

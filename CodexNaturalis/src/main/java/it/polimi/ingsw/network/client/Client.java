@@ -173,8 +173,10 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     boolean preGameStart(ViewCLI viewCLI) throws InterruptedException, NotExistingPlayerException, IOException, ServerDisconnectedException {
 
         int choice = viewCLI.setChoiceGame();
-        if (choice == 0)
-            return false;
+        if (choice == 0) {
+            viewCLI.gameQuit();
+            System.exit(0);
+        }
         if (choice == 2)
             return true;
         if(!viewCLI.setReady()) {
@@ -188,7 +190,13 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
         while (!this.markerTurn) {
             Thread.sleep(10);
         }
-        viewCLI.markerSelection();
+
+        try {
+            viewCLI.markerSelection();
+        } catch (GameNotFoundException e) {
+            return true;
+        }
+
 
         viewCLI.chooseStarterCardSide();
         while (this.objectiveCardsToChoose == null) {
@@ -225,6 +233,9 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                 this.viewThread.join();
             }
             resetClient(); //resetting the client after end of game
+            if(viewCLI.getAsyncReader().isAlive()){
+                viewCLI.getAsyncReader().interrupt();
+            }
         }
     }
 

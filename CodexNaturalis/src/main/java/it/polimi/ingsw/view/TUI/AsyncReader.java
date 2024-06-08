@@ -21,6 +21,7 @@ public class AsyncReader implements Runnable{
         while(!Thread.interrupted()) {
             synchronized (lock) {
                 String value = scanner.nextLine();
+                System.out.println("Received: " + value); //debugging
                 this.blockingQueue.add(value);
                 try {
                     lock.wait();

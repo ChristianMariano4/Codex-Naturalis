@@ -794,6 +794,8 @@ public class TUI extends UI {
     public void invalidInput()
     {
         System.out.println("Invalid input, try again");
+        System.out.println(Thread.currentThread().getClass());
+        System.out.println(Thread.currentThread());
     }
     public void requirementsNotMet() {
         System.out.println("The requirements of the selected gold card are not met, try again");
@@ -885,4 +887,7 @@ public class TUI extends UI {
 
     }
 
+    public void showGameQuitScreen() {
+        System.out.println("You have quit the game.");
+    }
 }
