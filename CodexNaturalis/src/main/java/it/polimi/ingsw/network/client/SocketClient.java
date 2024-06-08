@@ -371,7 +371,8 @@ public class SocketClient extends Client {
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 } catch (ServerDisconnectedException e) {
-                    e.printStackTrace();
+                    System.err.println("Disconnected from server");
+                    System.exit(-1);
                     throw new RuntimeException(e);
                 }
             }, 0, GameValues.HEARTBEAT_INTERVAL, TimeUnit.MILLISECONDS);

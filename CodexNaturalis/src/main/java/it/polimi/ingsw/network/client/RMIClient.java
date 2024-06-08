@@ -168,7 +168,7 @@ public class RMIClient extends Client {
             throw new RuntimeException(e);
         } catch (ServerDisconnectedException e) {
             System.err.println("Disconnected from server");
-            System.exit(0);
+            System.exit(-1);
 
 //            this.serverRMIInterface = null;
 //            for(int i = 0; i<GameValues.MAX_ATTEMPTS_RECONNECTION; i++) {

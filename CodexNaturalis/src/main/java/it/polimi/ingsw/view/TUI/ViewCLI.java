@@ -85,7 +85,7 @@ public class ViewCLI implements View, Runnable {
                 }
                 else if(choice == 0)
                 {
-                    return 0;
+                    System.exit(0);
                 }
                 else
                     throw new NumberFormatException();
