@@ -246,7 +246,8 @@ public class ViewCLI implements View, Runnable {
                                     if (isTurn) {
                                         if(!isStopped) {
                                             playCard();
-                                            drawCard();
+                                            if(!game.getTableTop().getDrawingField().getNoCardsLeft())
+                                                drawCard();
                                             endTurn();
                                         }
                                         else {

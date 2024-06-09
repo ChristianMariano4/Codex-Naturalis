@@ -33,8 +33,9 @@ public class GameHandler implements Serializable {
     private boolean twentyPointsReached = false;
     private boolean finalRound = false;
     private final int desiredNumberOfPlayers;
-    HashMap<String, Boolean> readyStatus = new HashMap<>();
-    HashMap<String, ArrayList<ObjectiveCard>> assignedObjectiveCards = new HashMap<>();
+    private HashMap<String, Boolean> readyStatus = new HashMap<>();
+    private HashMap<String, ArrayList<ObjectiveCard>> assignedObjectiveCards = new HashMap<>();
+    private boolean areDecksEmpty = false;
 
 
     public GameHandler(int gameId, Server server, int desiredNumberOfPlayers){
@@ -212,7 +213,8 @@ public class GameHandler implements Serializable {
     public void drawCard(String username, CardType cardType, DrawPosition drawPosition) throws NotExistingPlayerException, AlreadyThreeCardsInHandException, DeckIsEmptyException {
         synchronized (this) {
             controller.drawCard(game.getPlayer(username), cardType, drawPosition);
-            //TODO: add deck empty game end logic
+            if(game.getTableTop().getDrawingField().getBothDecksEmpty())
+                areDecksEmpty = true;
         }
     }
 
@@ -237,12 +239,12 @@ public class GameHandler implements Serializable {
                     drawCard(username, CardType.GOLD,position);
                     return;
                 }catch (DeckIsEmptyException e)
+
                 {
                 } catch (NotExistingPlayerException | AlreadyThreeCardsInHandException e) {
                     throw new RuntimeException(e);
                 }
             }
-            //TODO: call game end method because all decks are empty
         }
     }
     public List<ClientHandlerInterface> getClients() {
@@ -314,20 +316,27 @@ public class GameHandler implements Serializable {
 
     public void turnEvent(String username) throws NotExistingPlayerException, CardTypeMismatchException {
         synchronized (this) {
-            if (this.finalRound && game.getCurrentPlayer().equals(game.getListOfPlayers().getLast())) {
+            if (this.finalRound && game.getCurrentPlayer().equals(game.getListOfPlayers().stream().filter(e -> !e.getIsDisconnected() || e.getUsername().equals(username)).toList().getLast())) {
                 controller.calculateAndUpdateFinalPoints();
                 server.removeGame(this);
                 eventManager.notify(GameEvent.GAME_END, game);
                 return;
             }
             controller.nextTurn(game.getPlayer(username));
-            for (Player p : game.getListOfPlayers()) {
-                if (p.getPoints() >= 20 && !twentyPointsReached) {
-                    this.twentyPointsReached = true;
-                    eventManager.notify(GameEvent.TWENTY_POINTS, p.getUsername());
+            if(!twentyPointsReached && areDecksEmpty)
+            {
+                this.twentyPointsReached = true;
+                eventManager.notify(GameEvent.TWENTY_POINTS, (Object) null);
+            }
+            else {
+                for (Player p : game.getListOfPlayers()) {
+                    if (p.getPoints() >= 20 && !twentyPointsReached) {
+                        this.twentyPointsReached = true;
+                        eventManager.notify(GameEvent.TWENTY_POINTS, p.getUsername());
+                    }
                 }
             }
-            if (twentyPointsReached && game.getCurrentPlayer().equals(game.getListOfPlayers().getFirst())) //final round begins when first player is playing and a player has reached 20 points
+            if (twentyPointsReached && game.getCurrentPlayer().equals(game.getListOfPlayers().stream().filter(e -> !e.getIsDisconnected()).toList().getFirst())) //final round begins when first player is playing and a player has reached 20 points
             {
                 this.finalRound = true;
                 eventManager.notify(GameEvent.FINAL_ROUND, (Object) null);
@@ -389,11 +398,12 @@ public class GameHandler implements Serializable {
                         {
                             drawRandomCard(username);
                         }
-                        controller.nextTurn(game.getPlayer(username));
-                        eventManager.notify(GameEvent.TURN_EVENT, game);
+                        turnEvent(username);
                     }
                 }
             } catch (NotExistingPlayerException e) {
+                throw new RuntimeException(e);
+            } catch (CardTypeMismatchException e) {
                 throw new RuntimeException(e);
             }
         }

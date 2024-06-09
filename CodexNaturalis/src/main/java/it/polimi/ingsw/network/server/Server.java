@@ -152,6 +152,10 @@ public class Server extends Thread implements ServerRMIInterface {
         } catch (DeckIsEmptyException e) {
             throw new RuntimeException(e);
         }
+        catch (NullPointerException ignored)
+        {
+            //nothing, this is when the last player quits the game
+        }
     }
 
     @Override

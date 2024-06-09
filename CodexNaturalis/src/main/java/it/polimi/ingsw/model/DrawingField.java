@@ -136,4 +136,25 @@ public class DrawingField implements Serializable {
     public HashMap<DrawPosition, ResourceCard> getDiscoveredResourceCards() {
         return this.discoveredResourceCards;
     }
+
+    /**
+     * See if both decks are empty
+     * @return true if both decks are empty
+     */
+    public boolean getBothDecksEmpty()
+    {
+        if(resourceCardDeck.isEmpty() && goldCardDeck.isEmpty())
+            return true;
+        return false;
+    }
+    /**
+     * See if all decks and discovered cards are not there
+     * @return true if both decks are empty
+     */
+    public boolean getNoCardsLeft()
+    {
+        if(resourceCardDeck.isEmpty() && goldCardDeck.isEmpty() && discoveredResourceCards.isEmpty() && discoveredGoldCards.isEmpty())
+            return true;
+        return false;
+    }
 }

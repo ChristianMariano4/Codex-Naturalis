@@ -802,7 +802,10 @@ public class TUI extends UI {
     }
     public void twentyPoints(String username)
     {
-        System.out.println("Player " + username+ "has reached twenty points!");
+        if(username == null)
+            System.out.println("Both decks are empty!");
+        else
+            System.out.println("Player " + username+ "has reached twenty points!");
     }
     public void somethingWentWrong()
     {

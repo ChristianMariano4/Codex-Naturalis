@@ -1802,6 +1802,8 @@ public class MainGameScreenController extends GUIController{
                         //turnLHbox.setLayoutY(8);
                         setBorderPane(drawingFieldBackground, false);
                         setBorderPane(playerHandBackground, true);
+                        if(viewGUI.getGame().getTableTop().getDrawingField().getNoCardsLeft())
+                            viewGUI.endTurn();
                     }
                 }catch (InvalidCardPositionException e)
                 {
@@ -1891,7 +1893,8 @@ public class MainGameScreenController extends GUIController{
         }
         catch (DeckIsEmptyException e)
         {
-            //TODO: handle empty deck
+            //can't happen because the only cards you see are the ones you can draw
+            throw new RuntimeException();
 
         }
         catch (Exception e)
@@ -1983,8 +1986,12 @@ public class MainGameScreenController extends GUIController{
     @Override
     public void twentyPoints(String username) {
         Platform.runLater(new Runnable() {
-            public void run() {
-                twentyPoints.setText("Player " + username + "\n has reached 20 points!");
+            public void run()
+            {
+                if(username == null)
+                    twentyPoints.setText("Both decks are empty!");
+                else
+                    twentyPoints.setText("Player " + username + "\n has reached 20 points!");
                 popupPane.setDisable(false);
                 popupPane.setVisible(true);
                 twentyPoints.setDisable(false);
