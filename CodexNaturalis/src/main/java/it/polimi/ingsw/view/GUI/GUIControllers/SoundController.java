@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.GUI.GUIControllers;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 
 import java.net.URISyntaxException;
 

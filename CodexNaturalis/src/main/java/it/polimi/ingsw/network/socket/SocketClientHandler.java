@@ -15,9 +15,6 @@ import it.polimi.ingsw.network.server.Server;
 
 import java.io.*;
 import java.net.Socket;
-import java.rmi.RemoteException;
-
-import static java.lang.Thread.sleep;
 
 
 /**
@@ -30,15 +27,15 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
     /**
      * Socket ObjectInputStream to receive messages from the SocketClient
      */
-    private ObjectInputStream inputStream;
+    private final ObjectInputStream inputStream;
     /**
      * Socket ObjectOutputStream to send messages to the SocketClient
      */
-    private ObjectOutputStream outputStream;
+    private final ObjectOutputStream outputStream;
     /**
      * A reference to the server
      */
-    private Server server;
+    private final Server server;
     /**
      * The unique username associated with the SocketClient
      */
@@ -186,8 +183,6 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                 sendMessage(ServerMessageType.ERROR, ErrorType.NOT_EXISTING_PLAYER);
             } catch (RequirementsNotMetException e) {
                 sendMessage(ServerMessageType.ERROR, ErrorType.REQUIREMENTS_NOT_MET);
-            } catch (NotEnoughPlayersException e) {
-                sendMessage(ServerMessageType.ERROR, ErrorType.NOT_ENOUGH_PLAYERS);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } catch (DeckIsEmptyException e) {
@@ -222,11 +217,10 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
      * @param event      the GameEvent the update refers to
      * @param gameUpdate the content of the update
      * @throws IOException                when the message can't be sent through
-     * @throws InterruptedException       thrown by superclass
      * @throws NotExistingPlayerException thrown by superclass
      */
     @Override
-    public void update(GameEvent event, Object gameUpdate) throws IOException, InterruptedException, NotExistingPlayerException {
+    public void update(GameEvent event, Object gameUpdate) throws IOException,  NotExistingPlayerException {
         sendMessage(ServerMessageType.UPDATE, event, gameUpdate);
     }
 

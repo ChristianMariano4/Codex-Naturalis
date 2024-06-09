@@ -395,7 +395,6 @@ public class SocketClient extends Client {
             throw new RuntimeException(e);
         } catch (ServerDisconnectedException e) {
             System.err.println("Disconnected from server");
-            return;
         }
 
 

@@ -6,12 +6,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.Pane;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class LobbyController extends GUIController{
     public Button createGame;

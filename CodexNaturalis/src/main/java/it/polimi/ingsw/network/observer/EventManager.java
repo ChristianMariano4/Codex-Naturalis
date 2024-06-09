@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.observer;
 
-import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.observer.Listener;
 
 import java.util.ArrayList;

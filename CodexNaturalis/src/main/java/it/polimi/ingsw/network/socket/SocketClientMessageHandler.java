@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.enumerations.ClientMessageType;
-import it.polimi.ingsw.exceptions.NotExistingPlayerException;
 import it.polimi.ingsw.exceptions.ServerDisconnectedException;
 import it.polimi.ingsw.network.client.SocketClient;
 import it.polimi.ingsw.network.messages.GameEvent;

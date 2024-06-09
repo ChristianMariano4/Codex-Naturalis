@@ -1,7 +1,5 @@
 package it.polimi.ingsw.enumerations;
 
-import it.polimi.ingsw.model.Player;
-
 public enum Resource {
     ANIMAL,
     INSECT,

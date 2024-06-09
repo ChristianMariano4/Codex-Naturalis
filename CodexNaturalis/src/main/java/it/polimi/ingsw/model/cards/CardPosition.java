@@ -1,16 +1,14 @@
 package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.enumerations.Side;
-
 import java.io.Serializable;
 
 /**
  * The class represent the position of the card in the playerField
  */
 public class CardPosition implements Serializable {
-    private Card card;
-    private int positionX;
-    private int positionY;
+    private final Card card;
+    private final int positionX;
+    private final int positionY;
 
     /**
      * Constructor

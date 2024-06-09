@@ -1,12 +1,10 @@
 package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.enumerations.GUIScene;
-import it.polimi.ingsw.exceptions.NoneResourceException;
 import it.polimi.ingsw.exceptions.ServerDisconnectedException;
 import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.network.client.RMIClient;
 import it.polimi.ingsw.network.client.SocketClient;
-import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 import it.polimi.ingsw.view.GUI.GUIControllers.GUIController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -14,22 +12,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
-import org.w3c.dom.events.EventException;
 
 import java.io.IOException;
-import java.net.Socket;
-import java.nio.charset.Charset;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.enumerations.GUIScene.NICKNAME;
@@ -44,9 +31,9 @@ public class GUI extends Application {
     private double widthOld;
     private double heightOld;
     boolean rescalable;
-    private String macName = "Mac OS X";
-    private String windowsName = "Windows";
-    private String windows11Name = "Windows 11";
+    private final String macName = "Mac OS X";
+    private final String windowsName = "Windows";
+    private final String windows11Name = "Windows 11";
 
 
     public ViewGUI getViewGUI() {

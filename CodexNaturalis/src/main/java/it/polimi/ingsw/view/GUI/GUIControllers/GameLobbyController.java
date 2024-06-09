@@ -1,24 +1,17 @@
 package it.polimi.ingsw.view.GUI.GUIControllers;
 
-import com.sun.media.jfxmedia.control.MediaPlayerOverlay;
 import it.polimi.ingsw.enumerations.GUIScene;
-import it.polimi.ingsw.exceptions.NotEnoughPlayersException;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 
-import javax.lang.model.util.TypeKindVisitor14;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class GameLobbyController extends GUIController {
     public TabPane rulebookTabPane;
@@ -30,17 +23,17 @@ public class GameLobbyController extends GUIController {
     public Label p2name;
     public Label p3name;
     public Label p4name;
-    private ArrayList<Label> names = new ArrayList<>();
+    private final ArrayList<Label> names = new ArrayList<>();
     public Pane p1;
     public Pane p2;
     public Pane p3;
     public Pane p4;
-    private ArrayList<Pane> playerPanes = new ArrayList<>();
+    private final ArrayList<Pane> playerPanes = new ArrayList<>();
     public Button nextButton;
     public Button backButton;
     public Label readyPlayers;
     public Button setReadyButton;
-    private Integer playerNum = 1;
+    private final Integer playerNum = 1;
     public Pane exitPane;
     public Label gameIdLabel;
 
@@ -82,11 +75,10 @@ public class GameLobbyController extends GUIController {
     }
 
     public void update(Object update) {
-        if(!(update instanceof Game))
+        if(!(update instanceof Game game))
             return;
-        Game game = (Game) update;
 
-            for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
                 try {
                         Label label = names.get(i);
                         String username = game.getListOfPlayers().get(i).getUsername();
@@ -148,7 +140,6 @@ public class GameLobbyController extends GUIController {
         catch (Exception e)
         {
             System.exit(-1); //server crashed
-            //TODO: handle server disconnection
         }
 
     }

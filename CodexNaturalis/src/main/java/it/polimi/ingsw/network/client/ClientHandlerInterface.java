@@ -5,9 +5,8 @@ import it.polimi.ingsw.network.messages.GameEvent;
 
 import java.io.IOException;
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 
 public interface ClientHandlerInterface extends Remote {
-    void update(GameEvent event, Object gameUpdate) throws IOException, InterruptedException, NotExistingPlayerException;
+    void update(GameEvent event, Object gameUpdate) throws IOException,  NotExistingPlayerException;
     String getUsername() throws IOException;
 }

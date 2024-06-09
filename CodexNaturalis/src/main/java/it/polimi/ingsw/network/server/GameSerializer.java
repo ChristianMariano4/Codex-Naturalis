@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.server;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.messages.GameEvent;
 import it.polimi.ingsw.network.observer.Listener;

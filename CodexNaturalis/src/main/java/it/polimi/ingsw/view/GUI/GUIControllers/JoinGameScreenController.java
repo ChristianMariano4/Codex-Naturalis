@@ -18,15 +18,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextFlow;
 import javafx.concurrent.ScheduledService;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Objects;
-
-import static org.fusesource.jansi.Ansi.ansi;
 
 public class JoinGameScreenController extends GUIController {
     public ChoiceBox<String> gameList;
@@ -34,7 +29,7 @@ public class JoinGameScreenController extends GUIController {
     public String gameOnTextFlow;
     public TextFlow textFlow;
     public Button joinButton;
-    private ArrayList<Integer> availableGames = new ArrayList<>();
+    private final ArrayList<Integer> availableGames = new ArrayList<>();
     Task<Void> checkGames;
 
     public ListView<String> gameList2;

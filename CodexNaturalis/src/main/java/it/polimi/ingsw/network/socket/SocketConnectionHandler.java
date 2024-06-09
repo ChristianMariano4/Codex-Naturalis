@@ -15,11 +15,11 @@ public class SocketConnectionHandler implements Runnable{
     /**
      * The ServerSocket of the server
      */
-    private ServerSocket serverSocket;
+    private final ServerSocket serverSocket;
     /**
      * A reference to the server
      */
-    private Server server;
+    private final Server server;
 
     /**
      * Constructor of the SocketConnectionHandler class

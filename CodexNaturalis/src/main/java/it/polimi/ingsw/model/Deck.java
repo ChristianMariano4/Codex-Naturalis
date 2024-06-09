@@ -3,16 +3,11 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.cards.Card;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
-import it.polimi.ingsw.model.cards.ResourceCard;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Stack;
-import java.util.Random;
 
 /**
  * This class represents a deck of resource cards in the game. It contains a stack of resource cards.

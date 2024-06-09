@@ -143,9 +143,7 @@ public class DrawingField implements Serializable {
      */
     public boolean getBothDecksEmpty()
     {
-        if(resourceCardDeck.isEmpty() && goldCardDeck.isEmpty())
-            return true;
-        return false;
+        return resourceCardDeck.isEmpty() && goldCardDeck.isEmpty();
     }
     /**
      * See if all decks and discovered cards are not there
@@ -153,8 +151,6 @@ public class DrawingField implements Serializable {
      */
     public boolean getNoCardsLeft()
     {
-        if(resourceCardDeck.isEmpty() && goldCardDeck.isEmpty() && discoveredResourceCards.isEmpty() && discoveredGoldCards.isEmpty())
-            return true;
-        return false;
+        return resourceCardDeck.isEmpty() && goldCardDeck.isEmpty() && discoveredResourceCards.isEmpty() && discoveredGoldCards.isEmpty();
     }
 }

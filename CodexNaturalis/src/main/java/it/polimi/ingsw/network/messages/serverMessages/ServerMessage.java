@@ -6,8 +6,8 @@ import java.io.Serializable;
 
 public class ServerMessage implements Serializable {
 
-    private ServerMessageType messageType;
-    private Object[] messageContent;
+    private final ServerMessageType messageType;
+    private final Object[] messageContent;
 
     public ServerMessage(ServerMessageType messageType, Object ... messageContent)
     {

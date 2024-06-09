@@ -1,18 +1,4 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
-import it.polimi.ingsw.exceptions.AlreadyMaxNumberOfPlayersException;
-import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
-import it.polimi.ingsw.exceptions.NotExistingPlayerException;
-import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.StarterCard;
-import it.polimi.ingsw.enumerations.Marker;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class GameTest {
 /*

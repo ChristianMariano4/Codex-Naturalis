@@ -18,12 +18,12 @@ public class ScoreboardController extends GUIController{
     public Pane p1;
     public Pane p2;
     public Pane p3;
-    private ArrayList<Pane> panes = new ArrayList<>();
+    private final ArrayList<Pane> panes = new ArrayList<>();
     public Label p0Label;
     public Label p1Label;
     public Label p2Label;
     public Label p3Label;
-    private ArrayList<Label> labels = new ArrayList<>();
+    private final ArrayList<Label> labels = new ArrayList<>();
 
     @Override
     public void sceneInitializer() {

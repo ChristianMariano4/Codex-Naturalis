@@ -34,9 +34,6 @@ public class ViewCLI implements View, Runnable {
         do {
             username = scanner.nextLine();
 
-          /*  if(client.checkUsername(username))
-                break;
-            else*/
             try
             {
                 client.setUsername(username);
@@ -320,7 +317,6 @@ public class ViewCLI implements View, Runnable {
             }
             catch (Exception e)
             {
-                return;
             }
         });
         chatThread.start();
@@ -788,7 +784,6 @@ public class ViewCLI implements View, Runnable {
         } catch (CardTypeMismatchException e) {
             throw new RuntimeException(e);
         } catch (ServerDisconnectedException e) {
-            return;
         }
     }
 

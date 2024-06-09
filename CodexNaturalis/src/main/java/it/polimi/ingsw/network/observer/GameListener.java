@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.client.ClientHandlerInterface;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.network.messages.GameEvent;
-import it.polimi.ingsw.network.rmi.ClientRMIInterface;
 
 import java.io.IOException;
 import java.rmi.RemoteException;

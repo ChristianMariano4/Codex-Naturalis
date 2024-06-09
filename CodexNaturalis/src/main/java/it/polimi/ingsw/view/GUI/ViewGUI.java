@@ -2,18 +2,15 @@ package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.DrawingField;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerField;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.view.TUI.TUI;
 import it.polimi.ingsw.view.View;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
-import java.io.WriteAbortedException;
 import java.rmi.RemoteException;
 import java.util.*;
 
@@ -110,7 +107,7 @@ public class ViewGUI implements View, Runnable {
 
     @Override
     public void run() {
-        gui.launchGUI();
+        GUI.launchGUI();
     }
 
     public void createGame(int numberOfPlayers) throws ServerDisconnectedException {

@@ -4,7 +4,6 @@ import it.polimi.ingsw.enumerations.AngleOrientation;
 import it.polimi.ingsw.enumerations.GoldPointCondition;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.enumerations.Side;
-import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.CardVisitor;
 import javafx.util.Pair;

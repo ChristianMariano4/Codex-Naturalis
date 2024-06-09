@@ -78,11 +78,11 @@ public class MainGameScreenController extends GUIController{
     public Button backButton;
 
     private boolean frontSide = true;
-    private int cardInHandSelected = 3;
+    private final int cardInHandSelected = 3;
     public Pane cardsInHandInspector;
     public Pane handCardInspector;
 
-    private int sharedObjChoice = 2;
+    private final int sharedObjChoice = 2;
     public Pane objectiveCardsInspector;
     public Pane showObjCard;
 
@@ -96,7 +96,7 @@ public class MainGameScreenController extends GUIController{
     public Pane card2;
     public Pane card3;
     public Pane playerHand;
-    private ArrayList<Pane> playerHandPanes = new ArrayList<>();
+    private final ArrayList<Pane> playerHandPanes = new ArrayList<>();
     public Button playCard;
 
     public Label waitTurn;
@@ -106,7 +106,7 @@ public class MainGameScreenController extends GUIController{
     public Pane marker3;
     public Pane marker4;
     public Pane MPane;
-    private ArrayList<Pane> markerPanes = new ArrayList<>();
+    private final ArrayList<Pane> markerPanes = new ArrayList<>();
 
     public Pane starterCardSide;
     public Pane starterFront;
@@ -151,7 +151,7 @@ public class MainGameScreenController extends GUIController{
     public Pane plat27;
     public Pane plat28;
     public Pane plat29;
-    private ArrayList<Pane> platPanes = new ArrayList<>();
+    private final ArrayList<Pane> platPanes = new ArrayList<>();
 
     public Pane objectiveCards;
     public Pane sharedLeft;
@@ -171,11 +171,11 @@ public class MainGameScreenController extends GUIController{
     public Pane starterCard;
     public Pane movingField;
     public Pane fieldBoundsCheck;
-    private Rectangle fieldBounds = new Rectangle();
-    private Pane[][] fieldPanes = new Pane[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
-    private ArrayList<Pane> otherPlayerFields = new ArrayList<>();
-    private ArrayList<Pane> otherPlayerFieldBoundsChecks = new ArrayList<>();
-    private ArrayList<Rectangle> otherPlayerFieldBounds = new ArrayList<>();
+    private final Rectangle fieldBounds = new Rectangle();
+    private final Pane[][] fieldPanes = new Pane[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
+    private final ArrayList<Pane> otherPlayerFields = new ArrayList<>();
+    private final ArrayList<Pane> otherPlayerFieldBoundsChecks = new ArrayList<>();
+    private final ArrayList<Rectangle> otherPlayerFieldBounds = new ArrayList<>();
 
     public Pane m1;
     public Pane m2;
@@ -317,9 +317,7 @@ public class MainGameScreenController extends GUIController{
             setOtherField(index);
         }
         else {
-            boolean isDisable = false;
-            if(otherPlayerFields.get(index).isDisable())
-                isDisable = true;
+            boolean isDisable = otherPlayerFields.get(index).isDisable();
             setMyField();
             if(isDisable)
                 setOtherField(index);
@@ -498,7 +496,6 @@ public class MainGameScreenController extends GUIController{
         }
         catch (Exception e)
         {
-            return;
         }
     };
     private void preGame()
@@ -628,7 +625,6 @@ public class MainGameScreenController extends GUIController{
         }
         catch (Exception e)
         {
-            return;
         }
     };
 
@@ -1649,7 +1645,6 @@ public class MainGameScreenController extends GUIController{
 
         } catch (IndexOutOfBoundsException e)
         {
-            return;
         }
         catch (Exception e) {
             e.printStackTrace();

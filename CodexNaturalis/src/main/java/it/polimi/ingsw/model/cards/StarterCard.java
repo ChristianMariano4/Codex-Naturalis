@@ -7,8 +7,6 @@ import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.CardVisitor;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

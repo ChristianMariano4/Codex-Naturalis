@@ -1,25 +1,17 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.enumerations.*;
-import it.polimi.ingsw.enumerations.AngleOrientation;
-import it.polimi.ingsw.enumerations.AngleStatus;
 import it.polimi.ingsw.exceptions.CardTypeMismatchException;
-import it.polimi.ingsw.exceptions.NotEnoughPlayersException;
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerField;
 import it.polimi.ingsw.model.cards.CardInfo;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
-import it.polimi.ingsw.model.cards.PlayableCard;
 
-import java.lang.runtime.ObjectMethods;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import it.polimi.ingsw.model.cards.PlayableCard;
 
-import javax.management.StandardEmitterMBean;
+import it.polimi.ingsw.model.cards.PlayableCard;
 
 public class PointCalculator {
     /**

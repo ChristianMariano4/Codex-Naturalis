@@ -24,6 +24,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 
+
 public class Server extends Thread implements ServerRMIInterface {
     private final Map<Integer, GameHandler> gameHandlerMap;
     private final Map<ClientHandlerInterface, ClientInfo> clients = new HashMap(); //list of all client stubs with their last heartbeat and gameId
@@ -53,15 +54,14 @@ public class Server extends Thread implements ServerRMIInterface {
                         System.out.println("Client disconnected. Clients size: "+ clients.size());
                         break;
                     }
-                } catch (InterruptedException | IOException | NotExistingPlayerException | NotAvailableMarkerException |
-                         DeckIsEmptyException e) {
+                } catch (InterruptedException | IOException | NotExistingPlayerException e) {
                     throw new RuntimeException(e);
                 }
             }
         }).start();
     }
 
-    public void disconnect(ClientHandlerInterface client) throws IOException, NotExistingPlayerException, NotAvailableMarkerException, DeckIsEmptyException {
+    public void disconnect(ClientHandlerInterface client) throws IOException, NotExistingPlayerException {
         try {
             if (clients.get(client).getGameId() != -1) {
                 if (gameHandlerMap.get(clients.get(client).getGameId()).getGame().getGameStatus().getStatusNumber() < GameStatus.GAME_STARTED.getStatusNumber() &&
@@ -147,10 +147,6 @@ public class Server extends Thread implements ServerRMIInterface {
             clients.get(client).reset();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } catch (NotAvailableMarkerException e) {
-            throw new RuntimeException(e);
-        } catch (DeckIsEmptyException e) {
-            throw new RuntimeException(e);
         }
         catch (NullPointerException ignored)
         {
@@ -172,7 +168,7 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     @Override
-    public ArrayList<Integer> setReady(int gameId, String username) throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException, NotEnoughPlayersException {
+    public ArrayList<Integer> setReady(int gameId, String username) throws IOException, DeckIsEmptyException, NotExistingPlayerException, InterruptedException {
         return this.gameHandlerMap.get(gameId).setReady(username);
     }
     public HashMap<String, Boolean> getReadyStatus(int gameId) throws RemoteException
@@ -196,12 +192,6 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
 
-    @Override
-    public BlockingQueue<Boolean> getQueue(int gameId) {
-
-        return gameHandlerMap.get(gameId).getQueue();
-    }
-
 
     public GameHandler getGameHandler(int gameId){
         return gameHandlerMap.get(gameId);
@@ -215,8 +205,6 @@ public class Server extends Thread implements ServerRMIInterface {
                             client.update(event, gameUpdate);
                         } catch (IOException e) {
                             System.err.println("Failed to update client: " + e.getMessage());
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
                         } catch (NotExistingPlayerException e) {
                             throw new RuntimeException(e);
                         }

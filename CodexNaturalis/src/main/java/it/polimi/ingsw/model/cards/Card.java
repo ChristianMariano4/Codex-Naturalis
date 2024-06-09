@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.enumerations.Side;
-import it.polimi.ingsw.exceptions.CardTypeMismatchException;
-import it.polimi.ingsw.exceptions.UnlinkedCardException;
 import it.polimi.ingsw.model.CardVisitor;
 
 import java.io.Serializable;

@@ -10,7 +10,7 @@ public class DrawCardMessage extends UserMessage{
     public DrawCardMessage(String username, int gameId, CardType cardType, DrawPosition drawPosition) {
         super(username, gameId);
         this.cardType = cardType;
-        this.drawPosition = drawPosition;;
+        this.drawPosition = drawPosition;
     }
 
 }

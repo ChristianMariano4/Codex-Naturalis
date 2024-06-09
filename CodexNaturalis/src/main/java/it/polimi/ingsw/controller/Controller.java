@@ -274,7 +274,7 @@ public class Controller {
 
     /**
      * Calculate the final points of the players
-     * @throws CardTypeMismatchException if the card type doesn't match
+     * @throws CardTypeMismatchException if one of the objective cards is wrong
      */
     public synchronized void calculateAndUpdateFinalPoints() throws CardTypeMismatchException {
         Game game = gameHandler.getGame();

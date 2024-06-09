@@ -2,10 +2,7 @@ package it.polimi.ingsw.view.GUI.GUIControllers;
 
 import it.polimi.ingsw.view.GUI.GUI;
 import it.polimi.ingsw.view.GUI.ViewGUI;
-import it.polimi.ingsw.view.View;
-import javafx.fxml.FXML;
 
-import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
 public abstract class GUIController {

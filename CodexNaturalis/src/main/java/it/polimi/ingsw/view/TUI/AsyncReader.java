@@ -7,7 +7,7 @@ public class AsyncReader implements Runnable{
 
 
     Object lock;
-    private BlockingQueue<String> blockingQueue;
+    private final BlockingQueue<String> blockingQueue;
 
     AsyncReader(Object lock, BlockingQueue<String> blockingQueue)
     {

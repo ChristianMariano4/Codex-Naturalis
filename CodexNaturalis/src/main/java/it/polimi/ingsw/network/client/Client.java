@@ -70,14 +70,9 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     public abstract void quitGame() throws IOException, ServerDisconnectedException;
     @Override
     @SuppressWarnings("unchecked")
-    public synchronized void update(GameEvent event, Object gameUpdate) throws RemoteException, InterruptedException{
+    public synchronized void update(GameEvent event, Object gameUpdate) throws RemoteException{
 
             switch (event) {
-                case BOARD_UPDATED -> {
-                    //TODO: print what happened
-                    //TODO: print new board
-                    view.boardUpdate((Game) gameUpdate);
-                }
                 case NEW_PLAYER -> {
                     view.update((Game) gameUpdate);
                     view.newPlayer((Game) gameUpdate);

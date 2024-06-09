@@ -1,19 +1,11 @@
 package it.polimi.ingsw.main;
 
 import it.polimi.ingsw.exceptions.ServerDisconnectedException;
-import it.polimi.ingsw.model.GameValues;
 import it.polimi.ingsw.network.client.RMIClient;
 import it.polimi.ingsw.network.client.SocketClient;
-import it.polimi.ingsw.network.rmi.ServerRMIInterface;
 import it.polimi.ingsw.view.GUI.GUI;
-import it.polimi.ingsw.view.GUI.ViewGUI;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.Scanner;
 
 /**

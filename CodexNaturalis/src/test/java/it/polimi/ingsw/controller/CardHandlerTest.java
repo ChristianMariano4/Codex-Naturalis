@@ -1,21 +1,14 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.cardFactory.FilePathProvider;
-import it.polimi.ingsw.enumerations.AngleOrientation;
 import it.polimi.ingsw.enumerations.CardType;
-import it.polimi.ingsw.enumerations.Resource;
-import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
