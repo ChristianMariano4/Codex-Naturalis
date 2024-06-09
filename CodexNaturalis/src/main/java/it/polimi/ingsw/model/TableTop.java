@@ -17,7 +17,6 @@ import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
  */
 public class TableTop implements Serializable {
     private final DrawingField drawingField;
-    private final HashMap<Player, PlayerField> playerFieldHashMap;
     private final ArrayList<ObjectiveCard> sharedObjectiveCards;
 
     /**
@@ -28,7 +27,6 @@ public class TableTop implements Serializable {
     public TableTop(DrawingField drawingField, ArrayList<ObjectiveCard> sharedObjectiveCards) throws InvalidConstructorDataException {
         try {
             this.drawingField = drawingField;
-            this.playerFieldHashMap = new HashMap<Player, PlayerField>();
             this.sharedObjectiveCards = new ArrayList<>(sharedObjectiveCards);
         }
         catch(Exception e)
@@ -45,32 +43,6 @@ public class TableTop implements Serializable {
         return drawingField;
     }
 
-    /**
-     * Getter
-     * @return all the players and their playerFiled
-     */
-    public HashMap<Player, PlayerField> getPlayerFieldHashMap() {
-        return new HashMap<>(playerFieldHashMap);
-    }
-
-    /**
-     * Adds a player to the game
-     * @param player is the reference to the player
-     * @throws AlreadyExistingPlayerException when the player is already in the HashMap
-     * @throws AlreadyMaxNumberOfPlayersException when the number of players is already four
-     */
-    public void addPlayerField(Player player) throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException
-    {
-        if(playerFieldHashMap.entrySet().size() >= MAX_PLAYER_NUMBER)
-        {
-            throw new AlreadyMaxNumberOfPlayersException();
-        }
-        if(playerFieldHashMap.containsKey(player))
-        {
-            throw new AlreadyExistingPlayerException();
-        }
-        playerFieldHashMap.put(player, player.getPlayerField());
-    }
 
     /**
      * Getter

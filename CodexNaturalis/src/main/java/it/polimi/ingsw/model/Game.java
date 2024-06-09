@@ -75,7 +75,6 @@ public class Game implements Serializable {
         if(!(listOfPlayers.contains(player))) {
             if(listOfPlayers.size() < desiredNumberOfPlayers) {
                 this.listOfPlayers.add(player);
-                tableTop.addPlayerField(player);
                 player.setGame(this);
             } else {
                 throw new AlreadyMaxNumberOfPlayersException();

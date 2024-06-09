@@ -36,6 +36,7 @@ public class GameLobbyController extends GUIController {
     private final Integer playerNum = 1;
     public Pane exitPane;
     public Label gameIdLabel;
+    public Thread waitThread;
 
     @FXML
     public void rulebookButton() {
@@ -77,43 +78,21 @@ public class GameLobbyController extends GUIController {
     public void update(Object update) {
         if(!(update instanceof Game game))
             return;
-
-        for (int i = 0; i < 4; i++) {
-                try {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 4; i++) {
+                    try {
                         Label label = names.get(i);
                         String username = game.getListOfPlayers().get(i).getUsername();
                         Pane playerPane = playerPanes.get(i);
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                label.setText(username);
-                                label.setDisable(false);
-                                label.setVisible(true);
-                                playerPane.setDisable(false);
-                                playerPane.setVisible(true);
+                        label.setText(username);
+                        label.setDisable(false);
+                        label.setVisible(true);
+                        playerPane.setDisable(false);
+                        playerPane.setVisible(true);
 
-                            }
-                        });//multithreading javafx
-
-                    new Thread() {
-                        public void run() {
-                            try {
-                                while (!viewGUI.getPlaying()) {
-                                    Thread.sleep(1);
-                                }
-                                Platform.runLater(new Runnable() {
-
-                                    public void run() {
-                                        gui.switchScene(GUIScene.GAME);
-                                    }
-                                });
-                            } catch (Exception e) {
-                                throw new RuntimeException();
-                            }
-                        }
-                    }.start(); //waiting for game to begin
-                } catch (IndexOutOfBoundsException e) {
-                    synchronized (playerPanes) {
+                    } catch (IndexOutOfBoundsException e) {
                         names.get(i).setDisable(true);
                         names.get(i).setVisible(false);
                         playerPanes.get(i).setDisable(true);
@@ -121,6 +100,7 @@ public class GameLobbyController extends GUIController {
                     }
                 }
             }
+        });
     }
 
     @FXML
@@ -159,6 +139,8 @@ public class GameLobbyController extends GUIController {
         try {
             viewGUI.quitGame();
             viewGUI.initialize();
+            if(waitThread!=null)
+                waitThread.interrupt();
             gui.switchScene(GUIScene.LOBBY);
         }catch (Exception e)
         {
@@ -171,7 +153,6 @@ public class GameLobbyController extends GUIController {
         gameIdLabel.setText("GameId: " + viewGUI.getGame().getGameId());
         gameIdLabel.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
 
-        synchronized (playerPanes) {
             this.names.add(p1name);
             this.names.add(p2name);
             this.names.add(p3name);
@@ -184,6 +165,25 @@ public class GameLobbyController extends GUIController {
 
             Game game = viewGUI.getGame();
             update(game);
-        }
+            waitThread = new Thread(()-> {
+                    try {
+                        while (true) {
+                            if(Thread.interrupted())
+                                return;
+                            if(viewGUI.getPlaying())
+                                break;
+                            Thread.sleep(1);
+                        }
+                        Platform.runLater(new Runnable() {
+                            public void run() {
+                                gui.switchScene(GUIScene.GAME);
+                            }
+                        });
+                    } catch (InterruptedException e)
+                    {
+                        return;
+                    }
+            });
+            waitThread.start();
     }
 }

@@ -34,41 +34,6 @@ class TableTopTest {
         assertEquals(drawingField, tableTop.getDrawingField());
     }
 
-    @Test
-    void shouldReturnPlayerFieldHashMap() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
-        HashMap<Player, PlayerField> expectedPlayerFieldHashMap = new HashMap<>();
-        Player player = mock(Player.class);
-        PlayerField playerField = mock(PlayerField.class);
-        expectedPlayerFieldHashMap.put(player, playerField);
-        when(player.getPlayerField()).thenReturn(playerField);
-        tableTop.addPlayerField(player);
-        assertEquals(expectedPlayerFieldHashMap, tableTop.getPlayerFieldHashMap());
-    }
-
-    @Test
-    void shouldThrowAlreadyFourPlayersException() {
-        Player player1 = mock(Player.class);
-        Player player2 = mock(Player.class);
-        Player player3 = mock(Player.class);
-        Player player4 = mock(Player.class);
-        Player player5 = mock(Player.class);
-        assertThrows(AlreadyMaxNumberOfPlayersException.class, () -> {
-            tableTop.addPlayerField(player1);
-            tableTop.addPlayerField(player2);
-            tableTop.addPlayerField(player3);
-            tableTop.addPlayerField(player4);
-            tableTop.addPlayerField(player5);
-        });
-    }
-
-    @Test
-    void shouldThrowAlreadyExistingPlayerException() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
-        Player player = mock(Player.class);
-        tableTop.addPlayerField(player);
-        assertThrows(AlreadyExistingPlayerException.class, () -> {
-            tableTop.addPlayerField(player);
-        });
-    }
 
     @Test
     void shouldReturnSharedObjectiveCards() throws InvalidConstructorDataException {
