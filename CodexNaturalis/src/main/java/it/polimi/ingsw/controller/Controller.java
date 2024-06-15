@@ -10,16 +10,15 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * MainServer controller class
+ * MainServer controller class. This class is responsible for managing the game logic and interactions between the model and the view.
  */
 public class Controller {
     private final CardHandler cardHandler;
     private final GameHandler gameHandler;
 
-
     /**
-     * Constructor for the Controller class
-     * @param gameHandler the gameHandler of the server
+     * Constructor of the controller class
+     * @param gameHandler the gameHandler that manages the game
      */
     public Controller(GameHandler gameHandler){
         this.cardHandler = new CardHandler();
@@ -27,12 +26,13 @@ public class Controller {
     }
 
     /**
-     * Creates a new game
-     * @return the Game the method create
-     * @throws InvalidConstructorDataException if the ConstructorData are invalid
-     * @throws CardNotImportedException if a card is not imported correctly
-     * @throws CardTypeMismatchException if the cardType doesn't match
-     * @throws DeckIsEmptyException if a deck is empty
+     * Creates a new game with the specified gameId
+     * @param gameId the id of the game to be created
+     * @return the Game object created
+     * @throws InvalidConstructorDataException if the ConstructorData is invalid
+     * @throws CardNotImportedException if a card is not imported
+     * @throws CardTypeMismatchException if the cardType is wrong
+     * @throws DeckIsEmptyException if the deck is empty
      */
     public synchronized Game createGame(int gameId) throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
         //starts new thread in server and then returns new game
@@ -67,10 +67,11 @@ public class Controller {
     }
 
     /**
-     * Adds a player to the game specified by gameId
-     * @param username username of the player to be added
-     * @throws AlreadyExistingPlayerException when the player we want to add already exists in the game
-     * @throws AlreadyMaxNumberOfPlayersException when the game already contains the maximum amount of players
+     * Adds a player to the game
+     * @param username username of the player to be added to the game
+     * @param desiredNumberOfPlayers the desired number of players in the game
+     * @throws AlreadyExistingPlayerException when the player already exists in the game
+     * @throws AlreadyMaxNumberOfPlayersException when the game already has the maximum number of players
      */
     public synchronized Game addPlayerToGame(String username, int desiredNumberOfPlayers) throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
         try {
@@ -83,15 +84,15 @@ public class Controller {
     }
 
     /**
-     * Starts the game when all players are ready
-     * @throws CardTypeMismatchException
-     * @throws InvalidConstructorDataException
-     * @throws CardNotImportedException
-     * @throws DeckIsEmptyException
-     * @throws AlreadyExistingPlayerException
-     * @throws AlreadyMaxNumberOfPlayersException
-     * @throws IOException
-     * @throws UnlinkedCardException
+     * Starts and initializes the game when all players are ready
+     * @throws CardTypeMismatchException if the card type is wrong
+     * @throws InvalidConstructorDataException if the ConstructorData is invalid
+     * @throws CardNotImportedException if a card is not imported
+     * @throws DeckIsEmptyException if the deck is empty
+     * @throws AlreadyExistingPlayerException  if the player already exists
+     * @throws AlreadyMaxNumberOfPlayersException if the game already has the maximum number of players
+     * @throws IOException if an I/O error occurs
+     * @throws UnlinkedCardException if we want to check the links of a card that is not linked
      */
     public synchronized Game initializeGame() throws CardTypeMismatchException, InvalidConstructorDataException, CardNotImportedException, DeckIsEmptyException, AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException, IOException, UnlinkedCardException, AlreadyThreeCardsInHandException {
         //shuffle the list of player to determine the order of play
@@ -114,9 +115,10 @@ public class Controller {
     }
 
     /**
-     * Set the chosen marker to the player
-     * @param player the player that has chosen the marker
+     * Set the chosen marker to the player and remove it from the available markers
+     * @param player the player that has to choose the marker
      * @param marker the marker chosen by the player
+     * @throws NotExistingPlayerException if the player doesn't exist
      */
     public synchronized void setMarker(Player player, Marker marker) throws NotExistingPlayerException {
         gameHandler.getGame().getPlayer(player.getUsername()).setMarker(marker);
@@ -124,7 +126,7 @@ public class Controller {
     }
 
     /**
-     * Give a starter card to the player
+     * Give a starter card to the player and remove it from the available starter cards
      * @param player the player that has to receive the card
      * @return the starter card given to the player
      * @throws DeckIsEmptyException if the deck is empty
@@ -138,9 +140,11 @@ public class Controller {
     }
 
     /**
-     * Give to the player the initial 3 cards in his hand
+     * Initialize the starter card of the player and add it to the player field
      * @param player the player that has to receive the cards
-     * @throws DeckIsEmptyException if the deck is empty
+     * @param starterCard the starter card that has to be given to the player
+     * @param side the side of the card that has to be given to the player
+     * @throws NotExistingPlayerException if the player doesn't exist
      */
     public synchronized void initializeStarterCard(Player player, StarterCard starterCard, Side side) throws NotExistingPlayerException {
         Player playerObj = gameHandler.getPlayer(player.getUsername());
@@ -153,7 +157,7 @@ public class Controller {
 
     /**
      * Give to the player 2 secret objective cards to choose from
-     * @return a list composed of the two secret objective cards
+     * @return a list composed of the two secret objective cards given to the player
      * @throws DeckIsEmptyException if the deck is empty
      */
     public synchronized ArrayList<ObjectiveCard> takeTwoObjectiveCards() throws DeckIsEmptyException {
@@ -164,16 +168,16 @@ public class Controller {
     }
 
     /**
-     * Add a secret objective card to the deck
-     * @param objectiveCard
+     * Add a secret objective card to the deck of the game
+     * @param objectiveCard the objective card that has to be added to the deck
      */
     public synchronized void addObjectiveCardToDeck(ObjectiveCard objectiveCard) throws NullPointerException {
         this.gameHandler.getGame().getObjectiveCardDeck().addCard(objectiveCard);
     }
 
     /**
-     * Inizialize the playerHand of the player
-     * @param player
+     * Initialize the playerHand of the player with 3 cards
+     * @param player the player that has to receive the cards
      * @throws DeckIsEmptyException if the deck is empty
      * @throws AlreadyThreeCardsInHandException if there are already three cards in the player hand
      */
@@ -192,7 +196,6 @@ public class Controller {
         Player playerObj = gameHandler.getPlayer(player.getUsername());
         playerObj.setSecretObjective(chosenObjectiveCard);
     }
-
 
     /**
      * Play a card from the player hand to the player field
@@ -220,7 +223,6 @@ public class Controller {
             throw new RequirementsNotMetException();
         }
     }
-
 
     /**
      * Update the resources of the player after playing a card
@@ -262,10 +264,8 @@ public class Controller {
                     player.updateResourceAmount(angle.getLinkedAngle().getResource(), -1);
                 }
             }
-            catch (UnlinkedCardException e)
+            catch (UnlinkedCardException | NoneResourceException e)
             {
-                continue;
-            } catch (NoneResourceException e) {
                 continue;
             }
 
@@ -273,7 +273,7 @@ public class Controller {
     }
 
     /**
-     * Calculate the final points of the players
+     * Calculate the final points of the players and update them
      * @throws CardTypeMismatchException if one of the objective cards is wrong
      */
     public synchronized void calculateAndUpdateFinalPoints() throws CardTypeMismatchException {
@@ -308,7 +308,7 @@ public class Controller {
     }
 
     /**
-     * Draw a card from the drawing field
+     * Draw a card from the drawing field and add it to the player hand
      * @param player the player that has to draw the card
      * @param cardType the type of the card that has to be drawn
      * @param drawPosition the position from where the card has to be drawn
@@ -328,16 +328,16 @@ public class Controller {
     }
 
     /**
-     * Get the cardHandler
-     * @return the gameHandler
+     * Get the cardHandler of the controller
+     * @return the gameHandler of the controller
      */
     public CardHandler getCardHandler() {
         return cardHandler;
     }
 
     /**
-     * Pass the turn to the next player.
-     * If a player is disconnected, the next player is the one after the disconnected player
+     * Pass the turn to the next player
+     * If a player is disconnected, the next player is the one after the disconnected player in the list
      * @param player the player that has to pass the turn
      * @throws NotExistingPlayerException if the player doesn't exist
      */
