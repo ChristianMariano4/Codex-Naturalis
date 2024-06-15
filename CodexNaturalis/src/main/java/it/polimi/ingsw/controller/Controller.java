@@ -188,9 +188,9 @@ public class Controller {
     }
 
     /**
-     * Set the secret objective card to the player
-     * @param player the player that has to receive the card
-     * @param chosenObjectiveCard the card chosen by the player
+     * Set the secret objective card of the player
+     * @param player the player that has to receive the objective card
+     * @param chosenObjectiveCard the objective card chosen by the player
      */
     public void setSecretObjectiveCard(Player player, ObjectiveCard chosenObjectiveCard) throws NotExistingPlayerException {
         Player playerObj = gameHandler.getPlayer(player.getUsername());
@@ -198,17 +198,17 @@ public class Controller {
     }
 
     /**
-     * Play a card from the player hand to the player field
-     * @param player the player that has to play the card
-     * @param cardOnField the card on the field where the card has to be played
-     * @param cardInHand the card that has to be played from the hand
-     * @param orientation the angle where the card has to be played
-     * @return the player that has played the card
-     * @throws InvalidCardPositionException if the card position is invalid
-     * @throws CardTypeMismatchException if the card type doesn't match
-     * @throws RequirementsNotMetException if the requirements are not met
-     * @throws AngleAlreadyLinkedException if the angle is already linked
-     * @throws NotExistingPlayerException if the player doesn't exist
+     * Play a card from the hand of the player to the field
+     * @param player the player that wants to play the card
+     * @param cardOnField the card on the field on which the card has to be played
+     * @param cardInHand the card that has to be played
+     * @param orientation the orientation (angle) on which the card that has to be played
+     * @return the player that played the card
+     * @throws InvalidCardPositionException if the card position is not valid
+     * @throws CardTypeMismatchException if the card type does not match
+     * @throws RequirementsNotMetException if the requirements of the card are not met
+     * @throws AngleAlreadyLinkedException if the angle is already linked to another angle
+     * @throws NotExistingPlayerException if the player does not exist
      */
     public synchronized Player playCard(Player player, PlayableCard cardOnField, PlayableCard cardInHand, AngleOrientation orientation) throws InvalidCardPositionException, CardTypeMismatchException, RequirementsNotMetException, AngleAlreadyLinkedException, NotExistingPlayerException {
         Player playerObj = gameHandler.getPlayer(player.getUsername());
@@ -225,9 +225,9 @@ public class Controller {
     }
 
     /**
-     * Update the resources of the player after playing a card
-     * @param player the player that has played the card
-     * @param cardInHand the card that has been played
+     * Update the resources of the player after playing a card on the field
+     * @param player the player that played the card
+     * @param cardInHand the card that has been played from the hand
      */
     private void updateResources(Player player, PlayableCard cardInHand)
     {
@@ -274,7 +274,7 @@ public class Controller {
 
     /**
      * Calculate the final points of the players and update them
-     * @throws CardTypeMismatchException if one of the objective cards is wrong
+     * @throws CardTypeMismatchException if one of the objective cards is wrong in type
      */
     public synchronized void calculateAndUpdateFinalPoints() throws CardTypeMismatchException {
         Game game = gameHandler.getGame();
@@ -309,12 +309,12 @@ public class Controller {
 
     /**
      * Draw a card from the drawing field and add it to the player hand
-     * @param player the player that has to draw the card
-     * @param cardType the type of the card that has to be drawn
-     * @param drawPosition the position from where the card has to be drawn
-     * @throws DeckIsEmptyException if the deck is empty
-     * @throws AlreadyThreeCardsInHandException if the player already has three cards in his hand
-     * @throws NotExistingPlayerException if the player doesn't exist
+     * @param player the player that has to draw the card from the drawing field
+     * @param cardType the type of the card that the player has to draw
+     * @param drawPosition the position from where the player has to draw the card
+     * @throws DeckIsEmptyException if the chosen deck is empty
+     * @throws AlreadyThreeCardsInHandException if the player already has three cards in hand
+     * @throws NotExistingPlayerException if the player does not exist
      */
     public synchronized void drawCard(Player player, CardType cardType, DrawPosition drawPosition) throws DeckIsEmptyException, AlreadyThreeCardsInHandException, NotExistingPlayerException {
         Player playerObj = gameHandler.getPlayer(player.getUsername());
@@ -338,8 +338,8 @@ public class Controller {
     /**
      * Pass the turn to the next player
      * If a player is disconnected, the next player is the one after the disconnected player in the list
-     * @param player the player that has to pass the turn
-     * @throws NotExistingPlayerException if the player doesn't exist
+     * @param player the player that is passing the turn
+     * @throws NotExistingPlayerException if the player doesn't exist in the game
      */
     public void nextTurn(Player player) throws NotExistingPlayerException {
         Player playerObj = gameHandler.getPlayer(player.getUsername());
@@ -361,9 +361,9 @@ public class Controller {
     }
 
     /**
-     * Set the player as disconnected
-     * @param username the username of the player that has to be set as disconnected
-     * @throws NotExistingPlayerException if the player doesn't exist
+     * Set the player status as disconnected
+     * @param username the username of the player that has to be disconnected from the game
+     * @throws NotExistingPlayerException if the player doesn't exist in the game
      */
     public void setPlayerDisconnected(String username) throws NotExistingPlayerException {
         gameHandler.getGame().getPlayer(username).setDisconnected();
