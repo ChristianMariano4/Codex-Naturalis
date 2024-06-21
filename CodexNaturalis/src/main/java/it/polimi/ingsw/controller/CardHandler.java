@@ -24,7 +24,7 @@ public class CardHandler {
     private final ArrayList<CardPair<ObjectiveCard>> objectiveCards;
     private final ArrayList<CardPair<PlayableCard>> playableCards;
     /**
-     * Constructor
+     * Constructor of the class
      */
     public CardHandler()
     {
@@ -36,9 +36,9 @@ public class CardHandler {
     }
 
     /**
-     * Create a list of GoldCards
-     * @return the list of gold cards
-     * @throws CardNotImportedException if a card is not imported correctly
+     * Create a list of GoldCards and link them
+     * @return the list of gold cards with their other side
+     * @throws CardNotImportedException if a card is not imported correctly or if a card is not linked correctly
      */
     public ArrayList<GoldCard> importGoldCards() throws CardNotImportedException {
         GoldCardFactory factory = new GoldCardFactory();
@@ -48,9 +48,9 @@ public class CardHandler {
     }
 
     /**
-     * Create a list of ResourceCards
-     * @return the list of resource cards
-     * @throws CardNotImportedException if a card is not imported correctly
+     * Create a list of ResourceCards and link them
+     * @return the list of resource cards with their other side
+     * @throws CardNotImportedException if a card is not imported correctly or if a card is not linked correctly
      */
     public ArrayList<ResourceCard> importResourceCards() throws CardNotImportedException {
         ResourceCardFactory factory = new ResourceCardFactory();
@@ -60,9 +60,9 @@ public class CardHandler {
     }
 
     /**
-     * Create a list of StarterCards
-     * @return the list of starter cards
-     * @throws CardNotImportedException if a card is not imported correctly
+     * Create a list of StarterCards and link them
+     * @return the list of starter cards with their other side
+     * @throws CardNotImportedException if a card is not imported correctly or if a card is not linked correctly
      */
     public ArrayList<StarterCard> importStarterCards() throws CardNotImportedException {
         StarterCardFactory factory = new StarterCardFactory();

@@ -224,7 +224,53 @@ public class Controller {
         }
     }
 
+    /**
+     * Update the resources of the player after playing a card on the field
+     * @param player the player that played the card
+     * @param playedCard the card that has been played from the hand
+     */
+    private void updateResources(Player player, PlayableCard playedCard)
+    {
+        for(Resource resource : playedCard.getCentralResources())
+        {
+            try {
+                player.updateResourceAmount(resource, 1);
+            }
+            catch (NoneResourceException e)
+            {
+                continue;
+            }
+        }
+        for(AngleOrientation angleOrientation : AngleOrientation.values())
+        {
+            if(angleOrientation.equals(AngleOrientation.NONE))
+            {
+                continue;
+            }
+            Angle angle = playedCard.getAngle(angleOrientation);
+            if(!angle.getResource().equals(Resource.NONE))
+            {
+                try {
+                    player.updateResourceAmount(angle.getResource(), 1);
+                }
+                catch (NoneResourceException e)
+                {
+                    continue;
+                }
+            }
+            try {
+                if (!angle.getAngleStatus().equals(AngleStatus.UNLINKED) && !angle.getLinkedAngle().getResource().equals(Resource.NONE))
+                {
+                    player.updateResourceAmount(angle.getLinkedAngle().getResource(), -1);
+                }
+            }
+            catch (UnlinkedCardException | NoneResourceException e)
+            {
+                continue;
+            }
 
+        }
+    }
 
     /**
      * Calculate the final points of the players and update them
