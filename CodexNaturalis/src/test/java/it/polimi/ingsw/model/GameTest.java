@@ -1,13 +1,31 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.enumerations.GameStatus;
+import it.polimi.ingsw.enumerations.Marker;
+import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
+import it.polimi.ingsw.exceptions.AlreadyMaxNumberOfPlayersException;
+import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
+import it.polimi.ingsw.exceptions.NotExistingPlayerException;
+import it.polimi.ingsw.model.cards.ObjectiveCard;
+import it.polimi.ingsw.model.cards.StarterCard;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 class GameTest {
-/*
+
     private Game game;
     private Deck<ObjectiveCard> objectiveCardDeck;
     private Deck<StarterCard> starterCardDeck;
     private Player player;
 
     @BeforeEach
+    @SuppressWarnings("unchecked")
     void setUp() throws InvalidConstructorDataException {
         DrawingField drawingField = mock(DrawingField.class);
         ArrayList<ObjectiveCard> sharedObjectiveCards = new ArrayList<>();
@@ -23,16 +41,10 @@ class GameTest {
     }
 
     @Test
-    void shouldAddPlayer() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
-        game.addPlayer(player);
-        assertEquals(1, game.getNumberOfPlayers());
-    }
-
-    @Test
     void shouldThrowExceptionWhenAddingExistingPlayer() {
         assertThrows(AlreadyExistingPlayerException.class, () -> {
-            game.addPlayer(player);
-            game.addPlayer(player);
+            game.addPlayer(player, 2);
+            game.addPlayer(player, 2);
         });
     }
 
@@ -41,7 +53,7 @@ class GameTest {
         assertThrows(AlreadyMaxNumberOfPlayersException.class, () -> {
             for(int i = 0; i < 5; i++) {
                 Player player = mock(Player.class);
-                game.addPlayer(player);
+                game.addPlayer(player, 2);
             }
         });
     }
@@ -64,8 +76,8 @@ class GameTest {
     @Test
     void shouldReturnListOfPlayers() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
         Player player2 = mock(Player.class);
-        game.addPlayer(player);
-        game.addPlayer(player2);
+        game.addPlayer(player, 2);
+        game.addPlayer(player2, 2);
         ArrayList<Player> players = game.getListOfPlayers();
         assertEquals(2, players.size());
         assertTrue(players.contains(player));
@@ -83,14 +95,6 @@ class GameTest {
     }
 
     @Test
-    void shouldRemoveMarker() {
-        game.removeMarker(Marker.YELLOW);
-        ArrayList<Marker> markers = game.getAvailableMarkers();
-        assertEquals(Marker.values().length - 2, markers.size());
-        assertFalse(markers.contains(Marker.YELLOW));
-    }
-
-    @Test
     void shouldReturnCurrentPlayer() {
         game.setCurrentPlayer(player);
         assertEquals(player, game.getCurrentPlayer());
@@ -103,8 +107,17 @@ class GameTest {
     }
 
     @Test
-    void shouldReturnGameStarted() {
-        assertFalse(game.getgameStarted());
+    void shouldReturnCorrectGameStatus() {
+        assertEquals(GameStatus.LOBBY_CREATED, game.getGameStatus());
+
+        game.setGameStatus(GameStatus.ALL_PLAYERS_JOINED);
+        assertEquals(GameStatus.ALL_PLAYERS_JOINED, game.getGameStatus());
+
+        game.setIsGameEnded(true);
+        assertTrue(game.getIsGameEnded());
+
+        game.setIsGameEndedForDisconnection(true);
+        assertTrue(game.getIsGameEndedForDisconnection());
     }
 
     @Test
@@ -113,10 +126,10 @@ class GameTest {
         Player player2 = mock(Player.class);
         Player player3 = mock(Player.class);
         Player player4 = mock(Player.class);
-        game.addPlayer(player1);
-        game.addPlayer(player2);
-        game.addPlayer(player3);
-        game.addPlayer(player4);
+        game.addPlayer(player1, 4);
+        game.addPlayer(player2, 4);
+        game.addPlayer(player3, 4);
+        game.addPlayer(player4, 4);
         ArrayList<Player> originalOrder = new ArrayList<>(game.getListOfPlayers());
 
         game.shufflePlayers();
@@ -126,6 +139,17 @@ class GameTest {
     }
 
     @Test
+    void shouldRemovePlayer() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException, InvalidConstructorDataException {
+        Player player1 = new Player("player1");
+        Player player2 = mock(Player.class);
+        game.addPlayer(player1, 2);
+        game.addPlayer(player2, 2);
+        game.removePlayer(player1.getUsername());
+        assertFalse(game.getListOfPlayers().contains(player1));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
     void shouldInitializeGameWithValidData() {
         DrawingField drawingField = mock(DrawingField.class);
         ArrayList<ObjectiveCard> sharedObjectiveCards = new ArrayList<>();
@@ -135,6 +159,7 @@ class GameTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void shouldThrowInvalidConstructorDataExceptionWhenSharedObjectiveCardsIsNull() {
         DrawingField drawingField = mock(DrawingField.class);
         Deck<ObjectiveCard> objectiveCardDeck = mock(Deck.class);
@@ -150,15 +175,13 @@ class GameTest {
 
     @Test
     void shouldThrowExceptionWhenPlayerDoesNotExist() {
-        assertThrows(NotExistingPlayerException.class, () -> {
-            game.getPlayer("nonexistent");
-        });
+        assertThrows(NotExistingPlayerException.class, () -> game.getPlayer("nonexistent"));
     }
 
     @Test
     void shouldReturnPlayerWhenPlayerExists() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
         when(player.getUsername()).thenReturn("existing");
-        game.addPlayer(player);
+        game.addPlayer(player, 2);
         assertDoesNotThrow(() -> {
             Player existingPlayer = game.getPlayer("existing");
             assertEquals(player, existingPlayer);
@@ -168,16 +191,9 @@ class GameTest {
     @Test
     void shouldThrowExceptionWhenPlayerNotExists() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
         when(player.getUsername()).thenReturn("existing");
-        game.addPlayer(player);
-        assertThrows(NotExistingPlayerException.class,() -> {
-            game.getPlayer("notexisting");
-        });
+        game.addPlayer(player, 2);
+        assertThrows(NotExistingPlayerException.class,() -> game.getPlayer("notexisting"));
     }
 
-    @Test
-    void shouldRemoveMarkerWhenMarkerExists() {
-        game.removeMarker(Marker.YELLOW);
-        assertFalse(game.getAvailableMarkers().contains(Marker.YELLOW));
-    }
-*/
+
 }

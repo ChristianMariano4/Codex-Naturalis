@@ -144,13 +144,13 @@ public class DrawingField implements Serializable {
     {
         return resourceCardDeck.isEmpty() && goldCardDeck.isEmpty();
     }
+
     /**
      * See if all decks and discovered cards are not there
      *
      * @return true if both decks are empty
      */
-    public boolean getNoCardsLeft()
-    {
+    public boolean getNoCardsLeft() {
         return resourceCardDeck.isEmpty() && goldCardDeck.isEmpty() && discoveredResourceCards.isEmpty() && discoveredGoldCards.isEmpty();
     }
 }

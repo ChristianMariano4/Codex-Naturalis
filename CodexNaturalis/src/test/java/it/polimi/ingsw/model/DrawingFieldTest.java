@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.DrawPosition;
-import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
@@ -18,13 +17,21 @@ class DrawingFieldTest {
     private DrawingField drawingField;
     private Deck<GoldCard> goldCardDeck;
     private Deck<ResourceCard> resourceCardDeck;
+    HashMap<DrawPosition, GoldCard> discoveredGoldCards;
+    HashMap<DrawPosition, ResourceCard> discoveredResourceCards;
+
 
     @BeforeEach
-    void setUp() throws DeckIsEmptyException, CardTypeMismatchException {
+    @SuppressWarnings("unchecked")
+    void setUp() throws DeckIsEmptyException {
         goldCardDeck = mock(Deck.class);
         resourceCardDeck = mock(Deck.class);
+        discoveredResourceCards = mock(HashMap.class);
+        discoveredGoldCards = mock(HashMap.class);
         when(goldCardDeck.getTopCard()).thenReturn(mock(GoldCard.class));
         when(resourceCardDeck.getTopCard()).thenReturn(mock(ResourceCard.class));
+        when(goldCardDeck.seeTopCard()).thenReturn(mock(GoldCard.class));
+        when(resourceCardDeck.seeTopCard()).thenReturn(mock(ResourceCard.class));
         drawingField = new DrawingField(goldCardDeck, resourceCardDeck);
     }
 
@@ -59,14 +66,14 @@ class DrawingFieldTest {
 
     @Test
     void shouldDrawCardFromDiscoveredGoldCards() throws DeckIsEmptyException {
-        when(goldCardDeck.getTopCard()).thenReturn(mock(GoldCard.class), null);
+        when(goldCardDeck.getTopCard()).thenReturn(mock(GoldCard.class), (GoldCard) null);
         drawingField.setDiscoveredCards();
         assertNotNull(drawingField.drawCardFromGoldCardDeck(DrawPosition.LEFT));
     }
 
     @Test
     void shouldDrawCardFromDiscoveredResourceCards() throws DeckIsEmptyException {
-        when(resourceCardDeck.getTopCard()).thenReturn(mock(ResourceCard.class), null);
+        when(resourceCardDeck.getTopCard()).thenReturn(mock(ResourceCard.class), (ResourceCard) null);
         drawingField.setDiscoveredCards();
         assertNotNull(drawingField.drawCardFromResourceCardDeck(DrawPosition.LEFT));
     }
@@ -119,6 +126,31 @@ class DrawingFieldTest {
         assertEquals(2, discoveredResourceCards.size());
         assertTrue(discoveredResourceCards.containsKey(DrawPosition.LEFT));
         assertTrue(discoveredResourceCards.containsKey(DrawPosition.RIGHT));
+    }
+
+    @Test
+    void shouldReturnTopCard() throws DeckIsEmptyException {
+        assertNotNull(drawingField.seeTopResourceCard());
+        assertNotNull(drawingField.seeTopGoldCard());
+    }
+
+    @Test
+    void shouldReturnTrueIfBothDeckAreEmpty(){
+        when(goldCardDeck.isEmpty()).thenReturn(true);
+        when(resourceCardDeck.isEmpty()).thenReturn(true);
+        assertTrue(drawingField.getBothDecksEmpty());
+    }
+
+    @Test
+    void shouldReturnTrueIfNoCardsAreLeft() throws DeckIsEmptyException {
+        when(goldCardDeck.getTopCard()).thenReturn(mock(GoldCard.class), (GoldCard) null);
+
+        when(goldCardDeck.isEmpty()).thenReturn(true);
+        when(resourceCardDeck.isEmpty()).thenReturn(true);
+        when(discoveredGoldCards.isEmpty()).thenReturn(true);
+        when(discoveredResourceCards.isEmpty()).thenReturn(true);
+
+        assertTrue(drawingField.getNoCardsLeft());
     }
 }
   

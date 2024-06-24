@@ -14,7 +14,6 @@ class PlayerTest {
 
     private Player player;
     private Game game;
-    private PlayableCard card;
 
     @BeforeEach
     void setUp() throws InvalidConstructorDataException {
@@ -25,7 +24,6 @@ class PlayerTest {
         when(tableTop.getDrawingField()).thenReturn(drawingField);
         player = new Player("testPlayer");
         player.setGame(game);
-        card = mock(PlayableCard.class);
     }
 
     @Test
@@ -121,14 +119,26 @@ class PlayerTest {
     }
 
     @Test
-    void testChooseGoldCardToDrawWithDeckIsEmptyException() throws AlreadyThreeCardsInHandException, NoCardAddedException, DeckIsEmptyException {
+    void testChooseGoldCardToDrawWithDeckIsEmptyException() throws DeckIsEmptyException {
         when(game.getTableTop().getDrawingField().drawCardFromGoldCardDeck(any())).thenThrow(new DeckIsEmptyException());
         assertThrows(NoCardAddedException.class, () -> player.chooseGoldCardToDraw(DrawPosition.LEFT));
     }
 
     @Test
-    void testChooseResourceCardToDrawWithDeckIsEmptyException() throws AlreadyThreeCardsInHandException, NoCardAddedException, DeckIsEmptyException {
+    void testChooseResourceCardToDrawWithDeckIsEmptyException() throws DeckIsEmptyException {
         when(game.getTableTop().getDrawingField().drawCardFromResourceCardDeck(any())).thenThrow(new DeckIsEmptyException());
         assertThrows(NoCardAddedException.class, () -> player.chooseResourceCardToDraw(DrawPosition.LEFT));
+    }
+
+    @Test
+    void testPlayerConnectionFlags() {
+        player.setDisconnected();
+        assertTrue(player.getIsDisconnected());
+
+        player.setConnected();
+        assertFalse(player.getIsDisconnected());
+
+        player.setReconnecting();
+        assertTrue(player.getIsReconnecting());
     }
 }
