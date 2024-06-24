@@ -10,7 +10,10 @@ import javafx.scene.layout.Pane;
 
 import java.util.*;
 
-
+/**
+ * This class is responsible for controlling the scoreboard in the GUI.
+ * It extends the GUIController class.
+ */
 public class ScoreboardController extends GUIController{
 
     public TextArea playerPoints;
@@ -25,6 +28,11 @@ public class ScoreboardController extends GUIController{
     public Label p3Label;
     private final ArrayList<Label> labels = new ArrayList<>();
 
+    /**
+     * Initializes the scene by adding all panes and labels to their respective lists.
+     * It then retrieves the current game from the viewGUI and sorts the players based on their points.
+     * Finally, it sets the visibility and enabled state of each pane and label based on the sorted players.
+     */
     @Override
     public void sceneInitializer() {
         panes.add(p0);
@@ -57,8 +65,12 @@ public class ScoreboardController extends GUIController{
             labels.get(pane).setText(player + ": " + playersPlacement.get(player));
             pane++;
         }
-
     }
+
+    /**
+     * Handles the action for the return to lobby button.
+     * It initializes the viewGUI and changes the scene to the lobby.
+     */
     @FXML
     public void returnToLobby() {
         viewGUI.initialize();

@@ -23,6 +23,10 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/**
+ * This class is responsible for controlling the join game screen in the GUI.
+ * It extends the GUIController class.
+ */
 public class JoinGameScreenController extends GUIController {
     public ChoiceBox<String> gameList;
 
@@ -38,11 +42,19 @@ public class JoinGameScreenController extends GUIController {
     private ScheduledService<Void> service;
     public Pane exitPane;
 
+    /**
+     * Handles the action for the back button.
+     * It switches the scene to the lobby.
+     */
     @FXML
     public void back() {
         gui.switchScene(GUIScene.LOBBY);
     }
 
+    /**
+     * Handles the action for the join button.
+     * It enables and makes visible the join button if a game is selected from the list.
+     */
     @FXML
     public void joinButton() {
         if (gameList2.getSelectionModel().getSelectedItem() != null) {
@@ -51,6 +63,11 @@ public class JoinGameScreenController extends GUIController {
         }
     }
 
+    /**
+     * Handles the action for the join button.
+     * It joins the selected game and switches the scene to the game lobby or the game depending on the game status.
+     * If an exception occurs during this process, it displays the error pane.
+     */
     @FXML
     public void join(ActionEvent event) {
         int gameId;
@@ -78,17 +95,28 @@ public class JoinGameScreenController extends GUIController {
         }
     }
 
+    /**
+     * Handles the action for the exit from error button.
+     * It hides the error pane.
+     */
     @FXML
     public void exitFromErrorButton() {
         errorPane.setDisable(true);
         errorPane.setVisible(false);
     }
 
+    /**
+     * Initializes the scene by refreshing the game list.
+     */
     @Override
     public void sceneInitializer() {
         refresh();
     }
 
+    /**
+     * Handles the action for the refresh button.
+     * It disables and hides the join button, clears the game list, and then retrieves and displays the available games.
+     */
     @FXML
     public void refresh() {
         joinButton.setDisable(true);
@@ -118,16 +146,30 @@ public class JoinGameScreenController extends GUIController {
         }
     }
 
+    /**
+     * Handles the action for the quit button.
+     * It displays the exit pane.
+     */
     @FXML
     public void quitButton() {
         exitPane.setDisable(false);
         exitPane.setVisible(true);
     }
+
+    /**
+     * Handles the action for the no exit button.
+     * It hides the exit pane.
+     */
     @FXML
     public void noExitButton(ActionEvent event) {
         exitPane.setDisable(true);
         exitPane.setVisible(false);
     }
+
+    /**
+     * Handles the action for the yes exit button.
+     * It exits the platform.
+     */
     @FXML
     public void yesExitButton(ActionEvent event) {
         Platform.exit();

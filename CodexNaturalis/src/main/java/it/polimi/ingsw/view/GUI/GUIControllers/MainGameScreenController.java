@@ -31,6 +31,10 @@ import java.util.HashMap;
 
 import static it.polimi.ingsw.model.GameValues.*;
 
+/**
+ * The MainGameScreenController class is responsible for handling user interactions in the main game screen of the GUI.
+ * It extends the GUIController class.
+ */
 public class MainGameScreenController extends GUIController{
 
     private boolean inGame = false;
@@ -40,7 +44,6 @@ public class MainGameScreenController extends GUIController{
     private boolean drawingCard = false;
     public Pane scalable;
     private boolean twentyPointsReached = false;
-
 
     public Pane chatPane;
     public Pane chatButtonPane;
@@ -77,12 +80,9 @@ public class MainGameScreenController extends GUIController{
     public Button nextButton;
     public Button backButton;
 
-    private boolean frontSide = true;
-    private final int cardInHandSelected = 3;
     public Pane cardsInHandInspector;
     public Pane handCardInspector;
 
-    private final int sharedObjChoice = 2;
     public Pane objectiveCardsInspector;
     public Pane showObjCard;
 
@@ -212,6 +212,9 @@ public class MainGameScreenController extends GUIController{
     public Pane borderFieldPane;
     public Pane chatBackground;
 
+    /**
+     * Initializes the marker pane.
+     */
     private void markerPaneInitializer() {
 
         playersMarkerPane.setDisable(false);
@@ -274,6 +277,10 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * Shows the username when the mouse hovers over it.
+     * @param event The MouseEvent object.
+     */
     @FXML
     public void showUsername(MouseEvent event) {
         Pane pane = (Pane)event.getSource();
@@ -298,21 +305,18 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * Shows the other player's field when the mouse hovers over it.
+     * @param event The MouseEvent object.
+     */
     @FXML
     public void showOtherPlayerField(MouseEvent event) {
         Pane pane = (Pane) event.getSource();
-        int index = 0;
-        switch (pane.getId()) {
-            case "p1":
-                index = 0;
-                break;
-            case "p2":
-                index = 1;
-                break;
-            case "p3":
-                index = 2;
-                break;
-        }
+        int index = switch (pane.getId()) {
+            case "p2" -> 1;
+            case "p3" -> 2;
+            default -> 0;
+        };
         if(inMyField) {
             setOtherField(index);
         }
@@ -324,6 +328,10 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * Sets the other player's field.
+     * @param index The index of the other player.
+     */
     private void setOtherField(int index)
     {
         try {
@@ -348,6 +356,10 @@ public class MainGameScreenController extends GUIController{
         }
 
     }
+
+    /**
+     * Sets the current player's field.
+     */
     @FXML
     public void setMyField()
     {
@@ -373,6 +385,11 @@ public class MainGameScreenController extends GUIController{
             throw new RuntimeException();
         }
     }
+
+    /**
+     * Hides the username when the mouse is not hovering over it.
+     * @param event The MouseEvent object.
+     */
     @FXML
     public void hideUsername(MouseEvent event) {
         Pane pane = (Pane)event.getSource();
@@ -396,6 +413,10 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * Handles the action of the rulebook button.
+     * @param actionEvent The ActionEvent object.
+     */
     @FXML
     public void rulebookButton(ActionEvent actionEvent) {
         if(isInRulebook) {
@@ -408,18 +429,29 @@ public class MainGameScreenController extends GUIController{
             isInRulebook = true;
         }
     }
+
+    /**
+     * Goes to the next slide in the rulebook.
+     */
     @FXML
     public void nextRulebookSlide() {
         rulebookTabPane.getSelectionModel().select(rulebookTabPane.getSelectionModel().getSelectedIndex()+1);
         nextButton.disableProperty().bind(rulebookTabPane.getSelectionModel().selectedIndexProperty().greaterThanOrEqualTo(10));
     }
+
+    /**
+     * Goes to the previous slide in the rulebook.
+     */
     @FXML
     public void previousRulebookSlide() {
         rulebookTabPane.getSelectionModel().select(rulebookTabPane.getSelectionModel().getSelectedIndex()-1);
         backButton.disableProperty().bind(rulebookTabPane.getSelectionModel().selectedIndexProperty().lessThanOrEqualTo(0));
     }
-    public void sceneInitializer() {
 
+    /**
+     * Initializes the scene.
+     */
+    public void sceneInitializer() {
         try {
             gameIdLabel.setText("GameId: " + viewGUI.getGame().getGameId());
             gameIdLabel.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
@@ -445,6 +477,13 @@ public class MainGameScreenController extends GUIController{
             throw new RuntimeException();
         }
     }
+
+    /**
+     * Gets the URL of a card.
+     * @param card The card.
+     * @param side The side of the card.
+     * @return The URL of the card.
+     */
     private String  getCardUrl(Card card, Side side)
     {
         String url;
@@ -459,6 +498,12 @@ public class MainGameScreenController extends GUIController{
         url = url + card.getCardId() + ".png";
         return url;
     }
+
+    /**
+     * Gets the style of a card.
+     * @param url The URL of the card.
+     * @return The style of the card.
+     */
     private String getStyle(String url)
     {
         String style = "-fx-background-image: url(";
@@ -493,22 +538,27 @@ public class MainGameScreenController extends GUIController{
 
                 }
             });
-        }
-        catch (Exception e)
-        {
+        } catch (Exception ignored) {
+
         }
     };
-    private void preGame()
-    {
+
+    /**
+     * Starts a new thread that waits for the marker selection phase to begin.
+     */
+    private void preGame() {
         waitThread = new Thread(markerThread);
         waitThread.start();
     }
+
+    /**
+     * Sets the first available marker for the current player and proceeds to the starter card side selection phase.
+     */
     @FXML
-    private void markerOne()
-    {
+    private void markerOne() {
         try {
 
-            viewGUI.setMarker(viewGUI.getGame().getAvailableMarkers().get(0));
+            viewGUI.setMarker(viewGUI.getGame().getAvailableMarkers().getFirst());
         }
         catch (Exception e)
         {
@@ -518,6 +568,10 @@ public class MainGameScreenController extends GUIController{
         markerSelection.setVisible(false);
         chooseStarterCardSide();
     }
+
+    /**
+     * Sets the second available marker for the current player and proceeds to the starter card side selection phase.
+     */
     @FXML
     private void markerTwo()
     {
@@ -533,6 +587,10 @@ public class MainGameScreenController extends GUIController{
         markerSelection.setVisible(false);
         chooseStarterCardSide();
     }
+
+    /**
+     * Sets the third available marker for the current player and proceeds to the starter card side selection phase.
+     */
     @FXML
     private void markerThree()
     {
@@ -548,6 +606,10 @@ public class MainGameScreenController extends GUIController{
         markerSelection.setVisible(false);
         chooseStarterCardSide();
     }
+
+    /**
+     * Sets the fourth available marker for the current player and proceeds to the starter card side selection phase.
+     */
     @FXML
     private void markerFour()
     {
@@ -564,6 +626,12 @@ public class MainGameScreenController extends GUIController{
         chooseStarterCardSide();
     }
 
+    /**
+     * Prepares the secret objective card selection phase.
+     * It retrieves the objective cards to choose from and the shared objective cards from the viewGUI.
+     * It then sets the style of the secret and shared objective cards in the GUI.
+     * Finally, it enables and makes visible the secret objective card selection pane in the GUI.
+     */
     private void chooseSecretObjective()
     {
         ArrayList<ObjectiveCard> cards = viewGUI.getObjectiveCardsToChoose();
@@ -578,11 +646,16 @@ public class MainGameScreenController extends GUIController{
         secretObjective.setVisible(true);
 
     }
+    /**
+     * Handles the action of selecting the first secret objective card.
+     * It sets the first secret objective card for the current player in the viewGUI.
+     * It then disables and hides the secret objective card selection pane in the GUI.
+     */
     @FXML
     public void secretOne()
     {
         try {
-            viewGUI.setSecretObjective(viewGUI.getObjectiveCardsToChoose().get(0));
+            viewGUI.setSecretObjective(viewGUI.getObjectiveCardsToChoose().getFirst());
         }
         catch (Exception e)
         {
@@ -592,6 +665,7 @@ public class MainGameScreenController extends GUIController{
         secretObjective.setVisible(false);
         waitForGameBegin();
     }
+
     @FXML
     public void secretTwo()
     {
@@ -623,7 +697,7 @@ public class MainGameScreenController extends GUIController{
                 }
             });
         }
-        catch (Exception e)
+        catch (Exception ignored)
         {
         }
     };
@@ -638,7 +712,6 @@ public class MainGameScreenController extends GUIController{
         new Thread(waitGameBeginThread).start();
 
     }
-
 
     private void chooseStarterCardSide()
     {
@@ -712,7 +785,7 @@ public class MainGameScreenController extends GUIController{
     public void initializeChat() {
         chatButtonPane.setDisable(false);
         chatButtonPane.setVisible(true);
-        chatList.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+        chatList.setCellFactory(new Callback<>() {
             @Override
             public ListCell<String> call(ListView<String> list) {
                 final ListCell cell = new ListCell() {
@@ -725,6 +798,7 @@ public class MainGameScreenController extends GUIController{
                             setPrefWidth(chatList.getPrefWidth() - 5);
                             setTextFill(Color.WHITE);
                             setWrapText(true);
+                            assert item != null;
                             setText(item.toString());
 
                         }
@@ -740,12 +814,9 @@ public class MainGameScreenController extends GUIController{
         chatMessages.add("Write a public message or /[player's username] to send a private message");
             new Thread(() -> { //this thread solved a bug with lookup
                 while (chatList.lookup(".scroll-bar:vertical") == null);
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        chatScrollBar = (ScrollBar) chatList.lookup(".scroll-bar:vertical");
-                        chatScrollBar.visibleAmountProperty().addListener(e -> chatList.scrollTo(chatMessages.getLast()));
-                    }
+                Platform.runLater(() -> {
+                    chatScrollBar = (ScrollBar) chatList.lookup(".scroll-bar:vertical");
+                    chatScrollBar.visibleAmountProperty().addListener(e -> chatList.scrollTo(chatMessages.getLast()));
                 });
             }).start();
 
@@ -775,10 +846,9 @@ public class MainGameScreenController extends GUIController{
                 if (resource.equals(Resource.NONE))
                     continue;
 
-                Label resourceLabel = null;
+                Label resourceLabel;
                 switch(resource){
                     case FUNGI -> {
-
                         resourceLabel = fungi;
                     }
                     case ANIMAL -> {
@@ -812,6 +882,12 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * This method sets the text of the turnLabel to indicate whose turn it is.
+     * It also sets the style of the turnLHbox and enables or disables the playCard and drawCard buttons based on whose turn it is.
+     * The turnLabel is then made visible.
+     * If an exception occurs, a RuntimeException is thrown.
+     */
     private void setTurn()
     {
         try {
@@ -859,6 +935,11 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * This method initializes the player's hand by adding cards to the playerHandPanes list.
+     * It then sets the visibility and enabled state of the cards based on the parameter 'enabled'.
+     * If an exception occurs, a RuntimeException is thrown.
+     */
     private void initializePlayerHand(PlayerHand hand, Side side, boolean enabled)
     {
         playerHandPanes.add(card1);
@@ -896,6 +977,11 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * This method is used to show the other side of the card in hand.
+     * It checks if the front side of the card is currently being shown, and if so, it sets the side to BACK and calls the showCardInHand method.
+     * If the back side of the card is currently being shown, it sets the side to FRONT and calls the showCardInHand method.
+     */
     @FXML
     public void showOtherCardInHandSide() {
         if(inspectedCardInfo.getFrontSide()) {
@@ -908,6 +994,11 @@ public class MainGameScreenController extends GUIController{
             inspectedCardInfo.setFrontSide(true);
         }
     }
+
+    /**
+     * This method is used to select the first card in the hand for inspection.
+     * It sets the cardInHandSelected to 0 and the side to FRONT, then calls the showCardInHand method.
+     */
     @FXML
     public void card1HandInspectorButton() {
         inspectedCardInfo.setCardInHandSelected(0);
@@ -915,6 +1006,11 @@ public class MainGameScreenController extends GUIController{
         //cardInHandSelected = 0;
         showCardInHand();
     }
+
+    /**
+     * This method is used to select the second card in the hand for inspection.
+     * It sets the cardInHandSelected to 1 and the side to FRONT, then calls the showCardInHand method.
+     */
     @FXML
     public void card2HandInspectorButton() {
         inspectedCardInfo.setCardInHandSelected(1);
@@ -922,6 +1018,11 @@ public class MainGameScreenController extends GUIController{
         //cardInHandSelected = 1;
         showCardInHand();
     }
+
+    /**
+     * This method is used to select the third card in the hand for inspection.
+     * It sets the cardInHandSelected to 2 and the side to FRONT, then calls the showCardInHand method.
+     */
     @FXML
     public void card3HandInspectorButton() {
         inspectedCardInfo.setCardInHandSelected(2);
@@ -929,6 +1030,14 @@ public class MainGameScreenController extends GUIController{
         //cardInHandSelected = 2;
         showCardInHand();
     }
+
+    /**
+     * This method is used to display the selected card from the player's hand in the GUI.
+     * It first retrieves the current game state from the viewGUI.
+     * It then enables and makes visible the card inspector for the cards in hand, and disables and hides the player's field and the border field pane in the GUI.
+     * Finally, it sets the style of the hand card inspector based on the card selected for inspection.
+     * If an exception occurs during this process, a RuntimeException is thrown.
+     */
     private void showCardInHand() {
         Game game = viewGUI.getGame();
 
@@ -945,6 +1054,13 @@ public class MainGameScreenController extends GUIController{
             throw new RuntimeException();
         }
     }
+
+    /**
+     * This method is used to show the card in hand.
+     * It sets the visibility and enabled state of the cardsInHandInspector, playerField, and borderFieldPane.
+     * It then sets the style of the handCardInspector based on the card selected for inspection.
+     * If an exception occurs, a RuntimeException is thrown.
+     */
     @FXML
     public void playCardButton() {
         cardsInHandInspector.setDisable(true);
@@ -956,10 +1072,13 @@ public class MainGameScreenController extends GUIController{
         playingCard = true;
 
         setAdditionalPanesVisibility(true);
-
-
     }
 
+    /**
+     * This method is used to set the visibility and enabled state of the additional panes.
+     * It iterates over the fieldPanes array and sets the visibility and enabled state of each pane based on the parameter 'visible'.
+     * If an exception occurs, a RuntimeException is thrown.
+     */
     private void setAdditionalPanesVisibility(boolean visible)
     {
         try {
@@ -971,13 +1090,16 @@ public class MainGameScreenController extends GUIController{
                     }
                 }
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new RuntimeException();
         }
     }
 
+    /**
+     * This method is used when the exit hand button is clicked.
+     * It sets the visibility and enabled state of the cardsInHandInspector, playerField, and borderFieldPane.
+     * It also sets the cardInHandSelected to 3 and the frontSide to true.
+     */
     @FXML
     public void exitHandButton() {
         cardsInHandInspector.setDisable(true);
@@ -988,22 +1110,30 @@ public class MainGameScreenController extends GUIController{
         borderFieldPane.setVisible(true);
         inspectedCardInfo.setCardInHandSelected(3);
         inspectedCardInfo.setFrontSide(true);
-        //inspectedCardInfo reset to default values
     }
-    //SHOW SHARED OBJECTIVE CARDS
+
+    /**
+     * This method is used to show the other side of the shared objective card.
+     * It checks if the front side of the card is currently being shown, and if so, it sets the side to BACK and calls the showSharedObjCard method.
+     * If the back side of the card is currently being shown, it sets the side to FRONT and calls the showSharedObjCard method.
+     */
     @FXML
     public void showOtherSharedObjCardSide() {
         if(inspectedCardInfo.getFrontSide()) {
             inspectedCardInfo.setSide(Side.BACK);
             showSharedObjCard();
             inspectedCardInfo.setFrontSide(false);
-            //frontSide = false;
         } else {
             inspectedCardInfo.setSide(Side.FRONT);
             showSharedObjCard();
             inspectedCardInfo.setFrontSide(true);
         }
     }
+
+    /**
+     * This method is used to select the first shared objective card for inspection.
+     * It sets the sharedObjChoice to 0 and the side to FRONT, then calls the showSharedObjCard method.
+     */
     @FXML
     public void sharedObjCardButtonOne() {
         inspectedCardInfo.setSharedObjChoice(0);
@@ -1012,6 +1142,11 @@ public class MainGameScreenController extends GUIController{
         //sharedObjChoice = 0;
         showSharedObjCard();
     }
+
+    /**
+     * This method is used to select the second shared objective card for inspection.
+     * It sets the sharedObjChoice to 1 and the side to FRONT, then calls the showSharedObjCard method.
+     */
     @FXML
     public void sharedObjCardButtonTwo() {
         inspectedCardInfo.setSharedObjChoice(1);
@@ -1019,9 +1154,14 @@ public class MainGameScreenController extends GUIController{
         inspectedCardInfo.setFrontSide(true);
         showSharedObjCard();
     }
-    private void showSharedObjCard() {
-        Game game = viewGUI.getGame();
 
+    /**
+     * This method is used to show the shared objective card.
+     * It sets the visibility and enabled state of the objectiveCardsInspector, playerField, and borderFieldPane.
+     * It then sets the style of the showObjCard based on the shared objective card selected for inspection.
+     * If an exception occurs, a RuntimeException is thrown.
+     */
+    private void showSharedObjCard() {
         objectiveCardsInspector.setDisable(false);
         objectiveCardsInspector.setVisible(true);
         playerField.setDisable(true);
@@ -1036,6 +1176,12 @@ public class MainGameScreenController extends GUIController{
             throw new RuntimeException();
         }
     }
+
+    /**
+     * This method is used when the exit objective button is clicked.
+     * It sets the visibility and enabled state of the objectiveCardsInspector, playerField, and borderFieldPane.
+     * It also sets the sharedObjChoice to 2 and the frontSide to true.
+     */
     @FXML
     public void exitObjectiveButton() {
         objectiveCardsInspector.setDisable(true);
@@ -1047,7 +1193,12 @@ public class MainGameScreenController extends GUIController{
         inspectedCardInfo.setSharedObjChoice(2);
         inspectedCardInfo.setFrontSide(true);
     }
-    //SHOW SECRET OBJECTIVE CARD
+
+    /**
+     * This method is used to show the other side of the secret objective card.
+     * It checks if the front side of the card is currently being shown, and if so, it sets the side to BACK and calls the showSecretObjCard method.
+     * If the back side of the card is currently being shown, it sets the side to FRONT and calls the showSecretObjCard method.
+     */
     @FXML
     public void showOtherSecretObjCardSide() {
         if(inspectedCardInfo.getFrontSide()) {
@@ -1060,12 +1211,24 @@ public class MainGameScreenController extends GUIController{
             inspectedCardInfo.setFrontSide(true);
         }
     }
+
+    /**
+     * This method is used to select the secret objective card for inspection.
+     * It sets the side to FRONT, then calls the showSecretObjCard method.
+     */
     @FXML
     public void secretObjCardButton() {
         inspectedCardInfo.setSide(Side.FRONT);
         inspectedCardInfo.setFrontSide(true);
         showSecretObjCard();
     }
+
+    /**
+     * This method is used to show the secret objective card.
+     * It sets the visibility and enabled state of the secretObjCardsInspector, playerField, and borderFieldPane.
+     * It then sets the style of the showSObjCard based on the secret objective card selected for inspection.
+     * If an exception occurs, a RuntimeException is thrown.
+     */
     private void showSecretObjCard() {
         secretObjCardsInspector.setDisable(false);
         secretObjCardsInspector.setVisible(true);
@@ -1080,6 +1243,12 @@ public class MainGameScreenController extends GUIController{
             throw new RuntimeException();
         }
     }
+
+    /**
+     * This method is used when the exit secret objective button is clicked.
+     * It sets the visibility and enabled state of the secretObjCardsInspector, playerField, and borderFieldPane.
+     * It also sets the frontSide to true.
+     */
     @FXML
     public void exitObjectiveSecretButton() {
         secretObjCardsInspector.setDisable(true);
@@ -1090,7 +1259,11 @@ public class MainGameScreenController extends GUIController{
         borderFieldPane.setVisible(true);
         inspectedCardInfo.setFrontSide(true);
     }
-    //SHOW DRAWING FIELD CARD
+    /**
+     * This method is used to show the other side of the drawing field card.
+     * It checks if the front side of the card is currently being shown, and if so, it sets the side to BACK and calls the showDrawingFieldCard method.
+     * If the back side of the card is currently being shown, it sets the side to FRONT and calls the showDrawingFieldCard method.
+     */
     @FXML
     public void showOtherDrawingCardSide() {
         if(!inspectedCardInfo.getFromDeck()) {
@@ -1105,6 +1278,13 @@ public class MainGameScreenController extends GUIController{
             }
         }
     }
+
+    /**
+     * This method is triggered when the left deck button is clicked.
+     * It sets the side of the inspected card to BACK, the card type to RESOURCE, and indicates that the card is from the deck.
+     * It also sets the draw position to FROMDECK.
+     * Finally, it calls the showDrawingFieldCard method to display the card.
+     */
     @FXML
     public void leftDeckButton() {
         inspectedCardInfo.setSide(Side.BACK);
@@ -1113,6 +1293,13 @@ public class MainGameScreenController extends GUIController{
         inspectedCardInfo.setDrawPosition(DrawPosition.FROMDECK);
         showDrawingFieldCard();
     }
+
+    /**
+     * This method is triggered when the right deck button is clicked.
+     * It sets the side of the inspected card to BACK, the card type to GOLD, and indicates that the card is from the deck.
+     * It also sets the draw position to FROMDECK.
+     * Finally, it calls the showDrawingFieldCard method to display the card.
+     */
     @FXML
     public void rightDeckButton() {
         inspectedCardInfo.setSide(Side.BACK);
@@ -1121,6 +1308,11 @@ public class MainGameScreenController extends GUIController{
         inspectedCardInfo.setDrawPosition(DrawPosition.FROMDECK);
         showDrawingFieldCard();
     }
+
+    /**
+     * This method is triggered when the right top drawing button is clicked.
+     * The implementation details are not provided in the code excerpt.
+     */
     @FXML
     public void rightTopDrawingButton() {
         inspectedCardInfo.setSide(Side.FRONT);
@@ -1129,6 +1321,13 @@ public class MainGameScreenController extends GUIController{
         inspectedCardInfo.setDrawPosition(DrawPosition.LEFT);
         showDrawingFieldCard();
     }
+
+    /**
+     * This method is triggered when the left top drawing button is clicked.
+     * It sets the side of the inspected card to FRONT, the card type to RESOURCE, and indicates that the card is not from the deck.
+     * It also sets the draw position to LEFT.
+     * Finally, it calls the showDrawingFieldCard method to display the card.
+     */
     @FXML
     public void leftTopDrawingButton() {
         inspectedCardInfo.setSide(Side.FRONT);
@@ -1137,6 +1336,13 @@ public class MainGameScreenController extends GUIController{
         inspectedCardInfo.setDrawPosition(DrawPosition.LEFT);
         showDrawingFieldCard();
     }
+
+    /**
+     * This method is triggered when the right bottom drawing button is clicked.
+     * It sets the side of the inspected card to FRONT, the card type to GOLD, and indicates that the card is not from the deck.
+     * It also sets the draw position to RIGHT.
+     * Finally, it calls the showDrawingFieldCard method to display the card.
+     */
     @FXML
     public void rightBottomDrawingButton() {
         inspectedCardInfo.setSide(Side.FRONT);
@@ -1145,6 +1351,13 @@ public class MainGameScreenController extends GUIController{
         inspectedCardInfo.setDrawPosition(DrawPosition.RIGHT);
         showDrawingFieldCard();
     }
+
+    /**
+     * This method is triggered when the left bottom drawing button is clicked.
+     * It sets the side of the inspected card to FRONT, the card type to RESOURCE, and indicates that the card is not from the deck.
+     * It also sets the draw position to RIGHT.
+     * Finally, it calls the showDrawingFieldCard method to display the card.
+     */
     @FXML
     public void leftBottomDrawingButton() {
         inspectedCardInfo.setSide(Side.FRONT);
@@ -1154,6 +1367,13 @@ public class MainGameScreenController extends GUIController{
         showDrawingFieldCard();
     }
 
+    /**
+     * This method is used to display the selected card from the drawing field in the GUI.
+     * It first retrieves the current game state from the viewGUI.
+     * It then enables and makes visible the card inspector for the drawing field cards, and disables and hides the player's field and the border field pane in the GUI.
+     * Finally, it sets the style of the drawingCardPane based on the card selected for inspection.
+     * If an exception occurs during this process, a RuntimeException is thrown.
+     */
     private void showDrawingFieldCard() {
         drawingCardsInspector.setDisable(false);
         drawingCardsInspector.setVisible(true);
@@ -1190,6 +1410,12 @@ public class MainGameScreenController extends GUIController{
             throw new RuntimeException();
         }
     }
+
+    /**
+     * This method is used when the exit drawing button is clicked.
+     * It sets the visibility and enabled state of the drawingCardsInspector, playerField, and borderFieldPane.
+     * It also sets the fromDeck to false, the cardType to null, and the drawPosition to null.
+     */
     @FXML
     public void exitDrawingFieldButton() {
         drawingCardsInspector.setDisable(true);
@@ -1198,11 +1424,15 @@ public class MainGameScreenController extends GUIController{
         playerField.setVisible(true);
         borderFieldPane.setDisable(false);
         borderFieldPane.setVisible(true);
-        frontSide = true;
+        boolean frontSide = true;
     }
 
-    private void initializeScoreboard()
-    {
+    /**
+     * This method initializes the scoreboard by creating new Panes for each marker and adding them to the scoreboardMarkerPanes list.
+     * It also adds all the platPanes to the platPanes list and sets their visibility and enabled state to false.
+     * Finally, it sets the preferred height and width of each pane in the scoreboardMarkerPanes list and calls the markerPositionInScoreboard method.
+     */
+    private void initializeScoreboard() {
         m1 = new Pane();
         m2 = new Pane();
         m3 = new Pane();
@@ -1257,6 +1487,11 @@ public class MainGameScreenController extends GUIController{
         markerPositionInScoreboard();
     }
 
+    /**
+     * This method sets the layoutY property of each marker in the children of the given pane.
+     * It starts with a transformation of 0 and decreases it by 2.5 for each marker.
+     * @param pane The pane whose children's layoutY property is to be set.
+     */
     private void setScoreboardChildren(Pane pane) {
         double transformation = 0;
         for(Node marker: pane.getChildren()) {
@@ -1267,6 +1502,12 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * This method positions the markers in the scoreboard.
+     * It first retrieves the current game from the viewGUI and resets the scoreboard.
+     * It then iterates over the list of players in the game, retrieves the points of each player, and adds the player's marker to the corresponding platPane.
+     * Finally, it sets the visibility and enabled state of each marker and platPane to true.
+     */
     private void markerPositionInScoreboard() {
         Game game = viewGUI.getGame();
         resetScoreboard();
@@ -1296,6 +1537,9 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * This method resets the scoreboard by setting the visibility and enabled state of each platPane to false and clearing its children.
+     */
     private void resetScoreboard() {
         for(Pane pane: platPanes) {
             pane.setDisable(true);
@@ -1304,6 +1548,11 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * This method initializes the objective cards by setting the style of each shared objective card and the secret objective card based on their URLs.
+     * It then sets the visibility and enabled state of the objectiveCards to true.
+     * If an exception occurs, a RuntimeException is thrown.
+     */
     private void initializeObjectiveCards()
     {
         try{
@@ -1322,6 +1571,11 @@ public class MainGameScreenController extends GUIController{
         objectiveCards.setVisible(true);
     }
 
+    /**
+     * This method initializes the drawing field by calling the emptyDeckHandler method for each deck and discovered card.
+     * It then sets the visibility and enabled state of the drawingField to true.
+     * If an exception occurs, a RuntimeException is thrown.
+     */
     private void initializeDrawingField()
     {
         Pane currentPane;
@@ -1348,6 +1602,13 @@ public class MainGameScreenController extends GUIController{
         drawingField.setDisable(false);
         drawingField.setVisible(true);
     }
+
+    /**
+     * This method handles empty decks by setting the style of the given pane based on the URL of the top card of the corresponding deck.
+     * If an exception occurs, it sets the visibility and enabled state of the pane to false.
+     * @param pane The pane whose style is to be set.
+     * @param side The side of the card to be used to get the URL.
+     */
     private void emptyDeckHandler(Pane pane, Side side) {
         try {
             switch (pane.getId()) {
@@ -1378,6 +1639,12 @@ public class MainGameScreenController extends GUIController{
     private double startDragX;
     private double startDragY;
 
+    /**
+     * This method is used to initialize the player's field.
+     * It first sets the visibility and enabled state of the borderFieldPane.
+     * It then creates a new Rectangle for the fieldCut and sets its layoutX, layoutY, width, height, and style.
+     * Finally, it creates new Panes for each field and boundsCheck, and sets their properties accordingly.
+     */
     private void initializePlayerField()
     {
         borderFieldPane.setDisable(false);
@@ -1442,13 +1709,12 @@ public class MainGameScreenController extends GUIController{
         playerField.setVisible(true);
         borderFieldPane.setDisable(false);
         borderFieldPane.setVisible(true);
-        //scalable.setStyle(getStyle("images/Backgounds/woodCut.png"));
 
         try {
             PlayableCard card = viewGUI.getPlayerField().getMatrixField()[DEFAULT_MATRIX_SIZE/2][DEFAULT_MATRIX_SIZE/2];
             starterCard.setStyle(getStyle(getCardUrl(card ,card.getCurrentSide())));
             fieldPanes[DEFAULT_MATRIX_SIZE/2][DEFAULT_MATRIX_SIZE/2] = starterCard;
-            sorround(starterCard);
+            surround(starterCard);
         }
         catch (Exception e)
         {
@@ -1458,6 +1724,13 @@ public class MainGameScreenController extends GUIController{
 
     }
 
+    /**
+     * Sets mouse actions for the given field, boundsCheck and bounds.
+     * This includes actions for mouse press, drag and scroll events.
+     * @param field The Pane object representing the field.
+     * @param boundsCheck The Pane object used for bounds checking.
+     * @param bounds The Rectangle object representing the bounds.
+     */
     private void setMouseActions(Pane field, Pane boundsCheck, Rectangle bounds)
     {
         field.setOnMousePressed(e -> {
@@ -1510,6 +1783,11 @@ public class MainGameScreenController extends GUIController{
 
     }
 
+    /**
+     * Sets the default configuration for the given field and boundsCheck.
+     * @param field The Pane object representing the field.
+     * @param boundsCheck The Pane object used for bounds checking.
+     */
     private void setDefaultFieldConfiguration(Pane field, Pane boundsCheck)
     {
         playerField.getChildren().add(field);
@@ -1534,7 +1812,11 @@ public class MainGameScreenController extends GUIController{
 
     }
 
-    public void sorround(Pane pane)
+    /**
+     * Surrounds the given pane with other panes.
+     * @param pane The Pane object to be surrounded.
+     */
+    public void surround(Pane pane)
     {
         //Check if the angle is playable and not covered
         pane.setId("full");
@@ -1550,6 +1832,13 @@ public class MainGameScreenController extends GUIController{
         updateBounds(movingField, fieldBounds);
 
     }
+
+    /**
+     * Sets up a new pane in relation to a given pane and orientation.
+     * @param pane The Pane object to be used as reference.
+     * @param newPane The new Pane object to be set up.
+     * @param orientation The AngleOrientation object representing the orientation.
+     */
     public void setupCardPane(Pane pane, Pane newPane, AngleOrientation orientation) {
         double oldX = pane.getLayoutX();
         double oldY = pane.getLayoutY();
@@ -1593,7 +1882,7 @@ public class MainGameScreenController extends GUIController{
                             movingField.getChildren().remove(oldPane);
                         }
 
-                        //checks if the position where i want to place the new pane is a valid playable position
+                        //checks if the position where I want to place the new pane is a valid playable position
                         if (cardJustPlayed != null && !cardJustPlayed.getAngle(orientation).isPlayable())
                             return;
 
@@ -1630,9 +1919,7 @@ public class MainGameScreenController extends GUIController{
                             dragging = true;
                         });
 
-                        newPane.setOnMouseClicked(e -> {
-                            clickedOnFieldPane(e);
-                        });
+                        newPane.setOnMouseClicked(this::clickedOnFieldPane);
 
 
 
@@ -1643,7 +1930,7 @@ public class MainGameScreenController extends GUIController{
             }
             throw new RuntimeException();
 
-        } catch (IndexOutOfBoundsException e)
+        } catch (IndexOutOfBoundsException ignored)
         {
         }
         catch (Exception e) {
@@ -1653,6 +1940,11 @@ public class MainGameScreenController extends GUIController{
 
     }
 
+    /**
+     * Finds the external boundaries of the given field.
+     * @param field The Pane object representing the field.
+     * @return A HashMap object mapping Direction to Integer representing the external boundaries.
+     */
     private HashMap<Direction, Integer> findExternals(Pane field)
     {
         int firstX = DEFAULT_MATRIX_SIZE;
@@ -1702,6 +1994,11 @@ public class MainGameScreenController extends GUIController{
         return externals;
     }
 
+    /**
+     * Updates the bounds of the given field.
+     * @param field The Pane object representing the field.
+     * @param bounds The Rectangle object representing the bounds.
+     */
     private void updateBounds(Pane field, Rectangle bounds)
     {
         try
@@ -1719,6 +2016,10 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * Handles the mouse click event on the field pane.
+     * @param event The MouseEvent object representing the mouse event.
+     */
     @FXML
     public void clickedOnFieldPane(MouseEvent event) {
         if(event.getEventType() == MouseEvent.MOUSE_CLICKED) {
@@ -1760,7 +2061,7 @@ public class MainGameScreenController extends GUIController{
                                                 source.setVisible(true);
                                                 source.setDisable(false);
                                                 source.setOpacity(1);
-                                                sorround(source);
+                                                surround(source);
 
 
                                                 removeCardFromHand();
@@ -1831,6 +2132,11 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * Sets the border style of the given pane.
+     * @param pane The Pane object to be styled.
+     * @param toRemove A boolean value indicating whether to remove the border or not.
+     */
     private void setBorderPane(Pane pane, boolean toRemove) {
         if(!toRemove) {
             if(pane.getId().equals("playerHandBackground")) {
@@ -1847,6 +2153,9 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * Handles the action for the exit popup button.
+     */
     @FXML
     public void exitPopupButton() {
         popupPane.setDisable(true);
@@ -1862,12 +2171,17 @@ public class MainGameScreenController extends GUIController{
         positionLabel.setVisible(false);
     }
 
-
+    /**
+     * Removes a card from the hand.
+     */
     private void removeCardFromHand() {
         playerHandPanes.get(inspectedCardInfo.getCardInHandSelected()).setDisable(true);
         playerHandPanes.get(inspectedCardInfo.getCardInHandSelected()).setVisible(false);
     }
 
+    /**
+     * Handles the action for the draw card button.
+     */
     @FXML
     public void drawCardButton()
     {
@@ -1899,6 +2213,9 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * Initializes the fields of other players.
+     */
     private void initializeOtherPlayerFields()
     {
         ArrayList<Player> otherPlayers = new ArrayList<>();
@@ -1915,6 +2232,9 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
+    /**
+     * Rebuilds the field of the current player.
+     */
     private void rebuildMyField()
     {
         try {
@@ -1923,8 +2243,8 @@ public class MainGameScreenController extends GUIController{
             for(int i = 1; i < playedCards.size() ; i++)
             {
                 CardPosition cardToAdd = playedCards.get(i);
-                int layoutX = cardToAdd.getPositionY() - DEFAULT_MATRIX_SIZE/2;
-                int layoutY = cardToAdd.getPositionX() - DEFAULT_MATRIX_SIZE/2;
+                int layoutX = cardToAdd.positionY() - DEFAULT_MATRIX_SIZE/2;
+                int layoutY = cardToAdd.positionX() - DEFAULT_MATRIX_SIZE/2;
                 Pane cardPane = new Pane();
                 cardPane.setLayoutX(starterCard.getLayoutX() + layoutX * (CARD_WIDTH - ANGLE_WIDTH));
                 cardPane.setLayoutY(starterCard.getLayoutY() + layoutY * (CARD_HEIGHT - ANGLE_HEIGHT));
@@ -1934,8 +2254,8 @@ public class MainGameScreenController extends GUIController{
                 cardPane.setVisible(true);
                 cardPane.setOpacity(1);
                 cardPane.setId("full");
-                cardPane.setStyle(getStyle(getCardUrl(cardToAdd.getCard(), cardToAdd.getCard().getCurrentSide())));
-                fieldPanes[cardToAdd.getPositionX()][cardToAdd.getPositionY()] = cardPane;
+                cardPane.setStyle(getStyle(getCardUrl(cardToAdd.card(), cardToAdd.card().getCurrentSide())));
+                fieldPanes[cardToAdd.positionX()][cardToAdd.positionY()] = cardPane;
                 movingField.getChildren().add(cardPane);
             }
             for(int i = 0; i< DEFAULT_MATRIX_SIZE; i++)
@@ -1943,7 +2263,7 @@ public class MainGameScreenController extends GUIController{
                 for (int j = 0; j< DEFAULT_MATRIX_SIZE; j++)
                 {
                     if(fieldPanes[i][j] != null && fieldPanes[i][j].getId().equals("full"))
-                        sorround(fieldPanes[i][j]);
+                        surround(fieldPanes[i][j]);
                 }
             }
             updateBounds(movingField, fieldBounds);
@@ -1955,15 +2275,17 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
-
+    /**
+     * Builds a field from the played cards.
+     * @param index The index of the player.
+     * @param playedCards The list of CardPosition objects representing the played cards.
+     */
     private void buildFieldFromPlayedCards(int index, ArrayList<CardPosition> playedCards)
     {
 
-        for(int i = 0; i < playedCards.size() ; i++)
-        {
-            CardPosition cardToAdd = playedCards.get(i);
-            int layoutX = cardToAdd.getPositionY() - DEFAULT_MATRIX_SIZE/2;
-            int layoutY = cardToAdd.getPositionX() - DEFAULT_MATRIX_SIZE/2;
+        for (CardPosition cardToAdd : playedCards) {
+            int layoutX = cardToAdd.positionY() - DEFAULT_MATRIX_SIZE / 2;
+            int layoutY = cardToAdd.positionX() - DEFAULT_MATRIX_SIZE / 2;
             Pane cardPane = new Pane();
             cardPane.setLayoutX(starterCard.getLayoutX() + layoutX * (CARD_WIDTH - ANGLE_WIDTH));
             cardPane.setLayoutY(starterCard.getLayoutY() + layoutY * (CARD_HEIGHT - ANGLE_HEIGHT));
@@ -1971,13 +2293,16 @@ public class MainGameScreenController extends GUIController{
             cardPane.setPrefHeight(CARD_HEIGHT);
             cardPane.setDisable(false);
             cardPane.setVisible(true);
-            cardPane.setStyle(getStyle(getCardUrl(cardToAdd.getCard(), cardToAdd.getCard().getCurrentSide())));
+            cardPane.setStyle(getStyle(getCardUrl(cardToAdd.card(), cardToAdd.card().getCurrentSide())));
             otherPlayerFields.get(index).getChildren().add(cardPane);
         }
         updateBounds(otherPlayerFields.get(index), otherPlayerFieldBounds.get(index));
     }
 
-
+    /**
+     * Handles the event when a player reaches twenty points.
+     * @param username The username of the player who reached twenty points.
+     */
     @Override
     public void twentyPoints(String username) {
         Platform.runLater(new Runnable() {
@@ -2000,29 +2325,38 @@ public class MainGameScreenController extends GUIController{
         });
     }
 
+    /**
+     * Handles the event for the final round.
+     */
     @Override
     public void finalRound() {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                if(!twentyPointsReached)
-                {
-                    finalTurn = true;
-                    return;
-                }
-                popupPane.setDisable(false);
-                popupPane.setVisible(true);
-                twentyPoints.setDisable(true);
-                twentyPoints.setVisible(false);
-                finalRound.setDisable(false);
-                finalRound.setVisible(true);
+        Platform.runLater(() -> {
+            if(!twentyPointsReached)
+            {
+                finalTurn = true;
+                return;
             }
+            popupPane.setDisable(false);
+            popupPane.setVisible(true);
+            twentyPoints.setDisable(true);
+            twentyPoints.setVisible(false);
+            finalRound.setDisable(false);
+            finalRound.setVisible(true);
         });
     }
+
+    /**
+     * Handles the action for the quit game button.
+     */
     @FXML
     public void quitGame() {
         exitPane.setDisable(false);
         exitPane.setVisible(true);
     }
+
+    /**
+     * Handles the action for the yes exit button.
+     */
     @FXML
     public void yesExitButton() {
         try
@@ -2037,11 +2371,19 @@ public class MainGameScreenController extends GUIController{
             throw new RuntimeException();
         }
     }
+
+    /**
+     * Handles the action for the no exit button.
+     */
     @FXML
     public void noExitButton() {
         exitPane.setDisable(true);
         exitPane.setVisible(false);
     }
+
+    /**
+     * Handles the action for the show chat button.
+     */
     @FXML
     public void showChat()
     {
@@ -2051,21 +2393,25 @@ public class MainGameScreenController extends GUIController{
         chatPane.setVisible(!chatPane.isVisible());
     }
 
+    /**
+     * Handles the event when a chat message is received.
+     * @param message The received chat message.
+     */
     @Override
     public void chatMessage(String message)
     {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                if(!chatPane.isVisible()) {
-                    newMessage.setDisable(false);
-                    newMessage.setVisible(true);
-                }
-                chatMessages.add(message);
+        Platform.runLater(() -> {
+            if(!chatPane.isVisible()) {
+                newMessage.setDisable(false);
+                newMessage.setVisible(true);
             }
+            chatMessages.add(message);
         });
     }
 
+    /**
+     * Handles the action for the send chat message button.
+     */
     @FXML
     public void sendChatMessage()
     {
@@ -2083,32 +2429,33 @@ public class MainGameScreenController extends GUIController{
         }
     }
 
-
+    /**
+     * Updates the game state based on the given update object.
+     * @param update The object representing the update.
+     */
     public void update(Object update)
     {
         if(drawingCard)
             return;
         if(inGame) {
-            Platform.runLater(new Runnable() {
-                public void run() {
-                    try {
-                        playerUpdated = null;
-                        cardJustPlayed = null;
-                        initializeDrawingField();
-                        initializePlayerHand(viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerHand(), Side.FRONT, true);
-                        setBorderPane(playerHandBackground, true);
-                        setBorderPane(drawingFieldBackground, true);
-                        setTurn();
-                        resourceInitializer();
-                        markerPositionInScoreboard();
-                        initializeOtherPlayerFields();
-                    }
-                    catch (Exception e)
-                    {
-                        throw new RuntimeException();
-                    }
-
+            Platform.runLater(() -> {
+                try {
+                    playerUpdated = null;
+                    cardJustPlayed = null;
+                    initializeDrawingField();
+                    initializePlayerHand(viewGUI.getGame().getPlayer(viewGUI.getUsername()).getPlayerHand(), Side.FRONT, true);
+                    setBorderPane(playerHandBackground, true);
+                    setBorderPane(drawingFieldBackground, true);
+                    setTurn();
+                    resourceInitializer();
+                    markerPositionInScoreboard();
+                    initializeOtherPlayerFields();
                 }
+                catch (Exception e)
+                {
+                    throw new RuntimeException();
+                }
+
             });
         }
     }
