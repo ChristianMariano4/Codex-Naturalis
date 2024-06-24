@@ -15,15 +15,14 @@ import java.util.Stack;
  * The deck is responsible for providing the top card and checking if the deck is empty.
  */
 public class Deck<T extends Card> implements Serializable{
+    protected final Stack<T> deck;
+
     /**
      * Constructs a new Deck with the given list of resource cards.
      *
      * @param cards the list of resource cards
-     * @throws InvalidConstructorDataException if the data provided to the constructor is invalid
      */
-    protected final Stack<T> deck;
-
-    public Deck(ArrayList<T> cards) throws InvalidConstructorDataException {
+    public Deck(ArrayList<T> cards) {
         deck = new Stack<>();
         deckInitializer(cards);
     }
@@ -32,13 +31,13 @@ public class Deck<T extends Card> implements Serializable{
      * Initializes the deck with the given list of resource cards.
      *
      * @param cards List of cards
-     * @throws InvalidConstructorDataException if the data provided to the constructor is invalid
      */
-    private void deckInitializer(ArrayList<T> cards) throws InvalidConstructorDataException {
+    private void deckInitializer(ArrayList<T> cards) {
         for (T card : cards) {
             deck.push(card);
         }
     }
+
     /**
      * Checks if the deck is empty.
      *
@@ -92,5 +91,4 @@ public class Deck<T extends Card> implements Serializable{
         }
         return deck.peek();
     }
-
 }

@@ -15,11 +15,11 @@ import java.util.Map;
  * This class represents a started card, which is given to the player at the beginning of the game.
  */
 public abstract class PlayableCard extends Card implements Serializable {
-
     private final ArrayList<Resource> centralResources;
     private final HashMap<AngleOrientation, Angle> angles;
     private final Resource cardColor;
     private final int points;
+
     /**
      * Constructor
      * @param cardId id associated to the card
@@ -43,12 +43,12 @@ public abstract class PlayableCard extends Card implements Serializable {
     }
 
     /**
-     * Getter
-     * @return the array of resources present in the center of the card
+     * Get the resources in the center of the card
+     * @return the arrayList of resources present in the center of the card
      */
     public ArrayList<Resource> getCentralResources()
     {
-        return new ArrayList<Resource>(this.centralResources);
+        return new ArrayList<>(this.centralResources);
     }
     /**
      * Getter
@@ -60,15 +60,16 @@ public abstract class PlayableCard extends Card implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the points related to a card
      * @return points given by a card by positioning it
      */
     public int getPoints()
     {
         return points;
     }
+
     /**
-     * Getter
+     * Get the angle of the card based on the orientation
      * @param angleOrientation enum of the angles of a card
      * @return the angle of the card
      */
@@ -76,8 +77,6 @@ public abstract class PlayableCard extends Card implements Serializable {
     {
         return angles.get(angleOrientation);
     }
-
-
 }
 
 

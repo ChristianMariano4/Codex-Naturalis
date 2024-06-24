@@ -16,22 +16,22 @@ import java.util.Map;
 public class StarterCard extends PlayableCard implements Serializable {
     /**
      * Constructor
-     *
-     * @param cardId           id associated to the card
-     * @param currentSide      indicates one of the two side of the card (front or back)
-     * @param centralResources array of resources present in the center of the card
-     * @param angles           hashMap of angle linked with their position
-     * @param cardColor
-     * @param points
+     * @param cardId id of the card
+     * @param currentSide one of the two side of the card (front or back)
+     * @param centralResources list of the resources in the middle of the card
+     * @param angles maps the position of the angle into the angle object
+     * @param cardColor one of the four colors, each associated with a resource
+     * @param points points given by a card by positioning it
      * @throws InvalidConstructorDataException if an invalid parameter is given
      */
     public StarterCard(int cardId, Side currentSide, List<Resource> centralResources, Map<AngleOrientation, Angle> angles, Resource cardColor, int points) throws InvalidConstructorDataException {
         super(cardId, currentSide, centralResources, angles, cardColor, points);
     }
+
     /**
-     *
-     * @param visitor
-     * @return the cardInfo of the StarterCard
+     * Method used to accept a visitor
+     * @param visitor the visitor
+     * @return the card info
      */
     @Override
     public CardInfo accept(CardVisitor visitor) {

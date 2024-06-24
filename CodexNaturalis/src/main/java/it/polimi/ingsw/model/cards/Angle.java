@@ -33,29 +33,24 @@ public class Angle implements Serializable {
     }
 
     /**
-     * Getter
+     * Get if the angle is playable
      * @return true if the angle is playable, false otherwise
      */
     public boolean isPlayable() { return playable; }
 
     /**
-     * Getter
+     * Get the status of the angle (unlinked, over or under)
      * @return the status of the angle
      */
     public AngleStatus getAngleStatus() { return angleStatus; }
 
     /**
-     * Getter
+     * Get the resource on the angle
      * @return the resource on the angle
      */
     public Resource getResource() {
         return resource;
     }
-
-    /**
-     * Setter
-     * @param angleStatus Represent the status of the angle
-     */
 
     /**
      * Set the linked angle
@@ -71,7 +66,7 @@ public class Angle implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the linked angle
      * @return the angle linked with this angle
      * @throws UnlinkedCardException Exception thrown if the angle is unlinked
      */
@@ -82,7 +77,7 @@ public class Angle implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the reference to the owner card of this angle
      * @return the reference to the owner card of this angle
      */
     public PlayableCard getOwnerCard()

@@ -50,7 +50,7 @@ public class MainClient {
         }
         catch (ServerDisconnectedException e)
         {
-            continue;
+            //next iteration
         }
         catch (Exception e)
         {
@@ -58,9 +58,6 @@ public class MainClient {
         }
         }while(true);
         scanner.close();
-
-
-
     }
 
     /**
@@ -73,36 +70,13 @@ public class MainClient {
         String serverIP = scanner.nextLine();
         if(serverIP.isEmpty())
             serverIP = "localhost";
-        SocketClient client = null;
+        SocketClient client;
         try {
             client = new SocketClient(serverIP);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
         client.connectToServer();
-
-
-//        try {
-//            System.out.println("Insert server IP address, leave empty for localhost: ");
-//            Scanner scanner = new Scanner(System.in);
-//            String serverIP = scanner.nextLine();
-//            if(serverIP.equals(""))
-//                serverIP = "localhost";
-//            Socket serverSocket = new Socket(serverIP, GameValues.SOCKET_SERVER_PORT);
-//            System.out.println("Connected to sever successfully");
-//            SocketClient client = new SocketClient(serverSocket);
-//            Thread clientThread = new Thread(client);
-//            clientThread.start();
-//            clientThread.join();
-//
-//        }
-//        catch(IOException e) {
-//            System.err.println("Couldn't connect to server");
-//            throw new ServerDisconnectedException();
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return;
     }
 
     /**
@@ -116,41 +90,13 @@ public class MainClient {
         if(serverIP.isEmpty())
             serverIP = "localhost";
         System.out.println("Connecting to RMI server...");
-        RMIClient client = null;
+        RMIClient client;
         try {
             client = new RMIClient(serverIP);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
         client.connectToServer();
-
-
-//        String serverName = "Server";
-//
-//        try {
-//            System.out.println("Insert server IP address, leave empty for localhost: ");
-//            Scanner scanner = new Scanner(System.in);
-//            String serverIP = scanner.nextLine();
-//            if(serverIP.equals(""))
-//                serverIP = "localhost";
-//            System.out.println("Connecting to RMI server...");
-//            Registry registry = LocateRegistry.getRegistry(serverIP,  GameValues.RMI_SERVER_PORT);
-//            ServerRMIInterface server = (ServerRMIInterface) registry.lookup(serverName);
-//            RMIClient client = new RMIClient(server);
-//            Thread clientThread = new Thread(client);
-//            clientThread.start();
-//            clientThread.join();
-//            //System.exit(0);
-//        } catch (RemoteException e) {
-//            System.err.println("Couldn't connect to server");
-//            throw new ServerDisconnectedException();
-//        } catch (NotBoundException e) {
-//            throw new RuntimeException(e);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        return;
     }
 
     /**
@@ -173,6 +119,4 @@ public class MainClient {
         GUI.launchGUI();
         System.exit(0);
     }
-
-
 }

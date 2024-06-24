@@ -25,7 +25,7 @@ public class CardPair<T extends Card> implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the other side of the card (front or back)
      * @param side current side
      * @return the other side
      * @throws UnlinkedCardException if the card is unlinked
@@ -41,7 +41,7 @@ public class CardPair<T extends Card> implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the id of the card
      * @return the card ID
      */
     public int getCardsId()

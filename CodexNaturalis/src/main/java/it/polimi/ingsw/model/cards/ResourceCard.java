@@ -14,8 +14,6 @@ import java.util.ArrayList;
  * This class represents a resource card, which is identified by a resource.
  */
 public class ResourceCard extends PlayableCard implements Serializable {
-
-
     /**
      * Constructor
      * @param cardId id of the card
@@ -29,10 +27,11 @@ public class ResourceCard extends PlayableCard implements Serializable {
     public ResourceCard(int cardId, Side currentSide, ArrayList<Resource> centralResource, HashMap<AngleOrientation, Angle> angles, Resource cardColor, int points) throws InvalidConstructorDataException {
         super(cardId, currentSide, centralResource, angles, cardColor, points);
     }
+
     /**
-     *
-     * @param visitor
-     * @return the cardInfo of the ResourceCard
+     * Method used to accept a visitor
+     * @param visitor the visitor
+     * @return the card info
      */
     @Override
     public CardInfo accept(CardVisitor visitor) {

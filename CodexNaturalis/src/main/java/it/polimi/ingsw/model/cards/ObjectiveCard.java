@@ -23,7 +23,7 @@ public abstract class ObjectiveCard extends Card implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the points given by a card for each specific pattern on the player field
      * @return the points given by a card for each specific pattern on the player field
      */
     public int getPoints() {

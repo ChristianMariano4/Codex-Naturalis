@@ -10,7 +10,6 @@ import java.io.Serializable;
  * It contains the reference to the card that represents the other side of the current card.
  */
 public abstract class Card implements Serializable {
-
    private final int cardId;
    private final Side currentSide;
 
@@ -25,10 +24,15 @@ public abstract class Card implements Serializable {
       this.currentSide = currentSide;
    }
 
+    /**
+     * This method is used to accept a visitor
+     * @param visitor the visitor
+     * @return the card info
+     */
    public abstract CardInfo accept(CardVisitor visitor);
 
    /**
-    * Getter
+    * Get the id of the card
     * @return the id of the card
     */
    public int getCardId()
@@ -37,7 +41,7 @@ public abstract class Card implements Serializable {
    }
 
    /**
-    * Getter
+    * Get the side of the card (front or back)
     * @return the side (front or back) of the card
     */
    public Side getCurrentSide()

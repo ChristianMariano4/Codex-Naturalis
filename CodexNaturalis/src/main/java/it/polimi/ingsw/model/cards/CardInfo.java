@@ -10,10 +10,8 @@ import java.util.ArrayList;
  */
 public class CardInfo implements Serializable {
     private final CardType cardType;
-    //PlayableCard attributes
     private final ArrayList<Resource> requirements;
     private final GoldPointCondition goldPointCondition;
-    //ObjectiveCard attributes
     private final Resource cardColor;
     private final AngleOrientation orientation;
     private final PositionalType positionalType;
@@ -122,7 +120,7 @@ public class CardInfo implements Serializable {
     }
 
     /**
-     *
+     * Get the card type
      * @return the cardType
      */
     public CardType getCardType() {
@@ -130,7 +128,7 @@ public class CardInfo implements Serializable {
     }
 
     /**
-     *
+     * Get the card type as a string
      * @return the cardType as a string
      */
     public String getCardTypeString() {
@@ -138,7 +136,7 @@ public class CardInfo implements Serializable {
     }
 
     /**
-     *
+     * Get the card type as a string
      * @return the requirements
      */
     public ArrayList<Resource> getRequirements() {
@@ -146,7 +144,7 @@ public class CardInfo implements Serializable {
     }
 
     /**
-     *
+     * Get the gold point condition
      * @return the goldPointCondition
      */
     public GoldPointCondition getGoldPointCondition() {
@@ -154,7 +152,7 @@ public class CardInfo implements Serializable {
     }
 
     /**
-     *
+     * Get the card color
      * @return the cardColor
      */
     public Resource getCardColor() {
@@ -162,7 +160,7 @@ public class CardInfo implements Serializable {
     }
 
     /**
-     *
+     * Get the orientation
      * @return the Orientation
      */
     public AngleOrientation getOrientation() {
@@ -170,7 +168,7 @@ public class CardInfo implements Serializable {
     }
 
     /**
-     *
+     * Get the positional type
      * @return the positionalType
      */
     public PositionalType getPositionalType() {
@@ -178,7 +176,7 @@ public class CardInfo implements Serializable {
     }
 
     /**
-     *
+     * Get the card resource
      * @return the cardResource
      */
     public Resource getCardResource() {
@@ -186,7 +184,7 @@ public class CardInfo implements Serializable {
     }
 
     /**
-     *
+     * Get the points given by the card
      * @return the points
      */
     public int getPoints() {

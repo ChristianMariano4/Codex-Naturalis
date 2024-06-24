@@ -5,47 +5,40 @@ import java.io.Serializable;
 /**
  * The class represent the position of the card in the playerField
  */
-public class CardPosition implements Serializable {
-    private final Card card;
-    private final int positionX;
-    private final int positionY;
-
+public record CardPosition(Card card, int positionX, int positionY) implements Serializable {
     /**
      * Constructor
-     * @param card
+     * @param card a card
      * @param positionX X position of the card
      * @param positionY Y position of the card
      */
-    public CardPosition(Card card, int positionX, int positionY) {
-        this.card = card;
-        this. positionX = positionX;
-        this.positionY = positionY;
+    public CardPosition {
     }
 
     /**
-     * Getter the card
-     * @return
+     * Get the card
+     * @return the card
      */
-    public Card getCard()
-    {
+    @Override
+    public Card card() {
         return card;
     }
 
     /**
-     * Getter
+     * Get the X position
      * @return the X position
      */
-    public int getPositionX()
-    {
+    @Override
+    public int positionX() {
         return positionX;
     }
 
     /**
-     * Getter
+     * Get the Y position
      * @return the Y position
      */
-    public int getPositionY()
-    {
+    @Override
+    public int positionY() {
         return positionY;
     }
 

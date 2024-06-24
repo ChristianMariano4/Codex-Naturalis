@@ -12,7 +12,6 @@ import java.io.Serializable;
  * This class represents a positional objective card, which can be diagonal or L-shaped.
  */
 public class PositionalObjectiveCard extends ObjectiveCard implements Serializable {
-
     private final Resource cardColor;
     private final AngleOrientation orientation;
     private final PositionalType positionalType;
@@ -34,7 +33,7 @@ public class PositionalObjectiveCard extends ObjectiveCard implements Serializab
     }
 
     /**
-     * Getter
+     * Get the color of the card
      * @return the color of the card
      */
     public Resource getCardColor()
@@ -43,7 +42,7 @@ public class PositionalObjectiveCard extends ObjectiveCard implements Serializab
     }
 
     /**
-     * Getter
+     * Get the angle orientation of the card
      * @return the angle orientation of the card
      */
     public AngleOrientation getOrientation()
@@ -52,16 +51,17 @@ public class PositionalObjectiveCard extends ObjectiveCard implements Serializab
     }
 
     /**
-     * Getter
+     * Get the positionalType of the card
      * @return the positionalType of the card
      */
     public PositionalType getPositionalType() {
         return positionalType;
     }
+
     /**
-     *
-     * @param visitor
-     * @return the cardInfo of the PositionalObjectiveCard
+     * Method used to accept a visitor
+     * @param visitor the visitor
+     * @return the card info
      */
     @Override
     public CardInfo accept(CardVisitor visitor) {

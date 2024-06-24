@@ -10,7 +10,6 @@ import java.io.Serializable;
  * This class represents a resource objective card, which requires the player to have a certain amount of a specific resource.
  */
 public class ResourceObjectiveCard extends ObjectiveCard implements Serializable {
-
     private final Resource cardResource;
 
     /**
@@ -26,17 +25,18 @@ public class ResourceObjectiveCard extends ObjectiveCard implements Serializable
     }
 
     /**
-     * Getter
+     * Get the resource of the card
      * @return the resource of the card
      */
     public Resource getCardResource()
     {
         return cardResource;
     }
+
     /**
-     *
-     * @param visitor
-     * @return the cardInfo of the ResourceObjectiveCard
+     * Method used to accept a visitor
+     * @param visitor the visitor
+     * @return the card info
      */
     @Override
     public CardInfo accept(CardVisitor visitor) {

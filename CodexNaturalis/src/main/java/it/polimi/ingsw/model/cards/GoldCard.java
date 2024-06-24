@@ -16,11 +16,8 @@ import java.util.HashMap;
  * This class represents a gold card, which is a special type of card that requires a specific set of resources to be played.
  */
 public class GoldCard extends PlayableCard implements Visitable, Serializable {
-
     private final ArrayList<Resource> requirements;
     private final GoldPointCondition goldPointCondition;
-
-    //if the card has no requirements, controller has to pass requirements with NONE value
 
     /**
      * Constructor
@@ -45,22 +42,28 @@ public class GoldCard extends PlayableCard implements Visitable, Serializable {
             throw new InvalidConstructorDataException();
         }
     }
+
+    /**
+     * Method used to accept a visitor
+     * @param visitor the visitor
+     * @return the card info
+     */
     @Override
     public CardInfo accept(CardVisitor visitor)  {
         return visitor.visitGoldCard(this);
     }
 
     /**
-     * Getter
+     * Get the requirements of the card
      * @return the list of the resources needed to play a card
      */
     public ArrayList<Resource> getRequirements()
     {
-        return new ArrayList<Resource>(requirements);
+        return new ArrayList<>(requirements);
     }
 
     /**
-     * Getter
+     * Get the condition to satisfied to obtain the points given by the card
      * @return the condition to satisfied to obtain the points given by the card
      */
     public GoldPointCondition getGoldPointCondition()
@@ -69,7 +72,7 @@ public class GoldCard extends PlayableCard implements Visitable, Serializable {
     }
 
     /**
-     * Getter
+     * Get the requirements of the card
      * @return the requirements of the card
      */
     public ArrayList<Pair<Resource, Integer>> getRequirementsPairList(){

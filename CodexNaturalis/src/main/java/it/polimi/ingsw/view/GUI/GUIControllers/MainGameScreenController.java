@@ -1923,8 +1923,8 @@ public class MainGameScreenController extends GUIController{
             for(int i = 1; i < playedCards.size() ; i++)
             {
                 CardPosition cardToAdd = playedCards.get(i);
-                int layoutX = cardToAdd.getPositionY() - DEFAULT_MATRIX_SIZE/2;
-                int layoutY = cardToAdd.getPositionX() - DEFAULT_MATRIX_SIZE/2;
+                int layoutX = cardToAdd.positionY() - DEFAULT_MATRIX_SIZE/2;
+                int layoutY = cardToAdd.positionX() - DEFAULT_MATRIX_SIZE/2;
                 Pane cardPane = new Pane();
                 cardPane.setLayoutX(starterCard.getLayoutX() + layoutX * (CARD_WIDTH - ANGLE_WIDTH));
                 cardPane.setLayoutY(starterCard.getLayoutY() + layoutY * (CARD_HEIGHT - ANGLE_HEIGHT));
@@ -1934,8 +1934,8 @@ public class MainGameScreenController extends GUIController{
                 cardPane.setVisible(true);
                 cardPane.setOpacity(1);
                 cardPane.setId("full");
-                cardPane.setStyle(getStyle(getCardUrl(cardToAdd.getCard(), cardToAdd.getCard().getCurrentSide())));
-                fieldPanes[cardToAdd.getPositionX()][cardToAdd.getPositionY()] = cardPane;
+                cardPane.setStyle(getStyle(getCardUrl(cardToAdd.card(), cardToAdd.card().getCurrentSide())));
+                fieldPanes[cardToAdd.positionX()][cardToAdd.positionY()] = cardPane;
                 movingField.getChildren().add(cardPane);
             }
             for(int i = 0; i< DEFAULT_MATRIX_SIZE; i++)
@@ -1962,8 +1962,8 @@ public class MainGameScreenController extends GUIController{
         for(int i = 0; i < playedCards.size() ; i++)
         {
             CardPosition cardToAdd = playedCards.get(i);
-            int layoutX = cardToAdd.getPositionY() - DEFAULT_MATRIX_SIZE/2;
-            int layoutY = cardToAdd.getPositionX() - DEFAULT_MATRIX_SIZE/2;
+            int layoutX = cardToAdd.positionY() - DEFAULT_MATRIX_SIZE/2;
+            int layoutY = cardToAdd.positionX() - DEFAULT_MATRIX_SIZE/2;
             Pane cardPane = new Pane();
             cardPane.setLayoutX(starterCard.getLayoutX() + layoutX * (CARD_WIDTH - ANGLE_WIDTH));
             cardPane.setLayoutY(starterCard.getLayoutY() + layoutY * (CARD_HEIGHT - ANGLE_HEIGHT));
@@ -1971,7 +1971,7 @@ public class MainGameScreenController extends GUIController{
             cardPane.setPrefHeight(CARD_HEIGHT);
             cardPane.setDisable(false);
             cardPane.setVisible(true);
-            cardPane.setStyle(getStyle(getCardUrl(cardToAdd.getCard(), cardToAdd.getCard().getCurrentSide())));
+            cardPane.setStyle(getStyle(getCardUrl(cardToAdd.card(), cardToAdd.card().getCurrentSide())));
             otherPlayerFields.get(index).getChildren().add(cardPane);
         }
         updateBounds(otherPlayerFields.get(index), otherPlayerFieldBounds.get(index));

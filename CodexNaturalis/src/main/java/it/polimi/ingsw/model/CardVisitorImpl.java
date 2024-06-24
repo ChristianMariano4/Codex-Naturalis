@@ -10,55 +10,59 @@ import java.io.Serializable;
  */
 public class CardVisitorImpl implements CardVisitor, Serializable {
     /**
-     * Visitor
-     * @param card goldCard passed to the visitor
-     * @return the cardInfo of the goldCard passed
+     * Method used to visit a gold card
+     * @param card the card to visit
+     * @return the card info
      */
     @Override
     public CardInfo visitGoldCard(GoldCard card) {
         return new CardInfo(CardType.GOLD, card.getRequirements(), card.getGoldPointCondition());
     }
     /**
-     * Visitor
-     * @param card resourceCard passed to the visitor
-     * @return the cardInfo of the resourceCard passed
+     * Method used to visit a resource card
+     * @param card the card to visit
+     * @return the card info
      */
     @Override
     public CardInfo visitResourceCard(ResourceCard card) {
         return new CardInfo(CardType.RESOURCE);
     }
+
     /**
-     * Visitor
-     * @param card TripleObjectiveCard passed to the visitor
-     * @return the cardInfo of the TripleObjectiveCard passed
+     * Method used to visit a triple objective card
+     * @param card the card to visit
+     * @return the card info
      */
     @Override
     public CardInfo visitTripleObjectiveCard(TripleObjectiveCard card) {
         return new CardInfo(CardType.TRIPLEOBJECTIVE);
 
     }
+
     /**
-     * Visitor
-     * @param card PositionalObjectiveCard passed to the visitor
-     * @return the cardInfo of the PositionalObjectiveCard passed
+     * Method used to visit a positional objective card
+     * @param card the card to visit
+     * @return the card info
      */
     @Override
     public CardInfo visitPositionalObjectiveCard(PositionalObjectiveCard card) {
         return new CardInfo(CardType.POSITIONALOBJECTIVE, card.getCardColor(), card.getOrientation(), card.getPositionalType());
     }
+
     /**
-     * Visitor
-     * @param card ResourceObjectiveCard passed to the visitor
-     * @return the cardInfo of the ResourceObjectiveCard passed
+     * Method used to visit a resource objective card
+     * @param card the card to visit
+     * @return the card info
      */
     @Override
     public CardInfo visitResourceObjectiveCard(ResourceObjectiveCard card) {
         return new CardInfo(CardType.RESOURCEOBJECTIVE, card.getCardResource());
     }
+
     /**
-     * Visitor
-     * @param card StarterCard passed to the visitor
-     * @return the cardInfo of the StarterCard passed
+     * Method used to visit a starter card
+     * @param card the card to visit
+     * @return the card info
      */
     @Override
     public CardInfo visitStarterCard(StarterCard card) {
