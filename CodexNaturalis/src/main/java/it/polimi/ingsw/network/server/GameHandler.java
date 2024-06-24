@@ -58,7 +58,7 @@ public class GameHandler implements Serializable {
     }
 
     /**
-     * getter
+     * Get the ready status of the players
      * @return readyStatus HashMap
      */
     public HashMap<String, Boolean> getReadyStatus()
@@ -67,7 +67,7 @@ public class GameHandler implements Serializable {
     }
 
     /**
-     * getter
+     * Get the game associated with the GameHandler
      * @return the game model
      */
     public Game getGame() {
@@ -142,7 +142,7 @@ public class GameHandler implements Serializable {
                             try {
                                 game.setIsGameEndedForDisconnection(true);
                                 eventManager.notify(GameEvent.GAME_END, game);
-                                server.removeGame(this);  // whenever GAME_END is sent the gamehandler has to be removed from the list otherwise players can still join a finished game
+                                server.removeGame(this);  // whenever GAME_END is sent the game handler has to be removed from the list otherwise players can still join a finished game
                             }
                             catch (NullPointerException ignored) {
                             }
@@ -179,7 +179,7 @@ public class GameHandler implements Serializable {
                 this.isOpen = false;
                 eventManager.notify(GameEvent.GAME_INITIALIZED, this.game);
                 for (Player player : game.getListOfPlayers()) {
-                    ArrayList<ObjectiveCard> objectiveCardsToChoose = null;
+                    ArrayList<ObjectiveCard> objectiveCardsToChoose;
                     try {
                         objectiveCardsToChoose = controller.takeTwoObjectiveCards();
                     } catch (DeckIsEmptyException e) {
@@ -306,7 +306,7 @@ public class GameHandler implements Serializable {
     }
 
     /**
-     * getter
+     * Gets the clients of the game
      * @return the list of clients connected to the game
      */
     public List<ClientHandlerInterface> getClients() {
@@ -316,7 +316,7 @@ public class GameHandler implements Serializable {
     }
 
     /**
-     * getter
+     * Gets the controller of the game
      * @return the controller of the game
      */
     public Controller getController() {
@@ -326,7 +326,7 @@ public class GameHandler implements Serializable {
     }
 
     /**
-     * Gets a player from the game
+     * Gets a player from the game with the given username
      * @param username the username of the player
      * @return a reference to the player
      * @throws NotExistingPlayerException when the player is not found
@@ -338,7 +338,7 @@ public class GameHandler implements Serializable {
     }
 
     /**
-     * Choose the marker
+     * Sets the marker for the player
      * @param player the player that is choosing
      * @param marker the marker to choose
      * @throws NotAvailableMarkerException when the marker is not available
@@ -358,11 +358,10 @@ public class GameHandler implements Serializable {
             }
             eventManager.notify(GameEvent.MARKER_DONE, game);
         }
-
     }
 
     /**
-     * Method to update the game when a player has played their turn
+     * Updates the game when a player has played their turn
      * It also checks end game conditions
      * @param username the username of the player that has played the turn
      * @throws NotExistingPlayerException when the player doesn't exist
@@ -405,7 +404,7 @@ public class GameHandler implements Serializable {
     }
 
     /**
-     * Choose the side of the starter card
+     * Sets the side of the starter card for the player
      * @param player the player choosing the card
      * @param starterCard the starter card chosen
      * @param side the side of the card
@@ -419,7 +418,7 @@ public class GameHandler implements Serializable {
     }
 
     /**
-     * Choose the secret objective card
+     * Sets the secret objective card for the player
      * @param player the player choosing the card
      * @param chosenObjectiveCard the objective card chosen
      * @throws NotExistingPlayerException when the player doesn't exist
@@ -451,7 +450,7 @@ public class GameHandler implements Serializable {
     }
 
     /**
-     * A method to set the player to disconnected when they quit
+     * Sets the player to disconnected when they quit
      * It checks the current game status and acts accordingly
      * @param username the username of the player that was disconnected
      */
@@ -483,7 +482,7 @@ public class GameHandler implements Serializable {
     }
 
     /**
-     * A method used when the player quits during the game setup
+     * Invoked when the player quits during the game setup
      * It gives the player a random marker, starter card and secret objective card
      * @param username the username of the player
      * @throws NotExistingPlayerException when the player doesn't exist
@@ -512,7 +511,7 @@ public class GameHandler implements Serializable {
                 this.setSecretObjectiveCard(game.getPlayer(username), assignedObjectiveCards.get(username).getFirst()); //assigning one of the two already selected objective cards for that player so that objective card deck cannot be empty
             }
             //can't check if null because the card is assigned in game initialization, so we just assign it anyway
-        this.setStarterCardSide(game.getPlayer(username), game.getPlayer(username).getStarterCard(), Side.FRONT);
+            this.setStarterCardSide(game.getPlayer(username), game.getPlayer(username).getStarterCard(), Side.FRONT);
 
         }
     }
@@ -560,7 +559,7 @@ public class GameHandler implements Serializable {
     }
 
     /**
-     * A method used to reconnect a player after they quit the game
+     * Reconnects a player after they quit the game
      * @param username the username of the player to reconnect
      * @throws NotExistingPlayerException  when the player was not part of the game before reconnecting
      */

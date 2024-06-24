@@ -29,7 +29,7 @@ public class Server extends Thread implements ServerRMIInterface {
     private final Map<ClientHandlerInterface, ClientInfo> clients = new HashMap<>(); //list of all client stubs with their last heartbeat and gameId
 
     /**
-     * Constructor for the Server class.
+     * Constructor
      * @param gameHandlerMap The map of game handlers.
      */
     public Server(Map<Integer, GameHandler> gameHandlerMap) {
@@ -37,7 +37,7 @@ public class Server extends Thread implements ServerRMIInterface {
     }
 
     /**
-     * Connects a client to the server.
+     * Connects a client to the server
      * @param client The client to be connected.
      * @throws IOException If an I/O error occurs.
      */
@@ -366,25 +366,13 @@ public class Server extends Thread implements ServerRMIInterface {
         try {
             serverSocket = new ServerSocket(GameValues.SOCKET_SERVER_PORT);
         } catch (IOException e) {
-            System.err.println(e.getMessage()); // porta non disponibile
+            System.err.println(e.getMessage()); //if the port is already in use
             return;
         }
         System.out.println("Socket server ready");
         SocketConnectionHandler socketConnectionHandler = new SocketConnectionHandler(serverSocket,this);
         Thread socketConnectionHandlerThread = new Thread(socketConnectionHandler);
         socketConnectionHandlerThread.start();
-    }
-
-    /**
-     * Retrieves a player from a game.
-     * @param gameId The ID of the game.
-     * @param username The username of the player.
-     * @return The player.
-     * @throws RemoteException If a remote error occurs.
-     * @throws NotExistingPlayerException If the player does not exist.
-     */
-    public Player getPlayer(int gameId, String username) throws RemoteException, NotExistingPlayerException {
-        return this.gameHandlerMap.get(gameId).getPlayer(username);
     }
 
     /**

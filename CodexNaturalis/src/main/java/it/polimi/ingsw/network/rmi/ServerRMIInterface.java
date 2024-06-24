@@ -108,16 +108,6 @@ public interface ServerRMIInterface extends Remote {
     PlayableCard getPlayableCardById(int gameId, int cardId) throws RemoteException;
 
     /**
-     * Retrieves a player by their username.
-     * @param gameId The ID of the game.
-     * @param username The username of the player.
-     * @return The player.
-     * @throws RemoteException If a remote error occurs.
-     * @throws NotExistingPlayerException If the player does not exist.
-     */
-    Player getPlayer(int gameId, String username) throws RemoteException, NotExistingPlayerException;
-
-    /**
      * Sets the marker for a player.
      * @param player The player.
      * @param gameId The ID of the game.

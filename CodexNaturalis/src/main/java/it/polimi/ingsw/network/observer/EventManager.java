@@ -52,6 +52,7 @@ public class EventManager {
      * @param args Any additional arguments to pass to the listeners.
      * @param <E> The type of the event.
      */
+    @SuppressWarnings("unchecked")
     public <E extends Enum<E>> void notify(E event, Object... args) {
         List<Listener<?>> eventListeners = listeners.get(event.getClass());
         if (eventListeners != null) {

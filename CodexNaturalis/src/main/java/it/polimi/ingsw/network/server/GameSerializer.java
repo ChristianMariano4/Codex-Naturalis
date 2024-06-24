@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class GameSerializer implements Listener<GameEvent> {
 
     /**
-     * Constructor for the GameSerializer class.
+     * Constructor
      * It creates a new directory for saving games.
      */
     public GameSerializer() {

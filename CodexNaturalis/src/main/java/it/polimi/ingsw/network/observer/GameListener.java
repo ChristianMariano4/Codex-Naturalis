@@ -1,13 +1,11 @@
 package it.polimi.ingsw.network.observer;
 
 import it.polimi.ingsw.exceptions.NotExistingPlayerException;
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.client.ClientHandlerInterface;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.network.messages.GameEvent;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 /**
  * The GameListener class implements the Listener interface for GameEvent.
  * It is responsible for handling game events and updating the client accordingly.
@@ -15,7 +13,6 @@ import java.rmi.RemoteException;
  * It also includes methods for updating the client based on game events and retrieving the client and username.
  */
 public class GameListener implements Listener<GameEvent> {
-
     private final ClientHandlerInterface client;
     private final String username;
     private final Server server;
