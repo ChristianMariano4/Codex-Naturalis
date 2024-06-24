@@ -9,8 +9,8 @@ import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.StarterCard;
 import it.polimi.ingsw.network.client.ClientHandlerInterface;
 import it.polimi.ingsw.network.messages.GameEvent;
-import it.polimi.ingsw.network.messages.clientMessages.ClientMessage;
-import it.polimi.ingsw.network.messages.serverMessages.ServerMessage;
+import it.polimi.ingsw.network.messages.ClientMessage;
+import it.polimi.ingsw.network.messages.ServerMessage;
 import it.polimi.ingsw.network.server.Server;
 
 import java.io.*;
