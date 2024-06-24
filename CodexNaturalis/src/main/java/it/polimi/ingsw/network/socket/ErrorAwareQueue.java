@@ -63,8 +63,6 @@ public class ErrorAwareQueue {
                     throw new NotExistingPlayerException();
                 case GAME_NOT_FOUND ->
                     throw new GameNotFoundException();
-                case UNSPECIFIED ->
-                    throw new RuntimeException();
                 default -> throw new RuntimeException();
                 }
 

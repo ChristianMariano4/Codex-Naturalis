@@ -40,7 +40,7 @@ public class SocketConnectionHandler implements Runnable{
                 server.connect(socketClientHandler);
                 executor.submit(socketClientHandler);
             } catch(IOException e) {
-                break; // entrerei qui se serverSocket venisse chiuso
+                break;
             }
         }
         executor.shutdown();

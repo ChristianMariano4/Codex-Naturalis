@@ -85,49 +85,8 @@ public class SocketClientMessageHandler implements Runnable {
     private void parseMessage(ServerMessage message) throws InterruptedException, IOException {
             synchronized (this) {
                 switch (message.getMessageType()) {
-                    case UPDATE -> {
-                        client.update((GameEvent) message.getMessageContent()[0], message.getMessageContent()[1]);
-                    }
-                    case SUCCESS -> {
-                        messageQueue.put(message.getMessageContent()[0]);
-                    }
-                    case ERROR -> {
-                        messageQueue.put(message.getMessageContent()[0]);
-                    }
-                    case GAME_CREATED -> {
-                        messageQueue.put(message.getMessageContent()[0]);
-                    }
-                    case PLAYER_ADDED -> {
-                        messageQueue.put(message.getMessageContent()[0]);
-                    }
-                    case USERNAME_CHECK_RESULT -> {
-                        messageQueue.put(message.getMessageContent()[0]);
-                    }
-                    case AVAILABLE_GAMES -> {
-                        messageQueue.put(message.getMessageContent()[0]);
-                    }
-                    case CARD_INFO -> {
-                        messageQueue.put(message.getMessageContent()[0]);
-                    }
-                    case OTHER_SIDE_STARTER -> {
-                        messageQueue.put(message.getMessageContent()[0]);
-                    }
-                    case OTHER_SIDE_PLAYABLE -> {
-                        messageQueue.put(message.getMessageContent()[0]);
-                    }
-                    case PLAYED_CARD_SUCCESS ->
-                    {
-                        messageQueue.put(message.getMessageContent()[0]);
-                    }
-                    case READY_STATUS ->
-                    {
-                        messageQueue.put(message.getMessageContent()[0]);
-                    }
-                    case REQUESTED_CARD ->
-                    {
-                        messageQueue.put(message.getMessageContent()[0]);
-                    }
-
+                    case UPDATE -> client.update((GameEvent) message.getMessageContent()[0], message.getMessageContent()[1]);
+                    case SUCCESS, ERROR, GAME_CREATED, PLAYER_ADDED, USERNAME_CHECK_RESULT, AVAILABLE_GAMES, CARD_INFO, OTHER_SIDE_STARTER, OTHER_SIDE_PLAYABLE, PLAYED_CARD_SUCCESS, READY_STATUS, REQUESTED_CARD -> messageQueue.put(message.getMessageContent()[0]);
                 }
             }
     }

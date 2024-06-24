@@ -29,8 +29,7 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
     private String username = null;
 
     /**
-     * Constructor method
-     *
+     * Constructor
      * @param socket the socket passed by the server
      * @param server the server
      * @throws IOException when ObjectOutputStream and ObjectInputStream can't be created
@@ -86,25 +85,15 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         this.username = (String) message.getMessageContent()[0];
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
-                    case CREATE_GAME -> {
-                        sendMessage(ServerMessageType.GAME_CREATED, server.createGame(this, (int) message.getMessageContent()[0]));
-                    }
+                    case CREATE_GAME -> sendMessage(ServerMessageType.GAME_CREATED, server.createGame(this, (int) message.getMessageContent()[0]));
                     case SUBSCRIBE -> {
                         server.subscribe(this, (int) message.getMessageContent()[0]);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
-                    case ADD_PLAYER -> {
-                        sendMessage(ServerMessageType.PLAYER_ADDED, server.addPlayerToGame((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], this));
-                    }
-                    case CHECK_USERNAME -> {
-                        sendMessage(ServerMessageType.USERNAME_CHECK_RESULT, server.checkUsername((String) message.getMessageContent()[0]));
-                    }
-                    case AVAILABLE_GAMES_REQUEST -> {
-                        sendMessage(ServerMessageType.AVAILABLE_GAMES, server.getAvailableGames());
-                    }
-                    case SET_READY -> {
-                        sendMessage(ServerMessageType.SUCCESS, server.setReady((Integer) message.getMessageContent()[0], this.username));
-                    }
+                    case ADD_PLAYER -> sendMessage(ServerMessageType.PLAYER_ADDED, server.addPlayerToGame((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], this));
+                    case CHECK_USERNAME -> sendMessage(ServerMessageType.USERNAME_CHECK_RESULT, server.checkUsername((String) message.getMessageContent()[0]));
+                    case AVAILABLE_GAMES_REQUEST -> sendMessage(ServerMessageType.AVAILABLE_GAMES, server.getAvailableGames());
+                    case SET_READY -> sendMessage(ServerMessageType.SUCCESS, server.setReady((Integer) message.getMessageContent()[0], this.username));
                     case CARD_INFO_REQUEST -> {
                         System.out.println("Sent Card Info");
                         sendMessage(ServerMessageType.CARD_INFO, server.getCardInfo((Card) message.getMessageContent()[0], (int) message.getMessageContent()[1]));
@@ -113,12 +102,8 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         server.setMarker((Player) message.getMessageContent()[0], (Integer) message.getMessageContent()[1], (Marker) message.getMessageContent()[2]);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
-                    case OTHER_SIDE_STARTER_CARD_REQUEST -> {
-                        sendMessage(ServerMessageType.OTHER_SIDE_STARTER, server.getOtherSideCard((int) message.getMessageContent()[0], (StarterCard) message.getMessageContent()[1]));
-                    }
-                    case OTHER_SIDE_PLAYABLE_CARD_REQUEST -> {
-                        sendMessage(ServerMessageType.OTHER_SIDE_PLAYABLE, server.getOtherSideCard((int) message.getMessageContent()[0], (PlayableCard) message.getMessageContent()[1]));
-                    }
+                    case OTHER_SIDE_STARTER_CARD_REQUEST -> sendMessage(ServerMessageType.OTHER_SIDE_STARTER, server.getOtherSideCard((int) message.getMessageContent()[0], (StarterCard) message.getMessageContent()[1]));
+                    case OTHER_SIDE_PLAYABLE_CARD_REQUEST -> sendMessage(ServerMessageType.OTHER_SIDE_PLAYABLE, server.getOtherSideCard((int) message.getMessageContent()[0], (PlayableCard) message.getMessageContent()[1]));
                     case SET_STARTER_CARD_SIDE -> {
                         server.setStarterCardSide((int) message.getMessageContent()[0], (Player) message.getMessageContent()[1], (StarterCard) message.getMessageContent()[2], (Side) message.getMessageContent()[3]);
                         sendMessage(ServerMessageType.SUCCESS, true);
@@ -139,20 +124,13 @@ public class SocketClientHandler implements Runnable, ClientHandlerInterface {
                         server.endTurn((int) message.getMessageContent()[0], (String) message.getMessageContent()[1]);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
-                    case RECONNECT_PLAYER -> {
-                        sendMessage(ServerMessageType.SUCCESS, server.reconnectPlayerToGame((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], this));
-
-                    }
-                    case GET_READY_STATUS -> {
-                        sendMessage(ServerMessageType.READY_STATUS, server.getReadyStatus((int) message.getMessageContent()[0]));
-                    }
+                    case RECONNECT_PLAYER -> sendMessage(ServerMessageType.SUCCESS, server.reconnectPlayerToGame((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], this));
+                    case GET_READY_STATUS -> sendMessage(ServerMessageType.READY_STATUS, server.getReadyStatus((int) message.getMessageContent()[0]));
                     case QUIT_GAME -> {
                         server.quitGame((int) message.getMessageContent()[0], this);
                         sendMessage(ServerMessageType.SUCCESS, true);
                     }
-                    case GET_CARD_BY_ID -> {
-                        sendMessage(ServerMessageType.REQUESTED_CARD, server.getPlayableCardById((int) message.getMessageContent()[0], (int) message.getMessageContent()[1]));
-                    }
+                    case GET_CARD_BY_ID -> sendMessage(ServerMessageType.REQUESTED_CARD, server.getPlayableCardById((int) message.getMessageContent()[0], (int) message.getMessageContent()[1]));
                     case SEND_CHAT_MESSAGE ->
                     {
                         server.sendChatMessage((int) message.getMessageContent()[0], (String) message.getMessageContent()[1], username);
