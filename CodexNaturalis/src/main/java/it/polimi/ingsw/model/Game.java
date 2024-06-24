@@ -69,7 +69,7 @@ public class Game implements Serializable {
      * @throws AlreadyMaxNumberOfPlayersException when the game already contains the maximum amount of players
      */
     public void addPlayer(Player player, int desiredNumberOfPlayers) throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
-        if(!(listOfPlayers.contains(player))) {
+        if(!(listOfPlayers.stream().map(Player::getUsername).toList().contains(player.getUsername()))) {
             if(listOfPlayers.size() < desiredNumberOfPlayers) {
                 this.listOfPlayers.add(player);
                 player.setGame(this);
