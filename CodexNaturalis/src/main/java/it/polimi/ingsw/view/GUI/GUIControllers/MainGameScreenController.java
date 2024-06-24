@@ -11,7 +11,6 @@ import it.polimi.ingsw.view.GUI.InspectedCardInfo;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -23,7 +22,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.util.Callback;
 
 import java.util.ArrayList;
@@ -415,10 +413,9 @@ public class MainGameScreenController extends GUIController{
 
     /**
      * Handles the action of the rulebook button.
-     * @param actionEvent The ActionEvent object.
      */
     @FXML
-    public void rulebookButton(ActionEvent actionEvent) {
+    public void rulebookButton() {
         if(isInRulebook) {
             rulebookPane.setDisable(false);
             rulebookPane.setVisible(true);
@@ -777,7 +774,6 @@ public class MainGameScreenController extends GUIController{
         }
         catch (Exception e)
         {
-            e.printStackTrace();
             throw new RuntimeException();
         }
     }
@@ -789,8 +785,6 @@ public class MainGameScreenController extends GUIController{
             @Override
             public ListCell<String> call(ListView<String> list) {
                 final ListCell cell = new ListCell() {
-                    private Text text;
-
                     @Override
                     public void updateItem(Object item, boolean empty) {
                         super.updateItem(item, empty || item == null);
@@ -848,28 +842,13 @@ public class MainGameScreenController extends GUIController{
 
                 Label resourceLabel;
                 switch(resource){
-                    case FUNGI -> {
-                        resourceLabel = fungi;
-                    }
-                    case ANIMAL -> {
-                        resourceLabel = animal;
-                    }
-                    case PLANT -> {
-                        resourceLabel = plant;
-                    }
-                    case INSECT -> {
-                        resourceLabel = insect;
-                    }
-                    case QUILL -> {
-                        resourceLabel = quill;
-                    }
-                    case INKWELL -> {
-                        resourceLabel = inkwell;
-                    }
-                    case MANUSCRIPT -> {
-                        resourceLabel = manuscript;
-
-                    }
+                    case FUNGI -> resourceLabel = fungi;
+                    case ANIMAL -> resourceLabel = animal;
+                    case PLANT -> resourceLabel = plant;
+                    case INSECT -> resourceLabel = insect;
+                    case QUILL -> resourceLabel = quill;
+                    case INKWELL -> resourceLabel = inkwell;
+                    case MANUSCRIPT -> resourceLabel = manuscript;
                     default -> throw new RuntimeException();
                 }
                 resourceLabel.setText(Integer.toString(player.getResourceAmount(resource)));
@@ -1424,7 +1403,6 @@ public class MainGameScreenController extends GUIController{
         playerField.setVisible(true);
         borderFieldPane.setDisable(false);
         borderFieldPane.setVisible(true);
-        boolean frontSide = true;
     }
 
     /**
@@ -1578,15 +1556,10 @@ public class MainGameScreenController extends GUIController{
      */
     private void initializeDrawingField()
     {
-        Pane currentPane;
-
         try
         {
             emptyDeckHandler(resourceDeck, Side.BACK);
             emptyDeckHandler(goldDeck, Side.BACK);
-
-            HashMap<DrawPosition,ResourceCard> discoveredResourceCards = viewGUI.getDiscoveredResourceCards();
-            HashMap<DrawPosition,GoldCard> discoveredGoldCards = viewGUI.getDiscoveredGoldCards();
 
             //Empty decks handler
             emptyDeckHandler(topDiscoveredR, Side.FRONT);
@@ -1718,7 +1691,6 @@ public class MainGameScreenController extends GUIController{
         }
         catch (Exception e)
         {
-            e.printStackTrace();
             throw new RuntimeException();
         }
 
@@ -1847,20 +1819,13 @@ public class MainGameScreenController extends GUIController{
         double newY = 0;
         switch (orientation) {
             case TOPRIGHT,
-                 BOTTOMRIGHT -> { // 20 and 24 are the width and height of the angle: 90 - 20 = 70, 60 - 24 = 36
-                newX = oldX + (CARD_WIDTH - ANGLE_WIDTH);
-            }
-            case TOPLEFT, BOTTOMLEFT -> {
-                newX = oldX - (CARD_WIDTH - ANGLE_WIDTH);
-            }
+                 BOTTOMRIGHT -> // 20 and 24 are the width and height of the angle: 90 - 20 = 70, 60 - 24 = 36
+                    newX = oldX + (CARD_WIDTH - ANGLE_WIDTH);
+            case TOPLEFT, BOTTOMLEFT -> newX = oldX - (CARD_WIDTH - ANGLE_WIDTH);
         }
         switch (orientation) {
-            case TOPRIGHT, TOPLEFT -> {
-                newY = oldY - (CARD_HEIGHT - ANGLE_HEIGHT);
-            }
-            case BOTTOMRIGHT, BOTTOMLEFT -> {
-                newY = oldY + (CARD_HEIGHT - ANGLE_HEIGHT);
-            }
+            case TOPRIGHT, TOPLEFT -> newY = oldY - (CARD_HEIGHT - ANGLE_HEIGHT);
+            case BOTTOMRIGHT, BOTTOMLEFT -> newY = oldY + (CARD_HEIGHT - ANGLE_HEIGHT);
         }
         try {
             for (int i = 0; i < DEFAULT_MATRIX_SIZE; i++) {
@@ -1914,10 +1879,7 @@ public class MainGameScreenController extends GUIController{
                         newPane.setOpacity(0.2);
                         newPane.setStyle("-fx-background-color: white");
 
-                        newPane.setOnMouseDragged(e ->
-                        {
-                            dragging = true;
-                        });
+                        newPane.setOnMouseDragged(e -> dragging = true);
 
                         newPane.setOnMouseClicked(this::clickedOnFieldPane);
 
@@ -1934,7 +1896,6 @@ public class MainGameScreenController extends GUIController{
         {
         }
         catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException();
         }
 
@@ -2124,7 +2085,6 @@ public class MainGameScreenController extends GUIController{
                     inspectedCardInfo.setSide(Side.FRONT);
                 }
                 catch (Exception e) {
-                    e.printStackTrace();
                     throw new RuntimeException();
                 }
 
@@ -2208,7 +2168,6 @@ public class MainGameScreenController extends GUIController{
         }
         catch (Exception e)
         {
-            e.printStackTrace();
             throw new RuntimeException();
         }
     }
@@ -2270,7 +2229,6 @@ public class MainGameScreenController extends GUIController{
         }
         catch (Exception e)
         {
-            e.printStackTrace();
             throw new RuntimeException();
         }
     }
@@ -2305,22 +2263,19 @@ public class MainGameScreenController extends GUIController{
      */
     @Override
     public void twentyPoints(String username) {
-        Platform.runLater(new Runnable() {
-            public void run()
+        Platform.runLater(() -> {
+            if(username == null)
+                twentyPoints.setText("Both decks are empty!");
+            else
+                twentyPoints.setText("Player " + username + "\n has reached 20 points!");
+            popupPane.setDisable(false);
+            popupPane.setVisible(true);
+            twentyPoints.setDisable(false);
+            twentyPoints.setVisible(true);
+            twentyPointsReached = true;
+            if(finalTurn)
             {
-                if(username == null)
-                    twentyPoints.setText("Both decks are empty!");
-                else
-                    twentyPoints.setText("Player " + username + "\n has reached 20 points!");
-                popupPane.setDisable(false);
-                popupPane.setVisible(true);
-                twentyPoints.setDisable(false);
-                twentyPoints.setVisible(true);
-                twentyPointsReached = true;
-                if(finalTurn)
-                {
-                    finalRound();
-                }
+                finalRound();
             }
         });
     }
@@ -2424,7 +2379,6 @@ public class MainGameScreenController extends GUIController{
         }
         catch (Exception e)
         {
-            e.printStackTrace();
             throw new RuntimeException();
         }
     }

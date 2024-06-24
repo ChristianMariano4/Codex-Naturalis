@@ -11,7 +11,6 @@ import javafx.stage.Stage;
  * Finally, it starts a new thread that waits for the game to start and then changes the scene to the game.
  */
 public abstract class GUIController {
-
     protected ViewGUI viewGUI;
     protected GUI gui;
     protected Stage primaryStage;

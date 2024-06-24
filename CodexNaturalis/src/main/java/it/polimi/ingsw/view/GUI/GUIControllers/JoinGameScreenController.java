@@ -9,15 +9,10 @@ import it.polimi.ingsw.model.Game;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.TextFlow;
-import javafx.concurrent.ScheduledService;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -28,18 +23,10 @@ import java.util.ArrayList;
  * It extends the GUIController class.
  */
 public class JoinGameScreenController extends GUIController {
-    public ChoiceBox<String> gameList;
-
-    public String gameOnTextFlow;
-    public TextFlow textFlow;
     public Button joinButton;
-    private final ArrayList<Integer> availableGames = new ArrayList<>();
-    Task<Void> checkGames;
-
     public ListView<String> gameList2;
     ObservableList<String> items = FXCollections.observableArrayList();
     public Pane errorPane;
-    private ScheduledService<Void> service;
     public Pane exitPane;
 
     /**
@@ -69,7 +56,7 @@ public class JoinGameScreenController extends GUIController {
      * If an exception occurs during this process, it displays the error pane.
      */
     @FXML
-    public void join(ActionEvent event) {
+    public void join() {
         int gameId;
         String choice = gameList2.getSelectionModel().getSelectedItem();
         choice = choice.replaceAll("\\D+", "");
@@ -82,14 +69,9 @@ public class JoinGameScreenController extends GUIController {
             } else {
                 gui.switchScene(GUIScene.GAME);
             }
-        } catch (ServerDisconnectedException e) {
+        } catch (ServerDisconnectedException | RemoteException e) {
             throw new RuntimeException(e);
-        } catch (NotExistingPlayerException e) {
-            errorPane.setDisable(false);
-            errorPane.setVisible(true);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (GameNotFoundException e) {
+        } catch (NotExistingPlayerException | GameNotFoundException e) {
             errorPane.setDisable(false);
             errorPane.setVisible(true);
         }
@@ -135,13 +117,7 @@ public class JoinGameScreenController extends GUIController {
                     items.add("GameID: " + game.getGameId() + " - STARTED");
                 }
             }
-            availableGames.clear();
-            availableGames.addAll(viewGUI.showAvailableGames().stream().map(Game::getGameId).toList());
-        } catch (ServerDisconnectedException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (ServerDisconnectedException | InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -161,7 +137,7 @@ public class JoinGameScreenController extends GUIController {
      * It hides the exit pane.
      */
     @FXML
-    public void noExitButton(ActionEvent event) {
+    public void noExitButton() {
         exitPane.setDisable(true);
         exitPane.setVisible(false);
     }
@@ -171,7 +147,7 @@ public class JoinGameScreenController extends GUIController {
      * It exits the platform.
      */
     @FXML
-    public void yesExitButton(ActionEvent event) {
+    public void yesExitButton() {
         Platform.exit();
     }
 }

@@ -18,7 +18,7 @@ public class LoginScreenController extends GUIController {
     public TextField username; // The TextField for the username input.
     public Label errorMessage; // The Label for displaying error messages.
 
-    public SoundController soundController; // The SoundController for handling sound effects.
+    //public SoundController soundController; // The SoundController for handling sound effects.
 
     /**
      * Handles the action of the connect button.

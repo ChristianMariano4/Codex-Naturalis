@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.GUI.GUIControllers;
 import it.polimi.ingsw.enumerations.GUIScene;
 import it.polimi.ingsw.model.Game;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -37,7 +36,6 @@ public class GameLobbyController extends GUIController {
     public Button backButton;
     public Label readyPlayers;
     public Button setReadyButton;
-    private final Integer playerNum = 1;
     public Pane exitPane;
     public Label gameIdLabel;
     public Thread waitThread;
@@ -101,26 +99,23 @@ public class GameLobbyController extends GUIController {
     public void update(Object update) {
         if(!(update instanceof Game game))
             return;
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 4; i++) {
-                    try {
-                        Label label = names.get(i);
-                        String username = game.getListOfPlayers().get(i).getUsername();
-                        Pane playerPane = playerPanes.get(i);
-                        label.setText(username);
-                        label.setDisable(false);
-                        label.setVisible(true);
-                        playerPane.setDisable(false);
-                        playerPane.setVisible(true);
+        Platform.runLater(() -> {
+            for (int i = 0; i < 4; i++) {
+                try {
+                    Label label = names.get(i);
+                    String username = game.getListOfPlayers().get(i).getUsername();
+                    Pane playerPane = playerPanes.get(i);
+                    label.setText(username);
+                    label.setDisable(false);
+                    label.setVisible(true);
+                    playerPane.setDisable(false);
+                    playerPane.setVisible(true);
 
-                    } catch (IndexOutOfBoundsException e) {
-                        names.get(i).setDisable(true);
-                        names.get(i).setVisible(false);
-                        playerPanes.get(i).setDisable(true);
-                        playerPanes.get(i).setVisible(false);
-                    }
+                } catch (IndexOutOfBoundsException e) {
+                    names.get(i).setDisable(true);
+                    names.get(i).setVisible(false);
+                    playerPanes.get(i).setDisable(true);
+                    playerPanes.get(i).setVisible(false);
                 }
             }
         });
@@ -135,13 +130,11 @@ public class GameLobbyController extends GUIController {
         try {
             ArrayList<Integer> playersInfo = viewGUI.setReady();
             HashMap<String, Boolean> readyStatus = viewGUI.getReadyStatus();
-            Platform.runLater(new Runnable() {
-                @Override public void run() {
-                    readyPlayers.setText("Ready players: " + readyStatus.values().stream().filter(e -> e).toList().size() + "/" + playersInfo.get(0));
-                    readyPlayers.setDisable(false);
-                    readyPlayers.setVisible(true);
-                    setReadyButton.setDisable(true);
-                }
+            Platform.runLater(() -> {
+                readyPlayers.setText("Ready players: " + readyStatus.values().stream().filter(e -> e).toList().size() + "/" + playersInfo.getFirst());
+                readyPlayers.setDisable(false);
+                readyPlayers.setVisible(true);
+                setReadyButton.setDisable(true);
             });
         }
         catch (Exception e)
@@ -166,7 +159,7 @@ public class GameLobbyController extends GUIController {
      * It hides the exit pane.
      */
     @FXML
-    public void noExitButton(ActionEvent event) {
+    public void noExitButton() {
         exitPane.setDisable(true);
         exitPane.setVisible(false);
     }
@@ -176,7 +169,7 @@ public class GameLobbyController extends GUIController {
      * It quits the game, initializes the viewGUI, interrupts the wait thread, and changes the scene to the lobby.
      */
     @FXML
-    public void yesExitButton(ActionEvent event) {
+    public void yesExitButton() {
         try {
             viewGUI.quitGame();
             viewGUI.initialize();
@@ -220,14 +213,10 @@ public class GameLobbyController extends GUIController {
                                 break;
                             Thread.sleep(1);
                         }
-                        Platform.runLater(new Runnable() {
-                            public void run() {
-                                gui.switchScene(GUIScene.GAME);
-                            }
-                        });
+                        Platform.runLater(() -> gui.switchScene(GUIScene.GAME));
                     } catch (InterruptedException e)
                     {
-                        return;
+                        //end
                     }
             });
             waitThread.start();

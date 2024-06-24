@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.GUI.GUIControllers;
 import it.polimi.ingsw.enumerations.GUIScene;
 import it.polimi.ingsw.exceptions.ServerDisconnectedException;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -20,10 +19,9 @@ public class LobbyController extends GUIController{
 
     /**
      * Handles the action of creating a game.
-     * @param event The ActionEvent object.
      */
     @FXML
-    public void createGame(ActionEvent event) {
+    public void createGame() {
         createGame.setDisable(true);
         createGame.setVisible(false);
 
@@ -37,10 +35,9 @@ public class LobbyController extends GUIController{
 
     /**
      * Handles the action of going back.
-     * @param event The ActionEvent object.
      */
     @FXML
-    public void back(ActionEvent event) {
+    public void back() {
         createGame.setDisable(false);
         createGame.setVisible(true);
 
@@ -54,10 +51,9 @@ public class LobbyController extends GUIController{
 
     /**
      * Handles the action of creating a game for two players.
-     * @param event The ActionEvent object.
      */
     @FXML
-    public void twoPlayers(ActionEvent event) {
+    public void twoPlayers() {
         try {
             viewGUI.createGame(2);
         } catch(ServerDisconnectedException e) {
@@ -68,10 +64,9 @@ public class LobbyController extends GUIController{
 
     /**
      * Handles the action of creating a game for three players.
-     * @param event The ActionEvent object.
      */
     @FXML
-    public void threePlayers(ActionEvent event) {
+    public void threePlayers() {
         try {
             viewGUI.createGame(3);
         } catch(ServerDisconnectedException e) {
@@ -82,10 +77,9 @@ public class LobbyController extends GUIController{
 
     /**
      * Handles the action of creating a game for four players.
-     * @param event The ActionEvent object.
      */
     @FXML
-    public void fourPlayers(ActionEvent event) {
+    public void fourPlayers() {
         try {
             viewGUI.createGame(4);
         } catch(ServerDisconnectedException e) {
@@ -97,40 +91,36 @@ public class LobbyController extends GUIController{
 
     /**
      * Handles the action of joining a game.
-     * @param event The ActionEvent object.
      */
     @FXML
-    public void joinGame(ActionEvent event)
+    public void joinGame()
     {
         gui.switchScene(GUIScene.JOINGAME);
     }
 
     /**
      * Handles the action of quitting the game.
-     * @param event The ActionEvent object.
      */
     @FXML
-    public void quit(ActionEvent event) {
+    public void quit() {
         exitPane.setDisable(false);
         exitPane.setVisible(true);
     }
 
     /**
      * Handles the action of not exiting the game.
-     * @param event The ActionEvent object.
      */
     @FXML
-    public void noExitButton(ActionEvent event) {
+    public void noExitButton() {
         exitPane.setDisable(true);
         exitPane.setVisible(false);
     }
 
     /**
      * Handles the action of confirming to exit the game.
-     * @param event The ActionEvent object.
      */
     @FXML
-    public void yesExitButton(ActionEvent event) {
+    public void yesExitButton() {
         Platform.exit();
     }
 }

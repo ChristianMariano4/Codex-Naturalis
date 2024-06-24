@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 
 import java.util.*;
@@ -15,8 +14,6 @@ import java.util.*;
  * It extends the GUIController class.
  */
 public class ScoreboardController extends GUIController{
-
-    public TextArea playerPoints;
     public Pane p0;
     public Pane p1;
     public Pane p2;
@@ -47,7 +44,7 @@ public class ScoreboardController extends GUIController{
         Game game = viewGUI.getGame();
         LinkedHashMap<String, Integer> playersPlacement = new LinkedHashMap<>();
         ArrayList<Player> sortedPlayers = new ArrayList<>();
-        List<Integer> points = new ArrayList<>(game.getListOfPlayers().stream().filter(e -> !e.getIsDisconnected()).map(e -> e.getPoints()).toList());
+        List<Integer> points = new ArrayList<>(game.getListOfPlayers().stream().filter(e -> !e.getIsDisconnected()).map(Player::getPoints).toList());
         Collections.sort(points);
         Collections.reverse(points);
         for(Integer point: points)

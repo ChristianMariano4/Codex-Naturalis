@@ -4,11 +4,14 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.net.URISyntaxException;
+import java.util.Objects;
 
 /**
  * This class is responsible for controlling the sound effects in the GUI.
  * It extends the GUIController class.
  */
+
+//TODO: can be deleted or not
 public class SoundController extends GUIController {
 
     /**
@@ -19,7 +22,7 @@ public class SoundController extends GUIController {
      */
     public void buttonClick() {
         try {
-            String fileName = getClass().getResource("/sounds/buttonClick.wav").toURI().toString();
+            String fileName = Objects.requireNonNull(getClass().getResource("/sounds/buttonClick.wav")).toURI().toString();
             Media media = new Media(fileName);
             MediaPlayer player = new MediaPlayer(media);
             player.setVolume(0.5);
