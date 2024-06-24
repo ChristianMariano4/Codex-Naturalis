@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.DrawPosition;
-import it.polimi.ingsw.exceptions.CardTypeMismatchException;
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
 import it.polimi.ingsw.model.cards.GoldCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
@@ -19,23 +18,20 @@ public class DrawingField implements Serializable {
     private final HashMap<DrawPosition, GoldCard> discoveredGoldCards;
     private final HashMap<DrawPosition, ResourceCard> discoveredResourceCards;
 
-    //@requires controller has to create the decks with correct types
     /**
      * Constructs a new DrawingField with the given gold card deck and resource card deck.
      * It also initializes the discovered cards.
      *
      * @param goldCardDeck the deck of gold cards
      * @param resourceCardDeck the deck of resource cards
-     * @throws CardTypeMismatchException if the type of card does not match the expected type
-     * @throws DeckIsEmptyException if the deck is empty
      */
-    public DrawingField(Deck<GoldCard> goldCardDeck, Deck<ResourceCard> resourceCardDeck) throws CardTypeMismatchException, DeckIsEmptyException {
+    public DrawingField(Deck<GoldCard> goldCardDeck, Deck<ResourceCard> resourceCardDeck) {
         this.goldCardDeck = goldCardDeck;
         this.resourceCardDeck = resourceCardDeck;
         discoveredGoldCards = new HashMap<>();
         discoveredResourceCards = new HashMap<>();
-
     }
+
     /**
      * Draws a card from the gold card deck.
      *
@@ -52,7 +48,6 @@ public class DrawingField implements Serializable {
             GoldCard chosenCard = discoveredGoldCards.get(drawPosition);
             if(chosenCard == null)
                 throw new DeckIsEmptyException();
-            //Change discovered gold card chosen by the player
             if (!goldCardDeck.isEmpty())
                 discoveredGoldCards.put(drawPosition, goldCardDeck.getTopCard());
             else {
@@ -79,7 +74,6 @@ public class DrawingField implements Serializable {
             ResourceCard chosenCard = discoveredResourceCards.get(drawPosition);
             if(chosenCard == null)
                 throw new DeckIsEmptyException();
-            //Change discovered resource card chosen by the player
             if(!resourceCardDeck.isEmpty())
                 discoveredResourceCards.put(drawPosition, resourceCardDeck.getTopCard());
             else {
@@ -91,18 +85,19 @@ public class DrawingField implements Serializable {
     }
 
     /**
+     * Draw a card from the resource card deck
      *
-     * @return The top card of the resource card deck
-     * @throws DeckIsEmptyException
+     * @return the drawn card
+     * @throws DeckIsEmptyException if the deck is empty
      */
     public ResourceCard seeTopResourceCard() throws DeckIsEmptyException {
         return resourceCardDeck.seeTopCard();
     }
 
     /**
-     *
+     * Draw a card from the gold card deck
      * @return The top card of the gold card deck
-     * @throws DeckIsEmptyException
+     * @throws DeckIsEmptyException if the deck is empty
      */
     public GoldCard seeTopGoldCard() throws DeckIsEmptyException {
         return goldCardDeck.seeTopCard();
@@ -110,6 +105,7 @@ public class DrawingField implements Serializable {
 
 
     /**
+     * Set the discovered cards from the decks
      *
      * @throws DeckIsEmptyException if the deck is empty
      */
@@ -122,6 +118,7 @@ public class DrawingField implements Serializable {
     }
 
     /**
+     * Get the discovered gold cards
      *
      * @return the HashMap of the discovered goldCards
      */
@@ -130,6 +127,7 @@ public class DrawingField implements Serializable {
     }
 
     /**
+     * Get the discovered resource cards
      *
      * @return the HashMap of the discovered resourceCards
      */
@@ -139,6 +137,7 @@ public class DrawingField implements Serializable {
 
     /**
      * See if both decks are empty
+     *
      * @return true if both decks are empty
      */
     public boolean getBothDecksEmpty()
@@ -147,6 +146,7 @@ public class DrawingField implements Serializable {
     }
     /**
      * See if all decks and discovered cards are not there
+     *
      * @return true if both decks are empty
      */
     public boolean getNoCardsLeft()

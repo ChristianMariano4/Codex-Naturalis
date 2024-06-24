@@ -1,15 +1,10 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.AlreadyExistingPlayerException;
-import it.polimi.ingsw.exceptions.AlreadyMaxNumberOfPlayersException;
 import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.cards.ObjectiveCard;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import static it.polimi.ingsw.model.GameValues.MAX_PLAYER_NUMBER;
 
 /**
  * TableTop class is the class that contains the drawing field and all the players' fields.
@@ -36,7 +31,7 @@ public class TableTop implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the drawing field of the game
      * @return the reference to the drawingField
      */
     public DrawingField getDrawingField() {
@@ -45,7 +40,7 @@ public class TableTop implements Serializable {
 
 
     /**
-     * Getter
+     * Get the two shared objective cards of the game
      * @return the shared objective cards
      */
     public ArrayList<ObjectiveCard> getSharedObjectiveCards(){

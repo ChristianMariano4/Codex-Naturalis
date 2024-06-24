@@ -21,7 +21,7 @@ public class PlayerHand implements Serializable {
      * Constructor
      */
     public PlayerHand() {
-        this.cardsInHand = new ArrayList<PlayableCard>();
+        this.cardsInHand = new ArrayList<>();
     }
 
     /**
@@ -37,11 +37,11 @@ public class PlayerHand implements Serializable {
     }
 
     /**
-     *  Getter
-     * @return the list of cards in the playerHand
+     * Get the list of cards in the player's hand
+     * @return a copy the list of cards in the playerHand
      */
     public ArrayList<PlayableCard> getCardsInHand() {
-        return new ArrayList<PlayableCard>(cardsInHand);
+        return new ArrayList<>(cardsInHand);
     }
 
     /**

@@ -31,9 +31,6 @@ public class Game implements Serializable {
     private boolean isGameEnded = false;
     private boolean isGameEndedForDisconnection = false;
 
-
-    //controller has to create the drawing field before creating the game to create drawingField
-
     /**
      * Constructor
      * @param gameId the unique ID of the game
@@ -43,8 +40,8 @@ public class Game implements Serializable {
     public Game(int gameId, DrawingField drawingField, ArrayList<ObjectiveCard> sharedObjectiveCards, Deck<ObjectiveCard> objectiveCardDeck, Deck<StarterCard> starterCardDeck) throws InvalidConstructorDataException {
         this.gameStatus = GameStatus.LOBBY_CREATED;
         this.gameId = gameId;
-        this.listOfPlayers = new ArrayList<Player>();
-        this.availableMarkers = new ArrayList<Marker>(Arrays.asList(Marker.values()));
+        this.listOfPlayers = new ArrayList<>();
+        this.availableMarkers = new ArrayList<>(Arrays.asList(Marker.values()));
         availableMarkers.remove(Marker.BLACK);
         try {
             this.tableTop = new TableTop(drawingField, sharedObjectiveCards);
@@ -58,7 +55,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the unique ID of the game
      * @return unique ID of the game
      */
     public int getGameId() {
@@ -66,7 +63,7 @@ public class Game implements Serializable {
     }
 
     /**
-     *  Adds a player to the game
+     * Adds a player to the game
      * @param player the player you want to add
      * @throws AlreadyExistingPlayerException when the player we want to add already exists in the game
      * @throws AlreadyMaxNumberOfPlayersException when the game already contains the maximum amount of players
@@ -85,24 +82,16 @@ public class Game implements Serializable {
     }
 
     /**
-     * Getter
-     * @return the number of players currently present in the game
-     */
-    public int getNumberOfPlayers() {
-        return listOfPlayers.size();
-    }
-
-    /**
-     * Getter
+     * Get the list of players in the game
      * @return a copy of the list of player in the game
      */
     public ArrayList<Player> getListOfPlayers()
     {
-        return new ArrayList<Player>(listOfPlayers);
+        return new ArrayList<>(listOfPlayers);
     }
 
     /**
-     *  Getter
+     * Get the tabletop
      * @return the tabletop associated with the game
      */
     public TableTop getTableTop() {
@@ -117,7 +106,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Getter
+     * Get objective card deck
      * @return return the objective card deck
      */
     public Deck<ObjectiveCard> getObjectiveCardDeck() {
@@ -125,7 +114,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Getter
+     * Get yet available starter cards
      * @return the available starter cards
      */
     public Deck<StarterCard> getAvailableStarterCards() {
@@ -133,7 +122,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Getter
+     * Get yet available markers
      * @return the available markers
      */
     public ArrayList<Marker> getAvailableMarkers() {
@@ -141,15 +130,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Remove the selected marker
-     * @param marker to remove
-     */
-    public void removeMarker(Marker marker) {
-        this.availableMarkers.remove(marker);
-    }
-
-    /**
-     * Getter
+     * Get the current player that is playing
      * @return the current player
      */
     public Player getCurrentPlayer() {
@@ -157,7 +138,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Setter
+     * Set the current player that is going to start the turn
      * @param currentPlayer to set as current player
      */
     public void setCurrentPlayer(Player currentPlayer) {
@@ -165,7 +146,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the game status
      * @return the game status
      */
     public GameStatus getGameStatus() {
@@ -173,7 +154,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Setter
+     * Set the game status
      * @param gameStatus to set as gameStatus
      */
     public void setGameStatus(GameStatus gameStatus){
@@ -181,7 +162,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the player with the given username
      * @param username of the player
      * @return the player with the right username
      * @throws NotExistingPlayerException if the player with the passed username not exists
@@ -196,7 +177,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Getter
+     * See if the game is ended
      * @return true if the game is ended, false otherwise
      */
     public boolean getIsGameEnded()
@@ -205,7 +186,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Setter
+     * Set game status (ended or not)
      * @param isGameEnded to set as isGameEnded value, true if the game is ended, false if is not ended
      */
     public void setIsGameEnded(boolean isGameEnded)
@@ -214,20 +195,25 @@ public class Game implements Serializable {
     }
 
     /**
-     * Getter
+     * See if the game is ended by a disconnection
      * @return return true if the game is ended by a disconnection
      */
     public boolean getIsGameEndedForDisconnection()
     {
         return this.isGameEndedForDisconnection;
     }
+
+    /**
+     * Set game status (ended or not) for disconnection
+     * @param isGameEndedForDisconnection to set as isGameEndedForDisconnection value, true if the game is ended by a disconnection, false if is not ended by a disconnection
+     */
     public void setIsGameEndedForDisconnection(boolean isGameEndedForDisconnection)
     {
         this.isGameEndedForDisconnection = isGameEndedForDisconnection;
     }
 
     /**
-     * Remove a player from the game
+     * Remove player with the given username from the game
      * @param username of the player to remove
      */
     public void removePlayer(String username) {

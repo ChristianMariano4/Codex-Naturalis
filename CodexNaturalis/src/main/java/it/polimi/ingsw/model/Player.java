@@ -18,9 +18,6 @@ public class Player implements Serializable {
     private boolean isTurn;
     private boolean isFirst;
     private Marker marker;
-    /**
-     * HashMap of all resources obtained by the player during the game
-     */
     private final HashMap<Resource, Integer>  resourceAmount;
     private int points;
     private final PlayerHand playerHand;
@@ -36,7 +33,6 @@ public class Player implements Serializable {
      * @param username The ID of the player
      * @throws InvalidConstructorDataException Exception thrown if the constructor data are invalid
      */
-    //controller crates player -> player creates empty playerhand -> controller adds cards to playerhand from deck
     public Player(String username) throws InvalidConstructorDataException {
         this.username = username;
         this.isDisconnected = false;
@@ -44,13 +40,13 @@ public class Player implements Serializable {
         this.playerField = new PlayerField();
         this.points = 0;
         this.marker = null;
-        resourceAmount = new HashMap<Resource, Integer>();
+        resourceAmount = new HashMap<>();
 
         resourceAmountInitializer(resourceAmount);
     }
 
     /**
-     * Setter
+     * Set the game to which the player belongs
      * @param game The reference of the game to which the player belongs
      */
     public void setGame(Game game) {
@@ -58,7 +54,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the username of the player
      * @return the username of the player
      */
     public String getUsername() {
@@ -66,7 +62,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Getter
+     * See if it is the turn of the player
      * @return a boolean that indicate if is the turn of the player
      */
     public boolean getIsTurn() {
@@ -74,15 +70,15 @@ public class Player implements Serializable {
     }
 
     /**
-     * Setter
-     * @param isTurn True if is the turn of the player, false otherwise
+     * Set the turn status (true or false) of the player
+     * @param isTurn true if is the turn of the player, false otherwise
      */
     public void setIsTurn(boolean isTurn) {
         this.isTurn = isTurn;
     }
 
     /**
-     * Getter
+     * See if the player has the first turn
      * @return true if the player is the first of the game
      */
     public boolean getIsFirst() {
@@ -90,8 +86,8 @@ public class Player implements Serializable {
     }
 
     /**
-     * Setter
-     * @param isFirst Is true if the player is the first of the game, false otherwise
+     * Set if the player has the first turn
+     * @param isFirst is true if the player is the first of the game, false otherwise
      */
     public void setIsFirst(boolean isFirst) {
         this.isFirst = isFirst;
@@ -100,7 +96,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the marker chosen by the player
      * @return the Marker of the player
      */
     public Marker getMarker() {
@@ -108,7 +104,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Setter
+     * Set the marker chosen by the player
      * @param marker The marker selected by the player during the pre-game
      */
     public void setMarker(Marker marker) {
@@ -116,7 +112,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the amount of a specific resource
      * @param resource Resource of which we want to know the quantity possessed by the player
      * @return the amount of the specified resource of the player
      */
@@ -139,7 +135,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the points of the player
      * @return the points of the player
      */
     public int getPoints() {
@@ -204,7 +200,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the player field of the player
      * @return the reference of the playerFiled linked to the player
      */
     public PlayerField getPlayerField() {
@@ -212,13 +208,13 @@ public class Player implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the player hand
      * @return the playerHand
      */
     public PlayerHand getPlayerHand() { return playerHand; }
 
     /**
-     * Setter
+     * Set the secret objective card of the player
      * @param secretObjective secret objective card to set
      */
     public void setSecretObjective(ObjectiveCard secretObjective)
@@ -227,7 +223,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the secret objective card of the player
      * @return the secret objective card
      */
     public ObjectiveCard getSecretObjective()
@@ -236,7 +232,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Getter
+     * Get the starter card of the player
      * @return the starter card
      */
     public StarterCard getStarterCard() {
@@ -244,7 +240,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Setter
+     * Set the starter card of the player
      * @param starterCard to set as player starter card
      */
     public void setStarterCard(StarterCard starterCard) {
@@ -266,7 +262,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Getter
+     * See if the player is disconnected
      * @return isDisconnected value
      */
     public boolean getIsDisconnected(){
@@ -281,7 +277,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Getter
+     * See if the player is reconnecting
      * @return isReconnecting value
      */
     public boolean getIsReconnecting(){
