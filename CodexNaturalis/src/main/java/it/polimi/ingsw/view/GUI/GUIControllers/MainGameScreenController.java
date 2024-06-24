@@ -784,23 +784,19 @@ public class MainGameScreenController extends GUIController{
         chatList.setCellFactory(new Callback<>() {
             @Override
             public ListCell<String> call(ListView<String> list) {
-                final ListCell cell = new ListCell() {
+
+                return new ListCell<>() {
                     @Override
-                    public void updateItem(Object item, boolean empty) {
-                        super.updateItem(item, empty || item == null);
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
                         if (!isEmpty()) {
                             setPrefWidth(chatList.getPrefWidth() - 5);
                             setTextFill(Color.WHITE);
                             setWrapText(true);
-                            assert item != null;
-                            setText(item.toString());
-
+                            setText(item);
                         }
                     }
-
                 };
-
-                return cell;
             }
         });
         chatMessages.clear();

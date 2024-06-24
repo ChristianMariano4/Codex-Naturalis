@@ -22,9 +22,11 @@ import java.util.Scanner;
 
 import static it.polimi.ingsw.enumerations.GUIScene.NICKNAME;
 
+/**
+ * This class is responsible for the GUI of the application.
+ * It extends the Application class from JavaFX.
+ */
 public class GUI extends Application {
-
-    //BorderPane root;
     GUIController controller;
     Stage primaryStage;
     ViewGUI viewGUI;
@@ -35,10 +37,22 @@ public class GUI extends Application {
     private final String macName = "Mac OS X";
     private final String windowsName = "Windows";
 
-
+    /**
+     * Getter for the ViewGUI instance.
+     *
+     * @return The ViewGUI instance.
+     */
     public ViewGUI getViewGUI() {
         return viewGUI;
     }
+
+    /**
+     * This method is called when the application is launched.
+     * It initializes the server and switches to the nickname scene.
+     *
+     * @param stage The primary stage of the application.
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
     public void start(Stage stage) throws IOException {
 
@@ -67,6 +81,11 @@ public class GUI extends Application {
         switchScene(NICKNAME);
     }
 
+    /**
+     * This method is used to switch between different scenes in the application.
+     *
+     * @param scene The scene to switch to.
+     */
     public void switchScene(GUIScene scene)
     {
         try {
@@ -151,14 +170,28 @@ public class GUI extends Application {
 
     }
 
+    /**
+     * This method is used to set the connection type for the application.
+     *
+     * @param isRMI A boolean indicating whether the connection type is RMI.
+     */
     public static void setConnectionType(boolean isRMI)
     {
         GUI.isRMI = isRMI;
     }
+
+    /**
+     * This method is used to launch the GUI.
+     */
     public static void launchGUI() {
         launch();
     }
 
+    /**
+     * This method is used to initialize the server.
+     *
+     * @throws ServerDisconnectedException If the server is disconnected.
+     */
     public void serverInit() throws ServerDisconnectedException {
         if(isRMI) {
             System.out.println("Insert server IP address, leave empty for localhost: ");
@@ -193,6 +226,13 @@ public class GUI extends Application {
             client.connectToServer();
         }
     }
+
+    /**
+     * This method is used to rescale the application window.
+     *
+     * @param width The new width of the window.
+     * @param height The new height of the window.
+     */
     public  void rescale(double width, double height) {
         if(resealable) {
             double w = width / widthOld;
@@ -204,21 +244,48 @@ public class GUI extends Application {
             primaryStage.getScene().lookup("#scalable").getTransforms().add(scale);
         }
     }
+
+    /**
+     * This method is used to update the game state.
+     *
+     * @param update The object representing the update.
+     */
     public void update(Object update)
     {
         controller.update(update);
     }
+
+    /**
+     * This method is called when a player reaches twenty points.
+     *
+     * @param username The username of the player who reached twenty points.
+     */
     public void twentyPoints(String username) {
         controller.twentyPoints(username);
     }
+
+    /**
+     * This method is called when the final round of the game starts.
+     */
     public void finalRound()
     {
         controller.finalRound();
     }
+
+    /**
+     * This method is called when the game ends.
+     * It switches the scene to the scoreboard.
+     */
     public void gameEnd()
     {
         Platform.runLater(() -> switchScene(GUIScene.SCOREBOARD));
     }
+
+    /**
+     * This method is called when a chat message is received.
+     *
+     * @param message The received chat message.
+     */
     public void chatMessage(String message)
     {
         controller.chatMessage(message);
