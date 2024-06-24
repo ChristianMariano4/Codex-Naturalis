@@ -6,7 +6,6 @@ import java.io.Serializable;
 public enum ClientMessageType implements Serializable {
     HEARTBEAT,
     CREATE_GAME,
-    JOIN_GAME,
     PLAY_CARD,
     DRAW_CARD,
     END_TURN,
@@ -15,15 +14,10 @@ public enum ClientMessageType implements Serializable {
     SET_READY,
     SUBSCRIBE,
     CARD_INFO_REQUEST,
-    PLAYABLE_CARD_BY_ID_REQUEST,
     SET_MARKER,
     SET_STARTER_CARD_SIDE,
     SET_SECRET_OBJECTIVE_CARD,
     CHECK_USERNAME,
     OTHER_SIDE_STARTER_CARD_REQUEST,
     OTHER_SIDE_PLAYABLE_CARD_REQUEST,
-
-    USERNAME, SET_USERNAME, RECONNECT_PLAYER, GET_READY_STATUS, QUIT_GAME, GET_CARD_BY_ID, SEND_CHAT_MESSAGE,
-
-
 }

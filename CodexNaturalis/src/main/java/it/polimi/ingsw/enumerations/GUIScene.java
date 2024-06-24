@@ -4,7 +4,9 @@ public enum GUIScene {
     NICKNAME,
     LOBBY,
     JOINGAME,
-    GAMELOBBY, GAME, SCOREBOARD;
+    GAMELOBBY,
+    GAME,
+    SCOREBOARD;
 
 
     public String getPath()
