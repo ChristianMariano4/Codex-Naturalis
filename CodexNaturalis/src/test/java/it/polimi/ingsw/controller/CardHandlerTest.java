@@ -2,6 +2,8 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.cardFactory.FilePathProvider;
 import it.polimi.ingsw.enumerations.CardType;
+import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.enumerations.Side;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -138,6 +141,47 @@ public class CardHandlerTest {
     }
 
     @Test
+    public void checkRequirements_returnsTrueForGoldCardBack() throws CardTypeMismatchException {
+        PlayableCard mockCard = mock(PlayableCard.class);
+        CardInfo mockInfo = mock(CardInfo.class);
+        when(mockCard.accept(any())).thenReturn(mockInfo);
+        when(mockInfo.getCardType()).thenReturn(CardType.GOLD);
+        when(mockCard.getCurrentSide()).thenReturn(Side.BACK);
+
+        assertTrue(cardHandler.checkRequirements(mockCard, mockPlayer));
+    }
+
+    @Test
+    public void checkRequirements_returnsTrueForGoldCardFront() throws CardTypeMismatchException {
+        PlayableCard mockCard = mock(PlayableCard.class);
+        CardInfo mockInfo = mock(CardInfo.class);
+        when(mockCard.accept(any())).thenReturn(mockInfo);
+        when(mockInfo.getCardType()).thenReturn(CardType.GOLD);
+        when(mockCard.getCurrentSide()).thenReturn(Side.FRONT);
+        when(mockPlayer.getResourceAmount(Resource.FUNGI)).thenReturn(1);
+        ArrayList<Resource> requirements = new ArrayList<>();
+        requirements.add(Resource.FUNGI);
+        when(mockInfo.getRequirements()).thenReturn(requirements);
+
+        assertTrue(cardHandler.checkRequirements(mockCard, mockPlayer));
+    }
+
+    @Test
+    public void checkRequirements_returnFalseForGoldCard() throws CardTypeMismatchException {
+        PlayableCard mockCard = mock(PlayableCard.class);
+        CardInfo mockInfo = mock(CardInfo.class);
+        when(mockCard.accept(any())).thenReturn(mockInfo);
+        when(mockInfo.getCardType()).thenReturn(CardType.GOLD);
+        when(mockCard.getCurrentSide()).thenReturn(Side.FRONT);
+        when(mockPlayer.getResourceAmount(Resource.FUNGI)).thenReturn(0);
+        ArrayList<Resource> requirements = new ArrayList<>();
+        requirements.add(Resource.FUNGI);
+        when(mockInfo.getRequirements()).thenReturn(requirements);
+
+        assertFalse(cardHandler.checkRequirements(mockCard, mockPlayer));
+    }
+
+    @Test
     public void checkRequirements_throwsExceptionForTypeMismatch() {
         PlayableCard mockCard = mock(PlayableCard.class);
         CardInfo mockInfo = mock(CardInfo.class);
@@ -248,5 +292,27 @@ public class CardHandlerTest {
         when(mockCard.getCardId()).thenReturn(1000);
         assertNull(cardHandler.getOtherSideCard(mockCard));
     }
+
+    @Test
+    void shouldReturnCorrectCardById() {
+        assertThrows(NoSuchElementException.class, () -> cardHandler.getPlayableCardById(0));
+
+        PlayableCard mockCard1 = mock(PlayableCard.class);
+        when(mockCard1.getCardId()).thenReturn(1);
+        when(mockCard1.getCurrentSide()).thenReturn(Side.FRONT);
+        PlayableCard mockCard2 = mock(PlayableCard.class);
+        when(mockCard2.getCardId()).thenReturn(1);
+        when(mockCard2.getCurrentSide()).thenReturn(Side.BACK);
+
+        ArrayList<PlayableCard> playableCards = new ArrayList<>();
+        playableCards.add(mockCard1);
+        playableCards.add(mockCard2);
+
+        cardHandler.linkPlayableCards(playableCards);
+
+        assertEquals(mockCard1, cardHandler.getPlayableCardById(1));
+
+    }
+
 
 }
