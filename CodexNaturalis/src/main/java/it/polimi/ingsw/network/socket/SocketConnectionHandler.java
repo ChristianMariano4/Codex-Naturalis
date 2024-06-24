@@ -12,13 +12,7 @@ import java.util.concurrent.Executors;
  * This class is used by the server to accept SocketConnections
  */
 public class SocketConnectionHandler implements Runnable{
-    /**
-     * The ServerSocket of the server
-     */
     private final ServerSocket serverSocket;
-    /**
-     * A reference to the server
-     */
     private final Server server;
 
     /**

@@ -17,21 +17,9 @@ import java.io.ObjectOutputStream;
  * Each SocketClient has its own thread of SocketClientMessageHandler
  */
 public class SocketClientMessageHandler implements Runnable {
-    /**
-     * A reference to the SocketClient object this SocketClientMessageHandler is connected to
-     */
     private final SocketClient client;
-    /**
-     * Socket ObjectInputStream to receive messages from the Server
-     */
     private final ObjectInputStream inputStream;
-    /**
-     * Socket ObjectOutputStream to send messages to the Server
-     */
     private final ObjectOutputStream outputStream;
-    /**
-     * A reference to the queue used to send and receive messages
-     */
     private final ErrorAwareQueue messageQueue;
 
     /**

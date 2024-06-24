@@ -23,22 +23,9 @@ import java.net.Socket;
  * This class implements ClientHandlerInterface, so it is effectively treated by the server as an instance of a client
  */
 public class SocketClientHandler implements Runnable, ClientHandlerInterface {
-
-    /**
-     * Socket ObjectInputStream to receive messages from the SocketClient
-     */
     private final ObjectInputStream inputStream;
-    /**
-     * Socket ObjectOutputStream to send messages to the SocketClient
-     */
     private final ObjectOutputStream outputStream;
-    /**
-     * A reference to the server
-     */
     private final Server server;
-    /**
-     * The unique username associated with the SocketClient
-     */
     private String username = null;
 
     /**
