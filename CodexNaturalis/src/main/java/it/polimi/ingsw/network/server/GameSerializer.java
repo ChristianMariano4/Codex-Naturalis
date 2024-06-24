@@ -7,12 +7,24 @@ import it.polimi.ingsw.network.observer.Listener;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * The GameSerializer class is responsible for saving and loading the state of the game.
+ * It implements the Listener interface to listen for GameEvent updates.
+ */
 public class GameSerializer implements Listener<GameEvent> {
-    private static GameSerializer instance;
 
+    /**
+     * Constructor for the GameSerializer class.
+     * It creates a new directory for saving games.
+     */
     public GameSerializer() {
         new File(getJarDir() + File.separator + "savedGames").mkdir();
     }
+
+    /**
+     * Gets the directory of the jar file.
+     * @return The directory of the jar file.
+     */
     private static String getJarDir() {
         String path = Game.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         try {
@@ -22,6 +34,11 @@ public class GameSerializer implements Listener<GameEvent> {
         }
     }
 
+    /**
+     * Saves the state of a game to a file.
+     * @param game The game to be saved.
+     * @throws FileNotFoundException If the file cannot be found.
+     */
     public static void saveGameState(Game game) throws FileNotFoundException {
         String dir = getJarDir();
         String fileName = null;
@@ -40,6 +57,10 @@ public class GameSerializer implements Listener<GameEvent> {
         }
     }
 
+    /**
+     * Loads the state of all saved games.
+     * @return A list of all saved games.
+     */
     public static ArrayList<Game> loadGamesState(){
         String dir = getJarDir();
         ArrayList<Game> games = new ArrayList<>();
@@ -57,13 +78,17 @@ public class GameSerializer implements Listener<GameEvent> {
                     }
                 }
             }
-        } else
-        {
+        } else {
             throw new RuntimeException("Couldn't load game state");
         }
         return games;
     }
 
+    /**
+     * Updates the state of the game when a GameEvent occurs.
+     * @param event The GameEvent.
+     * @param args Additional arguments.
+     */
     @Override
     public void update(GameEvent event, Object... args) {
         Game game = (Game) args[0];

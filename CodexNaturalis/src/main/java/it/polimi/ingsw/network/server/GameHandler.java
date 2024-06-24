@@ -16,67 +16,25 @@ import it.polimi.ingsw.network.messages.GameEvent;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.util.*;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Server side representation of a single game, used to implement the multiple games additional feature
  * It contains the model and controller of a game
  */
 public class GameHandler implements Serializable {
-    /**
-     * Model game
-     */
     private Game game;
-    /**
-     * Controller related to the game
-     */
     private final Controller controller;
-    /**
-     * Number of ready players
-     */
     private int readyPlayers = 0;
-    /**
-     * All the clients that are part of the game
-     */
     private final List<ClientHandlerInterface> clients; //list of the clients related to this game
-    /**
-     * Observer pattern eventManager used by the game
-     */
     private final EventManager eventManager;
-    /**
-     * A reference to the server
-     */
     private final Server server;
-    /**
-     * This value indicates if new players can join
-     */
     private boolean isOpen = true;
-    /**
-     * Boolean to indicate if twenty points have been reached
-     */
     private boolean twentyPointsReached = false;
-    /**
-     * Boolean to indicate if the final round had begun or not
-     */
     private boolean finalRound = false;
-    /**
-     * The amount of players needed for the game to start, set by the client at game creation
-     */
     private final int desiredNumberOfPlayers;
-    /**
-     * A HashMap that contains all players' usernames and a boolean that indicates if they are ready to start the game or not
-     */
     private final HashMap<String, Boolean> readyStatus = new HashMap<>();
-    /**
-     * A HashMap that contains all players' usernames and the two random objective cards assigned to them
-     */
     private final HashMap<String, ArrayList<ObjectiveCard>> assignedObjectiveCards = new HashMap<>();
-    /**
-     * A value to indicate if the two decks are empty
-     */
     private boolean areDecksEmpty = false;
 
     /**
@@ -97,7 +55,6 @@ public class GameHandler implements Serializable {
         }
         this.desiredNumberOfPlayers = desiredNumberOfPlayers;
         this.clients = new ArrayList<>();
-
     }
 
     /**
@@ -139,9 +96,7 @@ public class GameHandler implements Serializable {
                     game.setGameStatus(GameStatus.ALL_PLAYERS_JOINED);
                     isOpen = false;
                 }
-            } catch (AlreadyExistingPlayerException e) {
-                throw new RuntimeException(e);
-            } catch (AlreadyMaxNumberOfPlayersException e) {
+            } catch (AlreadyExistingPlayerException | AlreadyMaxNumberOfPlayersException e) {
                 throw new RuntimeException(e);
             }
             eventManager.notify(GameEvent.NEW_PLAYER, this.game);
@@ -189,8 +144,7 @@ public class GameHandler implements Serializable {
                                 eventManager.notify(GameEvent.GAME_END, game);
                                 server.removeGame(this);  // whenever GAME_END is sent the gamehandler has to be removed from the list otherwise players can still join a finished game
                             }
-                            catch (NullPointerException e)
-                            {
+                            catch (NullPointerException ignored) {
                             }
                         }
                     } catch (InterruptedException e) {
@@ -331,7 +285,7 @@ public class GameHandler implements Serializable {
                 {
                     drawCard(username, CardType.RESOURCE,position);
                     return;
-                }catch (DeckIsEmptyException e)
+                }catch (DeckIsEmptyException ignored)
                 {
                 } catch (NotExistingPlayerException | AlreadyThreeCardsInHandException e) {
                     throw new RuntimeException(e);
@@ -341,7 +295,7 @@ public class GameHandler implements Serializable {
                 {
                     drawCard(username, CardType.GOLD,position);
                     return;
-                }catch (DeckIsEmptyException e)
+                }catch (DeckIsEmptyException ignored)
 
                 {
                 } catch (NotExistingPlayerException | AlreadyThreeCardsInHandException e) {
@@ -545,9 +499,7 @@ public class GameHandler implements Serializable {
                         if (username.equals(currentMarkerChoice)) {
                             try {
                                 this.setMarker(game.getPlayer(username), game.getAvailableMarkers().getFirst());
-                            } catch (NotAvailableMarkerException e) {
-                                throw new RuntimeException(e);
-                            } catch (NotExistingPlayerException e) {
+                            } catch (NotAvailableMarkerException | NotExistingPlayerException e) {
                                 throw new RuntimeException(e);
                             }
                             break;
@@ -584,14 +536,15 @@ public class GameHandler implements Serializable {
 
         if(message.charAt(0) == '/')
         {
-            ArrayList<String> players = new ArrayList<>(game.getListOfPlayers().stream().filter(e -> !e.getIsDisconnected() && !e.getUsername().equals(sender)).map(e -> e.getUsername()).toList());
+            ArrayList<String> players = new ArrayList<>(game.getListOfPlayers().stream().filter(e -> !e.getIsDisconnected() && !e.getUsername().equals(sender)).map(Player::getUsername).toList());
             for(String player : players)
             {
                 try {
                     if (message.substring(1, player.length() + 2).equals(player + " ")) {
-                        if(message.substring(player.length() + 2).length() == 0)
+                        String substring = message.substring(player.length() + 2);
+                        if(substring.isEmpty())
                             break;
-                        String chatMessage = "[PRIVATE] " + hour + ":" + minute + " " + sender + " to " + player + ": " + message.substring(player.length() + 2);
+                        String chatMessage = "[PRIVATE] " + hour + ":" + minute + " " + sender + " to " + player + ": " + substring;
                         server.sendPrivateChatMessage(sender, player, chatMessage);
                         return;
                     }
