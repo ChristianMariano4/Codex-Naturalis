@@ -4,9 +4,7 @@ import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 
 public class AsyncReader implements Runnable{
-
-
-    Object lock;
+    final Object lock;
     private final BlockingQueue<String> blockingQueue;
 
     AsyncReader(Object lock, BlockingQueue<String> blockingQueue)

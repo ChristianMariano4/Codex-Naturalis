@@ -457,8 +457,8 @@ public class SocketClient extends Client {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 } catch (ServerDisconnectedException e) {
-                    System.err.println("Disconnected from server");
-                    System.exit(-1);
+                    System.err.println("Server disconnection. Try again later.");
+                    System.exit(1);
                     throw new RuntimeException(e);
                 }
             }, 0, GameValues.HEARTBEAT_INTERVAL, TimeUnit.MILLISECONDS);
@@ -470,7 +470,8 @@ public class SocketClient extends Client {
         } catch (IOException | NotExistingPlayerException | InterruptedException e) {
             throw new RuntimeException(e);
         } catch (ServerDisconnectedException e) {
-            System.err.println("Disconnected from server");
+            System.err.println("Server disconnection. Try again later.");
+            System.exit(0);
         }
 
 

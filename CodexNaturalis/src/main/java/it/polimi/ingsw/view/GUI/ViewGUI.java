@@ -18,8 +18,6 @@ public class ViewGUI implements View, Runnable {
 
     private Game game;
     private Client client;
-    private final Scanner scanner = new Scanner(System.in);
-    private String playerId;
     GUI gui;
 
     public ViewGUI(GUI gui) {
@@ -46,11 +44,6 @@ public class ViewGUI implements View, Runnable {
 
     public void setClient(Client client) {
         this.client = client;
-    }
-
-    @Override
-    public void boardUpdate(Game gameUpdated) {
-
     }
 
     @Override
@@ -123,21 +116,22 @@ public class ViewGUI implements View, Runnable {
 
     }
 
-    public HashMap<String, Integer> showScoreboard() {
-        LinkedHashMap<String, Integer> playersPlacement = new LinkedHashMap<>();
-        ArrayList<Player> sortedPlayers = new ArrayList<>();
-        List<Integer> points = game.getListOfPlayers().stream().map(e -> e.getPoints()).toList();
-        Collections.sort(points);
-        Collections.reverse(points);
-        for(Integer point: points)
-        {
-            sortedPlayers.addAll(game.getListOfPlayers().stream().filter(e -> (e.getPoints() == point)).toList());
-        }
-        for(Player p : sortedPlayers) {
-            playersPlacement.put(p.getUsername(), p.getPoints());
-        }
-        return playersPlacement;
-    }
+    //TODO: check if this is needed
+//    public HashMap<String, Integer> showScoreboard() {
+//        LinkedHashMap<String, Integer> playersPlacement = new LinkedHashMap<>();
+//        ArrayList<Player> sortedPlayers = new ArrayList<>();
+//        List<Integer> points = game.getListOfPlayers().stream().map(e -> e.getPoints()).toList();
+//        Collections.sort(points);
+//        Collections.reverse(points);
+//        for(Integer point: points)
+//        {
+//            sortedPlayers.addAll(game.getListOfPlayers().stream().filter(e -> (e.getPoints() == point)).toList());
+//        }
+//        for(Player p : sortedPlayers) {
+//            playersPlacement.put(p.getUsername(), p.getPoints());
+//        }
+//        return playersPlacement;
+//    }
     public Game getGame()
     {
         return this.game;
@@ -171,9 +165,8 @@ public class ViewGUI implements View, Runnable {
         client.setSecretObjectiveCard(game.getGameId(), game.getPlayer(client.getUsername()), card);
     }
 
-    public StarterCard getStarterCard() throws NotExistingPlayerException, ServerDisconnectedException, IOException {
-        StarterCard starterCard = game.getPlayer(client.getUsername()).getStarterCard();
-        return starterCard;
+    public StarterCard getStarterCard() throws NotExistingPlayerException {
+        return game.getPlayer(client.getUsername()).getStarterCard();
     }
     public void setStarterCardSide(StarterCard card, Side side) throws NotExistingPlayerException, ServerDisconnectedException, IOException {
         client.setStarterCardSide(game.getGameId(), game.getPlayer(client.getUsername()), card, side);

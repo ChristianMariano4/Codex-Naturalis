@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Objects;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.enumerations.GUIScene.NICKNAME;
@@ -30,10 +31,9 @@ public class GUI extends Application {
     private static boolean isRMI;
     private double widthOld;
     private double heightOld;
-    boolean rescalable;
+    boolean resealable;
     private final String macName = "Mac OS X";
     private final String windowsName = "Windows";
-    private final String windows11Name = "Windows 11";
 
 
     public ViewGUI getViewGUI() {
@@ -52,19 +52,16 @@ public class GUI extends Application {
 
         this.viewGUI = new ViewGUI(this);
         primaryStage = new Stage();
-        //loadAllScenes();
 
         do {
-
-
             try {
                 serverInit();
                 break;
             } catch (ServerDisconnectedException e) {
-                continue;
+                //TODO: handle server disconnection
             }
         } while (true);
-        Image icon = new Image(getClass().getResourceAsStream("/images/CODEX_Rulebook_IT/01.png"));
+        Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/CODEX_Rulebook_IT/01.png")));
         primaryStage.getIcons().add(icon);
         primaryStage.setTitle("Codex Naturalis");
         switchScene(NICKNAME);
@@ -73,6 +70,7 @@ public class GUI extends Application {
     public void switchScene(GUIScene scene)
     {
         try {
+            assert scene.getPath() != null;
             FXMLLoader loader = new FXMLLoader(getClass().getResource(scene.getPath()));
             Parent root = loader.load();
             try {
@@ -83,7 +81,7 @@ public class GUI extends Application {
                 primaryStage.setScene(new Scene(root));
                 primaryStage.getScene().setRoot(root);
             }
-            rescalable = false;
+            resealable = false;
 
             this.controller = loader.getController();
             controller.setView(viewGUI);
@@ -94,10 +92,11 @@ public class GUI extends Application {
 
             primaryStage.show();
 
+            String windows11Name = "Windows 11";
             if(System.getProperty("os.name").equals(macName)) {
                 widthOld = GameValues.WINDOW_WIDTH;
                 heightOld = GameValues.WINDOW_HEIGHT - 28;
-                rescalable = true;
+                resealable = true;
                 rescale(primaryStage.getWidth(), primaryStage.getHeight() - 28);
 
                 this.primaryStage.widthProperty().addListener(
@@ -113,7 +112,7 @@ public class GUI extends Application {
             } else if(System.getProperty("os.name").equals(windows11Name)) {
                 widthOld = GameValues.WINDOW_WIDTH - 16;
                 heightOld = GameValues.WINDOW_HEIGHT - 41;
-                rescalable = true;
+                resealable = true;
                 rescale(primaryStage.getWidth()- 14.4, primaryStage.getHeight() - 37);
 
                 this.primaryStage.widthProperty().addListener(
@@ -130,7 +129,7 @@ public class GUI extends Application {
             else if(System.getProperty("os.name").contains(windowsName)) {
                 widthOld = GameValues.WINDOW_WIDTH - 16;
                 heightOld = GameValues.WINDOW_HEIGHT - 41;
-                rescalable = true;
+                resealable = true;
                 rescale(primaryStage.getWidth()- 16, primaryStage.getHeight() - 39);
 
                 this.primaryStage.widthProperty().addListener(
@@ -147,7 +146,6 @@ public class GUI extends Application {
 
         } catch (Exception e)
         {
-            e.printStackTrace();
             System.exit(-1);
         }
 
@@ -169,7 +167,7 @@ public class GUI extends Application {
             if (serverIP.isEmpty())
                 serverIP = "localhost";
             System.out.println("Connecting to RMI server...");
-            RMIClient client = null;
+            RMIClient client;
             try {
                 client = new RMIClient(this, serverIP);
             } catch (RemoteException e) {
@@ -182,9 +180,9 @@ public class GUI extends Application {
             System.out.println("Insert server IP address, leave empty for localhost: ");
             Scanner scanner = new Scanner(System.in);
             String serverIP = scanner.nextLine();
-            if(serverIP.equals(""))
+            if(serverIP.isEmpty())
                 serverIP = "localhost";
-            SocketClient client = null;
+            SocketClient client;
             try {
                 client = new SocketClient(this, serverIP);
             }
@@ -196,7 +194,7 @@ public class GUI extends Application {
         }
     }
     public  void rescale(double width, double height) {
-        if(rescalable) {
+        if(resealable) {
             double w = width / widthOld;
             double h = height / heightOld;
 
@@ -219,12 +217,7 @@ public class GUI extends Application {
     }
     public void gameEnd()
     {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                switchScene(GUIScene.SCOREBOARD);
-            }
-        });
+        Platform.runLater(() -> switchScene(GUIScene.SCOREBOARD));
     }
     public void chatMessage(String message)
     {

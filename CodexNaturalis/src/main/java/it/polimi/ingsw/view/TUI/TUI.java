@@ -18,7 +18,6 @@ import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
 
 public class TUI extends UI {
-
     public TUI() {
         init();
     }
@@ -26,12 +25,6 @@ public class TUI extends UI {
     @Override
     public void init() {
         AnsiConsole.systemInstall();
-    }
-
-    public void showGameStarted() {
-        this.clearScreen();
-        this.showGameTitle();
-        //this.showAllPlayers();
     }
 
     public void gameIsStopped()
@@ -117,7 +110,6 @@ public class TUI extends UI {
     }
 
     public void showAllExistingGames(List<Game> availableGames) {
-        int counter = 0;
         System.out.println("Available Games:");
         for(Game game: availableGames) {
             if(game.getGameStatus().getStatusNumber() < GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
@@ -221,10 +213,6 @@ public class TUI extends UI {
         {
             System.out.println(resource.toString() + ": "+resources.get(resource));
         }
-    }
-
-    public void aPlayerJoinedTheGame(String username) {
-        System.out.println(username + "joined the game.");
     }
 
     public void showPlayerField(int[][] pField) {
@@ -734,10 +722,6 @@ public class TUI extends UI {
     public void areYouSure()
     {
         System.out.println("Are you sure? Type 'y' or insert Id of another card on the field.");
-    }
-    public void waitingForOthers()
-    {
-        System.out.println("Waiting for other players to choose their marker");
     }
 
     public void waitingForGameBegin()

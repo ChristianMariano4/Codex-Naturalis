@@ -50,7 +50,8 @@ public class MainClient {
         }
         catch (ServerDisconnectedException e)
         {
-            //next iteration
+            System.err.println("Server disconnected. Try again later.");
+            System.exit(-1);
         }
         catch (Exception e)
         {

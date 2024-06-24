@@ -8,7 +8,6 @@ import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.network.client.Client;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -30,7 +29,7 @@ public class ViewCLI implements View, Runnable {
     public void setUsername() throws IOException, InterruptedException, ServerDisconnectedException {
         //TODO: remove println from view methods
         ui.setUsername();
-        String username = null;
+        String username;
         do {
             username = scanner.nextLine();
 
@@ -106,7 +105,7 @@ public class ViewCLI implements View, Runnable {
      * @throws ServerDisconnectedException if the server disconnects
      */
     public boolean setReady() throws ServerDisconnectedException{
-        ArrayList<Integer> playersInfo = null;
+        ArrayList<Integer> playersInfo;
         do{
             try {
                 ui.setReady();
@@ -116,11 +115,7 @@ public class ViewCLI implements View, Runnable {
                         playersInfo = client.setReady();
                         ui.printReadyPlayersStatus(playersInfo);
                         break;
-                    }
-                    catch(ServerDisconnectedException se) {
-                        throw se;
-                    }
-                    catch (NotEnoughPlayersException e) {
+                    } catch (NotEnoughPlayersException e) {
                         ui.notEnoughPlayers();
                     }
                 }
@@ -154,13 +149,8 @@ public class ViewCLI implements View, Runnable {
     }
 
     @Override
-    public void boardUpdate(Game gameUpdated) {
-        //these three methods call ui methods and display things
-    }
-
-    @Override
     public void newPlayer(Game gameUpdated) {
-
+        this.game = gameUpdated;
     }
 
     @Override
@@ -195,7 +185,7 @@ public class ViewCLI implements View, Runnable {
                 showEndGameScreen();
             }
             while(!Thread.interrupted()) {
-                String command = null;
+                String command;
                 if(!blockingQueue.isEmpty()) {
                     synchronized (lock) {
                         command = blockingQueue.take();
@@ -256,8 +246,6 @@ public class ViewCLI implements View, Runnable {
                                 case "chat":
                                     chat();
                                     break;
-                                case null:
-                                    break;
                                 default:
                                     try {
                                         int cardId = Integer.parseInt(command);
@@ -308,7 +296,6 @@ public class ViewCLI implements View, Runnable {
                         } catch (InterruptedException e) {
                             break;
                         }
-                        continue;
                     } else {
                         ui.showNewMessage(chatHistory.substring(oldChatHistory.length()));
                         oldChatHistory = chatHistory;
@@ -317,6 +304,7 @@ public class ViewCLI implements View, Runnable {
             }
             catch (Exception e)
             {
+                //nothing
             }
         });
         chatThread.start();
@@ -555,17 +543,11 @@ public class ViewCLI implements View, Runnable {
                     try {
                         ui.chooseSecretObjectiveCard();
                         int choice = Integer.parseInt(scanner.nextLine());
-                        ObjectiveCard chosenObjectiveCard = null;
-                        switch (choice) {
-                            case 1:
-                                chosenObjectiveCard = objectiveCardsToChoose.get(0);
-                                break;
-                            case 2:
-                                chosenObjectiveCard = objectiveCardsToChoose.get(1);
-                                break;
-                            default:
-                                throw new NumberFormatException();
-                        }
+                        ObjectiveCard chosenObjectiveCard = switch (choice) {
+                            case 1 -> objectiveCardsToChoose.get(0);
+                            case 2 -> objectiveCardsToChoose.get(1);
+                            default -> throw new NumberFormatException();
+                        };
                         if (chosenObjectiveCard == null)
                             throw new CardNotFoundException();
                         client.setSecretObjectiveCard(game.getGameId(), game.getPlayer(client.getUsername()), chosenObjectiveCard);
@@ -609,7 +591,7 @@ public class ViewCLI implements View, Runnable {
         ui.showPlayerHand(cardsInHand);
     }
 
-    public void showPlayerField() throws RemoteException, NotExistingPlayerException {
+    public void showPlayerField() throws NotExistingPlayerException {
         ui.showPlayerField(createMatrixFromField(game.getPlayer(client.getUsername()).getPlayerField()));
     }
 
@@ -683,7 +665,7 @@ public class ViewCLI implements View, Runnable {
     }
 
     private int[][] createMatrixFromField(PlayerField playerField) {
-        int i = 0, j = 0;
+        int i = 0, j;
         int[][] matrix = new int[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
         for(PlayableCard[] cards: playerField.getMatrixField()) {
             j=0;
@@ -701,7 +683,7 @@ public class ViewCLI implements View, Runnable {
     public void showEndGameScreen() {
         LinkedHashMap<String, Integer> playersPlacement = new LinkedHashMap<>();
         ArrayList<Player> sortedPlayers = new ArrayList<>();
-        List<Integer> points = new ArrayList<>(game.getListOfPlayers().stream().map(e -> e.getPoints()).toList());
+        List<Integer> points = new ArrayList<>(game.getListOfPlayers().stream().map(Player::getPoints).toList());
         Collections.sort(points);
         Collections.reverse(points);
         for(Integer point: points)
@@ -714,15 +696,6 @@ public class ViewCLI implements View, Runnable {
         if(this.playerId.equals(sortedPlayers.getFirst().getUsername()))
             ui.printWinner();
         ui.showEndGameScreen(playersPlacement);
-    }
-
-    public boolean waitingForOthers()
-    {
-        if(!game.getListOfPlayers().getLast().getUsername().equals(client.getUsername())) {
-            ui.waitingForOthers();
-            return true;
-        }
-        return false;
     }
 
     public void waitingForGameBegin()
@@ -739,16 +712,11 @@ public class ViewCLI implements View, Runnable {
             try{
                 Side side;
                 int choice = Integer.parseInt(scanner.nextLine());
-                switch(choice)
-                {
-                    case 1:
-                        side = Side.FRONT;
-                        break;
-                    case 2:
-                        side = Side.BACK;
-                        break;
-                    default: throw new NumberFormatException();
-                }
+                side = switch (choice) {
+                    case 1 -> Side.FRONT;
+                    case 2 -> Side.BACK;
+                    default -> throw new NumberFormatException();
+                };
                 client.setStarterCardSide(game.getGameId(), game.getPlayer(client.getUsername()), cardFront, side);
                 break;
             }
@@ -775,15 +743,11 @@ public class ViewCLI implements View, Runnable {
         try {
             chatHistory = "Write a public message or /[player's username] to send a private message. Write /exit to exit chat.\n";
             this.gameLoop();
-        } catch (RemoteException | NotExistingPlayerException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (CardTypeMismatchException e) {
+        } catch (NotExistingPlayerException | InterruptedException | IOException | CardTypeMismatchException e) {
             throw new RuntimeException(e);
         } catch (ServerDisconnectedException e) {
+            System.err.println("Server disconnected. Try again later.");
+            System.exit(-1);
         }
     }
 

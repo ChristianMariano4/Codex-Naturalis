@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.cards.ObjectiveCard;
 import java.util.ArrayList;
 
 public interface View  {
-    void boardUpdate(Game gameUpdated);
     void newPlayer(Game gameUpdated);
     void update(Game gameUpdated);
     void twentyPoints(String username);
