@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.AlreadyThreeCardsInHandException;
+import it.polimi.ingsw.exceptions.CardNotFoundException;
 import it.polimi.ingsw.exceptions.InvalidCardPositionException;
 import it.polimi.ingsw.model.cards.PlayableCard;
 import it.polimi.ingsw.model.cards.ResourceCard;
@@ -61,4 +62,13 @@ import static org.mockito.Mockito.*;
       void shouldThrowInvalidCardPositionException() {
          assertThrows(InvalidCardPositionException.class, () -> playerHand.removeCardFromHand(resourceCard));
       }
+
+      @Test
+        void shouldGetCardById() throws AlreadyThreeCardsInHandException, CardNotFoundException {
+             playerHand.addCardToPlayerHand(resourceCard);
+             when(resourceCard.getCardId()).thenReturn(0);
+             assertEquals(resourceCard, playerHand.getCardById(0));
+
+             assertThrows(CardNotFoundException.class, () -> playerHand.getCardById(1));
+        }
    }
