@@ -14,6 +14,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import static it.polimi.ingsw.model.GameValues.DEFAULT_MATRIX_SIZE;
 
+/**
+ * This class represents the Command Line Interface (CLI) view of the game.
+ * It implements the View interface and the Runnable interface.
+ */
 public class ViewCLI implements View, Runnable {
     private Game game;
     private final Client client;
@@ -26,76 +30,81 @@ public class ViewCLI implements View, Runnable {
     private Thread chatThread;
     private boolean inScanner = false;
 
+    /**
+     * Constructor for the ViewCLI class.
+     * @param client The client object.
+     */
+    public ViewCLI(Client client) {
+        this.client = client;
+    }
+
+    /**
+     * This method is used to set the username of the player.
+     * @throws IOException If an I/O error occurs.
+     * @throws InterruptedException If the thread is interrupted.
+     * @throws ServerDisconnectedException If the server is disconnected.
+     */
     public void setUsername() throws IOException, InterruptedException, ServerDisconnectedException {
         //TODO: remove println from view methods
         ui.setUsername();
         String username;
         do {
             username = scanner.nextLine();
-
-            try
-            {
+            try {
                 client.setUsername(username);
                 break;
-            }
-            catch (InvalidUsernameException e) {
+            } catch (InvalidUsernameException e) {
                 System.out.println("Username not available, try again: ");
             }
-        }while(true);
+        } while(true);
         playerId = username;
-
     }
+
+    /**
+     * This method is used to set the choice of the game.
+     * @return 1 if the player creates a game, 2 if the player joins a game, 0 if the player quits the game.
+     * @throws ServerDisconnectedException If the server is disconnected.
+     */
     public int setChoiceGame() throws ServerDisconnectedException {
-        do
-        {
+        do {
             try {
                 ui.createOrJoinAGame();
                 int choice = Integer.parseInt(scanner.nextLine());
                 if (choice == 1) {
                     int numberOfPlayers;
-                    do{
+                    do {
                         try {
                             ui.selectNumberOfPlayers();
                             numberOfPlayers = Integer.parseInt(scanner.nextLine());
-                            if(numberOfPlayers >= 2 && numberOfPlayers <= 4){
+                            if(numberOfPlayers >= 2 && numberOfPlayers <= 4) {
                                 break;
-                            }else {
+                            } else {
                                 ui.invalidInput();
                             }
-                        }catch(Exception e)
-                        {
+                        } catch(Exception e) {
                             ui.invalidInput();
                         }
-                    }while(true);
+                    } while(true);
                     this.game = client.createGame(this.client.getUsername(), numberOfPlayers);
                     System.out.println("Game created with id " + game.getGameId() + ".");
                     break;
-                }
-                else if (choice == 2) {
+                } else if (choice == 2) {
                     ui.showAllExistingGames(client.getAvailableGames());
                     this.game = client.joinGame(Integer.parseInt(scanner.nextLine()), this.client.getUsername());
                     if (game.getGameStatus().getStatusNumber() >= GameStatus.ALL_PLAYERS_READY.getStatusNumber()) {
                         return 2;
                     }
                     break;
-                }
-                else if(choice == 0)
-                {
+                } else if(choice == 0) {
                     return 0;
-                }
-                else
+                } else
                     throw new NumberFormatException();
-            }
-            catch(ServerDisconnectedException se)
-            {
+            } catch(ServerDisconnectedException se) {
                 throw se;
-            }
-
-            catch(Exception e)
-            {
+            } catch(Exception e) {
                 ui.invalidInput();
             }
-        }while(true);
+        } while(true);
         return 1;
     }
 
@@ -118,46 +127,49 @@ public class ViewCLI implements View, Runnable {
                     } catch (NotEnoughPlayersException e) {
                         ui.notEnoughPlayers();
                     }
-                }
-                else if(choice == 0)
-                {
+                } else if(choice == 0) {
                     client.quitGame();
                     return false;
-                }
-                else {
+                } else {
                     throw new NumberFormatException();
                 }
-            }
-            catch(ServerDisconnectedException se)
-            {
+            } catch(ServerDisconnectedException se) {
                 throw se;
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 ui.invalidInput();
             }
-        }while(true);
-        if(!Objects.equals(playersInfo.getFirst(), playersInfo.get(1))){
+        } while(true);
+        if(!Objects.equals(playersInfo.getFirst(), playersInfo.get(1))) {
             ui.readyConfirmation();
         }
         return true;
     }
 
-    public ViewCLI(Client client) {
-
-        this.client = client;
-    }
-
+    /**
+     * This method is used to update the game state when a new player joins the game.
+     */
     @Override
     public void newPlayer(Game gameUpdated) {
         this.game = gameUpdated;
     }
 
+    /**
+     * This method is used to update the game state.
+     * @param gameUpdated The updated game state.
+     */
     @Override
     public void update(Game gameUpdated) {
         this.game = gameUpdated;
     }
 
+    /**
+     * This method is used to start the game loop.
+     * @throws IOException If an I/O error occurs.
+     * @throws NotExistingPlayerException If the player does not exist.
+     * @throws InterruptedException If the thread is interrupted.
+     * @throws CardTypeMismatchException If the card type does not match.
+     * @throws ServerDisconnectedException If the server is disconnected.
+     */
     public void gameLoop() throws IOException, NotExistingPlayerException, InterruptedException, CardTypeMismatchException, ServerDisconnectedException {
 
         ui.showMainScreen();
@@ -166,8 +178,7 @@ public class ViewCLI implements View, Runnable {
         AsyncReader reader = new AsyncReader(lock, blockingQueue);
         readerThread = new Thread(reader);
         readerThread.start();
-        while(inGame)
-        {
+        while(inGame) {
             boolean isTurn = game.getPlayer(client.getUsername()).getIsTurn();
             String playerPlaying = game.getCurrentPlayer().getUsername();
             boolean isStopped = game.getListOfPlayers().stream().filter(e -> !e.getUsername().equals(client.getUsername()) && !e.getIsDisconnected()).toList().isEmpty();
@@ -179,7 +190,7 @@ public class ViewCLI implements View, Runnable {
             }
             if(!game.getIsGameEnded() && !game.getIsGameEndedForDisconnection()) {
                 ui.showTurnScreen(playerPlaying, client.getUsername(), isStopped);
-            }else if (game.getIsGameEndedForDisconnection()) {
+            } else if (game.getIsGameEndedForDisconnection()) {
                 gameEndDisconnection();
             } else {
                 showEndGameScreen();
@@ -189,15 +200,13 @@ public class ViewCLI implements View, Runnable {
                 if(!blockingQueue.isEmpty()) {
                     synchronized (lock) {
                         command = blockingQueue.take();
-                        if(game.getIsGameEnded())
-                        {
+                        if(game.getIsGameEnded()) {
                             if(chatThread != null)
                                 chatThread.interrupt();
                             readerThread.interrupt();
                             lock.notifyAll();
                             return;
                         }
-
                         if(inGame) {
                             switch (command) {
                                 case "q", "quit":
@@ -236,8 +245,7 @@ public class ViewCLI implements View, Runnable {
                                             if(!game.getTableTop().getDrawingField().getNoCardsLeft())
                                                 drawCard();
                                             endTurn();
-                                        }
-                                        else {
+                                        } else {
                                             ui.gameIsStopped();
                                         }
                                     } else
@@ -253,7 +261,6 @@ public class ViewCLI implements View, Runnable {
                                         PlayableCard cardBack = client.getOtherSideCard(game.getGameId(), cardFront);
                                         ui.showCardInfo(cardFront, client.getCardInfo(cardFront, game.getGameId()));
                                         ui.showCardInfo(cardBack, client.getCardInfo(cardBack, game.getGameId()));
-
                                     } catch (ServerDisconnectedException se) {
                                         throw se;
                                     } catch (Exception e) {
@@ -273,16 +280,25 @@ public class ViewCLI implements View, Runnable {
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
-                // Handle the InterruptedException
                 Thread.currentThread().interrupt(); // Preserve the interrupt
             }
         }
     }
+
+    /**
+     * This method is used to display a chat message.
+     * @param message The chat message to be displayed.
+     */
     @Override
     public void chatMessage(String message) {
         chatHistory += message + "\n";
     }
 
+    /**
+     * This method is used to start a chat.
+     * @throws ServerDisconnectedException If the server is disconnected.
+     * @throws IOException If an I/O error occurs.
+     */
     private void chat() throws ServerDisconnectedException, IOException {
         ui.showChat(chatHistory);
         chatThread = new Thread(() ->
@@ -322,7 +338,9 @@ public class ViewCLI implements View, Runnable {
         }
     }
 
-
+    /**
+     * This method is used to display the scoreboard.
+     */
     private void showScoreboard() {
         ui.scoreboardTitle();
         for(Player player : game.getListOfPlayers()) {
@@ -330,46 +348,60 @@ public class ViewCLI implements View, Runnable {
         }
     }
 
+    /**
+     * This method is used to display the player's resources.
+     * @throws NotExistingPlayerException If the player does not exist.
+     */
     public void showMyResources() throws NotExistingPlayerException {
         Player player = game.getPlayer(client.getUsername());
         LinkedHashMap<Resource, Integer> resources = new LinkedHashMap<>();
-        for(Resource resource: Resource.values())
-        {
+        for(Resource resource: Resource.values()) {
             if(resource.equals(Resource.NONE))
                 continue;
             resources.put(resource,player.getResourceAmount(resource));
         }
         ui.showResources(resources);
     }
+
+    /**
+     * This method is used to inform the user that it's not their turn.
+     */
     private void notYourTurn()
     {
         ui.notYourTurn(game.getCurrentPlayer().getUsername());
     }
 
+    /**
+     * This method is used to end the player's turn.
+     * @throws NotExistingPlayerException If the player does not exist.
+     * @throws IOException If an I/O error occurs.
+     * @throws CardTypeMismatchException If the card type does not match.
+     * @throws ServerDisconnectedException If the server is disconnected.
+     */
     private void endTurn() throws NotExistingPlayerException, IOException, CardTypeMismatchException, ServerDisconnectedException {
         client.endTurn(game.getGameId(), client.getUsername());
     }
 
+    /**
+     * This method is used to draw a card.
+     * @throws IOException If an I/O error occurs.
+     * @throws ServerDisconnectedException If the server is disconnected.
+     */
     private void drawCard() throws IOException, ServerDisconnectedException {
         HashMap<DrawPosition, GoldCard> discoveredGoldCards =  game.getTableTop().getDrawingField().getDiscoveredGoldCards();
         HashMap<DrawPosition, ResourceCard> discoveredResourceCards =  game.getTableTop().getDrawingField().getDiscoveredResourceCards();
-
         HashMap<GoldCard, CardInfo> uiDiscoveredGoldCards = new HashMap<>();
         HashMap<ResourceCard, CardInfo> uiDiscoveredResourceCards = new HashMap<>();
-        for(GoldCard card: discoveredGoldCards.values())
-        {
+        for(GoldCard card: discoveredGoldCards.values()) {
             uiDiscoveredGoldCards.put(card, client.getCardInfo(card, game.getGameId()));
         }
-
-        for(ResourceCard card: discoveredResourceCards.values())
-        {
+        for(ResourceCard card: discoveredResourceCards.values()) {
             uiDiscoveredResourceCards.put(card, client.getCardInfo(card, game.getGameId()));
         }
         ui.showDiscoveredCards(uiDiscoveredGoldCards, uiDiscoveredResourceCards);
         ui.drawCard();
-
-        do{
-            try{
+        do {
+            try {
                 inScanner = true;
                 int choice = Integer.parseInt(scanner.nextLine());
                 inScanner = false;
@@ -377,8 +409,7 @@ public class ViewCLI implements View, Runnable {
                     return;
                 CardType cardType = null;
                 DrawPosition drawPosition = null;
-                switch(choice)
-                {
+                switch(choice) {
                     case 1:
                         cardType = CardType.RESOURCE;
                         drawPosition = DrawPosition.FROMDECK;
@@ -407,24 +438,25 @@ public class ViewCLI implements View, Runnable {
                         break;
                     default: throw new NumberFormatException();
                 }
-                if(cardType == null)
-                {
+                if(cardType == null) {
                     continue;
                 }
                 client.drawCard(game.getGameId(), client.getUsername(), cardType, drawPosition);
                 break;
-            }
-            catch(ServerDisconnectedException se)
-            {
+            } catch(ServerDisconnectedException se) {
                 throw se;
-            }
-            catch(Exception e)
-            {
+            } catch(Exception e) {
                 ui.invalidInput();
             }
         }while(true);
     }
 
+    /**
+     * This method is used to play a card.
+     * @throws IOException If an I/O error occurs.
+     * @throws NotExistingPlayerException If the player does not exist.
+     * @throws ServerDisconnectedException If the server is disconnected.
+     */
     private void playCard() throws IOException, NotExistingPlayerException, ServerDisconnectedException {
         showPlayerHand();
         showPlayerField();
@@ -439,8 +471,7 @@ public class ViewCLI implements View, Runnable {
                 inScanner = false;
                 if(game.getIsGameEnded())
                     return;
-                switch(side)
-                {
+                switch(side) {
                     case 1:
                         break;
                     case 2:
@@ -468,7 +499,7 @@ public class ViewCLI implements View, Runnable {
                     if(newChoice.equals("y"))
                         break;
                     cardIdOnBoard = Integer.parseInt(newChoice);
-                }while(true);
+                } while(true);
 
                 ui.chooseAngle();
                 inScanner = true;
@@ -484,42 +515,45 @@ public class ViewCLI implements View, Runnable {
                     case 0 -> AngleOrientation.NONE;
                     default -> throw new NumberFormatException();
                 };
-                if(orientation.equals(AngleOrientation.NONE))
-                {
+                if(orientation.equals(AngleOrientation.NONE)) {
                     continue;
                 }
                 client.playCard(game.getGameId(),client.getUsername(), cardOnBoard, card , orientation);
                 break;
-
-            }
-            catch(ServerDisconnectedException se)
-            {
+            } catch(ServerDisconnectedException se) {
                 throw se;
-            }
-            catch (RequirementsNotMetException e) {
+            } catch (RequirementsNotMetException e) {
                 ui.requirementsNotMet();
-            }
-            catch(Exception e)
-            {
+            } catch(Exception e) {
                 ui.invalidInput();
             }
         } while(true);
-
     }
 
+    /**
+     * This method is used to display the player's secret objective card.
+     * @throws NotExistingPlayerException If the player does not exist.
+     * @throws IOException If an I/O error occurs.
+     * @throws ServerDisconnectedException If the server is disconnected.
+     */
     public void showSecretObjectiveCard() throws NotExistingPlayerException, IOException, ServerDisconnectedException {
         ObjectiveCard card = game.getPlayer(client.getUsername()).getSecretObjective();
         ui.showCardInfo(card, client.getCardInfo(card, game.getGameId()));
     }
 
-    private void showAllPlayers()
-    {
+    /**
+     * This method is used to display all players.
+     */
+    private void showAllPlayers() {
         ArrayList<String> usernames = new ArrayList<>();
         for(Player player : game.getListOfPlayers())
             usernames.add(player.getUsername());
         ui.showAllPlayers(usernames);
     }
 
+    /**
+     * This method is used to display the fact that the player has earned twenty points.
+     */
     public void twentyPoints(String username)
     {
         ui.twentyPoints(username);
@@ -530,10 +564,15 @@ public class ViewCLI implements View, Runnable {
         ArrayList<ObjectiveCard> objectiveCards = game.getTableTop().getSharedObjectiveCards();
         sharedObjectiveCards.put(objectiveCards.get(0), client.getCardInfo(objectiveCards.get(0), game.getGameId()));
         sharedObjectiveCards.put(objectiveCards.get(1), client.getCardInfo(objectiveCards.get(1), game.getGameId()));
-
         ui.showSharedObjectiveCard(sharedObjectiveCards);
     }
 
+    /**
+     * This method is used to choose an objective card.
+     * @param objectiveCardsToChoose The objective cards to choose from.
+     * @throws ServerDisconnectedException If the server is disconnected.
+     * @throws GameNotFoundException If the game is not found.
+     */
     public void chooseObjectiveCard(ArrayList<ObjectiveCard> objectiveCardsToChoose) throws ServerDisconnectedException, GameNotFoundException {
             ui.secretObjectiveCardTitle();
             try {
@@ -552,36 +591,31 @@ public class ViewCLI implements View, Runnable {
                             throw new CardNotFoundException();
                         client.setSecretObjectiveCard(game.getGameId(), game.getPlayer(client.getUsername()), chosenObjectiveCard);
                         break;
-                    }
-                    catch(ServerDisconnectedException se)
-                    {
+                    } catch(ServerDisconnectedException se) {
                         throw se;
-                    }
-                    catch(Exception e)
-                    {
+                    } catch(Exception e) {
                         if (game.getIsGameEnded())
                             throw new GameNotFoundException();
                         ui.invalidInput();
                     }
-                }while(true);
-             }
-            catch(ServerDisconnectedException se)
-            {
+                } while(true);
+             } catch(ServerDisconnectedException se) {
                 throw se;
-            }
-            catch (GameNotFoundException e)
-            {
+            } catch (GameNotFoundException e) {
                 throw new GameNotFoundException();
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 ui.somethingWentWrong();
             }
     }
 
+    /**
+     * This method is used to display the player's hand.
+     * @throws IOException If an I/O error occurs.
+     * @throws NotExistingPlayerException If the player does not exist.
+     * @throws ServerDisconnectedException If the server is disconnected.
+     */
     public void showPlayerHand() throws IOException, NotExistingPlayerException, ServerDisconnectedException {
         LinkedHashMap<PlayableCard, CardInfo> cardsInHand = new LinkedHashMap<>();
-
         for(PlayableCard card: game.getPlayer(client.getUsername()).getPlayerHand().getCardsInHand()) {
             CardInfo cardInfo = client.getCardInfo(card, game.getGameId());
             cardsInHand.put(card, cardInfo);
@@ -591,14 +625,20 @@ public class ViewCLI implements View, Runnable {
         ui.showPlayerHand(cardsInHand);
     }
 
+    /**
+     * This method is used to display the player's field.
+     * @throws NotExistingPlayerException If the player does not exist.
+     */
     public void showPlayerField() throws NotExistingPlayerException {
         ui.showPlayerField(createMatrixFromField(game.getPlayer(client.getUsername()).getPlayerField()));
     }
 
+    /**
+     * This method is used to display another player's field.
+     */
     public void showOtherPlayerField() {
         this.showAllPlayers();
-        ui.playerFiledChoice();
-
+        ui.playerFieldChoice();
         Player player;
         do {
             try {
@@ -609,16 +649,18 @@ public class ViewCLI implements View, Runnable {
                     return;
                 player = game.getListOfPlayers().stream().filter(p1 -> p1.getUsername().equals(username)).findFirst().orElseThrow();
                 break;
-            }
-            catch(Exception e)
-            {
+            } catch(Exception e) {
                 ui.wrongUsername();
             }
         } while(true);
-
-
         ui.showPlayerField(createMatrixFromField(player.getPlayerField()));
     }
+
+    /**
+     * This method is used to select a marker.
+     * @throws ServerDisconnectedException If the server is disconnected.
+     * @throws GameNotFoundException If the game is not found.
+     */
     public void markerSelection() throws ServerDisconnectedException, GameNotFoundException {
         ArrayList<Marker> markerList = game.getAvailableMarkers();
         ui.showAvailableMarkers(markerList);
@@ -638,23 +680,20 @@ public class ViewCLI implements View, Runnable {
                 };
                 client.setMarker(game.getPlayer(client.getUsername()), game.getGameId(), chosenMarker);
                 break;
-            }
-            catch(ServerDisconnectedException se)
-            {
+            } catch(ServerDisconnectedException se) {
                 throw se;
-            }
-            catch(Exception e)
-            {
+            } catch(Exception e) {
                 if(game.getIsGameEnded()) {
                     throw new GameNotFoundException();
                 }
                 ui.invalidInput();
             }
-
-
         }while(true);
     }
 
+    /**
+     * This method is used to display the fact that the player is waiting for the marker turn.
+     */
     public boolean waitingForMarkerTurn()
     {
         if(!game.getCurrentPlayer().getUsername().equals(client.getUsername())) {
@@ -664,6 +703,11 @@ public class ViewCLI implements View, Runnable {
         return true;
     }
 
+    /**
+     * This method is used to create a matrix from a field.
+     * @param playerField The player field.
+     * @return The matrix created from the field.
+     */
     private int[][] createMatrixFromField(PlayerField playerField) {
         int i = 0, j;
         int[][] matrix = new int[DEFAULT_MATRIX_SIZE][DEFAULT_MATRIX_SIZE];
@@ -680,6 +724,9 @@ public class ViewCLI implements View, Runnable {
         return matrix;
     }
 
+    /**
+     * This method is used to display the end game screen.
+     */
     public void showEndGameScreen() {
         LinkedHashMap<String, Integer> playersPlacement = new LinkedHashMap<>();
         ArrayList<Player> sortedPlayers = new ArrayList<>();
@@ -698,11 +745,17 @@ public class ViewCLI implements View, Runnable {
         ui.showEndGameScreen(playersPlacement);
     }
 
+    /**
+     * This method is used to display the fact that the player is waiting for the game to begin.
+     */
     public void waitingForGameBegin()
     {
         ui.waitingForGameBegin();
     }
 
+    /**
+     * This method is used to display the fact that the player needs to choose a side for his starter card.
+     */
     public void chooseStarterCardSide() throws NotExistingPlayerException, IOException, ServerDisconnectedException, GameNotFoundException {
         StarterCard cardFront = game.getPlayer(client.getUsername()).getStarterCard();
         StarterCard cardBack = client.getOtherSideCard(game.getGameId(), cardFront);
@@ -719,25 +772,27 @@ public class ViewCLI implements View, Runnable {
                 };
                 client.setStarterCardSide(game.getGameId(), game.getPlayer(client.getUsername()), cardFront, side);
                 break;
-            }
-            catch(ServerDisconnectedException se)
-            {
+            } catch(ServerDisconnectedException se) {
                 throw se;
-            }
-            catch(Exception e)
-            {
+            } catch(Exception e) {
                 if(game.getIsGameEnded())
                     throw new GameNotFoundException();
                 ui.invalidInput();
             }
-        }while(true);
+        } while(true);
     }
 
+    /**
+     * This method is used to inform the user that the final round has started.
+     */
     public void finalRound()
     {
         ui.finalRound();
     }
 
+    /**
+     * This method is used to run the game.
+     */
     @Override
     public void run() {
         try {
@@ -751,6 +806,9 @@ public class ViewCLI implements View, Runnable {
         }
     }
 
+    /**
+     * This method is used to inform the user that the game has ended due to disconnection.
+     */
     public void gameEndDisconnection()
     {
         ui.printWinner();
@@ -770,6 +828,9 @@ public class ViewCLI implements View, Runnable {
 
     }
 
+    /**
+     * This method is used to inform the user that the game has ended.
+     */
     @Override
     public void gameEnd() {
         this.inGame = false;
@@ -782,11 +843,17 @@ public class ViewCLI implements View, Runnable {
         //TODO: check if for win without disconnection the readerThread.isAlive() logic is needed
     }
 
-
+    /**
+     * This method is used to inform the user that they have quit the game.
+     */
     public void gameQuit() {
         ui.showGameQuitScreen();
     }
 
+    /**
+     * This method is used to get the async reader thread.
+     * @return The async reader thread.
+     */
     public Thread getAsyncReader() {
         return readerThread;
     }
