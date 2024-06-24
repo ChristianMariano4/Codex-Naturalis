@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * This class is responsible for creating a list of TripleObjectiveCard instances.
@@ -28,7 +29,7 @@ public class TripleObjectiveCardFactory extends CardFactory<ObjectiveCard> {
     public ArrayList<ObjectiveCard> createCardList() throws CardNotImportedException {
         TripleObjectiveCard[] tripleObjectiveCardArray;
         Gson gson = new Gson();
-        try(Reader reader = new InputStreamReader(getClass().getResourceAsStream("/cardJson/tripleObjectiveCard.json"))) {
+        try(Reader reader = new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/cardJson/tripleObjectiveCard.json")))) {
             tripleObjectiveCardArray = gson.fromJson(reader, TripleObjectiveCard[].class);
         } catch (IOException e) {
             throw new CardNotImportedException();

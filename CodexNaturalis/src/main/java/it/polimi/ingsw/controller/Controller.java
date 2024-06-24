@@ -37,8 +37,8 @@ public class Controller {
     public synchronized Game createGame(int gameId) throws InvalidConstructorDataException, CardNotImportedException, CardTypeMismatchException, DeckIsEmptyException {
         //starts new thread in server and then returns new game
         //create new Decks
-        Deck<GoldCard> goldCardDeck = new Deck<GoldCard>(cardHandler.filterGoldCards(cardHandler.importGoldCards()));
-        Deck<ResourceCard> resourceCardDeck = new Deck<ResourceCard>(cardHandler.filterResourceCards(cardHandler.importResourceCards()));
+        Deck<GoldCard> goldCardDeck = new Deck<>(cardHandler.filterGoldCards(cardHandler.importGoldCards()));
+        Deck<ResourceCard> resourceCardDeck = new Deck<>(cardHandler.filterResourceCards(cardHandler.importResourceCards()));
         //shuffle decks
         goldCardDeck.shuffleDeck();
         resourceCardDeck.shuffleDeck();
@@ -54,14 +54,14 @@ public class Controller {
         objectiveCards.addAll(resourceObjectiveCards);
         objectiveCards.addAll(tripleObjectiveCard);
         //create objectiveCardDeck from the list of objective cards
-        Deck<ObjectiveCard> objectiveCardDeck = new Deck<ObjectiveCard>(objectiveCards);
+        Deck<ObjectiveCard> objectiveCardDeck = new Deck<>(objectiveCards);
         //shuffle deck
         objectiveCardDeck.shuffleDeck();
         //add first two front side objective cards to the shared objective cards
         ArrayList<ObjectiveCard> sharedObjectiveCards = new ArrayList<>();
         sharedObjectiveCards.add(objectiveCardDeck.getTopCard());
         sharedObjectiveCards.add(objectiveCardDeck.getTopCard());
-        Deck<StarterCard> starterCardDeck = new Deck<StarterCard>(cardHandler.filterStarterCards(cardHandler.importStarterCards()));
+        Deck<StarterCard> starterCardDeck = new Deck<>(cardHandler.filterStarterCards(cardHandler.importStarterCards()));
         starterCardDeck.shuffleDeck();
         return new Game(gameId, drawingField, sharedObjectiveCards, objectiveCardDeck, starterCardDeck);
     }
@@ -127,16 +127,15 @@ public class Controller {
 
     /**
      * Give a starter card to the player and remove it from the available starter cards
+     *
      * @param player the player that has to receive the card
-     * @return the starter card given to the player
-     * @throws DeckIsEmptyException if the deck is empty
+     * @throws DeckIsEmptyException       if the deck is empty
      * @throws NotExistingPlayerException if the player doesn't exist
      */
-    public StarterCard giveStarterCard(Player player) throws DeckIsEmptyException, NotExistingPlayerException {
+    public void giveStarterCard(Player player) throws DeckIsEmptyException, NotExistingPlayerException {
         Player playerObj =  gameHandler.getGame().getPlayer(player.getUsername());
         StarterCard starterCard = gameHandler.getGame().getAvailableStarterCards().getTopCard();
         playerObj.setStarterCard(starterCard);
-        return starterCard;
     }
 
     /**
@@ -165,14 +164,6 @@ public class Controller {
         secretObjectiveCards.add(this.gameHandler.getGame().getObjectiveCardDeck().getTopCard());
         secretObjectiveCards.add(this.gameHandler.getGame().getObjectiveCardDeck().getTopCard());
         return secretObjectiveCards;
-    }
-
-    /**
-     * Add a secret objective card to the deck of the game
-     * @param objectiveCard the objective card that has to be added to the deck
-     */
-    public synchronized void addObjectiveCardToDeck(ObjectiveCard objectiveCard) throws NullPointerException {
-        this.gameHandler.getGame().getObjectiveCardDeck().addCard(objectiveCard);
     }
 
     /**
@@ -238,7 +229,7 @@ public class Controller {
             }
             catch (NoneResourceException e)
             {
-                continue;
+                //next iteration
             }
         }
         for(AngleOrientation angleOrientation : AngleOrientation.values())
@@ -266,7 +257,7 @@ public class Controller {
             }
             catch (UnlinkedCardException | NoneResourceException e)
             {
-                continue;
+                //next iteration
             }
 
         }

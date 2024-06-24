@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * This class is responsible for creating a list of StarterCard instances.
@@ -27,7 +28,7 @@ public class StarterCardFactory extends CardFactory<StarterCard> {
     public ArrayList<StarterCard> createCardList() throws CardNotImportedException {
         StarterCard[] starterCardArray;
         Gson gson = new Gson();
-        try(Reader reader = new InputStreamReader(getClass().getResourceAsStream("/cardJson/starterCards.json"))) {
+        try(Reader reader = new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/cardJson/starterCards.json")))) {
             starterCardArray = gson.fromJson(reader, StarterCard[].class);
         } catch (IOException e) {
             throw new CardNotImportedException();
