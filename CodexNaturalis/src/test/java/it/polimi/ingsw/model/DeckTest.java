@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
-import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.cards.Card;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ class DeckTest {
     private Deck<Card> deck;
 
     @BeforeEach
-    void setUp() throws InvalidConstructorDataException {
+    void setUp() {
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(mock(Card.class));
         cards.add(mock(Card.class));
@@ -31,6 +30,7 @@ class DeckTest {
     @Test
     void shouldReturnTopCard() throws DeckIsEmptyException {
         assertNotNull(deck.getTopCard());
+        assertNotNull(deck.seeTopCard());
     }
 
     @Test
@@ -38,6 +38,8 @@ class DeckTest {
         deck.getTopCard();
         deck.getTopCard();
         assertThrows(DeckIsEmptyException.class, () -> deck.getTopCard());
+        assertThrows(DeckIsEmptyException.class, () -> deck.seeTopCard());
+
     }
 
     @Test
