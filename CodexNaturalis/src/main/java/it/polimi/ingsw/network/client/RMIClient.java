@@ -33,7 +33,7 @@ public class RMIClient extends Client {
      * @throws RemoteException if a network error occurs.
      */
     public RMIClient(String serverIP) throws RemoteException {
-        super(true, serverIP);
+        super(serverIP);
         this.isGUI = false;
     }
 
@@ -44,7 +44,7 @@ public class RMIClient extends Client {
      * @throws RemoteException if a network error occurs.
      */
     public RMIClient(GUI gui, String serverIP) throws RemoteException {
-        super(true, serverIP);
+        super(serverIP);
         this.view = gui.getViewGUI();
         this.isGUI = true;
     }
@@ -127,6 +127,7 @@ public class RMIClient extends Client {
             throw new ServerDisconnectedException();
         }
     }
+
     /**
      * Gets the ready status of all players in the game.
      * The ready status is represented as a map where the keys are the usernames of the players and the values are booleans indicating whether each player is ready.

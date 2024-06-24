@@ -25,8 +25,6 @@ import java.util.HashMap;
 public abstract class Client extends UnicastRemoteObject implements ClientRMIInterface, Runnable {
     protected String username = null;
     protected boolean isGUI;
-    private boolean isRMI = false;
-
     protected int gameId = -1; //invalid default value
     protected View view;
     protected boolean playing = false;
@@ -36,28 +34,16 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
     protected boolean starterCardAssigned = false;
     protected ArrayList<ObjectiveCard> objectiveCardsToChoose = null;
     protected boolean gameBegin = false;
-    public long lastHeartbeat = System.currentTimeMillis();
     protected final String serverIP;
 
     /**
      * Constructor for the Client class.
-     * @param isRMI a boolean indicating whether the client is using RMI.
      * @param serverIP the IP address of the server.
      * @throws RemoteException if a network error occurs.
      */
-    public Client(boolean isRMI, String serverIP) throws RemoteException {
+    public Client(String serverIP) throws RemoteException {
         super();
-        this.isRMI = isRMI;
         this.serverIP = serverIP;
-    }
-
-    /**
-     * Checks if the client is using RMI.
-     * @return true if the client is using RMI, false otherwise.
-     */
-    public boolean isRMI()
-    {
-        return this.isRMI;
     }
 
     /**
@@ -143,10 +129,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                     if(this.viewThread!=null)
                         this.viewThread.interrupt();
                 }
-                case SECRET_OBJECTIVE_CHOICE_REQUEST ->
-                {
-                    this.objectiveCardsToChoose = (ArrayList<ObjectiveCard>) gameUpdate;
-                }
+                case SECRET_OBJECTIVE_CHOICE_REQUEST -> this.objectiveCardsToChoose = (ArrayList<ObjectiveCard>) gameUpdate;
                 case MARKER_EVENT ->
                 {
                     Game game = (Game) gameUpdate;
@@ -173,10 +156,7 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                     view.update((Game) gameUpdate);
                     this.starterCardAssigned = true;
                 }
-                case STARTER_CARD_SIDE_CHOSEN ->
-                {
-                    view.update((Game) gameUpdate);
-                }
+                case STARTER_CARD_SIDE_CHOSEN -> view.update((Game) gameUpdate);
                 case TWENTY_POINTS -> {
                     view.twentyPoints((String) gameUpdate);
                     if(viewThread!=null)
@@ -196,24 +176,14 @@ public abstract class Client extends UnicastRemoteObject implements ClientRMIInt
                         this.viewThread.interrupt();
                     }
                 }
-                case PLAYER_DISCONNECTED ->
+                case PLAYER_DISCONNECTED, PLAYER_RECONNECTED ->
                 {
                     view.update((Game) gameUpdate);
                     if (this.viewThread != null) {
                         this.viewThread.interrupt();
                     }
                 }
-                case PLAYER_RECONNECTED ->
-                {
-                    view.update((Game) gameUpdate);
-                    if (this.viewThread != null) {
-                        this.viewThread.interrupt();
-                    }
-                }
-                case CHAT_MESSAGE ->
-                {
-                    view.chatMessage((String) gameUpdate);
-                }
+                case CHAT_MESSAGE -> view.chatMessage((String) gameUpdate);
             }
     }
 

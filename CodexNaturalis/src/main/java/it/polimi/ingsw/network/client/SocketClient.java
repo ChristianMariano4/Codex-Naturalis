@@ -29,11 +29,11 @@ public class SocketClient extends Client {
     ErrorAwareQueue messageHandlerQueue = new ErrorAwareQueue(new LinkedBlockingQueue<>());
 
     public SocketClient(String serverIP) throws RemoteException {
-        super(false, serverIP);
+        super(serverIP);
     }
 
     public SocketClient(GUI gui, String serverIP) throws RemoteException {
-        super(false, serverIP);
+        super(serverIP);
         this.view = gui.getViewGUI();
         this.isGUI = true;
     }
@@ -57,7 +57,6 @@ public class SocketClient extends Client {
             throw e;
         }
         catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
         this.username = username;
@@ -96,12 +95,12 @@ public class SocketClient extends Client {
      * Gets the available games from the server.
      * @return a list of available games.
      * @throws IOException if an I/O error occurs.
-     * @throws InterruptedException if the operation is interrupted.
      * @throws ServerDisconnectedException if the server is disconnected.
      */
     @Override
-    public ArrayList<Game> getAvailableGames() throws IOException, InterruptedException, ServerDisconnectedException {
-        messageHandler.sendMessage(ClientMessageType.AVAILABLE_GAMES_REQUEST, null);
+    @SuppressWarnings("unchecked")
+    public ArrayList<Game> getAvailableGames() throws IOException, ServerDisconnectedException {
+        messageHandler.sendMessage(ClientMessageType.AVAILABLE_GAMES_REQUEST, (Object) null);
         try {
             return (ArrayList<Game>) messageHandlerQueue.take();
         } catch (Exception e) {
@@ -155,6 +154,7 @@ public class SocketClient extends Client {
      * @throws ServerDisconnectedException if the server is disconnected.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public ArrayList<Integer> setReady() throws NotEnoughPlayersException, IOException, ServerDisconnectedException {
         try {
             messageHandler.sendMessage(ClientMessageType.SET_READY, this.gameId);
@@ -187,10 +187,9 @@ public class SocketClient extends Client {
 
     /**
      * Connects to the server.
-     * @throws ServerDisconnectedException if the server is disconnected.
      */
     @Override
-    public void connectToServer() throws ServerDisconnectedException {
+    public void connectToServer() {
         try {
             this.serverSocket = new Socket(this.serverIP, GameValues.SOCKET_SERVER_PORT);
             System.out.println("Connected to sever successfully");
@@ -278,13 +277,11 @@ public class SocketClient extends Client {
      * Ends the turn.
      * @param gameId the ID of the game.
      * @param username the username of the client.
-     * @throws NotExistingPlayerException if the player does not exist.
-     * @throws CardTypeMismatchException if the card type does not match.
      * @throws IOException if an I/O error occurs.
      * @throws ServerDisconnectedException if the server is disconnected.
      */
     @Override
-    public void endTurn(int gameId, String username) throws NotExistingPlayerException, CardTypeMismatchException, IOException, ServerDisconnectedException {
+    public void endTurn(int gameId, String username) throws IOException, ServerDisconnectedException {
             messageHandler.sendMessage(ClientMessageType.END_TURN, gameId, username);
             try {
                 messageHandlerQueue.take();
@@ -411,6 +408,7 @@ public class SocketClient extends Client {
      * @throws IOException if an I/O error occurs.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public HashMap<String, Boolean> getReadyStatus() throws ServerDisconnectedException, IOException {
         messageHandler.sendMessage(ClientMessageType.GET_READY_STATUS, gameId);
         try {
@@ -433,7 +431,6 @@ public class SocketClient extends Client {
         try {
             messageHandlerQueue.take();
         } catch(Exception e) {
-            e.printStackTrace();
             throw new RuntimeException();
         }
     }
@@ -458,7 +455,6 @@ public class SocketClient extends Client {
                 try {
                     messageHandler.sendMessage(ClientMessageType.HEARTBEAT, System.currentTimeMillis());
                 } catch (IOException e) {
-                    e.printStackTrace();
                     throw new RuntimeException(e);
                 } catch (ServerDisconnectedException e) {
                     System.err.println("Disconnected from server");
