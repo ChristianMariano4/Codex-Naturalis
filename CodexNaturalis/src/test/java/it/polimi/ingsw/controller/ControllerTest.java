@@ -1,16 +1,9 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.enumerations.CardType;
-import it.polimi.ingsw.enumerations.DrawPosition;
-import it.polimi.ingsw.enumerations.Marker;
+import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.DrawingField;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.TableTop;
-import it.polimi.ingsw.model.cards.GoldCard;
-import it.polimi.ingsw.model.cards.ResourceCard;
-import it.polimi.ingsw.model.cards.StarterCard;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.network.server.GameHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,9 +20,13 @@ class ControllerTest {
     private Controller controller;
     private Game game;
     private GameHandler gameHandler;
-    private CardHandler cardHandler = new CardHandler();
-    private List<Player> players = new ArrayList<>();
+    private final List<Player> players = new ArrayList<>();
     int desideredNumberOfPlayers = 3;
+    Angle angle = mock(Angle.class);
+
+    ArrayList<StarterCard> starterCards;
+    ArrayList<ResourceCard> resourceCards;
+    ArrayList<GoldCard> goldCards;
 
 
     @BeforeEach
@@ -47,6 +44,10 @@ class ControllerTest {
 
         controller.addPlayerToGame(players.getFirst().getUsername(), desideredNumberOfPlayers);
         controller.addPlayerToGame(players.get(1).getUsername(), desideredNumberOfPlayers);
+
+        starterCards = controller.getCardHandler().importStarterCards();
+        resourceCards = controller.getCardHandler().importResourceCards();
+        goldCards = controller.getCardHandler().importGoldCards();
     }
 
     @Test
@@ -59,11 +60,9 @@ class ControllerTest {
 
     @Test
     void testAddPlayerToGame() throws AlreadyMaxNumberOfPlayersException, AlreadyExistingPlayerException {
-        controller.addPlayerToGame(players.getFirst().getUsername(), desideredNumberOfPlayers);
-        assertEquals(1, game.getListOfPlayers().size());
+        assertEquals(2, game.getListOfPlayers().size());
         assertThrows(AlreadyExistingPlayerException.class, () -> controller.addPlayerToGame(players.getFirst().getUsername(), desideredNumberOfPlayers));
 
-        controller.addPlayerToGame(players.get(1).getUsername(), desideredNumberOfPlayers);
         controller.addPlayerToGame(players.get(2).getUsername(), desideredNumberOfPlayers);
         assertEquals(3, game.getListOfPlayers().size());
 
@@ -107,43 +106,89 @@ class ControllerTest {
     }
 
     @Test
-    void testStarterCardInitialization() throws NotExistingPlayerException, DeckIsEmptyException {
+    void testStarterCardFrontInitialization() throws NotExistingPlayerException, CardNotFoundException {
         when(gameHandler.getPlayer("1")).thenReturn(game.getPlayer("1"));
-        //FROM HERE
-        controller.giveStarterCard(players.getFirst());
-        assertNotNull(players.getFirst().getStarterCard());
+
+        StarterCard starterCard1 = mock(StarterCard.class);
+        StarterCard starterCard2 = mock(StarterCard.class);
+        when(starterCard1.getCurrentSide()).thenReturn(Side.FRONT);
+        when(starterCard2.getCurrentSide()).thenReturn(Side.BACK);
+
+        when(starterCard1.getAngle(AngleOrientation.BOTTOMLEFT)).thenReturn(angle);
+        when(starterCard1.getAngle(AngleOrientation.BOTTOMRIGHT)).thenReturn(angle);
+        when(starterCard1.getAngle(AngleOrientation.TOPLEFT)).thenReturn(angle);
+        when(starterCard1.getAngle(AngleOrientation.TOPRIGHT)).thenReturn(angle);
+        when(starterCard2.getAngle(AngleOrientation.BOTTOMLEFT)).thenReturn(angle);
+        when(starterCard2.getAngle(AngleOrientation.BOTTOMRIGHT)).thenReturn(angle);
+        when(starterCard2.getAngle(AngleOrientation.TOPLEFT)).thenReturn(angle);
+        when(starterCard2.getAngle(AngleOrientation.TOPRIGHT)).thenReturn(angle);
+
+        when(starterCard1.getCardId()).thenReturn(0);
+        when(starterCard2.getCardId()).thenReturn(0);
+        ArrayList<Resource> centraLResources = new ArrayList<>();
+        centraLResources.add(Resource.INSECT);
+        when(starterCard1.getCentralResources()).thenReturn(centraLResources);
+        when(starterCard2.getCentralResources()).thenReturn(new ArrayList<>());
+
+        when(angle.getResource()).thenReturn(Resource.INSECT);
+        when(angle.getAngleStatus()).thenReturn(AngleStatus.UNLINKED);
+        when(angle.isPlayable()).thenReturn(true);
+
+        controller.initializeStarterCard(game.getPlayer("1"), starterCard1, Side.FRONT);
+        assertEquals(starterCard1, game.getPlayer("1").getPlayerField().getCardById(0));
+        assertEquals(5, game.getPlayer("1").getResourceAmount(Resource.INSECT));
     }
+
     @Test
-    void shouldThrowExceptionWhenAddingExistingPlayer() throws Exception {
-        when(gameHandler.getGame()).thenReturn(mock(Game.class));
-        doThrow(new AlreadyExistingPlayerException()).when(gameHandler.getGame()).addPlayer(any(), anyInt());
+    void testStarterCardBackInitialization() throws NotExistingPlayerException, CardNotFoundException {
+        when(gameHandler.getPlayer("1")).thenReturn(game.getPlayer("1"));
 
-        assertThrows(AlreadyExistingPlayerException.class, () -> controller.addPlayerToGame("username", 2));
+        StarterCard starterCard1 = starterCards.getFirst();
+
+        controller.initializeStarterCard(game.getPlayer("1"), starterCard1, Side.BACK);
+        assertEquals(Side.BACK, game.getPlayer("1").getPlayerField().getCardById(starterCard1.getCardId()).getCurrentSide());
+        assertEquals(1, game.getPlayer("1").getResourceAmount(Resource.INSECT));
+        assertEquals(1, game.getPlayer("1").getResourceAmount(Resource.FUNGI));
+        assertEquals(1, game.getPlayer("1").getResourceAmount(Resource.PLANT));
+        assertEquals(1, game.getPlayer("1").getResourceAmount(Resource.ANIMAL));
     }
 
     @Test
-    void shouldThrowExceptionWhenAddingPlayerToFullGame() throws Exception {
-        when(gameHandler.getGame()).thenReturn(mock(Game.class));
-        doThrow(new AlreadyMaxNumberOfPlayersException()).when(gameHandler.getGame()).addPlayer(any(), anyInt());
-
-        assertThrows(AlreadyMaxNumberOfPlayersException.class, () -> controller.addPlayerToGame("username", 2));
+    void testTakeTwoObjectiveCards() throws DeckIsEmptyException {
+        ArrayList<ObjectiveCard> objectiveCards = controller.takeTwoObjectiveCards();
+        assertEquals(2, objectiveCards.size());
+        assertEquals(ObjectiveCard.class, objectiveCards.get(0).getClass().getSuperclass());
+        assertEquals(ObjectiveCard.class, objectiveCards.get(1).getClass().getSuperclass());
     }
 
     @Test
-    void shouldInitializeGameSuccessfully() throws Exception {
-        when(gameHandler.getGame()).thenReturn(mock(Game.class));
-        //when(gameHandler.getGame().getListOfPlayers()).thenReturn(new LinkedList<>());
-
-        assertDoesNotThrow(() -> controller.initializeGame());
+    void testSecretObjectiveCardSetting() throws NotExistingPlayerException {
+        ObjectiveCard mockObjectiveCard = mock(ObjectiveCard.class);
+        when(mockObjectiveCard.getCardId()).thenReturn(1);
+        when(gameHandler.getPlayer("1")).thenReturn(game.getPlayer("1"));
+        controller.setSecretObjectiveCard(game.getPlayer("1"), mockObjectiveCard);
+        assertEquals(1, game.getPlayer("1").getSecretObjective().getCardId());
     }
 
     @Test
-    void shouldThrowExceptionWhenDrawingCardFromEmptyDeck() throws Exception {
-        when(gameHandler.getGame()).thenReturn(mock(Game.class));
-        when(gameHandler.getGame().getTableTop()).thenReturn(mock(TableTop.class));
-        when(gameHandler.getGame().getTableTop().getDrawingField()).thenReturn(mock(DrawingField.class));
-        doThrow(new DeckIsEmptyException()).when(gameHandler.getGame().getTableTop().getDrawingField()).drawCardFromGoldCardDeck(any());
+    void testPlayCard() throws NotExistingPlayerException, InvalidCardPositionException, RequirementsNotMetException, CardTypeMismatchException, AngleAlreadyLinkedException, CardNotFoundException, AlreadyThreeCardsInHandException, DeckIsEmptyException {
+        when(gameHandler.getPlayer("1")).thenReturn(game.getPlayer("1"));
+        controller.initializePlayerHand(game.getPlayer("1"));
 
-        assertThrows(DeckIsEmptyException.class, () -> controller.drawCard(new Player("username"), CardType.GOLD, DrawPosition.FROMDECK));
+
+        StarterCard starterCard = starterCards.get(1);
+        game.getPlayer("1").getPlayerField().addCardToCell(starterCard);
+
+        assertThrows(RequirementsNotMetException.class, () -> controller.playCard(game.getPlayer("1"), starterCard, game.getPlayer("1").getPlayerHand().getCardsInHand().getFirst(), AngleOrientation.TOPLEFT));
+        PlayableCard resourceCard = game.getPlayer("1").getPlayerHand().getCardsInHand().get(1);
+        controller.playCard(game.getPlayer("1"), starterCard, resourceCard, AngleOrientation.TOPLEFT);
+        assertEquals(resourceCard, game.getPlayer("1").getPlayerField().getCardById(resourceCard.getCardId()));
     }
+
+//    @Test
+//    void testCalculateAndUpdateFinalPoints() throws CardTypeMismatchException, AlreadyMaxNumberOfPlayersException, UnlinkedCardException, InvalidConstructorDataException, CardNotImportedException, IOException, AlreadyThreeCardsInHandException, DeckIsEmptyException, AlreadyExistingPlayerException {
+//        controller.initializeGame();
+//        controller.setSecretObjectiveCard();
+//        controller.calculateAndUpdateFinalPoints();
+//    }
 }
