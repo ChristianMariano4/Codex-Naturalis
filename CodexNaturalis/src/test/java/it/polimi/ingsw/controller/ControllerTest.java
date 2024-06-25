@@ -21,7 +21,7 @@ class ControllerTest {
     private Game game;
     private GameHandler gameHandler;
     private final List<Player> players = new ArrayList<>();
-    int desideredNumberOfPlayers = 3;
+    int desiredNumberOfPlayers = 3;
     Angle angle = mock(Angle.class);
 
     ArrayList<StarterCard> starterCards;
@@ -42,8 +42,8 @@ class ControllerTest {
         game = controller.createGame(1);
         when(gameHandler.getGame()).thenReturn(game);
 
-        controller.addPlayerToGame(players.getFirst().getUsername(), desideredNumberOfPlayers);
-        controller.addPlayerToGame(players.get(1).getUsername(), desideredNumberOfPlayers);
+        controller.addPlayerToGame(players.getFirst().getUsername(), desiredNumberOfPlayers);
+        controller.addPlayerToGame(players.get(1).getUsername(), desiredNumberOfPlayers);
 
         starterCards = controller.getCardHandler().importStarterCards();
         resourceCards = controller.getCardHandler().importResourceCards();
@@ -61,12 +61,12 @@ class ControllerTest {
     @Test
     void testAddPlayerToGame() throws AlreadyMaxNumberOfPlayersException, AlreadyExistingPlayerException {
         assertEquals(2, game.getListOfPlayers().size());
-        assertThrows(AlreadyExistingPlayerException.class, () -> controller.addPlayerToGame(players.getFirst().getUsername(), desideredNumberOfPlayers));
+        assertThrows(AlreadyExistingPlayerException.class, () -> controller.addPlayerToGame(players.getFirst().getUsername(), desiredNumberOfPlayers));
 
-        controller.addPlayerToGame(players.get(2).getUsername(), desideredNumberOfPlayers);
+        controller.addPlayerToGame(players.get(2).getUsername(), desiredNumberOfPlayers);
         assertEquals(3, game.getListOfPlayers().size());
 
-        assertThrows(AlreadyMaxNumberOfPlayersException.class, () -> controller.addPlayerToGame(players.get(3).getUsername(), desideredNumberOfPlayers));
+        assertThrows(AlreadyMaxNumberOfPlayersException.class, () -> controller.addPlayerToGame(players.get(3).getUsername(), desiredNumberOfPlayers));
     }
 
     @Test
@@ -175,7 +175,6 @@ class ControllerTest {
         when(gameHandler.getPlayer("1")).thenReturn(game.getPlayer("1"));
         controller.initializePlayerHand(game.getPlayer("1"));
 
-
         StarterCard starterCard = starterCards.get(1);
         game.getPlayer("1").getPlayerField().addCardToCell(starterCard);
 
@@ -185,10 +184,70 @@ class ControllerTest {
         assertEquals(resourceCard, game.getPlayer("1").getPlayerField().getCardById(resourceCard.getCardId()));
     }
 
-//    @Test
-//    void testCalculateAndUpdateFinalPoints() throws CardTypeMismatchException, AlreadyMaxNumberOfPlayersException, UnlinkedCardException, InvalidConstructorDataException, CardNotImportedException, IOException, AlreadyThreeCardsInHandException, DeckIsEmptyException, AlreadyExistingPlayerException {
-//        controller.initializeGame();
-//        controller.setSecretObjectiveCard();
-//        controller.calculateAndUpdateFinalPoints();
-//    }
+    @Test
+    void testSetPlayerDisconnected() throws NotExistingPlayerException {
+        when(gameHandler.getPlayer("1")).thenReturn(game.getPlayer("1"));
+        controller.setPlayerDisconnected("1");
+        assertTrue(game.getPlayer("1").getIsDisconnected());
+    }
+
+    @Test
+    void testDrawResourceCard() throws NotExistingPlayerException, AlreadyThreeCardsInHandException, DeckIsEmptyException {
+        when(gameHandler.getPlayer("1")).thenReturn(game.getPlayer("1"));
+        game.getTableTop().getDrawingField().getDiscoveredResourceCards().put(DrawPosition.LEFT, resourceCards.getFirst());
+        controller.drawCard(game.getListOfPlayers().getFirst(), CardType.RESOURCE, DrawPosition.LEFT);
+        assertEquals(1, game.getListOfPlayers().getFirst().getPlayerHand().getCardsInHand().size());
+    }
+
+    @Test
+    void testDrawGoldCard() throws NotExistingPlayerException, AlreadyThreeCardsInHandException, DeckIsEmptyException {
+        when(gameHandler.getPlayer("1")).thenReturn(game.getPlayer("1"));
+        game.getTableTop().getDrawingField().getDiscoveredGoldCards().put(DrawPosition.LEFT, goldCards.getFirst());
+        controller.drawCard(game.getListOfPlayers().getFirst(), CardType.GOLD, DrawPosition.LEFT);
+        assertEquals(1, game.getListOfPlayers().getFirst().getPlayerHand().getCardsInHand().size());
+    }
+
+    @Test
+    void testNextTurn() throws NotExistingPlayerException {
+        when(gameHandler.getPlayer("1")).thenReturn(game.getPlayer("1"));
+        when(gameHandler.getPlayer("2")).thenReturn(game.getPlayer("2"));
+
+        controller.nextTurn(game.getPlayer("1"));
+        assertEquals(game.getPlayer("2"), game.getCurrentPlayer());
+    }
+
+    @Test
+    void testNextTurnWithDisconnections() throws NotExistingPlayerException, AlreadyMaxNumberOfPlayersException, AlreadyExistingPlayerException {
+        controller.addPlayerToGame(players.get(2).getUsername(), desiredNumberOfPlayers);
+        when(gameHandler.getPlayer("1")).thenReturn(game.getPlayer("1"));
+        when(gameHandler.getPlayer("2")).thenReturn(game.getPlayer("2"));
+        when(gameHandler.getPlayer("3")).thenReturn(game.getPlayer("3"));
+        game.getPlayer("2").setDisconnected();
+        controller.nextTurn(game.getPlayer("1"));
+        assertEquals(game.getPlayer("3"), game.getCurrentPlayer());
+    }
+
+    @Test
+    void testNextTurnReturnsToFirstPlayer() throws NotExistingPlayerException, AlreadyMaxNumberOfPlayersException, AlreadyExistingPlayerException {
+        controller.addPlayerToGame(players.get(2).getUsername(), desiredNumberOfPlayers);
+        when(gameHandler.getPlayer("1")).thenReturn(game.getPlayer("1"));
+        when(gameHandler.getPlayer("2")).thenReturn(game.getPlayer("2"));
+        when(gameHandler.getPlayer("3")).thenReturn(game.getPlayer("3"));
+        game.getPlayer("2").setDisconnected();
+        controller.nextTurn(game.getPlayer("1"));
+        controller.nextTurn(game.getPlayer("3"));
+        assertEquals(game.getPlayer("1"), game.getCurrentPlayer());
+    }
+
+    @Test
+    void testNextTurnReturnsToFirstPlayerWhenLastIsDisconnected() throws NotExistingPlayerException, AlreadyMaxNumberOfPlayersException, AlreadyExistingPlayerException {
+        controller.addPlayerToGame(players.get(2).getUsername(), desiredNumberOfPlayers);
+        when(gameHandler.getPlayer("1")).thenReturn(game.getPlayer("1"));
+        when(gameHandler.getPlayer("2")).thenReturn(game.getPlayer("2"));
+        when(gameHandler.getPlayer("3")).thenReturn(game.getPlayer("3"));
+        game.getPlayer("3").setDisconnected();
+        controller.nextTurn(game.getPlayer("1"));
+        controller.nextTurn(game.getPlayer("2"));
+        assertEquals(game.getPlayer("1"), game.getCurrentPlayer());
+    }
 }
