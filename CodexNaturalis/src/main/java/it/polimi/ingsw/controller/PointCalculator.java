@@ -69,7 +69,7 @@ public class PointCalculator {
      * @param objectiveCard the objectiveCard used to calculate the points
      * @return the total amount of points
      */
-    private static int calculateDiagonalObjective(CardInfo cardInfo,  PlayableCard[][] matrixField, ObjectiveCard objectiveCard)
+    public static int calculateDiagonalObjective(CardInfo cardInfo, PlayableCard[][] matrixField, ObjectiveCard objectiveCard)
     {
         int xValue = cardInfo.getOrientation().mapEnumToX();
         int yValue = cardInfo.getOrientation().mapEnumToY();
@@ -116,7 +116,7 @@ public class PointCalculator {
      * @param objectiveCard the objectiveCard used to calculate the points
      * @return he total amount of points
      */
-    private static int calculateLShapedObjective(CardInfo cardInfo, PlayableCard[][] matrixField, ObjectiveCard objectiveCard)
+    public static int calculateLShapedObjective(CardInfo cardInfo, PlayableCard[][] matrixField, ObjectiveCard objectiveCard)
     {
         int points = 0;
         int xValue = cardInfo.getOrientation().mapEnumToXLShaped();
