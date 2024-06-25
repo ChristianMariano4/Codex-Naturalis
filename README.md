@@ -7,18 +7,18 @@
 - [Martini Simone](https://github.com/Simone1Martini)
 
 ### Functionalities
-| Functionality         | Base |
-|-----------------------|----|
-| Simplified rules      | ✅  |
-| Full rules            | ✅  |
-| Socket                | ✅  |
-| RMI                   | ✅  |
-| TUI                   | ✅  |
-| GUI                   | ✅  |
-| Multiple games        | ✅  |
-| Persistency           | ✅  |
-| Server disconnections |    |
-| Chat                  | ✅  | 
+| Functionality         | Done |
+|-----------------------|------|
+| Simplified rules      | ✅    |
+| Full rules            | ✅    |
+| Socket                | ✅    |
+| RMI                   | ✅    |
+| TUI                   | ✅    |
+| GUI                   | ✅    |
+| Multiple games        | ✅    |
+| Client disconnections | ✅    |
+| Server disconnections | ❌    |
+| Chat                  | ✅    | 
 
 ### Execution of the game
 - Open a terminal tab in the `deliverables/jar/` folder
