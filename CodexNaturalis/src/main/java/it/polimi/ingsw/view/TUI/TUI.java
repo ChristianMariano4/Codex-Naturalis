@@ -916,8 +916,6 @@ public class TUI extends UI {
      */
     public void invalidInput() {
         System.out.println("Invalid input, try again");
-        System.out.println(Thread.currentThread().getClass());
-        System.out.println(Thread.currentThread());
     }
 
     /**
