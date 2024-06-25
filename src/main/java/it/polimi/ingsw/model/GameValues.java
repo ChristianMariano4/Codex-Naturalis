@@ -16,7 +16,7 @@ public class GameValues {
     public static double WINDOW_HEIGHT = 559;
     public static int numberOfGames = 0;
     public static final int HEARTBEAT_INTERVAL = 5000;
-    public static final int HEARTBEAT_TIMEOUT = 10000;
+    public static final int HEARTBEAT_TIMEOUT = 20000;
     public static final int GAME_END_TIMEOUT = 60000;
     public static final double CARD_WIDTH = 90.0;
     public static final double CARD_HEIGHT = 60.0;
