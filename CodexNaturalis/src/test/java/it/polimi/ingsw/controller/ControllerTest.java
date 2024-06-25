@@ -27,7 +27,8 @@ class ControllerTest {
     ArrayList<StarterCard> starterCards;
     ArrayList<ResourceCard> resourceCards;
     ArrayList<GoldCard> goldCards;
-
+    ArrayList<ObjectiveCard> objectiveCards1;
+    ArrayList<ObjectiveCard> objectiveCards2;
 
     @BeforeEach
     void setUp() throws InvalidConstructorDataException, CardTypeMismatchException, CardNotImportedException, DeckIsEmptyException, AlreadyMaxNumberOfPlayersException, AlreadyExistingPlayerException {
@@ -48,6 +49,8 @@ class ControllerTest {
         starterCards = controller.getCardHandler().importStarterCards();
         resourceCards = controller.getCardHandler().importResourceCards();
         goldCards = controller.getCardHandler().importGoldCards();
+        objectiveCards1 = controller.getCardHandler().importResourceObjectiveCards();
+        objectiveCards2 = controller.getCardHandler().importPositionalObjectiveCards();
     }
 
     @Test
@@ -56,6 +59,7 @@ class ControllerTest {
         Game game = controller.createGame(gameId);
         assertNotNull(game);
         assertEquals(gameId, game.getGameId());
+        assertEquals(2, game.getTableTop().getSharedObjectiveCards().size());
     }
 
     @Test
@@ -249,5 +253,28 @@ class ControllerTest {
         controller.nextTurn(game.getPlayer("1"));
         controller.nextTurn(game.getPlayer("2"));
         assertEquals(game.getPlayer("1"), game.getCurrentPlayer());
+    }
+    @Test
+    void testCalculateAndUpdateFinalPoints() throws CardTypeMismatchException, NotExistingPlayerException {
+        when(gameHandler.getPlayer("1")).thenReturn(game.getPlayer("1"));
+        when(gameHandler.getPlayer("2")).thenReturn(game.getPlayer("2"));
+        controller.setSecretObjectiveCard(game.getPlayer("1"), objectiveCards1.getFirst());
+        controller.setSecretObjectiveCard(game.getPlayer("2"), objectiveCards2.getFirst());
+
+        controller.calculateAndUpdateFinalPoints();
+
+        assertTrue(game.getIsGameEnded());
+    }
+
+    @Test
+    void testCalculateAndUpdateFinalPointsTripleObjectiveCards() throws CardTypeMismatchException, NotExistingPlayerException {
+        when(gameHandler.getPlayer("1")).thenReturn(game.getPlayer("1"));
+        when(gameHandler.getPlayer("2")).thenReturn(game.getPlayer("2"));
+        controller.setSecretObjectiveCard(game.getPlayer("1"), objectiveCards1.getFirst());
+        controller.setSecretObjectiveCard(game.getPlayer("2"), objectiveCards1.get(1));
+
+        controller.calculateAndUpdateFinalPoints();
+
+        assertTrue(game.getIsGameEnded());
     }
 }
