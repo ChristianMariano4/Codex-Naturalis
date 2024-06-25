@@ -51,10 +51,12 @@ class GameTest {
     @Test
     void shouldThrowExceptionWhenAddingMoreThanFourPlayers() {
         assertThrows(AlreadyMaxNumberOfPlayersException.class, () -> {
-            for(int i = 0; i < 5; i++) {
-                Player player = mock(Player.class);
-                game.addPlayer(player, 2);
-            }
+            Player player = new Player("P1");
+            Player player1 = new Player("P2");
+            Player player2 = new Player("P3");
+            game.addPlayer(player, 2);
+            game.addPlayer(player1, 2);
+            game.addPlayer(player2, 2);
         });
     }
 
@@ -74,8 +76,8 @@ class GameTest {
     }
 
     @Test
-    void shouldReturnListOfPlayers() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
-        Player player2 = mock(Player.class);
+    void shouldReturnListOfPlayers() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException, InvalidConstructorDataException {
+        Player player2 = new Player("P1");
         game.addPlayer(player, 2);
         game.addPlayer(player2, 2);
         ArrayList<Player> players = game.getListOfPlayers();
@@ -121,11 +123,11 @@ class GameTest {
     }
 
     @Test
-    void shouldShufflePlayers() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException {
-        Player player1 = mock(Player.class);
-        Player player2 = mock(Player.class);
-        Player player3 = mock(Player.class);
-        Player player4 = mock(Player.class);
+    void shouldShufflePlayers() throws AlreadyExistingPlayerException, AlreadyMaxNumberOfPlayersException, InvalidConstructorDataException {
+        Player player1 = new Player("P1");
+        Player player2 = new Player("P2");
+        Player player3 = new Player("P3");
+        Player player4 = new Player("P4");
         game.addPlayer(player1, 4);
         game.addPlayer(player2, 4);
         game.addPlayer(player3, 4);
