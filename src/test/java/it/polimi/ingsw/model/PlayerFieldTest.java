@@ -89,11 +89,6 @@ class PlayerFieldTest {
     }
 
     @Test
-    void shouldThrowOutOfBoundExceptionForOutOfMatrixPlacement() {
-        //TODO
-    }
-
-    @Test
     void shouldReturnCorrectMatrixField() {
         PlayableCard[][] matrixField = playerField.getMatrixField();
         for (PlayableCard[] playableCards : matrixField) {

@@ -235,7 +235,7 @@ public class RMIClient extends Client {
                     System.exit(0);
                 }
                 try {
-                    Thread.sleep(1000); //TODO set the time
+                    Thread.sleep(5000);
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }

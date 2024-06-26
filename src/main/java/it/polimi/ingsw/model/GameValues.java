@@ -9,7 +9,6 @@ public class GameValues {
     public static final int RMI_SERVER_PORT = 1234;
     public static final int SOCKET_SERVER_PORT = 4567;
     public static final String SERVER_NAME = "CodexNaturalisServer";
-    //public static final String SERVER_IP = "localhost"; //TODO: change to the server IP
     public static final int MAX_ATTEMPTS_RECONNECTION = 5;
     public static final double DEFAULT_SCALE_FACTOR = 1.1;
     public static double WINDOW_WIDTH = 936;
