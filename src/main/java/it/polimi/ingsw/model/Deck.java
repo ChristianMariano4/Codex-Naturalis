@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.DeckIsEmptyException;
-import it.polimi.ingsw.exceptions.InvalidConstructorDataException;
 import it.polimi.ingsw.model.cards.Card;
 
 import java.io.Serializable;

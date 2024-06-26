@@ -30,8 +30,6 @@ public class LoginScreenController extends GUIController {
     @FXML
     public void connectButton() throws IOException, InterruptedException, ServerDisconnectedException {
         try {
-            // soundController = new SoundController();
-            // soundController.buttonClick();
             viewGUI.setUsername(username.getText());
             gui.switchScene(GUIScene.LOBBY);
         } catch (WrongInputException e) {

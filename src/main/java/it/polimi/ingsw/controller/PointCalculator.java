@@ -101,7 +101,7 @@ public class PointCalculator {
                     }
                     catch(IndexOutOfBoundsException e)
                     {
-                        continue;
+                        //next iteration
                     }
                 }
             }
@@ -142,7 +142,7 @@ public class PointCalculator {
                                 }
                             }
                         } catch (IndexOutOfBoundsException e) {
-                            continue;
+                            //next iteration
                         }
                     }
                 }

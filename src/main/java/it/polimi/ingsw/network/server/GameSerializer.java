@@ -41,7 +41,7 @@ public class GameSerializer implements Listener<GameEvent> {
      */
     public static void saveGameState(Game game) throws FileNotFoundException {
         String dir = getJarDir();
-        String fileName = null;
+        String fileName;
         if(dir!=null) {
             fileName = dir + File.separator + "savedGames\\game" + game.getGameId() + ".dir";
             System.out.println("Saving game " + game.getGameId() + " state to: " + fileName);

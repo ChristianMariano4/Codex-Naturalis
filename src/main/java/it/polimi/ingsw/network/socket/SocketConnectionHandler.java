@@ -32,17 +32,18 @@ public class SocketConnectionHandler implements Runnable{
      */
     @Override
     public void run() {
-        ExecutorService executor = Executors.newCachedThreadPool();
-        while (true) {
-            try {
-                Socket socket = serverSocket.accept();
-                SocketClientHandler socketClientHandler = new SocketClientHandler(socket, server);
-                server.connect(socketClientHandler);
-                executor.submit(socketClientHandler);
-            } catch(IOException e) {
-                break;
+        try (ExecutorService executor = Executors.newCachedThreadPool()) {
+            while (true) {
+                try {
+                    Socket socket = serverSocket.accept();
+                    SocketClientHandler socketClientHandler = new SocketClientHandler(socket, server);
+                    server.connect(socketClientHandler);
+                    executor.submit(socketClientHandler);
+                } catch (IOException e) {
+                    break;
+                }
             }
+            executor.shutdown();
         }
-        executor.shutdown();
     }
 }

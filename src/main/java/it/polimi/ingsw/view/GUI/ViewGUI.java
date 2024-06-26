@@ -187,23 +187,6 @@ public class ViewGUI implements View, Runnable {
         }
     }
 
-    //TODO: check if this is needed
-//    public HashMap<String, Integer> showScoreboard() {
-//        LinkedHashMap<String, Integer> playersPlacement = new LinkedHashMap<>();
-//        ArrayList<Player> sortedPlayers = new ArrayList<>();
-//        List<Integer> points = game.getListOfPlayers().stream().map(e -> e.getPoints()).toList();
-//        Collections.sort(points);
-//        Collections.reverse(points);
-//        for(Integer point: points)
-//        {
-//            sortedPlayers.addAll(game.getListOfPlayers().stream().filter(e -> (e.getPoints() == point)).toList());
-//        }
-//        for(Player p : sortedPlayers) {
-//            playersPlacement.put(p.getUsername(), p.getPoints());
-//        }
-//        return playersPlacement;
-//    }
-
     /**
      * Method to get the game
      * @return this.game

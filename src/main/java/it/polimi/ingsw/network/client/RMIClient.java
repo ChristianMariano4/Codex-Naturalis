@@ -190,17 +190,18 @@ public class RMIClient extends Client {
     public void run() {
         try {
             this.serverRMIInterface.connect(this);
-            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            scheduler.scheduleAtFixedRate(() -> {
-                try {
-                    serverRMIInterface.sendHeartbeat(System.currentTimeMillis(), this);
-                } catch (RemoteException e) {
-                    System.err.println("Failed to send heartbeat to server");
-                    recontactServer();
+            try (ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1)) {
+                scheduler.scheduleAtFixedRate(() -> {
+                    try {
+                        serverRMIInterface.sendHeartbeat(System.currentTimeMillis(), this);
+                    } catch (RemoteException e) {
+                        System.err.println("Failed to send heartbeat to server");
+                        recontactServer();
 
-                    throw new RuntimeException(e);
-                }
-            }, 0, GameValues.HEARTBEAT_INTERVAL, TimeUnit.MILLISECONDS);
+                        throw new RuntimeException(e);
+                    }
+                }, 0, GameValues.HEARTBEAT_INTERVAL, TimeUnit.MILLISECONDS);
+            }
             if(isGUI) {
                 runGUI();
             } else {
