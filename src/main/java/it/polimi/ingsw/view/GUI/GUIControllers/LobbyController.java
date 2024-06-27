@@ -16,7 +16,6 @@ public class LobbyController extends GUIController{
     public Button joinGame;
     public Pane numChoice;
     public Pane exitPane;
-    public Pane serverDisconnected;
 
     /**
      * Handles the action of creating a game.
@@ -58,7 +57,7 @@ public class LobbyController extends GUIController{
         try {
             viewGUI.createGame(2);
         } catch(ServerDisconnectedException e) {
-            serverDisconnectionMessage();
+            System.exit(-1);
         }
         gui.switchScene(GUIScene.GAMELOBBY);
     }
@@ -71,7 +70,7 @@ public class LobbyController extends GUIController{
         try {
             viewGUI.createGame(3);
         } catch(ServerDisconnectedException e) {
-            serverDisconnectionMessage();
+            System.exit(-1);
         }
         gui.switchScene(GUIScene.GAMELOBBY);
     }
@@ -84,15 +83,10 @@ public class LobbyController extends GUIController{
         try {
             viewGUI.createGame(4);
         } catch(ServerDisconnectedException e) {
-            serverDisconnectionMessage();
+           System.exit(-1);
         }
         gui.switchScene(GUIScene.GAMELOBBY);
 
-    }
-
-    private void serverDisconnectionMessage() {
-        serverDisconnected.setDisable(false);
-        serverDisconnected.setVisible(true);
     }
 
     /**
@@ -128,11 +122,5 @@ public class LobbyController extends GUIController{
     @FXML
     public void yesExitButton() {
         Platform.exit();
-    }
-
-    @FXML
-    public void okServerDisconnected() {
-        serverDisconnected.setDisable(true);
-        serverDisconnected.setVisible(false);
     }
 }

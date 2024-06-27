@@ -450,19 +450,18 @@ public class SocketClient extends Client {
             this.messageHandlerThread = messageHandlerThread;
             messageHandlerThread.start();
 
-            try (ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1)) {
-                scheduler.scheduleAtFixedRate(() -> {
-                    try {
-                        messageHandler.sendMessage(ClientMessageType.HEARTBEAT, System.currentTimeMillis());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (ServerDisconnectedException e) {
-                        System.err.println("Server disconnection. Try again later.");
-                        System.exit(1);
-                        throw new RuntimeException(e);
-                    }
-                }, 0, GameValues.HEARTBEAT_INTERVAL, TimeUnit.MILLISECONDS);
-            }
+            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+            scheduler.scheduleAtFixedRate(() -> {
+                try {
+                    messageHandler.sendMessage(ClientMessageType.HEARTBEAT, System.currentTimeMillis());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ServerDisconnectedException e) {
+                    System.err.println("Disconnected from server");
+                    System.exit(-1);
+                    throw new RuntimeException(e);
+                }
+            }, 0, GameValues.HEARTBEAT_INTERVAL, TimeUnit.MILLISECONDS);
             if(isGUI) {
                 runGUI();
             } else {
@@ -471,7 +470,7 @@ public class SocketClient extends Client {
         } catch (IOException | NotExistingPlayerException | InterruptedException e) {
             throw new RuntimeException(e);
         } catch (ServerDisconnectedException e) {
-            System.err.println("Server disconnection. Try again later.");
+            System.err.println("Disconnected from server");
             System.exit(0);
         }
 

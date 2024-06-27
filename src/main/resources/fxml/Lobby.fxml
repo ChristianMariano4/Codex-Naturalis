@@ -81,31 +81,6 @@
                   </Pane>
                </children>
             </Pane>
-            <Pane fx:id="serverDisconnected" disable="true" prefHeight="518.0" prefWidth="920.0">
-               <children>
-                  <Pane opacity="0.6" prefHeight="518.0" prefWidth="920.0" style="-fx-background-color: black;" />
-                  <Pane layoutX="310.0" layoutY="159.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 20;">
-                     <children>
-                        <Label layoutX="99.0" layoutY="67.0" text="try again">
-                           <font>
-                              <Font name="Serif Regular" size="25.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="47.0" layoutY="33.0" text="Server Disconnected,">
-                           <font>
-                              <Font name="Serif Regular" size="25.0" />
-                           </font>
-                        </Label>
-                        <Button layoutX="113.0" layoutY="126.0" mnemonicParsing="false" onAction="#okServerDisconnected" text="Ok">
-                           <styleClass>
-                              <String fx:value="test" />
-                              <String fx:value="clickableObject" />
-                           </styleClass>
-                        </Button>
-                     </children>
-                  </Pane>
-               </children>
-            </Pane>
          </children>
       </Pane>
    </children>

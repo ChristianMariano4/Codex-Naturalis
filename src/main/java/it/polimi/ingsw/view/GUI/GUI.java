@@ -72,7 +72,7 @@ public class GUI extends Application {
                 serverInit();
                 break;
             } catch (ServerDisconnectedException e) {
-                //TODO: handle server disconnection
+                System.exit(-1);
             }
         } while (true);
         Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/CODEX_Rulebook_IT/01.png")));

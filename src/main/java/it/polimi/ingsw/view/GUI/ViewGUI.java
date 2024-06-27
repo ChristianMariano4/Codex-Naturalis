@@ -110,14 +110,6 @@ public class ViewGUI implements View, Runnable {
     }
 
     /**
-     * Method to update the view when the final round of the game starts.
-     */
-    @Override
-    public void gameEndDisconnection() {
-        //TODO: implement
-    }
-
-    /**
      * Method to update the view when the game ends.
      */
     @Override

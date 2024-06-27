@@ -45,11 +45,6 @@ public interface View  {
     void finalRound();
 
     /**
-     * This method is used to inform that the game has ended due to the disconnection of all the other players.
-     */
-    void gameEndDisconnection();
-
-    /**
      * This method is used to inform that the game has ended.
      */
     void gameEnd();

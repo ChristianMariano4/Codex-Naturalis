@@ -839,7 +839,6 @@ public class ViewCLI implements View, Runnable {
         }else{
             showEndGameScreen();
         }
-        //TODO: check if for win without disconnection the readerThread.isAlive() logic is needed
     }
 
     /**
