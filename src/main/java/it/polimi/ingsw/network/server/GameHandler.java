@@ -228,13 +228,6 @@ public class GameHandler implements Serializable {
         }
     }
 
-    @Deprecated
-    public void subscribe(GameSerializer gameSerializer) {
-        synchronized (this) {
-            eventManager.subscribe(GameEvent.class, gameSerializer);
-        }
-    }
-
      /**
      * Play a card from the player hand to the player field
      * @param player the player that has to play the card
