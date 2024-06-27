@@ -457,8 +457,8 @@ public class SocketClient extends Client {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 } catch (ServerDisconnectedException e) {
-                    System.err.println("Disconnected from server");
-                    System.exit(-1);
+                    System.err.println("Failed to send heartbeat to server");
+                    recontactServer();
                     throw new RuntimeException(e);
                 }
             }, 0, GameValues.HEARTBEAT_INTERVAL, TimeUnit.MILLISECONDS);
@@ -473,8 +473,36 @@ public class SocketClient extends Client {
             System.err.println("Disconnected from server");
             System.exit(0);
         }
-
-
-
     }
+
+    /**
+     * Attempts to recontact the server if the client fails to send a heartbeat.
+     * This method sends a heartbeat to the server up to a maximum number of attempts specified by GameValues.MAX_ATTEMPTS_RECONNECTION.
+     * If the client successfully sends a heartbeat, it breaks out of the loop.
+     * If the client fails to send a heartbeat after the maximum number of attempts, it prints an error message and exits the program.
+     * Between each attempt, the client sleeps for a specified amount of time.
+     * @throws RuntimeException if an InterruptedException occurs during the sleep period.
+     */
+    private void recontactServer() {
+        for (int i = 0; i < GameValues.MAX_ATTEMPTS_RECONNECTION; i++) {
+            try {
+                messageHandler.sendMessage(ClientMessageType.HEARTBEAT, System.currentTimeMillis());
+                break;
+            } catch (IOException e) {
+              throw new RuntimeException(e);
+            } catch (ServerDisconnectedException e) {
+                System.err.println("Failed to send heartbeat to server");
+                if (i == GameValues.MAX_ATTEMPTS_RECONNECTION - 1) {
+                    System.err.println("Failed to reconnect to server. Try again later.");
+                    System.exit(-1);
+                }
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
+    }
+
 }
