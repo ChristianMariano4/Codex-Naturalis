@@ -1,5 +1,8 @@
 package it.polimi.ingsw.enumerations;
 
+/**
+ * This enumeration represents the resources and the objects.
+ */
 public enum Resource {
     ANIMAL,
     INSECT,
@@ -26,6 +29,10 @@ public enum Resource {
         };
     }
 
+    /**
+     * Returns a string representing the resource
+     * @return the string representing the resource
+     */
     public String printResourceInfo(){
         return switch (this) {
             case FUNGI ->"FUN";

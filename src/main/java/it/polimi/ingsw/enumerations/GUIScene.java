@@ -1,5 +1,8 @@
 package it.polimi.ingsw.enumerations;
 
+/**
+ * This enumeration represents the GUI scenes.
+ */
 public enum GUIScene {
     NICKNAME,
     LOBBY,
@@ -8,7 +11,10 @@ public enum GUIScene {
     GAME,
     SCOREBOARD;
 
-
+/**
+     * This method returns the path of the FXML file associated with the scene.
+     * @return the path of the FXML file associated with the scene
+     */
     public String getPath()
     {
         switch (this){

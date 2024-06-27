@@ -1,5 +1,8 @@
 package it.polimi.ingsw.enumerations;
 
+/**
+ * This enumeration represents the colors of a marker.
+ */
 public enum Marker {
     RED,
     BLUE,
@@ -7,6 +10,10 @@ public enum Marker {
     YELLOW,
     BLACK;
 
+    /**
+     * Returns the path of the image of the marker.
+     * @return the path of the image of the marker
+     */
     public String getPath()
     {
         switch (this)

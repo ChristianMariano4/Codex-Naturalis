@@ -15,9 +15,10 @@ import it.polimi.ingsw.model.cards.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * This class is responsible for handling the cards of the game.
+ */
 public class CardHandler {
-
-
     private final ArrayList<CardPair<ResourceCard>> resourceCards;
     private final ArrayList<CardPair<GoldCard>> goldCards;
     private final ArrayList<CardPair<StarterCard>> starterCards;

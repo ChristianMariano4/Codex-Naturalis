@@ -3,6 +3,9 @@ package it.polimi.ingsw.enumerations;
 
 import java.io.Serializable;
 
+/**
+ * This enumeration represents the type of message sent by the client.
+ */
 public enum ClientMessageType implements Serializable {
     HEARTBEAT,
     CREATE_GAME,

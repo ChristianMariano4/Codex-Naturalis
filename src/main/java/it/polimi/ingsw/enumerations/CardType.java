@@ -1,5 +1,8 @@
 package it.polimi.ingsw.enumerations;
 
+/**
+ * This enumeration represents the type of a card.
+ */
 public enum CardType {
     RESOURCE,
     GOLD,
@@ -8,6 +11,11 @@ public enum CardType {
     RESOURCEOBJECTIVE,
     POSITIONALOBJECTIVE;
 
+    /**
+     * This method returns the string representation of the enumeration.
+     *
+     * @return the string representation of the enumeration
+     */
     public String toString() {
         return switch (this) {
             case RESOURCE -> "Resource";

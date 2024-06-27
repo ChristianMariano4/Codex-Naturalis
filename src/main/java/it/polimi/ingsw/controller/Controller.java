@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * MainServer controller class. This class is responsible for managing the game logic and interactions between the model and the view.
+ * This class is responsible for managing the game logic and interactions between the model and the view.
  */
 public class Controller {
     private final CardHandler cardHandler;

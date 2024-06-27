@@ -1,5 +1,8 @@
 package it.polimi.ingsw.enumerations;
 
+/**
+ * This enumeration represents the type of an error.
+ */
 public enum ErrorType {
 
     NOT_ENOUGH_PLAYERS,

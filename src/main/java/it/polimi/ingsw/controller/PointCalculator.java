@@ -13,6 +13,9 @@ import java.util.Collections;
 
 import it.polimi.ingsw.model.cards.PlayableCard;
 
+/**
+ * This class is responsible for calculating the points of the game.
+ */
 public class PointCalculator {
     /**
      * Calculate all points given by the tripleObjective card

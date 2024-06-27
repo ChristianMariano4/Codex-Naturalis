@@ -1,5 +1,9 @@
 package it.polimi.ingsw.enumerations;
 
+/**
+ * This enumeration represents the orientation of an angle.
+ * It is used to determine the angle you want to refer to.
+ */
 public enum AngleOrientation {
     TOPRIGHT,
     TOPLEFT,
@@ -7,6 +11,10 @@ public enum AngleOrientation {
     BOTTOMLEFT,
     NONE;
 
+    /**
+     * This method maps the enum to the x coordinate.
+     * @return the x coordinate
+     */
     public int mapEnumToX()
     {
         return switch (this) {
@@ -15,6 +23,11 @@ public enum AngleOrientation {
             case NONE -> 0;
         };
     }
+
+    /**
+     * This method maps the enum to the y coordinate.
+     * @return the y coordinate
+     */
     public int mapEnumToY()
     {
 
@@ -24,6 +37,11 @@ public enum AngleOrientation {
             case NONE -> 0;
         };
     }
+
+    /**
+     * This method maps the enum to the x coordinate of an L-shaped pattern.
+     * @return the x coordinate
+     */
     public int mapEnumToXLShaped()
     {
         int xValue;
@@ -41,6 +59,11 @@ public enum AngleOrientation {
         };
 
     }
+
+    /**
+     * This method maps the enum to the y coordinate of an L-shaped pattern.
+     * @return the y coordinate
+     */
     public int mapEnumToYLShaped()
     {
         int yValue;
@@ -57,6 +80,11 @@ public enum AngleOrientation {
         };
 
     }
+
+    /**
+     * This method returns the opposite orientation.
+     * @return the opposite orientation
+     */
     public AngleOrientation getOpposite()
     {
         switch(this){
