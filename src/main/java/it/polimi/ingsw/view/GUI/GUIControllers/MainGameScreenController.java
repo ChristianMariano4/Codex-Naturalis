@@ -869,6 +869,7 @@ public class MainGameScreenController extends GUIController{
             if(viewGUI.getGame().getListOfPlayers().stream().filter(e -> !e.getUsername().equals(viewGUI.getUsername()) && !e.getIsDisconnected()).toList().isEmpty())
             {
                 turnLabel.setText("You are the ony player left,\nthe game is paused");
+                turnLHbox.setStyle("-fx-text-alignment: center; -fx-background-color: rgba(0,0,0,0.4); -fx-background-radius: 20;");
                 playCard.setDisable(true);
                 playCard.setVisible(false);
 
@@ -876,6 +877,8 @@ public class MainGameScreenController extends GUIController{
                 drawCard.setVisible(false);
 
                 playingCard = false;
+                turnLabel.setDisable(false);
+                turnLabel.setVisible(true);
             }
             else {
                 if (viewGUI.getIsTurn()) {
