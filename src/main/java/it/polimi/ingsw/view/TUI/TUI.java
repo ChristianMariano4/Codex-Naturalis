@@ -1064,4 +1064,26 @@ public class TUI extends UI {
     public void showGameQuitScreen() {
         System.out.println("You have quit the game.");
     }
+
+    /**
+     * Prints to the user that the chosen username is not available
+     */
+    public void invalidUsername(){
+        System.out.println("Username not available, try again: ");
+    }
+
+    /**
+     * Prints to the user that game was successfully created
+     * @param gameId the id of the game that was created
+     */
+    public void gameCreated(int gameId){
+        System.out.println("Game created with id " + gameId + ".");
+    }
+
+    /**
+     * Prints to the user that the server disconnected
+     */
+    public void printServerDisconnection(){
+        System.err.println("Server disconnected. Try again later.");
+    }
 }

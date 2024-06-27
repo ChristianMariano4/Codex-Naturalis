@@ -45,7 +45,6 @@ public class ViewCLI implements View, Runnable {
      * @throws ServerDisconnectedException If the server is disconnected.
      */
     public void setUsername() throws IOException, InterruptedException, ServerDisconnectedException {
-        //TODO: remove println from view methods
         ui.setUsername();
         String username;
         do {
@@ -54,7 +53,7 @@ public class ViewCLI implements View, Runnable {
                 client.setUsername(username);
                 break;
             } catch (InvalidUsernameException e) {
-                System.out.println("Username not available, try again: ");
+                ui.invalidUsername();
             }
         } while(true);
         playerId = username;
@@ -86,7 +85,7 @@ public class ViewCLI implements View, Runnable {
                         }
                     } while(true);
                     this.game = client.createGame(this.client.getUsername(), numberOfPlayers);
-                    System.out.println("Game created with id " + game.getGameId() + ".");
+                    ui.gameCreated(game.getGameId());
                     break;
                 } else if (choice == 2) {
                     ui.showAllExistingGames(client.getAvailableGames());
@@ -801,7 +800,7 @@ public class ViewCLI implements View, Runnable {
         } catch (NotExistingPlayerException | InterruptedException | IOException | CardTypeMismatchException e) {
             throw new RuntimeException(e);
         } catch (ServerDisconnectedException e) {
-            System.err.println("Server disconnected. Try again later.");
+            ui.printServerDisconnection();
             System.exit(-1);
         }
     }
